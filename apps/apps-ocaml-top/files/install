@@ -1,0 +1,17 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd \
+    "$1" "$2" 1 \
+    --add-to-startmenu \
+    gui/bin/ocaml-top.exe \
+    "Ocaml-Top" \
+    "" \
+    "" \
+    "" \
+    ""
+
+exit 0

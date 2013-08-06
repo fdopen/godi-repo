@@ -1,0 +1,7 @@
+Available options for godi.conf:
+ 
+- GODI_BASEPKG_CURL: Whether to build GODI's version of libcurl
+  (yes/no). Defaults to "no".
+ 
+- GODI_CURL_CONFIG: Which curl-config script to use.
+  Defaults to "curl-config" (looked into the PATH).

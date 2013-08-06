@@ -1,0 +1,25 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd  "$1" "$2" 1 \
+    --add-to-startmenu \
+    opt/Console2/Console.exe \
+    "Console2" \
+    "" \
+    "--no-cygwin" \
+    "" \
+    ""
+
+winadd  "$1" "$2" 1 \
+    --add-to-startmenu \
+    opt/Console2/Console.exe \
+    "Console2 (with cygwin)" \
+    "" \
+    "" \
+    "" \
+    ""
+
+exit 0

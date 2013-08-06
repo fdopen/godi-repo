@@ -1,0 +1,24 @@
+--- console-src/godi-pkg/godi_versions.ml.orig	2012-12-30 21:34:31.000000000 +0000
++++ console-src/godi-pkg/godi_versions.ml	2013-02-11 16:59:32.359375000 +0000
+@@ -11,7 +11,7 @@
+  * file LICENSE.
+  *)
+ 
+-
++open Sexplib.Std
+ type condition =
+     (* Contains only the version number, not the package name *)
+     Exact of string    (* pkg-version or pkg==version *)
+@@ -21,10 +21,10 @@
+   | Le of string       (* pkg<=version *)
+   | Lt of string       (* pkg<version *)
+   | Ne of string       (* pkg!=version *)
+-  | Binary of string * string
++  | Binary of string * string with sexp
+ ;;
+ 
+-type dependency = string * condition   (* package name, version *)
++type dependency = string * condition with sexp  (* package name, version *)
+ ;;    
+ 
+ let nv_re = Str.regexp "^\\(.*\\)-\\([0-9][^-]*\\)$";;

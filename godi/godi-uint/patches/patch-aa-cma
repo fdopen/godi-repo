@@ -1,0 +1,24 @@
+--- ../../work-ref/ocaml-uint-1.1.0/spec/uint128.ml     2013-01-09 17:49:09.000000000 +0100
++++ ./spec/uint128.ml                                   2013-02-01 13:55:53.031250000 +0100
+@@ -1,5 +1,4 @@
+-#load "uint64.cma";;
+-#load "uint128.cma";;
++#load "uint.cma";;
+ #load "str.cma";;
+ open Uint128;;
+ #use "spec/common.ml";;
+--- ../../work-ref/ocaml-uint-1.1.0/spec/uint32.ml      2013-01-09 17:49:09.000000000 +0100
++++ ./spec/uint32.ml                                    2013-02-01 13:56:04.531250000 +0100
+@@ -1,3 +1,3 @@
+-#load "uint32.cma";;
++#load "uint.cma";;
+ open Uint32;;
+ #use "spec/common.ml";;
+--- ../../work-ref/ocaml-uint-1.1.0/spec/uint64.ml      2013-01-09 17:49:09.000000000 +0100
++++ ./spec/uint64.ml                                    2013-02-01 13:55:40.953125000 +0100
+@@ -1,4 +1,4 @@
+-#load "uint64.cma";;
++#load "uint.cma";;
+ #load "str.cma";;
+ open Uint64;;
+ open Str;;

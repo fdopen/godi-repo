@@ -1,0 +1,19 @@
+--- configure.orig	2012-07-19 23:25:25.000000000 +0000
++++ configure	2012-08-11 22:34:16.888400000 +0000
+@@ -58,8 +58,14 @@
+     disable_core=0
+     apxs=""
+     apache=""
+-    cpp=cpp
+-    cpp_set=0
++    if [ -n "$CPP" ]; then
++	echo "using CPP: $CPP" >&2
++	cpp=$CPP
++	cpp_set=1
++    else
++	cpp=cpp
++	cpp_set=0
++    fi
+ }
+ 
+ ocamlc=`get_path ocamlc`

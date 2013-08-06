@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (menhir-20130116.tar.gz) = 959d63242dde45bd52c0b2a06e8f88be33fdd59b
+Size (menhir-20130116.tar.gz) = 406712 bytes
+
+SHA1 (patch-aa-makefilearch) = d304d7a516ef79a00eacf05fe71f3ca56e21ded4
+SHA1 (patch-ab-makefile) = 2184c502fd9a9ab320f293de1c9b282ffe2fd8b0

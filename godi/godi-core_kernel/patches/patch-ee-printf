@@ -1,0 +1,11 @@
+--- lib/byte_units.ml.orig	2013-07-30 14:37:37.000000000 +0000
++++ lib/byte_units.ml	2013-08-05 10:54:16.654000000 +0000
+@@ -188,7 +187,7 @@
+   TEST = f (`Specific `Bytes)     "3k" "3072b"
+   TEST = f (`Specific `Kilobytes) "3k" "3k"
+   TEST = f (`Specific `Megabytes) "3k" "0.00292969m"
+-  TEST = f (`Specific `Gigabytes) "3k" "2.86102e-06g"
++  TEST = f (`Specific `Gigabytes) "3k" (match Sys.os_type with |"Win32" -> "2.86102e-006g" | _ -> "2.86102e-06g")
+   TEST = f (`Specific `Words)     "3k" (sprintf "%gw" ((3.0 *. kbyte) /. bytes_per_word))
+ 
+ end

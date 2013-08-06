@@ -1,0 +1,27 @@
+@comment $GODI$
+bin/ocamlfind
+bin/safe_camlp4
+etc/findlib.conf
+etc/findlib-BUILD.conf
+lib/ocaml/std-lib/topfind
+@comment lib/godi/scripts/godi-ocamlfind_install
+@comment lib/godi/scripts/godi-ocamlfind_deinstall
+man/man1/ocamlfind.1
+man/man5/findlib.conf.5
+man/man5/META.5
+man/man5/site-lib.5
+@findlib findlib
+@flatdir lib/ocaml/pkg-lib/bigarray
+@flatdir lib/ocaml/pkg-lib/camlp4
+@flatdir lib/ocaml/pkg-lib/compiler-libs
+@flatdir lib/ocaml/pkg-lib/dynlink
+@flatdir lib/ocaml/pkg-lib/graphics
+@optional @flatdir lib/ocaml/pkg-lib/labltk
+@flatdir lib/ocaml/pkg-lib/num
+@flatdir lib/ocaml/pkg-lib/num-top
+@flatdir lib/ocaml/pkg-lib/ocamlbuild
+@flatdir lib/ocaml/pkg-lib/stdlib
+@flatdir lib/ocaml/pkg-lib/str
+@flatdir lib/ocaml/pkg-lib/threads
+@flatdir lib/ocaml/pkg-lib/unix
+@deepdir doc/godi-findlib

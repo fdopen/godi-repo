@@ -1,0 +1,17 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+windel \
+    "$1" "$2" 1 \
+    --remove-from-startmenu \
+    gui/bin/ocamltop-gtk.exe \
+    "Ocamltop GTK" \
+    "" \
+    "--with-mintty" \
+    "" \
+    ""
+
+exit 0

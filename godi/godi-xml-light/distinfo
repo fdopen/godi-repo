@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (xml-light-2.2.tar.gz) = 638d5deeba354192be3f8a3b6be0d29821baff95
+Size (xml-light-2.2.tar.gz) = 14192 bytes
+SHA1 (patch-00-Makefile) = 1ce7dbe5502c263efc863418eeebf293d00d956e
+SHA1 (patch-01-xml_lexer.mll) = c002fade787749e1504e5469dbd08e3941b4b70a
+SHA1 (patch-02-xml_lexer.mll) = c9e87eca35cdf643b239464fe609fd5686f97234

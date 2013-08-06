@@ -1,0 +1,15 @@
+--- src/configwin_messages.ml.orig	2012-04-13 14:51:37.000000000 +0000
++++ src/configwin_messages.ml	2012-09-29 14:08:54.904000000 +0000
+@@ -31,8 +31,10 @@
+ let html_config = "Configwin bindings configurator for html parameters"
+ 
+ let home =
+-  try Sys.getenv "HOME"
+-  with Not_found -> ""
++  match Glib.get_home_dir () with
++  | Some x -> x
++  | None -> ""
++;;
+ 
+ let mCapture = "Capture";;
+ let mType_key = "Type key" ;;

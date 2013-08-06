@@ -1,0 +1,29 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ -f "${GODI_PREFIX}/gui/bin/graph-editor.exe" ]; then
+    winadd  "$1" "$2" 1 \
+        --add-to-startmenu \
+        gui/bin/graph-editor.exe \
+        "Ocamlgraph Editor" \
+        "" \
+        "" \
+        "" \
+        ""
+fi
+
+if [ -f "${GODI_PREFIX}/gui/bin/graph-viewer.exe" ]; then
+    winadd  "$1" "$2" 1 \
+        --add-to-startmenu \
+        gui/bin/graph-viewer.exe \
+        "Ocamlgraph Viewer" \
+        "" \
+        "" \
+        "" \
+        ""
+fi
+
+exit 0

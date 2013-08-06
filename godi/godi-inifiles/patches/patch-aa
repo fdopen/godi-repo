@@ -1,0 +1,13 @@
+Build fix for Ocaml-4.00
+diff -aur ../../work-ref/inifiles-1.2/inifiles.ml ./inifiles.ml
+--- ../../work-ref/inifiles-1.2/inifiles.ml	2005-09-15 04:01:38.000000000 +0200
++++ ./inifiles.ml	2012-07-23 02:41:00.000000000 +0200
+@@ -257,7 +257,7 @@
+        func
+        initial
+        (List.rev_map
+-	  (new inifile)
++	  (fun name -> new inifile name)
+ 	  (List.filter
+ 	     check_file
+ 	     (List.rev_map

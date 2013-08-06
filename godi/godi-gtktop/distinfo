@@ -1,0 +1,8 @@
+SHA1 (gtktop-2.0.tar.gz) = 00c45f8e32b10be72ed20b058c253ba7b9e20ffe
+Size (gtktop-2.0.tar.gz) = 47072 bytes
+
+SHA1 (patch-aa-aaconfigurein) = a44f54cf4d8bfcaffdd1b355ccc7b458fb899c2f
+SHA1 (patch-ab-abconfigure) = 9d7afb80ec74062ae46433bdf081f46824c8be1a
+SHA1 (patch-ac-acinstallation) = 0b5b9d71e8bd06f36ce63c0279f4dab92ebf9074
+SHA1 (patch-ac-acinstallationmli) = 200dd5bf125bfd00842dbed76b1f6000155d5597
+SHA1 (patch-ad-admakefile) = ac5a2b2592414bf57da38fa3c2dfffc401f2d5c6

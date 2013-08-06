@@ -1,0 +1,4 @@
+Expat is a stream-oriented XML 1.0 parser library, written in C. As
+one of the first available open-source XML parsers, Expat has found a
+place in many open-source projects. Such projects include the Apache
+HTTP Server, Mozilla, Perl, Python and PHP.

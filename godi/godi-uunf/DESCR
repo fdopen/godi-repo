@@ -1,0 +1,7 @@
+Uunf is an OCaml module for normalizing Unicode text. It supports all
+Unicode normalization forms . The module is independent from any IO
+mechanism or Unicode text data structure and it can process text
+without a complete in-memory representation.
+
+Uunf is made of a single, independent, module and distributed under
+the BSD3 license.

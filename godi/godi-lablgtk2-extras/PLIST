@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib lablgtk2-extras
+@deepdir doc/godi-lablgtk2-extras

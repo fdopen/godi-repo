@@ -1,0 +1,3 @@
+Delimited overloading is a syntax extension to ease the writing of
+efficient arithmetic expressions in OCaml.
+

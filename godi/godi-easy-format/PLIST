@@ -1,0 +1,8 @@
+@comment $GODI$
+lib/ocaml/pkg-lib/easy-format/easy_format.o
+lib/ocaml/pkg-lib/easy-format/easy_format.cmx
+lib/ocaml/pkg-lib/easy-format/easy_format.cmo
+lib/ocaml/pkg-lib/easy-format/easy_format.mli
+lib/ocaml/pkg-lib/easy-format/easy_format.cmi
+lib/ocaml/pkg-lib/easy-format/META
+doc/godi-easy-format/LICENSE

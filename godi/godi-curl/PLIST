@@ -1,0 +1,3 @@
+@comment $GODI$
+@dllfindlib curl
+@deepdir doc/godi-curl

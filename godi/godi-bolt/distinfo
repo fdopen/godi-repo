@@ -1,0 +1,8 @@
+$NetBSD$
+
+SHA1 (bolt-1.4.tar.gz) = 82aafca885310b7a357e31d8b897aecb3ef3ed24
+Size (bolt-1.4.tar.gz) = 624752 bytes
+
+SHA1 (patch-aa-configure) = f5eaa51fbd129f2a6dc0cf24458fd6bc1c562a1f
+SHA1 (patch-bb-myocamlbuild) = 951b58378483056bada8aea4b583f1423456d8c7
+SHA1 (patch-cc-makefile) = aa4403c30b5acff466e5ab093cff676f0cde9668

@@ -1,0 +1,17 @@
+--- src/findlib/findlib_config.mlp.orig	2012-06-08 14:14:41.000000000 +0200
++++ src/findlib/findlib_config.mlp	2012-08-19 00:46:19.000000000 +0200
+@@ -3,9 +3,12 @@
+  *
+  *)
+ 
+-let config_file = "@CONFIGFILE@";;
++(* keep patch in sync with Makefile of godi-findlib *)
++let _root_dir = Filename.dirname (Filename.dirname Sys.executable_name) ;;
+ 
+-let ocaml_stdlib = "@STDLIB@";;
++let config_file = _root_dir ^ "\\etc\\findlib.conf" ;;
++
++let ocaml_stdlib = _root_dir ^ "\\lib\\ocaml\\std-lib" ;;
+ 
+ let ocaml_ldconf = Filename.concat ocaml_stdlib "ld.conf";;
+ 

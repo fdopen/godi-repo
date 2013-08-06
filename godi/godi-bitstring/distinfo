@@ -1,0 +1,8 @@
+$NetBSD$
+
+SHA1 (ocaml-bitstring-2.0.4.tar.gz) = 29113565592aa178db969ffc538d60d128dc6f17
+Size (ocaml-bitstring-2.0.4.tar.gz) = 163346 bytes
+
+SHA1 (patch-aa-bitstring.diff) = 831104970958f4b9147517cb64c2c3e69dfd9bb1
+SHA1 (patch-ac-makefile-srcdir.diff) = 9b69e213c3cdc51374ec9e7637f8bc4f8aafbe36
+SHA1 (patch-ad-makefile-cil-tools.diff) = 4299c0fe2d0d6d18eacbaa93463560efbde3a4f5

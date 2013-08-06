@@ -1,0 +1,135 @@
+diff -u -r -B -b ../lablGL.orig/Makefile ./Makefile
+--- ../lablGL.orig/Makefile	2007-12-11 03:29:56.000000000 +0000
++++ ./Makefile	2012-10-17 10:16:04.625000000 +0000
+@@ -1,7 +1,7 @@
+ # Main Makefile, to compile subdirectories
+ 
+ # default
+-LIBDIR = `ocamlc -where`
++LIBDIR = $(shell cygpath "$$(ocamlc -where | tr -d '\r')")
+ INSTALLDIR = $(LIBDIR)/lablGL
+ DLLDIR = $(LIBDIR)/stublibs
+ CONFIG = Makefile.config
+diff -u -r -B -b ../lablGL.orig/src/ml_gl.c ./src/ml_gl.c
+--- ../lablGL.orig/src/ml_gl.c	2007-04-13 02:48:43.000000000 +0000
++++ ./src/ml_gl.c	2012-10-16 23:31:52.531250000 +0000
+@@ -27,6 +27,24 @@
+ #define GL_GENERATE_MIPMAP 0x8191
+ #endif
+ 
++
++#ifndef GL_BGR
++#ifdef GL_BGR_EXT
++#define GL_BGR GL_BGR_EXT
++#else
++#error "GL_BGR is not defined, nor can define GL_BGR from GL_BGR_EXT"
++#endif
++#endif
++
++#ifndef GL_BGRA
++#ifdef GL_BGRA_EXT
++#define GL_BGRA GL_BGRA_EXT
++#else
++#error "GL_BGRA is not defined, nor can define GL_BGRA from GL_BGR_EXTA"
++#endif
++#endif
++
++
+ /* #include <stdio.h> */
+ 
+ void ml_raise_gl(const char *errmsg)
+diff -u -r -B -b ../lablGL.orig/src/ml_shader.c ./src/ml_shader.c
+--- ../lablGL.orig/src/ml_shader.c	2010-03-11 08:30:02.000000000 +0000
++++ ./src/ml_shader.c	2012-10-17 09:44:32.296875000 +0000
+@@ -12,8 +12,10 @@
+ #include <OpenGL/glext.h>
+ #else
+ #include <GL/gl.h>
++#ifdef HAS_GLEXT_H
+ #include <GL/glext.h>
+ #endif
++#endif
+ 
+ #include <caml/misc.h>
+ #include <caml/mlvalues.h>
+@@ -307,6 +309,20 @@
+     caml_failwith("glUseProgram function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
++
++CAMLprim value ml_glgetshadercompilestatus( value shader )
++{
++    caml_failwith("glgetshadercompilestatus function is available only if the OpenGL version is 2.0 or greater");
++    return Val_unit;
++}
++
++CAMLprim value ml_glgetshadercompilestatus_exn( value shader )
++{
++    caml_failwith("glgetshadercompilestatus function is available only if the OpenGL version is 2.0 or greater");
++    return Val_unit;
++}
++
++
+ CAMLprim value ml_glgetuniformlocation( value program, value name )
+ {
+     caml_failwith("glGetUniformLocation function is available only if the OpenGL version is 2.0 or greater");
+@@ -515,15 +531,16 @@
+     caml_failwith("glUniform1fv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform2fv( value location, value ml_count, value vars )
++
++CAMLprim value ml_gluniform2fv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform2fv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform3fv( value location, value ml_count, value vars )
++CAMLprim value ml_gluniform3fv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform3fv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform4fv( value location, value ml_count, value vars )
++CAMLprim value ml_gluniform4fv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform4fv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+@@ -532,15 +549,15 @@
+     caml_failwith("glUniform1iv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform2iv( value location, value ml_count, value vars )
++CAMLprim value ml_gluniform2iv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform2iv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform3iv( value location, value ml_count, value vars )
++CAMLprim value ml_gluniform3iv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform3iv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+-CAMLprim value ml_gluniform4iv( value location, value ml_count, value vars )
++CAMLprim value ml_gluniform4iv( value location, value ml_count, value vars ) {
+     caml_failwith("glUniform4iv function is available only if the OpenGL version is 2.0 or greater");
+     return Val_unit;
+ }
+diff -u -r -B -b ../lablGL.orig/Togl/src/Togl/tkFont.h ./Togl/src/Togl/tkFont.h
+--- ../lablGL.orig/Togl/src/Togl/tkFont.h	1998-09-16 10:14:16.000000000 +0000
++++ ./Togl/src/Togl/tkFont.h	2012-10-17 00:03:55.140625000 +0000
+@@ -22,7 +22,7 @@
+  * attributes gotten when the font was instantiated.
+  */
+ 
+-typedef struct TkFontAttributes {
++/* typedef */ struct TkFontAttributes {
+     Tk_Uid family;		/* Font family. The most important field. */
+     int pointsize;		/* Pointsize of font, 0 for default size, or
+ 				 * negative number meaning pixel size. */
+@@ -30,7 +30,7 @@
+     int slant;			/* Slant flag; see below for def'n. */
+     int underline;		/* Non-zero for underline font. */
+     int overstrike;		/* Non-zero for overstrike font. */
+-} TkFontAttributes;
++} /*TkFontAttributes*/ ;
+ 
+ /*
+  * Possible values for the "weight" field in a TkFontAttributes structure.

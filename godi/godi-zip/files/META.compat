@@ -1,0 +1,6 @@
+directory="../zip"
+
+name="camlzip"
+version="1.04"
+description="reading and writing ZIP, JAR and GZIP files (compat name of 'zip')"
+

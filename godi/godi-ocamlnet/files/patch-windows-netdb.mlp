@@ -1,0 +1,38 @@
+--- src/netstring/netdb.mlp.orig	2012-07-19 23:25:25.000000000 +0000
++++ src/netstring/netdb.mlp	2012-08-21 16:22:49.769800000 +0000
+@@ -3,9 +3,16 @@
+  *
+  *)
+ 
+-
+ let net_db_dir = "@NET_DB_DIR@" ;;
+ 
++let net_db_dir_lazy = lazy ( let s = match Sys.os_type with
++    | "Win32" | "Win64" -> (try Sys.getenv "OCAMLNET_DB_DIR" with Not_found -> net_db_dir )
++    | _ -> net_db_dir  
++    in 
++    s ) ;;
++
++let net_db_dir () = Lazy.force net_db_dir_lazy ;;
++
+ let net_db_hash = Hashtbl.create 20 ;;
+ 
+ let file_db_is_enabled = ref true ;;
+@@ -16,7 +23,7 @@
+   with
+       Not_found ->
+ 	if !file_db_is_enabled then begin
+-	  let filename = Filename.concat net_db_dir name ^ ".netdb" in
++	  let filename = Filename.concat (net_db_dir ()) name ^ ".netdb" in
+ 	  if Sys.file_exists filename then begin
+ 	    let ch = open_in_bin filename in
+ 	    try
+@@ -43,7 +50,7 @@
+ let exists_db name =
+   Hashtbl.mem net_db_hash name || (
+     !file_db_is_enabled && (
+-      let filename = Filename.concat net_db_dir name ^ ".netdb" in
++      let filename = Filename.concat (net_db_dir ()) name ^ ".netdb" in
+       Sys.file_exists filename
+     ))
+ ;;

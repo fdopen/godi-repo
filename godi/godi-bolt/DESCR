@@ -1,0 +1,8 @@
+Bolt is a logging tool for the OCaml language. It is inspired by and
+modeled after the famous log4j logging framework for Java.
+
+Bolt is highly customizable and features a camlp4-based syntax
+extension (introducing a LOG msg LEVEL lvl expression) that allows to
+remove all logging statements to produce distributed executables that
+dot not incur any performance penalty for logging statements used
+during the development stage.

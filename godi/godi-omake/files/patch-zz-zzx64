@@ -1,0 +1,117 @@
+--- lib/build/C.om.orig	2007-08-06 18:30:13.000000000 +0000
++++ lib/build/C.om	2013-04-22 13:16:07.186800000 +0000
+@@ -91,33 +91,39 @@
+ # \end{doc}
+ #
+ if $(equal $(OSTYPE), Win32)
+-    public.CC = cl /nologo
+-    public.CXX = cl /nologo
+-    public.CPP = cl /nologo /E
+-    public.CFLAGS = /DWIN32
+-    public.CXXFLAGS = /DWIN32
++    .STATIC:
++        GCC_FOUND = $(CheckProg x86_64-w64-mingw32-gcc)
++        GXX_FOUND = $(and $(GCC_FOUND), $(CheckProg x86_64-w64-mingw32-g++))
++        CC = $(if $(GCC_FOUND), x86_64-w64-mingw32-gcc, gcc)
++        CXX = $(if $(GXX_FOUND), x86_64-w64-mingw32-g++, g++)
++    public.CPP = x86_64-w64-mingw32-cpp
++    public.CFLAGS =
++    public.CXXFLAGS =
+     public.AR(name) =
+-        return(lib /nologo /debugtype:CV /out:$(name))
+-    public.RANLIB = echo ranlib
++        return(x86_64-w64-mingw32-ar cq $(name))
++    public.RANLIB = x86_64-w64-mingw32-ranlib
++    public.LD = x86_64-w64-mingw32-ld
+     public.INCLUDES[] = .
+-    public.INCLUDES_OPT = /I
+-    public.CCOUT = /Fo
+-    public.LD = cl /nologo
+-    public.YACC = echo yacc
+-    public.LEX = echo lex
++    public.INCLUDES_OPT = -I
++    public.CCOUT = $(array -o)
++    public.YACC = yacc
++    public.LEX = lex
+     public.LIBS =
+     public.LDFLAGS =
+-    public.LDFLAGS_DLL = /DLL
+-    public.CDLL_IMPLIES_STATIC = true
+-    public.LDOUT = /Fe
+-
+-    public.AS = ml /nologo
+-    public.ASOUT = /Fo
+-    public.ASFLAGS = /c /coff
++    public.CDLL_IMPLIES_STATIC = false
++    public.LDOUT = $(array -o)
+ 
+-    .STATIC:
+-        CL_FOUND = $(CheckProg cl)
+-        LIB_FOUND = $(CheckProg lib)
++    # MacOS X specific config
++    if $(equal $(SYSNAME), Darwin)
++        public.LDFLAGS_DLL = -dynamiclib
++        export
++    else
++        public.LDFLAGS_DLL = -shared
++        export
++
++    public.AS = x86_64-w64-mingw32-as
++    public.ASOUT = $(array -o)
++    public.ASFLAGS =
+ 
+     export
+ else
+@@ -239,34 +245,20 @@
+ # whenever the scanned dependencies change.
+ #
+ if $(equal $(OSTYPE), Win32)
+-    Shell. +=
+-        builtin-cc-depend(argv) =
+-           filename = $(nth 0, $(argv))
+-           depends[] =
+-           awk(b, $(stdin))
+-           case $'Note:.*including file: *\(.*\)$'
+-              depends[] += $(file $"$1")
+-              export
+-           case $'.[(][0-9][0-9]*[)] : (warning|(fatal |)error) [A-Z][0-9]*: '
+-              eprintln($0)
+-           depends = $(string-escaped $(set $(depends)))
+-           objname = $(string-escaped $(rootname $(filename))$(EXT_OBJ))
+-           println($"$(objname): $(depends)")
+-
+     .SCANNER: scan-c-%.c: %.c /.PHONY/CGeneratedFilesTarget :value: $(digest-in-path-optional $(INCLUDES), $&)
+-        $(CC) $(CFLAGS) $(PREFIXED_INCLUDES) /Zs /showIncludes $< |& builtin-cc-depend $<
++        $(CC) $(CFLAGS) $(PREFIXED_INCLUDES) -MM $< | mmtranslate.exe
+ 
+     # Include default rule for backwards-compatibility
+     .SCANNER: %$(EXT_OBJ): %.c /.PHONY/CGeneratedFilesTarget :value: $(digest-in-path-optional $(INCLUDES), $&)
+-        $(CC) $(CFLAGS) $(PREFIXED_INCLUDES) /Zs /showIncludes $< |& builtin-cc-depend $<
++        $(CC) $(CFLAGS) $(PREFIXED_INCLUDES) -MM $< | mmtranslate.exe
+ 
+     foreach(CXX_EXT, $(CXX_EXTS))
+         .SCANNER: scan-cxx-%$(CXX_EXT): %$(CXX_EXT) /.PHONY/CGeneratedFilesTarget :value: $(digest-in-path-optional $(INCLUDES), $&)
+-            $(CXX) $(CXXFLAGS) $(PREFIXED_INCLUDES) /Zs /showIncludes $< |& builtin-cc-depend $<
++            $(CXX) $(CXXFLAGS) $(PREFIXED_INCLUDES) -MM $< | mmtranslate.exe
+ 
+         # Include default rule for backwards-compatibility
+         .SCANNER: %$(EXT_OBJ): %$(CXX_EXT) /.PHONY/CGeneratedFilesTarget :value: $(digest-in-path-optional $(INCLUDES), $&)
+-            $(CXX) $(CXXFLAGS) $(PREFIXED_INCLUDES) /Zs /showIncludes $< |& builtin-cc-depend $<
++            $(CXX) $(CXXFLAGS) $(PREFIXED_INCLUDES) -MM $< | mmtranslate.exe
+ 
+         export
+     export
+@@ -331,10 +323,9 @@
+ 
+     if $(equal $(OSTYPE), Win32)
+         $(NORMALLIB): $(OFILES)
+-            echo $(OFILES) > $@.tmp
+-            $(AR $@) @$@.tmp
+-            rm -f $@.tmp
+-
++            rm -f $@
++            $(AR $@) $(OFILES)
++            $(RANLIB) $@
+     else
+         $(NORMALLIB): $(OFILES)
+             rm -f $@

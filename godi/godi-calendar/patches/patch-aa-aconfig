@@ -1,0 +1,19 @@
+--- configure.in.orig	2012-06-27 08:13:31.000000000 +0000
++++ configure.in	2012-11-03 14:37:30.031250000 +0000
+@@ -141,7 +141,7 @@
+ AC_MSG_CHECKING(platform)
+ #if echo "let _ = Sys.os_type" | ocaml | grep -q Win32; then
+ if test -z "$system" ; then
+-    system=`ocamlc -config 2>/dev/null|grep system|sed 's/system: //'`
++    system=`ocamlc -config 2>/dev/null| grep '^system' | awk '{print $2}'`
+     AC_MSG_RESULT(${system})
+     # This may be
+     # - mingw
+@@ -155,6 +155,7 @@
+ use_cygpath=0
+ case "$system" in
+     mingw) use_cygpath=1;;
++    mingw64) use_cygpath=1;;
+     win32) use_cygpath=1;;
+     win64) use_cygpath=1;;
+ esac

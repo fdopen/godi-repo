@@ -1,0 +1,13 @@
+Package: godi-yojson
+Version: 1.0.3
+Revision: 0
+Depends: godi-ocaml, godi-easy-format, godi-biniou (>= 1.0.0), apps-cppo
+Build-Depends: godi-findlib
+Sources: http://martin.jambon.free.fr/yojson-1.0.3.tar.gz
+Homepage: http://martin.jambon.free.fr/yojson.html
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Docfiles: LICENSE
+Description: JSON library succeeding to json-wheel
+Yojson is an optimized parsing and printing library for the JSON format.  It addresses a few shortcomings of json-wheel including 3x speed improvement, polymorphic variants and optional syntax for tuples and variants.
+.

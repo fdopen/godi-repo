@@ -1,0 +1,23 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+
+for f in \
+    lib/ocaml/pkg-lib/META.ocp-indent \
+    lib/ocaml/pkg-lib/META.ocp-indent-lexer \
+    lib/ocaml/pkg-lib/META.ocp-indent-lib \
+    lib/ocaml/pkg-lib/META.ocp-indent-utils 
+do
+    xfile="${GODI_PREFIX}/${f}"
+    if [ -f "${xfile}" ]; then
+        restore_backup "${xfile}"
+    fi
+done
+exit 0

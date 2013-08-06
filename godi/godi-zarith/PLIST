@@ -1,0 +1,3 @@
+@comment $GODI$
+@dllfindlib zarith
+@deepdir doc/godi-zarith

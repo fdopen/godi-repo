@@ -1,0 +1,6 @@
+Available options for godi.conf:
+
+- GODI_PXP_WITH_WLEX: Whether to build the pxp-wlex
+  lexer (yes/no)
+
+  Note: wlex is only available up to O'Caml 3.08!

@@ -1,0 +1,32 @@
+--- Makefile.orig	2012-02-04 01:24:21.000000000 +0000
++++ Makefile	2013-04-22 13:01:21.465600000 +0000
+@@ -23,6 +23,12 @@
+ OCAMLFLAGS = -dtypes
+ 
+ 
++ifeq ($(OS),Windows_NT)
++EXE := .exe
++else
++EXE := 
++endif
++
+ .PHONY: init default common bytelib optlib optexe bytelib optlib \
+         install uninstall test tests examples ocamldoc version meta archive
+ 
+@@ -45,12 +51,12 @@
+ 		cp pa_tryfinally310.cmi pa_tryfinally.cmi
+ 
+ byteexe: bytelib
+-	ocamlfind ocamlc -o ocamlscript.byte -pp '$(PP)' \
+-	  -package '$(PACKS)' -linkpkg $(OCAMLFLAGS) \
++	ocamlfind ocamlc -o ocamlscript.byte$(EXE) -pp '$(PP)' \
++	  -package '$(PACKS) cygwinpath' -linkpkg $(OCAMLFLAGS) \
+ 	  ocamlscript.cmo main.ml
+ optexe: optlib
+-	ocamlfind ocamlopt -o ocamlscript -pp '$(PP)' \
+-	  -package '$(PACKS)' -linkpkg $(OCAMLFLAGS) \
++	ocamlfind ocamlopt -o ocamlscript$(EXE) -pp '$(PP)' \
++	  -package '$(PACKS) cygwinpath' -linkpkg $(OCAMLFLAGS) \
+ 	  ocamlscript.cmx main.ml
+ bytelib: pabc
+ 	touch bc.done

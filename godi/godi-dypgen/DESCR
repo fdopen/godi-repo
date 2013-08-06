@@ -1,0 +1,39 @@
+dypgen is a GLR parser generator for Objective Caml, it is able to generate self-extensible parsers (also called adaptive parsers). Dypgen is also able to generate extensible lexers for the parsers it produces.
+
+The main features of dypgen are:
+
+    * dypgen is a GLR parser. This means it can handle ambiguous grammars and outputs the list of all possible parse trees. Even for non ambiguous grammars, GLR parsing allows to define the grammar in a more natural way. It is possible to extract a definition suitable for the documentation directly from the parser source file.
+
+    * Ambiguities can be removed by introducing priorities and relations between them. This gives a very natural way to express a grammar (the examples in the documentation illustrate this).
+
+    * Grammars are self-extensible, i.e. an action can add new rules to the current grammar. Moreover, the modifications can be local. The new grammar is valid only for a well delimited section of the parsed input.
+
+    * dypgen provides management of local and global immutable data. The user actions can access it and return it modified. These mechanisms adress the problem posed by global mutable data with GLR parsing and let the user controls the scope of the data. Modifications of local data are preserved when traveling from right to left in a rule or when going down in the parse tree. Modifications of global data are preserved across the complete traversal of the parse tree. These data may be used for instance to do type-checking at parsing time in an elegant and acceptable way. The local data may contain the environment that associates a type to each variable while the global data would contain the substitution over types that is usually produced by unification.
+
+    * Pattern matching for symbols in right-hand sides of rules is possible. In particular this allows guarded reductions and to bind names to the arguments of actions.
+
+    * dypgen allows early actions, that are semantic actions performed before the end of a rule.
+
+    * It is possible to use dypgen as the lexer generator too. In this case regular expressions that match characters strings are allowed in the right-hand side of grammar rules and it is possible to extend the lexer by introducing such rules.
+
+    * The operators *, + and ? of regular expressions are available for non terminals and nested rules too. 
+
+Here is an example of a parser for a small calculator which enforces the usual precedences between operators:
+
+%start main
+%relation pi<pt<pp
+%layout [' ' '\t']
+
+%parser
+
+main: expr "\n" { $1 }
+
+expr:
+  | ['0'-'9']+      { int_of_string $1 } pi
+  | "-" expr(=pi)            { -$2 }     pi
+  | "(" expr ")"             { $2 }      pi
+  | expr(<=pp) "+" expr(<pp) { $1 + $3 } pp
+  | expr(<=pp) "-" expr(<pp) { $1 - $3 } pp
+  | expr(<=pt) "*" expr(<pt) { $1 * $3 } pt
+  | expr(<=pt) "/" expr(<pt) { $1 / $3 } pt
+

@@ -1,0 +1,3 @@
+ocaml-magic is a binding to libmagic tries to classify files using
+various tests (filesystem tests, magic number tests, and language
+tests).

@@ -1,0 +1,19 @@
+$NetBSD$
+
+SHA1 (tuareg-2.0.6.tar.gz) = 8cddbba69c4b73a3a9f2e352e4bc1f72b19a34b2
+Size (tuareg-2.0.6.tar.gz) = 54916 bytes
+
+SHA1 (color-theme-6.6.0.tar.gz) = 047d6cb207fdef66b25343479ebe09a1ed3954b5
+Size (color-theme-6.6.0.tar.gz) = 124858 bytes
+
+SHA1 (emacs-24.3-bin-i386.zip) = 3a9ca27a0617015240fa062794b3452c848e81e5
+Size (emacs-24.3-bin-i386.zip) = 48894234 bytes
+
+SHA1 (emacs-24.3.tar.xz) = 4f6d5907e1919ca27b70034acaec211a09a4e204
+Size (emacs-24.3.tar.xz) = 35565352 bytes
+
+SHA1 (libxpm-3.5.8-w32-src.zip) = abb9d68334f65134e711268c1edc323aa143d7af
+Size (libxpm-3.5.8-w32-src.zip) = 1480046 bytes
+
+SHA1 (v1.3.1.tar.gz) = d584d1d24250ded3534719aa948a3f4529ad80fb
+Size (v1.3.1.tar.gz) = 168245 bytes

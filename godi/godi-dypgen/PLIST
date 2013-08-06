@@ -1,0 +1,8 @@
+bin/dyp2gram
+bin/dypgen.exe
+@optional bin/dypgen.opt.exe
+@findlib dyp
+man/man1/dypgen.opt.1
+man/man1/dyp2gram.1
+man/man1/dypgen.1
+

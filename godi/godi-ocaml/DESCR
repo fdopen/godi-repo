@@ -1,0 +1,60 @@
+This is the core of the Objective Caml language environment.
+It contains the runtime environment, the compilers, and the
+core libraries unix, str, bigarray, nums, dbm, threads.
+
+The thread model can be either "bthr" (bytecode threads) or
+"pthr" (POSIX threads), depending on the configuration.
+
+The dbm library is always linked against GDBM (the real GDBM,
+not the compatibility NDBM layer).
+
+The graphics library can be found in pkg godi-ocaml-graphics,
+and the labltk library can be found in pkg godi-ocaml-labltk.
+
+This package does not install the Emacs mode distributed
+with OCaml.
+
+ABOUT OBJECTIVE CAML:
+
+Citing the homepage:
+
+"Caml is a programming language, easy to learn, easy to use, and yet
+amazingly powerful. -- It is developed and distributed by INRIA (the
+main French research institute for computer science), since 1984. It
+is freely available for Unix, PC or Macintosh. -- There exist two
+flavors of Caml: Caml Light and Objective Caml. Caml Light is merely a
+subset of Objective Caml, especially designed for teaching and
+learning the art of programming.  In addition to the Caml Light's core
+language, Objective Caml features a powerful modules system, full
+support to object-oriented paradigm, and an optimizing compiler."
+
+"Objective Caml is the latest implementation of the Caml dialect of ML."
+
+"Objective Caml is an implementation of the Caml dialect of ML extended
+with class-based objects and a powerful module system in the style of
+SML's. It continues the Caml Light effort in many ways (separate
+compilation, low memory requirements, fast turnaround through bytecode
+interpretation), but also significantly departs from Caml Light on
+other points (objects, the module calculus, and a high-performance
+native-code compiler).
+
+Objective Caml continues an earlier implementation of Caml plus
+modules, known as Caml Special Light. The only difference between
+Objective Caml and Caml Special Light is the addition of objects."
+
+"Objective Caml is a general purpose programming language that
+combines functional, imperative, and object-oriented programming. The
+language is statically typed; its type system ensures the correct
+evaluation of programs. Types are automatically inferred. The language
+offers powerful constructions such as user-definable data-types, the
+ability to define functions by pattern-matching, and an exception
+mechanism. Programming in the large is facilitated by a full-fledge
+class-based object-oriented layer and an expressive module system."
+
+------------------------------
+
+Informal runtime dependencies:
+- The C compiler is needed (same as at build time), and the tools
+  required by the C compiler (assembler, linker).
+- Maybe objcopy is needed.
+

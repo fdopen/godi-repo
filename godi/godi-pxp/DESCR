@@ -1,0 +1,6 @@
+PXP is a validating parser for XML-1.0 which has been written entirely in
+Objective Caml.
+ 
+PXP means "Polymorphic XML parser" and emphasizes its most useful property:
+that the API is polymorphic and can be configured such that different objects
+are used to store different types of elements.

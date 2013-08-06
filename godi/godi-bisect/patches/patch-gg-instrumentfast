@@ -1,0 +1,12 @@
+--- tests/camlp4-instrument-fast/Makefile.orig	2012-11-03 20:21:53.000000000 +0000
++++ tests/camlp4-instrument-fast/Makefile	2013-02-09 16:39:01.140625000 +0000
+@@ -2,7 +2,7 @@
+ 	@rm -fr *.result *.cmp
+ 	@for file in *.ml; do \
+ 		echo "     testing '$$file' ..."; \
+-		$(PATH_OCAML_BIN)/camlp4o$(EXE_SUFFIX) str.cma ../../_build/bisect_pp.cmo -mode fast $$file -o $$file.result; \
+-		diff -q $$file.reference $$file.result || exit 1; \
++		$(PATH_OCAML_BIN)/camlp4o$(EXE_SUFFIX) -printer o str.cma ../../_build/bisect_pp.cmo -mode fast $$file -o $$file.result; \
++		diff -b -q $$file.reference $$file.result || exit 1; \
+ 	done
+ 	@rm -fr *.result *.cmp

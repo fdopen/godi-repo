@@ -1,0 +1,21 @@
+--- Makefile.orig	2006-01-20 18:57:17.112577282 +0100
++++ Makefile	2006-01-20 18:58:07.348285165 +0100
+@@ -20,12 +20,18 @@
+ 	cd lib; $(MAKE) all
+ 	cd tools; $(MAKE) all
+ 
++opt:
++	cd lib; $(MAKE) opt
++
+ install:
+ 	cd compiler; $(MAKE) install
+ 	cd runtime; $(MAKE) install
+ 	cd lib; $(MAKE) install
+ 	cd tools; $(MAKE) install
+ 
++installopt:
++	cd lib; $(MAKE) installopt
++
+ clean:
+ 	cd compiler; $(MAKE) clean
+ 	cd runtime; $(MAKE) clean

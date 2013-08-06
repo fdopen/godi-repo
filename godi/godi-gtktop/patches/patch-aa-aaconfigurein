@@ -1,0 +1,48 @@
+--- configure.in.orig	2012-04-13 16:58:35.000000000 +0200
++++ configure.in	2012-09-18 11:37:02.022894207 +0200
+@@ -31,8 +31,43 @@
+ # The root directory where we will compile
+ ROOT=`pwd`
+ 
+-ocaml unix.cma str.cma checkocaml.ml ocaml_config.sh || exit 1
+-. ./ocaml_config.sh
++
++WINDOWS=0
++AC_ARG_ENABLE(windows,
++[  to use when compiling under windows/cygwin
++],
++[ WINDOWS=1])
++
++if test ${WINDOWS} = 1 ; then
++  lablgtkconf=`ocamlfind -query -i-format lablgtk2 | tr -d '\r'`
++  gtklibs=`pkg-config --libs gtk+-2.0 | tr -d '\r'`
++  OCAMLLIB=`ocamlc -where | tr -d '\r'`
++  INCS="-I \"$OCAMLLIB\" ${lablgtkconf}  -ccopt \"${gtklibs}\"";
++  OCAMLDEP="ocamldep.opt.exe"
++  OCAMLYACC="ocamlyacc.exe"
++  OCAMLDOC="ocamldoc.exe"
++  OCAMLDOC_OPT="ocamldoc.opt.exe"
++  OCAMLMKTOP="ocamlmktop.exe"
++  OCAMLPROF="ocamlprof.exe"
++  OCAMLBIN=`which ocaml`
++  OCAMLBIN=`cygpath "$OCAMLBIN"`
++  OCAMLBIN=`dirname "$OCAMLBIN"`
++  OCAMLC="ocamlc.opt.exe"
++  OCAMLDOC_PLUGINSDIR="${OCAMLLIB}/ocamldoc/custom"
++  OCAMLFIND="ocamlfind.exe"
++  CAMLP4="camlp4.exe"
++  OCAMLLEX="ocamllex.opt.exe"
++  OCAML="ocaml.exe"
++  OCAMLOPT="ocamlopt.opt.exe"
++  OCAMLMKLIB="ocamlmklib.exe"
++  LABLGLADECC="lablgladecc2"
++  MENHIR="menhir.exe"
++else
++  ocaml unix.cma str.cma checkocaml.ml ocaml_config.sh || exit 1
++  rm -f foo.os foo.os2
++  . ./ocaml_config.sh
++fi
++
+ 
+ if test "$prefix" = "NONE" ; then
+   prefix=`dirname $OCAMLBIN`

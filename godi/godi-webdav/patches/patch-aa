@@ -1,0 +1,30 @@
+PCRE change. ocamldep change (4.00)
+
+diff -aur ../../work-ref/webdav-1.1/META ./META
+--- ../../work-ref/webdav-1.1/META	2011-08-30 20:34:30.000000000 +0200
++++ ./META	2012-07-23 03:55:58.000000000 +0200
+@@ -1,5 +1,5 @@
+ description = "WebDAV protocol"
+-requires = "pcre,pxp,netstring,netclient"
++requires = "pcre,pxp,netstring,netstring-pcre,netclient"
+ version = "0.0"
+ archive(byte) = "webdav.cma"
+ archive(native) = "webdav.cmxa"
+diff -aur ../../work-ref/webdav-1.1/OMakefile ./OMakefile
+--- ../../work-ref/webdav-1.1/OMakefile	2011-08-30 20:34:30.000000000 +0200
++++ ./OMakefile	2012-07-23 03:56:32.000000000 +0200
+@@ -1,12 +1,13 @@
+ USE_OCAMLFIND = true
+ BYTE_ENABLED = true
+ OCAMLDEP_MODULES_ENABLED = false
++OCAMLDEPFLAGS =
+ 
+ FILES = webdav_http webdav_xml webdav_client_methods webdav_client \
+ 	webdav_client_ha \
+ 	webdav_netfs
+ 
+-OCAMLPACKS = pcre,pxp,netstring,netclient,pxp-pp
++OCAMLPACKS = pcre,pxp,netstring,netstring-pcre,netclient,pxp-pp
+ OCAMLFLAGS = -dtypes
+ OCAMLFINDFLAGS += -syntax camlp4o
+ 

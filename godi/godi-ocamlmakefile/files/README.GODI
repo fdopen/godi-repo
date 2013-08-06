@@ -1,0 +1,39 @@
+----------------------------------------------------------------------
+Patches
+----------------------------------------------------------------------
+
+GODI handles many types of shared libraries, and it was necessary to
+modify OCamlMakefile at a few places to allow this, too.
+
+In particular, the -Wl,-R option is only added to linker calls on ELF
+systems. This is done automatically, as GODI passes the environment
+variables
+
+- ELF_RPATH
+- ELF_RPATH_FLAG
+
+to invoked Makefiles by default. Beware that these modifications may
+not work outside GODI. Note also that the -Wl,-R option is only applied
+to directories of EXTLIBDIRS. It is often simpler to set OCAMLMKLIB_FLAGS,
+and to bypass the EXTLIBDIRS mechanism when creating DLLs.
+
+----------------------------------------------------------------------
+How to use OCamlMakefile in packages
+----------------------------------------------------------------------
+
+When the upstream source already contains a version of OCamlMakefile,
+just replace it:
+
+post-patch:
+  ${CP} ${LOCALBASE}/share/OCamlMakefile ${WRKSRC}/...
+
+When you are replacing the provided Makefile as a whole, you can also
+include OCamlMakefile as in
+
+  include $(LOCALBASE)/share/OCamlMakefile
+
+as LOCALBASE is exported to invoked Makefiles.
+
+Examples:
+
+- godi-pcre

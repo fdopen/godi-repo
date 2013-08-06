@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (v1.8.tar.gz) = 523028756430c4f564f9bff8aa65d4d69e0f5756
+Size (v1.8.tar.gz) = 11895 bytes
+
+SHA1 (patch-aa-meta) = 9473620cf8610de89fd851c930068d489c58e619
+SHA1 (patch-bb-bitfn) = 7970908042d2057c4d11112a2c90da55565da6ac
+SHA1 (patch-cc-sha512) = abb447aa96e8b47be169366169849b82063ea785
+SHA1 (patch-dd-makefile) = 2f87f12fc084aeae6fea6208d7c2d5daac7465bc

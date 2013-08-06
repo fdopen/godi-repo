@@ -1,0 +1,7 @@
+Biniou is a binary data format designed for speed, safety, ease of use and
+backward compatibility as protocols evolve.  Biniou is vastly equivalent to
+JSON in terms of functionality but allows implementations about 4 times as
+fast (see godi-yojson for comparison), with 25-35% space savings.  Biniou
+data can be decoded into human-readable form without knowledge of type
+definitions except for field and variant names which are represented by
+31-bit hashes. 

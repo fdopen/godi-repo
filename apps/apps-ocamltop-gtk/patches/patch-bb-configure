@@ -1,0 +1,77 @@
+--- configure.orig	2013-02-14 20:49:57.000000000 +0000
++++ configure	2013-08-01 10:01:17.394000000 +0000
+@@ -585,6 +585,7 @@
+ ac_subst_vars='LTLIBOBJS
+ LIBOBJS
+ OCAML_SRC_DIR
++EXE
+ PACKAGE
+ VERSION
+ DEBUG_LEVEL
+@@ -642,6 +643,7 @@
+ ac_subst_files=''
+ ac_user_opts='
+ enable_option_checking
++enable_windows
+ with_debug_level
+ '
+       ac_precious_vars='build_alias
+@@ -1250,6 +1252,13 @@
+ 
+   cat <<\_ACEOF
+ 
++Optional Features:
++  --disable-option-checking  ignore unrecognized --enable/--with options
++  --disable-FEATURE       do not include FEATURE (same as --enable-FEATURE=no)
++  --enable-FEATURE[=ARG]  include FEATURE [ARG=yes]
++  to use when compiling under windows/cygwin
++
++
+ Optional Packages:
+   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
+   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
+@@ -1691,8 +1700,42 @@
+ # The root directory where we will compile
+ ROOT=`pwd`
+ 
+-ocaml unix.cma str.cma checkocaml.ml ocaml_config.sh || exit 1
+-. ./ocaml_config.sh
++WINDOWS=0
++# Check whether --enable-windows was given.
++if test "${enable_windows+set}" = set; then :
++  enableval=$enable_windows;  WINDOWS=1
++fi
++
++
++if test ${WINDOWS} = 1 ; then
++  EXE=.exe
++  OCAMLLIB=`ocamlc -where | tr -d '\r'`
++  OCAMLDEP="ocamldep.opt.exe"
++  OCAMLYACC="ocamlyacc.exe"
++  OCAMLDOC="ocamldoc.exe"
++  OCAMLDOC_OPT="ocamldoc.opt.exe"
++  OCAMLMKTOP="ocamlmktop.exe"
++  OCAMLPROF="ocamlprof.exe"
++  if test "$prefix" = "NONE" ; then
++     OCAMLBIN=`which ocaml`
++     OCAMLBIN=`dirname "$OCAMLBIN"`
++  else
++     OCAMLBIN="${prefix}/bin"
++  fi
++  OCAMLBIN=`cygpath "$OCAMLBIN"`
++  OCAMLC="ocamlc.opt.exe"
++  OCAMLFIND="ocamlfind.exe"
++  CAMLP4="camlp4.exe"
++  OCAMLLEX="ocamllex.opt.exe"
++  OCAML="ocaml.exe"
++  OCAMLOPT="ocamlopt.opt.exe"
++  OCAMLMKLIB="ocamlmklib.exe"
++else
++  EXE=
++  ocaml unix.cma str.cma checkocaml.ml ocaml_config.sh || exit 1
++  . ./ocaml_config.sh
++fi
++
+ 
+ if test "$prefix" = "NONE" ; then
+   prefix=`dirname $OCAMLBIN`

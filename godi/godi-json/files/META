@@ -1,0 +1,4 @@
+description = "Data marshalling with JSON"
+version = "@v@"
+archive(byte) = "json.cma"
+archive(native) = "json.cmxa"

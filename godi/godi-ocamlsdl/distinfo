@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (ocamlsdl-0.9.1.tar.gz) = 2e54f8984b06cede493c3ad29006dde17077a79a
+Size (ocamlsdl-0.9.1.tar.gz) = 226085 bytes
+
+SHA1 (patch-aa-win) = e6e450dfa2327dfbd25f3c1e90425de9197a3bda
+SHA1 (patch-ab-make) = 8b1a492a640bcd71e9ae49f840a3a8f469db7021

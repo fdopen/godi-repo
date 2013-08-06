@@ -1,0 +1,18 @@
+--- Makefile.in.orig	2009-07-24 19:12:05.000000000 +0200
++++ Makefile.in	2009-07-24 19:38:49.000000000 +0200
+@@ -77,11 +77,14 @@
+ 
+ all:	$(BYTESWAP_H) \
+ 	bitstring.cma bitstring_persistent.cma \
+-	bitstring.cmxa bitstring_persistent.cmxa \
+ 	pa_bitstring.cmo \
+ 	bitstring-objinfo
+ 	@for d in $(SUBDIRS); do $(MAKE) -C $$d $@; done
+ 
++opt:	$(BYTESWAP_H) \
++	bitstring.cmxa bitstring_persistent.cmxa
++	@for d in $(SUBDIRS); do $(MAKE) -C $$d $@; done
++
+ bitstring.cma: bitstring_types.cmo bitstring_config.cmo \
+ 	  bitstring_c.o bitstring.cmo bitmatch.cmo
+ 	$(OCAMLMKLIB) -o bitstring $^

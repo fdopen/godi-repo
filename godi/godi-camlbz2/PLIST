@@ -1,0 +1,3 @@
+@comment $GODI$
+@dllfindlib bz2
+@deepdir doc/godi-camlbz2

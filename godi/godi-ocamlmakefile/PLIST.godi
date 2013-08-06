@@ -1,0 +1,3 @@
+@comment $GODI$
+share/OCamlMakefile
+@deepdir doc/godi-ocamlmakefile

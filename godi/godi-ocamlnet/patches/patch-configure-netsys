@@ -1,0 +1,11 @@
+--- src/netsys/configure.orig	2012-08-11 22:48:59.676800000 +0000
++++ src/netsys/configure	2012-08-11 22:49:50.766800000 +0000
+@@ -118,7 +118,7 @@
+ printf "Checking for win32... "
+ system=`ocamlc -config | grep system | sed -e 's/system: //'`
+ case "$system" in
+-    mingw|msvc)
++    mingw*|msvc*)
+ 	  echo "yes"
+ 	  win32=1
+           netsys_link_options="$netsys_link_options -lws2_32" ;;

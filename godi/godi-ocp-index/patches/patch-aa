@@ -1,0 +1,19 @@
+--- Makefile.orig	2013-07-30 08:38:20.278400000 +0000
++++ Makefile	2013-07-30 08:37:55.396400000 +0000
+@@ -1,6 +1,6 @@
+ include Makefile.config
+ 
+-PROJECTS = ocp-index
++PROJECTS = ocp-index-lib ocp-index
+ 
+ byte = _obuild/ocp-index/ocp-index.byte
+ native = _obuild/ocp-index/ocp-index.asm
+@@ -11,6 +11,8 @@
+ ocp-index: $(native)
+ 	cp $^ ocp-index
+ 
++ocp-index-lib: $(byte) $(native)
++
+ ALWAYS:
+ 
+ $(byte) byte: ocp-build.root ALWAYS

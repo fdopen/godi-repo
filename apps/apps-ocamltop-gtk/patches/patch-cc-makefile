@@ -1,0 +1,29 @@
+--- Makefile.orig	2013-02-14 20:49:57.000000000 +0000
++++ Makefile	2013-08-01 12:41:18.668800000 +0000
+@@ -31,7 +31,7 @@
+ 
+ INCLUDES=
+ 
+-COMPFLAGS= -annot $(INCLUDES)
++COMPFLAGS= -g -annot $(INCLUDES)
+ 
+ LIB=ocamltop.cma
+ OCAMLTOP=ocamltop-gtk
+@@ -46,7 +46,7 @@
+ 	$(CMOFILES)
+ 
+ $(OCAMLTOP): $(LIB) ocamltop.cmo
+-	$(OCAMLFIND) ocamlc -o $@ $(OF_FLAGS) -linkpkg $(COMPFLAGS) \
++	$(OCAMLFIND) ocamlc -custom -o $@$(EXE) $(OF_FLAGS) -linkpkg $(COMPFLAGS) \
+ 	$(LIB) ocamltop.cmo
+ 
+ .PHONY: doc depend
+@@ -67,7 +67,7 @@
+ 
+ install-bin: all
+ 	$(MKDIR) $(OCAMLBIN)
+-	$(CP) mk-ocamltop-gtk $(OCAMLTOP) $(OCAMLBIN)/
++	$(CP) mk-ocamltop-gtk $(OCAMLTOP)$(EXE) $(OCAMLBIN)/
+ 
+ uninstall: uninstall-lib uninstall-bin
+ 

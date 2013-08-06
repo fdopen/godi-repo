@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib config-file
+@deepdir doc/godi-config-file

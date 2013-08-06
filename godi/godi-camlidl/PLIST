@@ -1,0 +1,15 @@
+bin/camlidl
+@optional bin/camlidldll
+lib/ocaml/std-lib/com.mli
+lib/ocaml/std-lib/com.cmi
+lib/ocaml/std-lib/com.cma
+@optional lib/ocaml/std-lib/com.cmxa
+@optional lib/ocaml/std-lib/com.a
+lib/ocaml/std-lib/caml/camlidlruntime.h
+@optional lib/ocaml/std-lib/caml/camlidlcompat.h 
+lib/ocaml/std-lib/libcamlidl.a
+@optional lib/ocaml/std-lib/cfactory.o
+@stubdll lib/ocaml/std-lib/stublibs camlidl
+lib/ocaml/pkg-lib/camlidl/META
+@deepdir doc/godi-camlidl
+

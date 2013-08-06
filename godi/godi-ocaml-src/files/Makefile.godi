@@ -1,0 +1,27 @@
+ifdef W32PORT
+ifeq ($(W32PORT),mingw)
+SUFXS=.txz
+COMPR=-J
+CZYOPRBMB=1
+endif
+endif
+ifndef CZYOPRBMB
+SUFXS=.tar.gz
+COMPR=-z
+endif
+
+
+.PHONY: repack
+repack:
+	cd .. && \
+	$(LOCALBASE)/bin/godi_pax -w -f ocaml$(SUFXS) $(COMPR) \
+	  -s ':^ocaml-[^/]*:ocaml:' $(DISTNAME)
+
+.PHONY: install
+install:
+	mkdir -p $(PREFIX)/lib/godi/saved-src
+	cp ../ocaml$(SUFXS) $(PREFIX)/lib/godi/saved-src
+	cp ../config-summary.mk $(PREFIX)/lib/godi/saved-src
+
+# The driving Makefile appends definitions for DISTNAME, PREFIX, and V_TM
+# to the end

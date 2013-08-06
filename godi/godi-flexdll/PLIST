@@ -1,0 +1,4 @@
+bin/flexlink
+include/flexdll.h
+@deepdir lib/flexdll
+@deepdir doc/godi-flexdll

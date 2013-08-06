@@ -1,0 +1,24 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+for f in \
+    lib/ocaml/pkg-lib/META.ocp-build \
+    lib/ocaml/pkg-lib/META.ocp-build-bundle \
+    lib/ocaml/pkg-lib/META.ocp-build-misc \
+    lib/ocaml/pkg-lib/META.ocp-build-ocplib \
+    lib/ocaml/pkg-lib/META.ocp-build-win32 \
+    lib/ocaml/pkg-lib/META.ocplib-project
+do
+    xfile="${GODI_PREFIX}/${f}"
+    if [ -f "${xfile}" ]; then
+        restore_backup "${xfile}"
+    fi
+done
+exit 0

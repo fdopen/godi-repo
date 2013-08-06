@@ -1,0 +1,23 @@
+@comment $GODI$
+@findlib pxp
+@findlib pxp-engine
+@findlib pxp-lex-iso88591
+@findlib pxp-lex-iso88592
+@findlib pxp-lex-iso88593
+@findlib pxp-lex-iso88594
+@findlib pxp-lex-iso88595
+@findlib pxp-lex-iso88596
+@findlib pxp-lex-iso88597
+@findlib pxp-lex-iso88598
+@findlib pxp-lex-iso88599
+@findlib pxp-lex-iso885910
+@findlib pxp-lex-iso885913
+@findlib pxp-lex-iso885914
+@findlib pxp-lex-iso885915
+@findlib pxp-lex-iso885916
+@findlib pxp-lex-utf8
+@optional @findlib pxp-wlex
+@optional @findlib pxp-wlex-utf8
+@optional @findlib pxp-ulex-utf8
+@optional @findlib pxp-pp
+@deepdir doc/godi-pxp

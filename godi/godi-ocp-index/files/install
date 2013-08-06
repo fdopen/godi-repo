@@ -1,0 +1,22 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aPOST-INSTALL" ]; then
+    exit 0
+fi
+
+for f in \
+    lib/ocaml/pkg-lib/META.ocp-index \
+    lib/ocaml/pkg-lib/META.ocp-index-lib
+do
+    xfile="${GODI_PREFIX}/${f}"
+    if [ -f "${xfile}" ]; then
+        ncontent=`sed -re "s|^directory[ \t]*=[ \t]*\".*/opt/[^/]*[Oo][Dd][Ii][^/]*/(.*)\"(.*)$|directory = \"${GODI_PREFIX_WIN}/\1\"\2|" "$xfile"`
+        replace_and_backup "$xfile" "$ncontent"
+    fi
+done
+
+exit 0

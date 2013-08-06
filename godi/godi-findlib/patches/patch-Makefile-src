@@ -1,0 +1,10 @@
+--- src/findlib/Makefile.orig	2012-08-09 13:17:15.000000000 +0200
++++ src/findlib/Makefile	2012-08-09 13:18:22.000000000 +0200
+@@ -59,6 +59,7 @@
+ 	cat findlib_config.mlp | \
+ 		$(TOP)/tools/patch '@CONFIGFILE@' '$(OCAMLFIND_CONF)' | \
+ 		$(TOP)/tools/patch '@STDLIB@' '$(OCAML_CORE_STDLIB)' | \
++		$(TOP)/tools/patch '@EXEC_SUFFIX@' '$(EXEC_SUFFIX)' | \
+ 		sed -e 's;@AUTOLINK@;$(OCAML_AUTOLINK);g' \
+ 		    -e 's;@SYSTEM@;$(SYSTEM);g' \
+ 		     >findlib_config.ml

@@ -1,0 +1,31 @@
+--- ../../work-ref/core_kernel-109.35.01/config/detect.sh	2013-07-30 16:37:37.000000000 +0200
++++ ./config/detect.sh	2013-08-04 19:14:05.802800000 +0200
+@@ -4,7 +4,7 @@
+ 
+ set -e
+ 
+-if ld -lm -shared --wrap caml_modify -o /dev/null 2>/dev/null; then
++if "$LD" -lm -shared --wrap caml_modify -o /dev/null 2>/dev/null; then
+     ld_wrap_possible=true
+ else
+     ld_wrap_possible=false
+--- ../../work-ref/core_kernel-109.35.01/config/discover.sh	2013-07-30 16:37:37.000000000 +0200
++++ ./config/discover.sh	2013-08-04 19:14:44.802800000 +0200
+@@ -7,7 +7,7 @@
+     exit 2
+ fi
+ 
+-OCAMLC="$1"
++OCAMLC="$(cygpath -m "$1")"
+ ML_OUTFILE="$2"
+ C_OUTFILE="$3"
+ shift 3
+@@ -16,7 +16,7 @@
+ OUT=config/test.out
+ trap "rm -f $OUT" EXIT
+ 
+-$OCAMLC -ccopt -E $OCAML_CFLAGS -c $SRC | grep '^"OUT:[^"]*"$' | sed 's/"OUT:\([^"]*\)"/\1/' | tee > $OUT
++"$OCAMLC" -ccopt -E $OCAML_CFLAGS -c $SRC | grep '^"OUT:[^"]*"$' | sed 's/"OUT:\([^"]*\)"/\1/' | tee > $OUT
+ 
+ mv "$OUT" "$ML_OUTFILE"
+ 

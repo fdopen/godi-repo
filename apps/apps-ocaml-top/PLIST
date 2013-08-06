@@ -1,0 +1,3 @@
+gui/bin/ocaml-top.exe
+@deepdir gui/share/ocaml-top
+@deepdir doc/apps-ocaml-top

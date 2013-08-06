@@ -1,0 +1,341 @@
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/aclocal.m4 ./aclocal.m4
+--- ../ocamlsdl-0.9.1.orig/aclocal.m4	2012-07-03 19:20:31.000000000 +0000
++++ ./aclocal.m4	2012-10-15 12:37:53.703125000 +0000
+@@ -1,4 +1,4 @@
+-# generated automatically by aclocal 1.11.3 -*- Autoconf -*-
++# generated automatically by aclocal 1.11.6 -*- Autoconf -*-
+ 
+ # Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2002, 2003, 2004,
+ # 2005, 2006, 2007, 2008, 2009, 2010, 2011 Free Software Foundation,
+@@ -12,188 +12,4 @@
+ # even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ # PARTICULAR PURPOSE.
+ 
+-# Configure paths for SDL
+-# Sam Lantinga 9/21/99
+-# stolen from Manish Singh
+-# stolen back from Frank Belew
+-# stolen from Manish Singh
+-# Shamelessly stolen from Owen Taylor
+-
+-dnl AM_PATH_SDL([MINIMUM-VERSION, [ACTION-IF-FOUND [, ACTION-IF-NOT-FOUND]]])
+-dnl Test for SDL, and define SDL_CFLAGS and SDL_LIBS
+-dnl
+-AC_DEFUN([AM_PATH_SDL],
+-[dnl 
+-dnl Get the cflags and libraries from the sdl-config script
+-dnl
+-AC_ARG_WITH(sdl-prefix,[  --with-sdl-prefix=PFX   Prefix where SDL is installed (optional)],
+-            sdl_prefix="$withval", sdl_prefix="")
+-AC_ARG_WITH(sdl-exec-prefix,[  --with-sdl-exec-prefix=PFX Exec prefix where SDL is installed (optional)],
+-            sdl_exec_prefix="$withval", sdl_exec_prefix="")
+-AC_ARG_ENABLE(sdltest, [  --disable-sdltest       Do not try to compile and run a test SDL program],
+-		    , enable_sdltest=yes)
+-
+-  if test x$sdl_exec_prefix != x ; then
+-    sdl_config_args="$sdl_config_args --exec-prefix=$sdl_exec_prefix"
+-    if test x${SDL_CONFIG+set} != xset ; then
+-      SDL_CONFIG=$sdl_exec_prefix/bin/sdl-config
+-    fi
+-  fi
+-  if test x$sdl_prefix != x ; then
+-    sdl_config_args="$sdl_config_args --prefix=$sdl_prefix"
+-    if test x${SDL_CONFIG+set} != xset ; then
+-      SDL_CONFIG=$sdl_prefix/bin/sdl-config
+-    fi
+-  fi
+-
+-  as_save_PATH="$PATH"
+-  if test "x$prefix" != xNONE; then
+-    PATH="$prefix/bin:$prefix/usr/bin:$PATH"
+-  fi
+-  AC_PATH_PROG(SDL_CONFIG, sdl-config, no, [$PATH])
+-  PATH="$as_save_PATH"
+-  min_sdl_version=ifelse([$1], ,0.11.0,$1)
+-  AC_MSG_CHECKING(for SDL - version >= $min_sdl_version)
+-  no_sdl=""
+-  if test "$SDL_CONFIG" = "no" ; then
+-    no_sdl=yes
+-  else
+-    SDL_CFLAGS=`$SDL_CONFIG $sdl_config_args --cflags`
+-    SDL_LIBS=`$SDL_CONFIG $sdl_config_args --libs`
+-
+-    sdl_major_version=`$SDL_CONFIG $sdl_config_args --version | \
+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\1/'`
+-    sdl_minor_version=`$SDL_CONFIG $sdl_config_args --version | \
+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\2/'`
+-    sdl_micro_version=`$SDL_CONFIG $sdl_config_args --version | \
+-           sed 's/\([[0-9]]*\).\([[0-9]]*\).\([[0-9]]*\)/\3/'`
+-    if test "x$enable_sdltest" = "xyes" ; then
+-      ac_save_CFLAGS="$CFLAGS"
+-      ac_save_CXXFLAGS="$CXXFLAGS"
+-      ac_save_LIBS="$LIBS"
+-      CFLAGS="$CFLAGS $SDL_CFLAGS"
+-      CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
+-      LIBS="$LIBS $SDL_LIBS"
+-dnl
+-dnl Now check if the installed SDL is sufficiently new. (Also sanity
+-dnl checks the results of sdl-config to some extent
+-dnl
+-      rm -f conf.sdltest
+-      AC_TRY_RUN([
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <string.h>
+-#include "SDL.h"
+-
+-char*
+-my_strdup (char *str)
+-{
+-  char *new_str;
+-  
+-  if (str)
+-    {
+-      new_str = (char *)malloc ((strlen (str) + 1) * sizeof(char));
+-      strcpy (new_str, str);
+-    }
+-  else
+-    new_str = NULL;
+-  
+-  return new_str;
+-}
+-
+-int main (int argc, char *argv[])
+-{
+-  int major, minor, micro;
+-  char *tmp_version;
+-
+-  /* This hangs on some systems (?)
+-  system ("touch conf.sdltest");
+-  */
+-  { FILE *fp = fopen("conf.sdltest", "a"); if ( fp ) fclose(fp); }
+-
+-  /* HP/UX 9 (%@#!) writes to sscanf strings */
+-  tmp_version = my_strdup("$min_sdl_version");
+-  if (sscanf(tmp_version, "%d.%d.%d", &major, &minor, &micro) != 3) {
+-     printf("%s, bad version string\n", "$min_sdl_version");
+-     exit(1);
+-   }
+-
+-   if (($sdl_major_version > major) ||
+-      (($sdl_major_version == major) && ($sdl_minor_version > minor)) ||
+-      (($sdl_major_version == major) && ($sdl_minor_version == minor) && ($sdl_micro_version >= micro)))
+-    {
+-      return 0;
+-    }
+-  else
+-    {
+-      printf("\n*** 'sdl-config --version' returned %d.%d.%d, but the minimum version\n", $sdl_major_version, $sdl_minor_version, $sdl_micro_version);
+-      printf("*** of SDL required is %d.%d.%d. If sdl-config is correct, then it is\n", major, minor, micro);
+-      printf("*** best to upgrade to the required version.\n");
+-      printf("*** If sdl-config was wrong, set the environment variable SDL_CONFIG\n");
+-      printf("*** to point to the correct copy of sdl-config, and remove the file\n");
+-      printf("*** config.cache before re-running configure\n");
+-      return 1;
+-    }
+-}
+-
+-],, no_sdl=yes,[echo $ac_n "cross compiling; assumed OK... $ac_c"])
+-       CFLAGS="$ac_save_CFLAGS"
+-       CXXFLAGS="$ac_save_CXXFLAGS"
+-       LIBS="$ac_save_LIBS"
+-     fi
+-  fi
+-  if test "x$no_sdl" = x ; then
+-     AC_MSG_RESULT(yes)
+-     ifelse([$2], , :, [$2])     
+-  else
+-     AC_MSG_RESULT(no)
+-     if test "$SDL_CONFIG" = "no" ; then
+-       echo "*** The sdl-config script installed by SDL could not be found"
+-       echo "*** If SDL was installed in PREFIX, make sure PREFIX/bin is in"
+-       echo "*** your path, or set the SDL_CONFIG environment variable to the"
+-       echo "*** full path to sdl-config."
+-     else
+-       if test -f conf.sdltest ; then
+-        :
+-       else
+-          echo "*** Could not run SDL test program, checking why..."
+-          CFLAGS="$CFLAGS $SDL_CFLAGS"
+-          CXXFLAGS="$CXXFLAGS $SDL_CFLAGS"
+-          LIBS="$LIBS $SDL_LIBS"
+-          AC_TRY_LINK([
+-#include <stdio.h>
+-#include "SDL.h"
+-
+-int main(int argc, char *argv[])
+-{ return 0; }
+-#undef  main
+-#define main K_and_R_C_main
+-],      [ return 0; ],
+-        [ echo "*** The test program compiled, but did not run. This usually means"
+-          echo "*** that the run-time linker is not finding SDL or finding the wrong"
+-          echo "*** version of SDL. If it is not finding SDL, you'll need to set your"
+-          echo "*** LD_LIBRARY_PATH environment variable, or edit /etc/ld.so.conf to point"
+-          echo "*** to the installed location  Also, make sure you have run ldconfig if that"
+-          echo "*** is required on your system"
+-	  echo "***"
+-          echo "*** If you have an old version installed, it is best to remove it, although"
+-          echo "*** you may also be able to get things to work by modifying LD_LIBRARY_PATH"],
+-        [ echo "*** The test program failed to compile or link. See the file config.log for the"
+-          echo "*** exact error that occured. This usually means SDL was incorrectly installed"
+-          echo "*** or that you have moved SDL since it was installed. In the latter case, you"
+-          echo "*** may want to edit the sdl-config script: $SDL_CONFIG" ])
+-          CFLAGS="$ac_save_CFLAGS"
+-          CXXFLAGS="$ac_save_CXXFLAGS"
+-          LIBS="$ac_save_LIBS"
+-       fi
+-     fi
+-     SDL_CFLAGS=""
+-     SDL_LIBS=""
+-     ifelse([$3], , :, [$3])
+-  fi
+-  AC_SUBST(SDL_CFLAGS)
+-  AC_SUBST(SDL_LIBS)
+-  rm -f conf.sdltest
+-])
+-
+ m4_include([support/ocaml.m4])
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/src/Makefile ./src/Makefile
+--- ../ocamlsdl-0.9.1.orig/src/Makefile	2010-04-19 20:11:04.000000000 +0000
++++ ./src/Makefile	2012-10-15 12:56:41.281250000 +0000
+@@ -27,35 +27,35 @@
+ 	$(call MKCMA,sdl,sdlstub,$^,$(SDL_LIBS))
+ sdl.cmxa : $(call ML_OPT_OBJS,sdl)
+ 	$(call MKCMXA,sdl,sdlstub,$^,$(SDL_LIBS))
+-libsdlstub.$(A) dllsdlstub.so : $(call STUB_OBJS,sdl)
++libsdlstub.$(A) dllsdlstub$(DLL) : $(call STUB_OBJS,sdl)
+ 	$(call MKCLIB,sdl,sdlstub,$^,$(SDL_LIBS))
+ 
+ sdlloader.cma : $(call ML_OBJS,loader)
+ 	$(call MKCMA,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
+ sdlloader.cmxa : $(call ML_OPT_OBJS,loader)
+ 	$(call MKCMXA,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
+-libsdlloaderstub.$(A) dllsdlloaderstub.so : $(call STUB_OBJS,loader)
++libsdlloaderstub.$(A) dllsdlloaderstub$(DLL) : $(call STUB_OBJS,loader)
+ 	$(call MKCLIB,sdlloader,sdlloaderstub,$^,$(call SYSLIB,SDL_image))
+ 
+ sdlmixer.cma : $(call ML_OBJS,mixer)
+ 	$(call MKCMA,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
+ sdlmixer.cmxa : $(call ML_OPT_OBJS,mixer)
+ 	$(call MKCMXA,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
+-libsdlmixerstub.$(A) dllsdlmixerstub.so : $(call STUB_OBJS,mixer)
++libsdlmixerstub.$(A) dllsdlmixerstub$(DLL) : $(call STUB_OBJS,mixer)
+ 	$(call MKCLIB,sdlmixer,sdlmixerstub,$^,$(call SYSLIB,SDL_mixer))
+ 
+ sdlttf.cma : $(call ML_OBJS,ttf)
+ 	$(call MKCMA,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
+ sdlttf.cmxa : $(call ML_OPT_OBJS,ttf)
+ 	$(call MKCMXA,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
+-libsdlttfstub.$(A) dllsdlttfstub.so : $(call STUB_OBJS,ttf)
++libsdlttfstub.$(A) dllsdlttfstub$(DLL) : $(call STUB_OBJS,ttf)
+ 	$(call MKCLIB,sdlttf,sdlttfstub,$^,$(call SYSLIB,SDL_ttf))
+ 
+ sdlgfx.cma : $(call ML_OBJS,gfx)
+ 	$(call MKCMA,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
+ sdlgfx.cmxa : $(call ML_OPT_OBJS,gfx)
+ 	$(call MKCMXA,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
+-libsdlgfxstub.$(A) dllsdlgfxstub.so : $(call STUB_OBJS,gfx)
++libsdlgfxstub.$(A) dllsdlgfxstub$(DLL) : $(call STUB_OBJS,gfx)
+ 	$(call MKCLIB,sdlgfx,sdlgfxstub,$^,$(call SYSLIB,SDL_gfx))
+ 
+ 
+@@ -81,14 +81,14 @@
+ endif
+ install-dll:
+ 	$(INSTALL) -d $(DESTDIR)$(OCAMLLIBDIR)/stublibs
+-	$(INSTALL) dll*.so $(DESTDIR)$(OCAMLLIBDIR)/stublibs
++	$(INSTALL) dll*$(DLL) $(DESTDIR)$(OCAMLLIBDIR)/stublibs
+ 
+ ifdef OCAMLFIND
+ install-findlib :
+ 	$(OCAMLFIND) install sdl ../META \
+           *.cma lib*.$(A) *.cmi *.mli \
+           $(if $(OCAMLOPT),*.cmxa sdl*.$(A) *.cmx) \
+-          $(if $(OCAMLMKLIB),dll*.so)
++          $(if $(OCAMLMKLIB),dll*$(DLL))
+ ifeq ($(PLATFORM),Apple)
+ 	$(RANLIB) $$($(OCAMLFIND) printconf destdir)/sdl/*.$(A)
+ endif
+@@ -115,7 +115,7 @@
+ endif
+ 
+ clean:
+-	rm -f *.cm* *.$(OBJEXT) *.$(A) *.so *.do
++	rm -f *.cm* *.$(OBJEXT) *.$(A) *.so *.dll *.do
+ 
+ depend: .depend .depend.c
+ 
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/support/ocaml.m4 ./support/ocaml.m4
+--- ../ocamlsdl-0.9.1.orig/support/ocaml.m4	2010-04-19 19:08:58.000000000 +0000
++++ ./support/ocaml.m4	2012-10-15 12:23:30.953125000 +0000
+@@ -19,6 +19,7 @@
+      # If OCAMLLIB is set, use it
+      if test "$OCAMLLIB" = ""; then
+         OCAMLLIB=`$OCAMLC -where 2>/dev/null || $OCAMLC -v|tail -1|cut -d ' ' -f 4`
++	OCAMLLIB=`echo "$OCAMLLIB" | tr -d '\r'`
+      else
+         AC_MSG_RESULT([OCAMLLIB previously set; preserving it.])
+      fi
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/configure ./configure
+--- ../ocamlsdl-0.9.1.orig/configure	2012-07-03 19:20:32.000000000 +0000
++++ ./configure	2012-10-15 12:50:12.062500000 +0000
+@@ -2299,6 +2299,7 @@
+      # If OCAMLLIB is set, use it
+      if test "$OCAMLLIB" = ""; then
+         OCAMLLIB=`$OCAMLC -where 2>/dev/null || $OCAMLC -v|tail -1|cut -d ' ' -f 4`
++	OCAMLLIB=`echo "$OCAMLLIB" | tr -d '\r'`
+      else
+         { $as_echo "$as_me:${as_lineno-$LINENO}: result: OCAMLLIB previously set; preserving it." >&5
+ $as_echo "OCAMLLIB previously set; preserving it." >&6; }
+@@ -4110,6 +4111,7 @@
+ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
++#AC_PROG_AR
+ 
+ if test -n "$ac_tool_prefix"; then
+   # Extract the first word of "${ac_tool_prefix}ranlib", so it can be a program name with args.
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/configure.in ./configure.in
+--- ../ocamlsdl-0.9.1.orig/configure.in	2012-07-03 19:14:20.000000000 +0000
++++ ./configure.in	2012-10-15 12:46:49.015625000 +0000
+@@ -29,6 +29,7 @@
+    CFLAGS="-g -O"
+ fi
+ AC_PROG_CC
++# AC_PROG_AR
+ AC_OBJEXT
+ AC_PROG_RANLIB
+ AC_FUNC_ALLOCA
+diff -u -r -b -B ../ocamlsdl-0.9.1.orig/makefile.config.gcc.in ./makefile.config.gcc.in
+--- ../ocamlsdl-0.9.1.orig/makefile.config.gcc.in	2005-01-30 22:31:44.000000000 +0000
++++ ./makefile.config.gcc.in	2012-10-15 12:46:16.421875000 +0000
+@@ -12,6 +12,8 @@
+ PARTS = 	@PARTS@
+ 
+ CC =            @CC@
++# no AC_PROG_AR support ?
++AR ?=           ar
+ CPPFLAGS =	@CPPFLAGS@
+ CFLAGS =	@CFLAGS@ 
+ RANLIB =        @RANLIB@
+@@ -36,7 +38,18 @@
+ # 4 -> C libs & ld flags
+ MKCMA  = $(OCAMLC) -a -o $(1).cma -cclib -l$(2) -custom $(3) $(addprefix -cclib ,$(filter -l%,$(4))) $(addprefix -ccopt ,$(filter-out -l%,$(4)))
+ MKCMXA = $(OCAMLOPT) -a -o $(1).cmxa -cclib -l$(2) $(3) $(addprefix -cclib ,$(filter -l%,$(4))) $(addprefix -ccopt ,$(filter-out -l%,$(4)))
+-MKCLIB  = ar cr lib$(2).$(A) $(3) ; $(RANLIB) lib$(2).$(A)
++MKCLIB  = $(AR) cr lib$(2).$(A) $(3) ; $(RANLIB) lib$(2).$(A)
++
++OSTYPE=$(shell $(OCAMLC) -config | grep '^os_type: ' | awk '{print $$2}')
++
++ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
++EXE=.exe
++DLL=.dll
++else
++EXE=
++#I'm not sure about OS X, perhaps .dylib instead of .so?
++DLL=.so 
++endif
+ 
+ else
+ 

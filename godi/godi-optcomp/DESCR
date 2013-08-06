@@ -1,0 +1,13 @@
+optcomp - optional compilation with cpp-like directives
+
+Optcomp is a syntax extension which handles #if, #else, ... directives
+in ocaml source files.
+
+For example, to switch between two pieces of code according to the
+ocaml compiler version, one can write:
+
+#if ocaml_version < (3, 10)
+let x = 1
+#else
+let x = 2
+#endif

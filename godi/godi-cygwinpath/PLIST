@@ -1,0 +1,3 @@
+@comment $GODI$
+@dllfindlib cygwinpath
+@deepdir doc/godi-cygwinpath

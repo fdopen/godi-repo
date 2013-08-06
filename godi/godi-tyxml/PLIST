@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib tyxml
+@deepdir doc/godi-tyxml

@@ -1,0 +1,28 @@
+--- OMakefile.orig	2013-07-09 05:48:13.000000000 +0000
++++ OMakefile	2013-07-22 10:11:29.117200000 +0000
+@@ -214,11 +214,11 @@
+ 
+   # PS
+   SUPPORT_PS=false
+-  $(Check_prog_in_path gs)
++  #$(Check_prog_in_path gs)
++  SUPPORT_PS = $(Check_prog_in_path gs)
+   PATH_GS=$(WHERE)
+   LDFLAGS_ps=
+-  if $(true_if_not_defined ARG_WANT_GS)
+-    # SUPPORT_PS = $(Check_prog_in_path gs)
++  if $(and $(SUPPORT_PS) $(true_if_not_defined ARG_WANT_GS))
+     SUPPORT_PS = true
+     if $(defined ARG_PATH_GS):
+         PATH_GS = $(ARG_PATH_GS)
+@@ -268,8 +268,8 @@
+         export
+     if $(SUPPORT_FREETYPE)
+       # println(SUPPORT_FREETYPE=$(SUPPORT_FREETYPE)!)
+-      CAMLIMAGES_CFLAGS+= $(shell freetype-config --cflags)
+-      LDFLAGS_freetype= $(shell freetype-config --libs)
++      CAMLIMAGES_CFLAGS+= $(shell sh freetype-config --cflags)
++      LDFLAGS_freetype= $(shell sh freetype-config --libs)
+       export
+     if $(SUPPORT_FREETYPE)
+       SUPPORTED_NON_FORMATS+=freetype

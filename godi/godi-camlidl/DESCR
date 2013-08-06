@@ -1,0 +1,12 @@
+Camlidl is a stub code generator for Objective Caml.  It generates
+stub code for interfacing Caml with C from an IDL description of the C
+functions.  Thus, Camlidl automates the most tedious task in
+interfacing C libraries with Caml programs.  It can also be used to
+interface Caml programs with other languages, as long as those
+languages have a well-defined C interface.
+
+In addition, Camlidl provides basic support for COM interfaces and
+components under MS Windows.  It supports both using COM components
+(usually written in C++ or C) from Caml programs, and packaging Caml
+objects as COM components that can then be used from C++ or C.
+

@@ -1,0 +1,26 @@
+@comment $GODI$
+@dllfindlib netsys
+@dllfindlib netstring
+@findlib netcgi2
+@findlib netcgi2-plex
+@findlib pop
+@findlib smtp
+@findlib nethttpd
+@findlib nethttpd-for-netcgi2
+@findlib equeue
+@findlib netclient
+@findlib netplex
+@findlib netshm
+@findlib rpc
+@findlib rpc-generator
+@findlib rpc-auth-dh
+@findlib shell
+@findlib netcamlbox
+@findlib netmulticore
+@findlib netgssapi
+@optional @dllfindlib rpc-xti
+@optional @dllfindlib rpc-auth-local
+@deepdir share/godi-ocamlnet
+@deepdir doc/godi-ocamlnet
+bin/ocamlrpcgen.exe
+bin/netplex-admin.exe

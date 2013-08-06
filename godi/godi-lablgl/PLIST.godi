@@ -1,0 +1,9 @@
+@comment $GODI$
+@optional bin/lablgl
+bin/lablglut
+@deepdir doc/godi-lablgl
+@findlib lablGL
+@optional lib/ocaml/std-lib/lablGL
+@stubdll lib/ocaml/pkg-lib/stublibs lablgl
+@optional @stubdll lib/ocaml/pkg-lib/stublibs togl
+@stubdll lib/ocaml/pkg-lib/stublibs lablglut

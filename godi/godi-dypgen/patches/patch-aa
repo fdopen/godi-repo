@@ -1,0 +1,55 @@
+--- ../../work-ref/dypgen/dyplib/Makefile	2011-11-25 15:26:27.000000000 +0100
++++ ./dyplib/Makefile	2013-01-07 13:58:32.333246159 +0100
+@@ -28,15 +28,15 @@
+ 	- $(OCAMLFIND) remove -destdir $(DYPGENLIBDIR) dyp
+ 
+ install2: install_dyp install_opt
+-	install -D --mode=644 dyp.cmi $(DYPGENLIBDIR)/dyp
++	install --mode=644 dyp.cmi $(DYPGENLIBDIR)/dyp
+ 
+ install_dyp:
+-	install -D --mode=644 dyp.cma $(DYPGENLIBDIR)/dyp
++	install --mode=644 dyp.cma $(DYPGENLIBDIR)/dyp
+ 
+ ifdef CAMLOPT
+ install_opt:
+-	install -D --mode=644 dyp.cmxa $(DYPGENLIBDIR)/dyp
+-	install -D --mode=644 dyp.a $(DYPGENLIBDIR)/dyp
++	install --mode=644 dyp.cmxa $(DYPGENLIBDIR)/dyp
++	install --mode=644 dyp.a $(DYPGENLIBDIR)/dyp
+ else
+ install_opt:
+ endif
+--- ../../work-ref/dypgen/Makefile	2010-06-24 22:57:53.000000000 +0200
++++ ./Makefile	2013-01-07 13:54:05.023959965 +0100
+@@ -22,20 +22,20 @@
+ 
+ #install with ocaml-findlib
+ install: install_opt
+-	install -D --mode=755 dypgen/dypgen $(BINDIR)
+-	install -D --mode=755 dyp2gram.pl $(BINDIR)/dyp2gram
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.1
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.opt.1
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dyp2gram.1
++	install --mode=755 dypgen/dypgen $(BINDIR)
++	install --mode=755 dyp2gram.pl $(BINDIR)/dyp2gram
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.1
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.opt.1
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dyp2gram.1
+ 	cd dyplib; $(MAKE) install
+ 
+ #install without ocaml-findlib
+ install2: install_opt
+-	install -D --mode=755 dypgen/dypgen $(BINDIR)
+-	install -D --mode=755 dyp2gram.pl $(BINDIR)/dyp2gram
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.1
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.opt.1
+-	install -D --mode=644 doc/dypgen.1 $(MANDIR)/dyp2gram.1
++	install --mode=755 dypgen/dypgen $(BINDIR)
++	install --mode=755 dyp2gram.pl $(BINDIR)/dyp2gram
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.1
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dypgen.opt.1
++	install --mode=644 doc/dypgen.1 $(MANDIR)/dyp2gram.1
+ 	cd dyplib; $(MAKE) install2
+ 
+ ifdef CAMLOPT

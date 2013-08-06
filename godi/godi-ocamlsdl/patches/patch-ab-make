@@ -1,0 +1,24 @@
+--- Makefile.orig	2010-04-19 21:01:14.000000000 +0000
++++ Makefile	2012-10-15 15:36:35.437500000 +0000
+@@ -26,13 +26,14 @@
+ include makefile.platform
+ include makefile.config.$(OCAML_C_BACKEND)
+ 
+-ifeq ($(OCAML_C_BACKEND),gcc)
+-makefile.config.gcc : makefile.config.gcc.in configure
+-	$(error "please run ./configure or edit makefile.platform")
+-configure : configure.in
+-	aclocal -I support
+-	autoconf
+-endif
++# no autotools dependency for installation!
++#ifeq ($(OCAML_C_BACKEND),gcc)
++#makefile.config.gcc : makefile.config.gcc.in configure
++#	$(error "please run ./configure or edit makefile.platform")
++#configure : configure.in
++#	aclocal -I support
++#	autoconf
++#endif
+ 
+ DISTSRC := AUTHORS COPYING INSTALL INSTALL.win32 README README.macosx NEWS \
+            Makefile META.in \

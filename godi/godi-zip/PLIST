@@ -1,0 +1,4 @@
+@comment $GODI$
+@dllfindlib zip
+@findlib camlzip
+@deepdir doc/godi-zip

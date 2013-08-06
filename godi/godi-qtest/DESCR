@@ -1,0 +1,3 @@
+In a nutshell, qtest is a small program which reads .ml and .mli
+source files and extracts inline oUnit unit tests from them. It is
+used by the OCaml Batteries project.

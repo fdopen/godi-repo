@@ -1,0 +1,5 @@
+Bisect is a code coverage tool for the OCaml language. Code
+instrumentation is usually performed at compile-time, and can be done
+through either camlp4 or ppx. After application execution, it is
+possible to generate a report in HTML format that is the replica of
+the application source code annotated with code coverage information.

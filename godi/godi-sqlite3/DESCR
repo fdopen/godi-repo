@@ -1,0 +1,3 @@
+This library allows an OCaml program to query SQLite3 databases.
+
+This is the version maintained by Markus Mottl.

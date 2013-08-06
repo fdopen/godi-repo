@@ -1,0 +1,3 @@
+TyXml is a parser and printer for xml, and a simple library for
+building valid XHTML 1.1, HTML5 or SVG tree. The generic printer
+allows a HTML compatible mode.

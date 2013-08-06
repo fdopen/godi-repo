@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (ocamlscript-2.0.3.tar.gz) = e9d5f7a11e16cdc3f323fc93674788e15fd24110
+Size (ocamlscript-2.0.3.tar.gz) = 26920 bytes
+
+SHA1 (patch-aa-main.ml) = c69b8221de023bfc810a2be5eb8c277ea3c6aa65
+SHA1 (patch-bb-bbocamlml) = 9096bdba3924f63c7ce723376ae3f64103129524
+SHA1 (patch-Makefile) = 71c514ac1a926581331777852f4533172f8e2ab3
+SHA1 (patch-pipeline) = 4107370db4bd9f8efb14dfe4682f4d86afa95d05

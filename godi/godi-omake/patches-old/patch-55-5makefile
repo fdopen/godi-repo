@@ -1,0 +1,35 @@
+--- src/Makefile.orig	2012-10-19 12:25:30.218750000 +0000
++++ src/Makefile	2012-10-19 17:00:42.484375000 +0000
+@@ -7,7 +7,7 @@
+ #
+ # System config
+ #
+-LN = ln -sf
++LN = cp -p
+ RM = rm -f
+ DOT = ./
+ slash = /
+@@ -18,9 +18,9 @@
+ #
+ # C configuration
+ #
+-CC = gcc
++CC := $(CC)
+ CFLAGS = -DWIN32 -DFAM_ENABLED -DFAM_PSEUDO -Wno-strict-aliasing
+-AR = ar cq
++AR := $(AR) cq
+ AROUT =
+ EXT_OBJ = .o
+ EXT_LIB = .a
+@@ -31,8 +31,10 @@
+ 
+ .SUFFIXES: .mll .mly .mli .ml .c .cmi .cmo .cma .o
+ 
++
++OCAMLCWHERE=$(shell ocamlc -where | tr -d '\r')
+ .c.o:
+-	$(CC) $(CFLAGS) -I"`ocamlc -where`" -c $*.c
++	$(CC) $(CFLAGS) -I"$(OCAMLCWHERE)" -c $*.c
+ 
+ 
+ #

@@ -1,0 +1,8 @@
+$NetBSD$
+
+SHA1 (flexdll-0.31.tar.gz) = 7ca63bf8d6c731fd95e0d434a8cfbcc718b99d62
+Size (flexdll-0.31.tar.gz) = 33553 bytes
+
+SHA1 (patch-cmdline) = a60a16477f3db4a28afc86a3ebb9cda3c5626a8b
+SHA1 (patch-Makefile) = d6ea7dac2f88f7e284bb6da6cd5d175eb29a38ba
+SHA1 (patch-reloc.ml) = 28173b991ac63ee791b41506f1fbc1691fa40f6d

@@ -1,0 +1,653 @@
+diff -r -N -b -B -u ./files/META.in ../deriving-ocsigen-0.3c.n/files/META.in
+--- ./files/META.in	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/files/META.in	2012-08-04 11:51:28.000000000 +0000
+@@ -2,18 +2,17 @@
+ description = "Deriving (patched for the Ocsigen project)"
+ __LIBDIR__
+ 
+-requires        = "__NAME__.base,num"
+-archive(byte)   = "deriving_num.cma"
+-archive(native) = "deriving_num.cmxa"
++archive(byte)   = "deriving.cma"
++archive(native) = "deriving.cmxa"
+ 
+-package "base" (
+-  archive(byte)   = "deriving.cma"
+-  archive(native) = "deriving.cmxa"
+-)
++archive(byte,pkg_num)   = "deriving_num.cma"
++archive(native,pkg_num) = "deriving_num.cmxa"
+ 
+ package "syntax" (
+   __SYNTAXDIR__
+   exists_if = "pa_deriving.cma"
++  description = "Deriving syntax extension"
++  version = "[distributed with __NAME__]"
+   requires(syntax) = "camlp4,unix"
+   requires(syntax, toploop) += "__NAME__"
+   archive(syntax, preprocessor) = "pa_deriving.cma"
+@@ -25,19 +24,25 @@
+   )
+ )
+ 
+-## Presence of type-conv shoud be detected with the predicate "pkg_type-conv"
+-## However the 'dash' in an predicat name is invalid... (GH 2011/03).
+-
+ package "syntax_tc" (
+   __SYNTAXDIR__
++  version = "[distributed with __NAME__]"
+   exists_if = "pa_deriving_tc.cma"
+-  requires(syntax) = "camlp4,unix,type-conv"
++  requires(syntax) = "camlp4,unix,__TCNAME__"
+   requires(syntax, toploop) += "__NAME__"
+   archive(syntax, preprocessor) = "pa_deriving_tc.cma"
+   archive(syntax, toploop) = "pa_deriving_tc.cma"
+   package "base" (
++    version = "[distributed with __NAME__]"
+     requires(syntax) = "camlp4"
+     archive(syntax, preprocessor) = "pa_deriving_common.cmo pa_deriving_tc.cmo"
+     archive(syntax, toploop) = "pa_deriving_common.cmo pa_deriving_tc.cmo"
+   )
+ )
++
++## Deprecated
++package "base" (
++  description = "(deprecated)"
++  version = "[distributed with __NAME__]"
++  requires = "__NAME__"
++)
+diff -r -N -b -B -u ./Makefile ../deriving-ocsigen-0.3c.n/Makefile
+--- ./Makefile	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/Makefile	2012-08-04 11:51:28.000000000 +0000
+@@ -16,12 +16,14 @@
+ 	sed -e "s%__NAME__%${PROJECTNAME}%" \
+             -e "s%__LIBDIR__%%" \
+             -e "s%__SYNTAXDIR__%%" \
++            -e "s%__TCNAME__%${TYPECONVNAME}%" \
+ 	  $< > $@
+ 
+ files/META.${PROJECTNAME}: files/META.in
+ 	sed -e "s%__NAME__%${PROJECTNAME}%" \
+             -e "s%__LIBDIR__%directory = \"../lib\"%" \
+             -e "s%__SYNTAXDIR__%directory = \"../syntax\"%" \
++            -e "s%__TCNAME__%${TYPECONVNAME}%" \
+ 	  $< > $@
+ 
+ clean: clean.local
+diff -r -N -b -B -u ./Makefile.config ../deriving-ocsigen-0.3c.n/Makefile.config
+--- ./Makefile.config	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/Makefile.config	2012-08-04 11:51:28.000000000 +0000
+@@ -4,7 +4,22 @@
+ 
+ NATDYNLINK :=YES
+ 
+-TYPECONV := $(shell ${OCAMLFIND} query type-conv 2>/dev/null)
++TYPECONV1 := \
++  $(shell ${OCAMLFIND} query -p-format type_conv 2>/dev/null)
++TYPECONV2 := \
++  $(shell ${OCAMLFIND} query -p-format type-conv 2>/dev/null)
++
++ifneq "${TYPECONV1}" ""
++TYPECONVNAME := ${TYPECONV1}
++else
++ifneq "${TYPECONV2}" ""
++TYPECONVNAME := ${TYPECONV2}
++else 
++TYPECONVNAME := 
++endif
++endif
++
++TYPECONV := $(shell ${OCAMLFIND} query ${TYPECONVNAME} 2>/dev/null)
+ 
+ OBJEXT := .o
+ LIBEXT := .a
+diff -r -N -b -B -u ./syntax/Makefile ../deriving-ocsigen-0.3c.n/syntax/Makefile
+--- ./syntax/Makefile	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/syntax/Makefile	2012-08-04 11:51:28.000000000 +0000
+@@ -23,7 +23,7 @@
+ pa_deriving.cmo pa_deriving.cmx .pa_deriving.ml.deps: \
+ 	LIBS+=-syntax camlp4o -package camlp4.extend,camlp4.quotations.o
+ pa_deriving_tc.cmo pa_deriving_tc.cmx .pa_deriving_tc.ml.deps: \
+-	LIBS+=-syntax camlp4o -package camlp4.extend,camlp4.quotations.o,type-conv
++	LIBS+=-syntax camlp4o -package camlp4.extend,camlp4.quotations.o,${TYPECONVNAME}
+ 
+ CLASSES := show_class.ml         \
+            dump_class.ml         \
+diff -r -N -b -B -u ./tests/.depend ../deriving-ocsigen-0.3c.n/tests/.depend
+--- ./tests/.depend	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/.depend	2012-08-04 11:51:28.000000000 +0000
+@@ -1,26 +1,26 @@
+ bimap.cmo:
+ bimap.cmx:
+-bounded_tests.cmo: defs.cmo
+-bounded_tests.cmx: defs.cmx
+-defs.cmo:
+-defs.cmx:
+-dump_tests.cmo: defs.cmo
+-dump_tests.cmx: defs.cmx
+-enum_tests.cmo: defs.cmo
+-enum_tests.cmx: defs.cmx
+-eq_tests.cmo: defs.cmo
+-eq_tests.cmx: defs.cmx
++bounded_tests.cmo: tests_defs.cmo
++bounded_tests.cmx: tests_defs.cmx
++tests_defs.cmo:
++tests_defs.cmx:
++dump_tests.cmo: tests_defs.cmo
++dump_tests.cmx: tests_defs.cmx
++enum_tests.cmo: tests_defs.cmo
++enum_tests.cmx: tests_defs.cmx
++eq_tests.cmo: tests_defs.cmo
++eq_tests.cmx: tests_defs.cmx
+ exp.cmo: bimap.cmo
+ exp.cmx: bimap.cmx
+-functor_tests.cmo: defs.cmo
+-functor_tests.cmx: defs.cmx
++functor_tests.cmo: tests_defs.cmo
++functor_tests.cmx: tests_defs.cmx
+ inline.cmo:
+ inline.cmx:
+-pickle_tests.cmo: defs.cmo
+-pickle_tests.cmx: defs.cmx
++pickle_tests.cmo: tests_defs.cmo
++pickle_tests.cmx: tests_defs.cmx
+ show_tests.cmo:
+ show_tests.cmx:
+-sigs.cmo: defs.cmo
+-sigs.cmx: defs.cmx
++sigs.cmo: tests_defs.cmo
++sigs.cmx: tests_defs.cmx
+ typeable_tests.cmo:
+ typeable_tests.cmx:
+diff -r -N -b -B -u ./tests/bounded_tests.ml ../deriving-ocsigen-0.3c.n/tests/bounded_tests.ml
+--- ./tests/bounded_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/bounded_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ 
+ let nullsum = 
+   begin
+diff -r -N -b -B -u ./tests/defs.ml ../deriving-ocsigen-0.3c.n/tests/defs.ml
+--- ./tests/defs.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/defs.ml	1970-01-01 00:00:00.000000000 +0000
+@@ -1,176 +0,0 @@
+-(* sums (nullary, unary, and n-ary) *)
+-type sum = S0 | S1 of int | S2 of int * float | S3 of int * float * bool | Sunit of unit | Stup of (int * float) | Stup1 of (int)
+-  deriving (Dump, Eq, Show, Typeable, Pickle)
+-
+-type nullsum = N0 | N1 | N2 | N3
+-    deriving (Enum, Bounded, Eq, Typeable, Pickle)
+-
+-(* records with mutable and immutable fields (and various combinations) *)
+-type r1 = {
+-  r1_l1 : int;
+-  r1_l2 : int;
+-} deriving (Dump, Eq, Show, Typeable, Pickle, Functor)
+-
+-type r2 = {
+-  mutable r2_l1 : int;
+-  mutable r2_l2 : int;
+-} deriving (Eq, Show, Typeable, Pickle)
+-
+-type r3 = {
+-  r3_l1 : int;
+-  mutable r3_l2 : int;
+-} deriving (Eq, Show, Typeable, Pickle)
+-
+-(* polymorphic records *)
+-type r4 = {
+-  r4_l1 : 'a . 'a list
+-} deriving (Dump, Eq, Show)
+-
+-(* label types *)
+-type label = x:int -> int
+-  (*  deriving (Dump, Eq, Show) *)
+-
+-(* function types  *)
+-type funct = int -> int
+-  (* deriving (Dump, Eq, Show) *)
+-
+-(* recursive types *)
+-type intseq = INil | ICons of int * intseq
+-  deriving (Dump, Eq, Show, Typeable, Pickle, Functor)
+-
+-type 'a seq = Nil | Cons of 'a * 'a seq
+-  deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-(* applied type constructors (nullary, n-ary) *)
+-type uses_seqs = (intseq * float seq)
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-
+-(* object and class types *)
+-type obj = < x : int >
+-
+-(* class types *)
+-class c = object end
+-
+-(* polymorphic variants (nullary, unary tags, extending complex type expressions, defined inline) *)
+-type poly0 = [`T0 | `T1 | `T2 | `T3]
+-    deriving (Enum, Bounded, Show, Eq, Typeable, Pickle)
+-
+-type poly1 = [`T0 | `T1 of int]
+-    deriving (Dump, Eq, Show)
+-
+-type poly2 = P of int * [`T0 | `T1 of int] * float
+-    deriving (Dump, Eq, Show)
+-
+-(* `as'-recursion *)
+-type poly3 = [`Nil | `Cons of int * 'c] as 'c
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-
+-type poly3b = int * ([`Nil | `Cons of int * 'c] as 'c) * [`F]
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-
+-(* <, >, =, > < polymorphic variants *)
+-type 'a poly7 = Foo of [`F of 'a]
+-and 'a poly8 = { x : [`G of [`H of [`I of 'a poly7]]] }
+-    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-(*
+-type poly9 = [`F | [`G]]
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-  currently broken.
+-*)
+-type poly10 = [`F | poly3]
+-    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-(* mutually recursive types (monomorphic, polymorphic) *)
+-type mutrec_a = mutrec_c
+-and mutrec_b = { l1 : mutrec_c ; l2 : mutrec_a }
+-and mutrec_c = S of int * mutrec_a | N
+-and mutrec_d = [`T of mutrec_b]
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-
+-type ('a,'b) pmutrec_a = ('a,'b) pmutrec_c
+-and ('a,'b) pmutrec_b = { pl1 : ('a,'b) pmutrec_c ; pl2 : ('a,'b) pmutrec_a }
+-and ('a,'b) pmutrec_c = SS of 'a * ('a,'b) pmutrec_a * 'b
+-and ('a,'b) pmutrec_d = [`T of ('a,'b) pmutrec_b]
+-    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-type 'a pmutrec_a' = ('a,'a) pmutrec_c'
+-and ('a,'b) pmutrec_b' = { pl1' : ('b,'a) pmutrec_c' ; pl2' : 'a pmutrec_a' }
+-and ('a,'b) pmutrec_c' = SS' of 'a * 'b pmutrec_a' * 'b | TT' of ('a * ('a,'b,'a) pmutrec_d' * 'b)
+-and ('a,'b,'c) pmutrec_d' = [ `S of ('a,'b) pmutrec_b' | `T of ('b,'c) pmutrec_b' ]
+-    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-(* polymorphic types *)
+-type 'a ff1 = F of 'a * 'a | G of int deriving (Show, Eq, Dump, Functor, Typeable, Pickle)
+-type ('a,'b) ff2 = F1 of ('a,'b) ff2 | F2 of 'a seq * int * 'b option
+-  deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
+-
+-(* tuples *)
+-type tup0 = unit
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-type tup2 = int * float
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-type tup3 = int * float * bool
+-    deriving (Dump, Eq, Show, Typeable, Pickle)
+-type tup4 = int * int * bool * unit
+-    deriving (Dump, Eq, Show, Typeable, Pickle, Bounded)
+-
+-(* type equations (replication) *)
+-(* TODO *)
+-
+-(* references *)
+-type withref = WR of int * (int ref)
+-  deriving (Eq, Show, Typeable, Pickle)
+-
+-(* through module boundaries *)
+-module rec M : sig
+-  type t deriving (Show, Eq, Dump)
+-end =
+-struct
+-  type t = [`N|`C of M.t] deriving (Show, Eq, Dump)
+-end
+-
+-(* parameterized types through module boundaries *)
+-module rec P : sig
+-  type 'a t (* deriving (Show) *)
+-end =
+-struct
+-  type 'a t = [`N|`C of 'a P.t]
+-(*Doesn't work: results in an unsafe module definition
+-*)(*      deriving (Show)*)
+-end
+-
+-(* with constraints *)
+-type 'a constrained = [`F of 'a] constraint 'a = int
+-    deriving (Functor) (* Show, etc. don't work here *)
+-
+-(* private datatypes *)
+-type p1 = private P1
+-    deriving (Show, Eq)
+-
+-(* check that `private' in the interface is allowed for classes that
+-   disallow `private' (e.g. Dump) as long as we don't have `private'
+-   in the implementation *)
+-module Private : sig
+-  type p2 = private Q deriving (Show, Eq, Dump)
+-end =
+-struct
+-  type p2 = Q deriving (Show, Eq, Dump)
+-end
+-
+-(* Reusing existing instances *)
+-type t = int
+-    deriving (Eq, Enum, Bounded, Dump, Show, Typeable, Pickle, Functor)
+-
+-(* Int32, etc. *)
+-
+-type ii = {
+-    int32: int32;
+-    int64: int64;
+-    nativeint: nativeint;
+-  } deriving (Eq, Dump, Typeable, Pickle, Show)
+-
+-type ii' = {
+-    int32': Int32.t;
+-    int64': Int64.t;
+-  } deriving (Eq, Dump, Typeable, Pickle, Show)
+diff -r -N -b -B -u ./tests/dump_tests.ml ../deriving-ocsigen-0.3c.n/tests/dump_tests.ml
+--- ./tests/dump_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/dump_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ open Deriving_Dump
+ 
+ module Test (D : Dump) =
+diff -r -N -b -B -u ./tests/enum_tests.ml ../deriving-ocsigen-0.3c.n/tests/enum_tests.ml
+--- ./tests/enum_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/enum_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ open Deriving_Enum
+ 
+ let nullsum = 
+diff -r -N -b -B -u ./tests/eq_tests.ml ../deriving-ocsigen-0.3c.n/tests/eq_tests.ml
+--- ./tests/eq_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/eq_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ 
+ open Deriving_Eq
+ 
+diff -r -N -b -B -u ./tests/functor_tests.ml ../deriving-ocsigen-0.3c.n/tests/functor_tests.ml
+--- ./tests/functor_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/functor_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ 
+ let r1 =
+   begin
+diff -r -N -b -B -u ./tests/Makefile ../deriving-ocsigen-0.3c.n/tests/Makefile
+--- ./tests/Makefile	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/Makefile	2012-08-04 11:51:28.000000000 +0000
+@@ -1,14 +1,18 @@
+ include ../Makefile.config
+ 
++OCAMLPATH := ../files:${OCAMLPATH}
++export OCAMLPATH
++
+ OCAMLC     := ${OCAMLFIND} ocamlc
+ OCAMLOPT   := ${OCAMLFIND} ocamlopt
+ OCAMLDEP   := ${OCAMLFIND} ocamldep
+-PP         := -package camlp4 -ppopt ../syntax/pa_deriving.cma -syntax camlp4o
++PP         := -package ${PROJECTNAME},${PROJECTNAME}.syntax -syntax camlp4o
++PPTC       := -package ${PROJECTNAME},${PROJECTNAME}.syntax_tc -syntax camlp4o
+ LIBS       := -I ../lib -package num
+ 
+ OCAMLFLAGS   = -w Aef
+ 
+-SOURCES = defs.ml               \
++SOURCES = tests_defs.ml         \
+           bimap.ml	        \
+           sigs.ml               \
+           pickle_tests.ml       \
+@@ -21,6 +25,7 @@
+ 	  show_tests.ml         \
+           exp.ml                \
+           inline.ml             \
++	  tc.ml                 \
+ 
+ ##
+ 
+@@ -36,6 +41,11 @@
+ %.cmx: %.ml
+ 	${OCAMLOPT} ${OCAMLFLAGS} ${PP} ${LIBS} -c $<
+ 
++tc.cmo: tc.ml
++	${OCAMLC} ${OCAMLFLAGS} ${PPTC} ${LIBS} -c $<
++tc.cmx: tc.ml
++	${OCAMLOPT} ${OCAMLFLAGS} ${PPTC} ${LIBS} -c $<
++
+ # Clean up
+ clean:
+ 	-rm -f *.cm[ioax] *.cmxa *.cmxs *${OBJEXT} *${LIBEXT} *.annot
+diff -r -N -b -B -u ./tests/pickle_tests.ml ../deriving-ocsigen-0.3c.n/tests/pickle_tests.ml
+--- ./tests/pickle_tests.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/pickle_tests.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -1,4 +1,4 @@
+-open Defs
++open Tests_defs
+ open Deriving_Eq
+ open Deriving_Pickle
+ 
+diff -r -N -b -B -u ./tests/sigs.ml ../deriving-ocsigen-0.3c.n/tests/sigs.ml
+--- ./tests/sigs.ml	2011-12-08 04:46:54.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/sigs.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -111,7 +111,7 @@
+   type t = int 
+       deriving (Eq, Enum, Bounded, Dump, Show, Typeable, Pickle, Functor)
+ end
+-  = Defs
++  = Tests_defs
+ 
+ (* Deriving a signature with types made abstract *)
+ module T_opaque :
+@@ -158,7 +158,7 @@
+   module Private : sig type p2 end
+   type t deriving (Eq, Enum, Bounded, Dump, Show, Typeable, Pickle, Functor)
+ end
+-  = Defs
++  = Tests_defs
+ 
+ 
+ (* A signature with no deriving (to make sure that the types are still
+@@ -251,4 +251,4 @@
+     
+   type t = int 
+ end
+-  = Defs
++  = Tests_defs
+diff -r -N -b -B -u ./tests/tc.ml ../deriving-ocsigen-0.3c.n/tests/tc.ml
+--- ./tests/tc.ml	1970-01-01 00:00:00.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/tc.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -0,0 +1,3 @@
++
++
++type t = A of int | B of float with show
+diff -r -N -b -B -u ./tests/tests_defs.ml ../deriving-ocsigen-0.3c.n/tests/tests_defs.ml
+--- ./tests/tests_defs.ml	1970-01-01 00:00:00.000000000 +0000
++++ ../deriving-ocsigen-0.3c.n/tests/tests_defs.ml	2012-08-04 11:51:28.000000000 +0000
+@@ -0,0 +1,176 @@
++(* sums (nullary, unary, and n-ary) *)
++type sum = S0 | S1 of int | S2 of int * float | S3 of int * float * bool | Sunit of unit | Stup of (int * float) | Stup1 of (int)
++  deriving (Dump, Eq, Show, Typeable, Pickle)
++
++type nullsum = N0 | N1 | N2 | N3
++    deriving (Enum, Bounded, Eq, Typeable, Pickle)
++
++(* records with mutable and immutable fields (and various combinations) *)
++type r1 = {
++  r1_l1 : int;
++  r1_l2 : int;
++} deriving (Dump, Eq, Show, Typeable, Pickle, Functor)
++
++type r2 = {
++  mutable r2_l1 : int;
++  mutable r2_l2 : int;
++} deriving (Eq, Show, Typeable, Pickle)
++
++type r3 = {
++  r3_l1 : int;
++  mutable r3_l2 : int;
++} deriving (Eq, Show, Typeable, Pickle)
++
++(* polymorphic records *)
++type r4 = {
++  r4_l1 : 'a . 'a list
++} deriving (Dump, Eq, Show)
++
++(* label types *)
++type label = x:int -> int
++  (*  deriving (Dump, Eq, Show) *)
++
++(* function types  *)
++type funct = int -> int
++  (* deriving (Dump, Eq, Show) *)
++
++(* recursive types *)
++type intseq = INil | ICons of int * intseq
++  deriving (Dump, Eq, Show, Typeable, Pickle, Functor)
++
++type 'a seq = Nil | Cons of 'a * 'a seq
++  deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++(* applied type constructors (nullary, n-ary) *)
++type uses_seqs = (intseq * float seq)
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++
++(* object and class types *)
++type obj = < x : int >
++
++(* class types *)
++class c = object end
++
++(* polymorphic variants (nullary, unary tags, extending complex type expressions, defined inline) *)
++type poly0 = [`T0 | `T1 | `T2 | `T3]
++    deriving (Enum, Bounded, Show, Eq, Typeable, Pickle)
++
++type poly1 = [`T0 | `T1 of int]
++    deriving (Dump, Eq, Show)
++
++type poly2 = P of int * [`T0 | `T1 of int] * float
++    deriving (Dump, Eq, Show)
++
++(* `as'-recursion *)
++type poly3 = [`Nil | `Cons of int * 'c] as 'c
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++
++type poly3b = int * ([`Nil | `Cons of int * 'c] as 'c) * [`F]
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++
++(* <, >, =, > < polymorphic variants *)
++type 'a poly7 = Foo of [`F of 'a]
++and 'a poly8 = { x : [`G of [`H of [`I of 'a poly7]]] }
++    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++(*
++type poly9 = [`F | [`G]]
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++  currently broken.
++*)
++type poly10 = [`F | poly3]
++    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++(* mutually recursive types (monomorphic, polymorphic) *)
++type mutrec_a = mutrec_c
++and mutrec_b = { l1 : mutrec_c ; l2 : mutrec_a }
++and mutrec_c = S of int * mutrec_a | N
++and mutrec_d = [`T of mutrec_b]
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++
++type ('a,'b) pmutrec_a = ('a,'b) pmutrec_c
++and ('a,'b) pmutrec_b = { pl1 : ('a,'b) pmutrec_c ; pl2 : ('a,'b) pmutrec_a }
++and ('a,'b) pmutrec_c = SS of 'a * ('a,'b) pmutrec_a * 'b
++and ('a,'b) pmutrec_d = [`T of ('a,'b) pmutrec_b]
++    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++type 'a pmutrec_a' = ('a,'a) pmutrec_c'
++and ('a,'b) pmutrec_b' = { pl1' : ('b,'a) pmutrec_c' ; pl2' : 'a pmutrec_a' }
++and ('a,'b) pmutrec_c' = SS' of 'a * 'b pmutrec_a' * 'b | TT' of ('a * ('a,'b,'a) pmutrec_d' * 'b)
++and ('a,'b,'c) pmutrec_d' = [ `S of ('a,'b) pmutrec_b' | `T of ('b,'c) pmutrec_b' ]
++    deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++(* polymorphic types *)
++type 'a ff1 = F of 'a * 'a | G of int deriving (Show, Eq, Dump, Functor, Typeable, Pickle)
++type ('a,'b) ff2 = F1 of ('a,'b) ff2 | F2 of 'a seq * int * 'b option
++  deriving (Dump, Eq, Show, Functor, Typeable, Pickle)
++
++(* tuples *)
++type tup0 = unit
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++type tup2 = int * float
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++type tup3 = int * float * bool
++    deriving (Dump, Eq, Show, Typeable, Pickle)
++type tup4 = int * int * bool * unit
++    deriving (Dump, Eq, Show, Typeable, Pickle, Bounded)
++
++(* type equations (replication) *)
++(* TODO *)
++
++(* references *)
++type withref = WR of int * (int ref)
++  deriving (Eq, Show, Typeable, Pickle)
++
++(* through module boundaries *)
++module rec M : sig
++  type t deriving (Show, Eq, Dump)
++end =
++struct
++  type t = [`N|`C of M.t] deriving (Show, Eq, Dump)
++end
++
++(* parameterized types through module boundaries *)
++module rec P : sig
++  type 'a t (* deriving (Show) *)
++end =
++struct
++  type 'a t = [`N|`C of 'a P.t]
++(*Doesn't work: results in an unsafe module definition
++*)(*      deriving (Show)*)
++end
++
++(* with constraints *)
++type 'a constrained = [`F of 'a] constraint 'a = int
++    deriving (Functor) (* Show, etc. don't work here *)
++
++(* private datatypes *)
++type p1 = private P1
++    deriving (Show, Eq)
++
++(* check that `private' in the interface is allowed for classes that
++   disallow `private' (e.g. Dump) as long as we don't have `private'
++   in the implementation *)
++module Private : sig
++  type p2 = private Q deriving (Show, Eq, Dump)
++end =
++struct
++  type p2 = Q deriving (Show, Eq, Dump)
++end
++
++(* Reusing existing instances *)
++type t = int
++    deriving (Eq, Enum, Bounded, Dump, Show, Typeable, Pickle, Functor)
++
++(* Int32, etc. *)
++
++type ii = {
++    int32: int32;
++    int64: int64;
++    nativeint: nativeint;
++  } deriving (Eq, Dump, Typeable, Pickle, Show)
++
++type ii' = {
++    int32': Int32.t;
++    int64': Int64.t;
++  } deriving (Eq, Dump, Typeable, Pickle, Show)

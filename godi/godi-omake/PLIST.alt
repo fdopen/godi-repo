@@ -1,0 +1,8 @@
+@comment $GODI$
+bin/omake
+bin/osh
+bin/mmtranslate
+bin/cvs_realclean
+@optional bin/ocamldep-omake
+@deepdir lib/omake
+@deepdir doc/godi-omake

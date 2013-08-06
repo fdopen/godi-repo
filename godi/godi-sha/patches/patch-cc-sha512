@@ -1,0 +1,16 @@
+--- sha512.c.orig	2012-10-05 19:24:37.000000000 +0000
++++ sha512.c	2012-12-11 20:52:10.937500000 +0000
+@@ -230,6 +230,11 @@
+ 	int i;
+ 
+ 	for (p = out, i = 0; i < 8; i++, p += 16)
+-		snprintf(p, 17, "%016llx",
+-		         (unsigned long long) be64_to_cpu(digest->digest[i]));
++		snprintf(p, 17, 
++#if defined(_WIN32) && !defined(__CYGWIN__)
++                         "%016I64x"
++#else
++                         "%016llx"
++#endif
++                         ,(unsigned long long) be64_to_cpu(digest->digest[i]));
+ }

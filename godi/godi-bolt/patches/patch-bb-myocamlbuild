@@ -1,0 +1,28 @@
+--- myocamlbuild.ml.orig	2012-10-26 19:19:41.000000000 +0000
++++ myocamlbuild.ml	2013-02-09 15:59:10.140625000 +0000
+@@ -57,20 +57,22 @@
+ let version_ml = "src/library/version.ml"
+ let version_file = "../VERSION"
+ 
++let filename_concat a b = a ^ "/" ^ b
++
+ let () =
+   let safe_cp src dst =
+     let src = Pathname.mk src in
+     let dst = Pathname.mk dst in
+     let dir = Pathname.dirname dst in
+-    let cmd = Printf.sprintf "mkdir -p %s" (Pathname.to_string dir) in
++    let cmd = Printf.sprintf "\"\"mkdir.exe\" -p %s\"" (Filename.quote (Pathname.to_string dir) ) in
+     if Sys.command cmd <> 0 then failwith ("cannot run " ^ cmd);
+     cp src dst in
+   dispatch begin function
+     | After_rules ->
+         let camlp4of =
+           try
+-            let path_bin = Filename.concat (Sys.getenv "PATH_OCAML_PREFIX") "bin" in
+-            Filename.concat path_bin "camlp4of"
++            let path_bin = filename_concat (Sys.getenv "PATH_OCAML_PREFIX") "bin" in
++            filename_concat path_bin "camlp4of"
+           with _ -> "camlp4of" in
+         flag ["ocaml"; "compile"; "pp_camlp4of"] (S[A"-pp"; A camlp4of]);
+         flag ["ocaml"; "pp:dep"; "pp_camlp4of"] (S[A camlp4of]);

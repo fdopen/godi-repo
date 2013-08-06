@@ -1,0 +1,5 @@
+bin/oasis
+@deepdir doc/apps-oasis
+@findlib oasis
+@findlib plugin-loader
+@findlib userconf

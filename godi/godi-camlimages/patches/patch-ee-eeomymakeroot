@@ -1,0 +1,14 @@
+--- OMyMakeroot.orig	2011-06-22 18:04:32.000000000 +0000
++++ OMyMakeroot	2012-10-19 20:03:11.156250000 +0000
+@@ -115,9 +115,9 @@
+ # of course it only works with unix
+ OCamlMkLibC(name, files, ldflags) =
+   protected.COBJS=$(addsuffix .o, $(files))
+-  dll$(name).so lib$(name).a: $(COBJS)
++  dll$(name)$(EXT_DLL) lib$(name).a: $(COBJS)
+     $(OCAMLMKLIB) -o $(name) $(LDFLAGS) $(ldflags) $(COBJS)
+-  return $(array dll$(name).so, lib$(name).a)
++  return $(array dll$(name)$(EXT_DLL), lib$(name).a)
+ 
+ # If ocamlmklib does not work for you, you can do:
+ # 1. Put -verbose switch to the above call of $(OCAMLMKLIB) and see the command.

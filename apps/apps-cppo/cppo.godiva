@@ -1,0 +1,11 @@
+Package: apps-cppo
+Version: 0.9.2
+Revision: 0
+Depends: godi-ocaml (>= 3.09)
+Sources: http://martin.jambon.free.fr/cppo-0.9.2.tar.gz
+Homepage: http://martin.jambon.free.fr/cppo.html
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Description: cpp for OCaml
+Cppo is a lightweight macro expander for OCaml analog to cpp, the C preprocessor.
+.

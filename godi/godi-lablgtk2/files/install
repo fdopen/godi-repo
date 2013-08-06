@@ -1,0 +1,33 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+# don't forget to keep this information in sync with the build Makefile!
+
+if [ "a${2}" != "aPOST-INSTALL" ]; then
+    exit 0
+fi
+
+xfile="${GODI_PREFIX}/lib/ocaml/pkg-lib/lablgtk2/build.ml"
+if [ -f "${xfile}" ]; then
+    nstart_gtk="let gtk_libs = \"-L${GODI_PREFIX_WIN}/lib  "
+    nstart_glade="let glade_libs = \"-L${GODI_PREFIX_WIN}/lib  "
+    nstart_rsvg="let rsvg_libs = \"-L${GODI_PREFIX_WIN}/lib  "
+    ncontent=$(
+	sed -r -e "s|^let gtk_libs = \"[^ ]*(.*)$|${nstart_gtk}\1|" \
+	    -e "s|^let glade_libs = \"[^ ]*(.*)$|${nstart_glade}\1|" \
+	    -e "s|^let rsvg_libs = \"[^ ]*(.*)$|${nstart_rsvg}\1|" \
+	    "$xfile" )
+    replace_and_backup "$xfile" "$ncontent"
+fi
+
+# xfile="${GODI_PREFIX}/bin/lablgtk2"
+# if [ -f "${xfile}" ]; then
+#     nline="lablgtkdir=\"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/lablgtk2\""
+#     ncontent=$(sed -re "s|^lablgtkdir=(.*)$|${nline}|" "$xfile")
+#     replace_and_backup "$xfile" "$ncontent"
+# fi
+
+exit 0

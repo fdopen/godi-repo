@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (lwt-2.4.3.tar.gz) = 12503d6eb52ce0d5360096baf8bb846b140cf6bc
+Size (lwt-2.4.3.tar.gz) = 504000 bytes
+
+SHA1 (patch-win-discover) = ef911f00f34d2a8c6695fb8bb1b5bd05fd3710c4

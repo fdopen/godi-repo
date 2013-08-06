@@ -1,0 +1,3 @@
+XML Light is a minimal XML parser & printer for OCaml. It provides
+functions to parse an XML document into an OCaml data structure, work with
+it, and print it back to an XML document. 

@@ -1,0 +1,12 @@
+#! /bin/sh
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+restore_backup "${GODI_PREFIX}/etc/findlib.conf"
+restore_backup "${GODI_PREFIX}/etc/findlib-BUILD.conf"
+restore_backup "${GODI_PREFIX}/lib/ocaml/std-lib/topfind"

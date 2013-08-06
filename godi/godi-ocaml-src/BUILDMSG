@@ -1,0 +1,27 @@
+Available options for godi.conf:
+
+- OCAML_CONF_ARGS: Further options for the configure script
+
+- OCAML_SVN_CHECKOUT: If you want to check out the O'Caml sources
+  from Subversion, set this variable to "yes". Of course, you need the
+  svn utility to do this.
+
+  If enabled, the revision number of this package is changed to 99,
+  i.e. 4.00 would be changed into 4.00godi99.
+
+- OCAML_SVN_ARGS: Pass here additional arguments to the svn
+  call.
+
+- OCAML_SVN_PATH: The revision to check out:
+   - /ocaml/trunk:           latest development version
+   - /ocaml/version/3.11     latest update of this release
+   - /ocaml/release/3.11.1   exactly this release
+
+- OCAML_TK: If you want to build the tk library, set this
+   variable to "yes" (mingw only). This requires the build of 
+   base-tcltk before godi-ocaml.
+   
+godi-ocaml-src configures also the godi-ocaml-* packages,
+but these packages will not be rebuilt automatically
+(select them manually).
+

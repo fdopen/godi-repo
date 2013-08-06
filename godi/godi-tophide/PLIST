@@ -1,0 +1,4 @@
+@comment $GODI$
+
+@findlib tophide
+@deepdir doc/godi-tophide

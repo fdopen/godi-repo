@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (ocaml-json-1.0.tar.gz) = c3c67fde5d5710f42a3568bdebc65d4c6192d9ce
+Size (ocaml-json-1.0.tar.gz) = 22468 bytes
+SHA1 (patch-aa-configure) = 19621dd98e5cd9d86610d078c8f747499bc29f1c
+SHA1 (patch-ab-json.mll) = 9a5fa2df01194012a41d5b3dad8186f18b3b1031

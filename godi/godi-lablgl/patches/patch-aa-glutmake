@@ -1,0 +1,13 @@
+--- LablGlut/src/Makefile~	2008-12-21 04:46:01.000000000 +0000
++++ LablGlut/src/Makefile	2012-10-17 11:52:24.671875000 +0000
+@@ -53,8 +53,8 @@
+ 	echo "#!/bin/sh" > lablglut
+ 	echo "# toplevel with lablGL and LablGlut" >> lablglut
+ 	if test -f dlllablglut$(XS); then \
+-	    echo 'exec ocaml -I "$(INSTALLDIR)" lablgl.cma lablglut.cma $$*' >> lablglut; \
+-	 else echo 'exec "$(INSTALLDIR)/lablgluttop" -I "$(INSTALLDIR)" $$*' >> lablglut; fi
++	    echo 'exec ocaml -I "$$(cygpath -m "$(INSTALLDIR)")" lablgl.cma lablglut.cma $$*' >> lablglut; \
++	 else echo 'exec "$(INSTALLDIR)/lablgluttop" -I "$$(cygpath -m "$(INSTALLDIR)")" $$*' >> lablglut; fi
+ 	chmod 755 lablglut
+ 
+ install:

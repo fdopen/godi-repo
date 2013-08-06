@@ -1,0 +1,37 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd \
+    "$1" "$2" 1 \
+    --add-to-startmenu \
+    ../../bin/rlwrap.exe \
+    "Ocaml Toploop" \
+    "-a -H ./.ocaml_history -D 2 -i ocaml" \
+    "--with-mintty --with-bash --mintty-title \"Ocaml Toploop\"" \
+    "" \
+    "../../bin/mintty.exe"
+
+# don't forget to keep this information in sync with the build Makefile!
+
+if [ "a${2}" != "aPOST-INSTALL" ]; then
+    exit 0
+fi
+
+xfile="${GODI_PREFIX}/lib/ocaml/std-lib/ld.conf"
+if [ -f "${xfile}" ]; then
+    ncontent=`sed -re "s|.*odi[^/]*/lib/ocaml/(.*)$|${GODI_PREFIX_WIN}/lib/ocaml/\1|" "$xfile"`
+    replace_and_backup "$xfile" "$ncontent"
+fi
+
+xfile="${GODI_PREFIX}/lib/ocaml/std-lib/Makefile.config"
+if [ -f "$xfile" ]; then
+    nline="PREFIX=${GODI_PREFIX_WIN}"
+    ncontent=`sed -e "s|^PREFIX=.*$|$nline|" "$xfile"`
+    replace_and_backup "$xfile" "$ncontent"
+fi
+
+
+exit 0

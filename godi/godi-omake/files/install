@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd  "$1" "$2" 1 \
+    --add-to-startmenu \
+    ../../bin/rlwrap.exe \
+    "Omake Shell" \
+    "-a -H ./.osh_history -D 2 -i osh -i" \
+    "--with-mintty --with-bash --mintty-title \"Omake Shell\"" \
+    "" \
+    "../../bin/mintty.exe"
+
+exit 0

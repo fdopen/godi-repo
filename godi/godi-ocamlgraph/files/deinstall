@@ -1,0 +1,24 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+windel  "$1" "$2" 1 \
+    --remove-from-startmenu \
+    bin/graph-editor.exe \
+    "Ocamlgraph Editor" \
+    "" \
+    "" \
+    "" \
+    ""
+windel  "$1" "$2" 1 \
+    --remove-from-startmenu \
+    bin/graph-viewer.exe \
+    "Ocamlgraph Viewer" \
+    "" \
+    "" \
+    "" \
+    ""
+
+exit 0

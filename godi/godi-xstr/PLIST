@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib xstr
+@deepdir doc/godi-xstr

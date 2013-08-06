@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib extlib
+@deepdir doc/godi-extlib

@@ -1,0 +1,100 @@
+--- ../../work-ref/webdav-1.1/webdav_netfs.ml	2011-08-30 20:34:30.000000000 +0200
++++ ./webdav_netfs.ml	2013-07-21 16:13:34.772219130 +0200
+@@ -112,9 +112,24 @@
+ 	  raise Not_found
+       | `Http_fs ->
+ 	  http_fs # last_response_header
+-      | `This hdr ->
++      | `This(hdr,triple) ->
+ 	  hdr
+ 
++  method last_response_status =
++    match !last_response_header with
++      | `No_response ->
++	  raise Not_found
++      | `Http_fs ->
++	  http_fs # last_response_status
++      | `This(hdr,triple) ->
++	  triple
++
++  method private set_response r =
++    let hdr = r#response_header in
++    let triple = (r#response_status, r#response_status_code,
++                  r#response_status_text) in
++    last_response_header := `This (hdr, triple)
++
+   method webdav_client = wc
+ 
+   method read flags path =
+@@ -149,7 +164,7 @@
+     let path = norm_path path in
+     let plist = [ Webdav_client_methods.propname_getcontentlength ] in
+     let r = wc # propfind ~depth:`Zero ~propfind_request:(`Prop plist)  path in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     if r # fully_successful then
+       try
+ 	let eff_path = r # effective_query_path in
+@@ -174,7 +189,7 @@
+       [ Webdav_client_methods.propname_resourcetype;
+ 	Webdav_client_methods.propname_getcontentlength ] in
+     let r = wc # propfind ~depth:`Zero ~propfind_request:(`Prop plist)  path in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     let exists =
+       match r # call_status with
+ 	| `Unserved -> assert false
+@@ -219,7 +234,7 @@
+     last_response_header := `No_response;
+     let path = norm_path path in
+     let r = wc # list ~depth:`One `Standard path in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     (* So first check whether there is info about [path] itself. If it is
+        not a directory, raise ENOTDIR.
+      *)
+@@ -258,7 +273,7 @@
+      *)
+     if not (List.mem `Recursive flags) then (
+       let r = wc # list ~depth:`Zero `Existence path in
+-      last_response_header := `This r#response_header;
++      self # set_response r;
+       if r # fully_successful then (
+ 	let eff_path = r # effective_query_path in
+ 	match (r # response_of_path eff_path) # prop_resourcetype_is_collection with
+@@ -276,7 +291,7 @@
+        in the meantime
+      *)
+     let r = wc # delete path in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     if not (r # fully_successful) then 
+       translate_error path r
+ 
+@@ -285,7 +300,7 @@
+     let path1 = norm_path path1 in
+     let path2 = norm_path path2 in
+     let r = wc # copy ~depth:`Zero ~overwrite:true path1 path2 in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     if not (r # fully_successful) then 
+       translate_error path1 r
+ 
+@@ -294,7 +309,7 @@
+     let path1 = norm_path path1 in
+     let path2 = norm_path path2 in
+     let r = wc # move ~overwrite:true path1 path2 in
+-    last_response_header := `This r#response_header;
++    self # set_response r;
+     if not (r # fully_successful) then 
+       translate_error path1 r
+ 
+@@ -307,7 +322,7 @@
+ 
+     let prim_mkcol p =
+       let r = wc # mkcol p in
+-      last_response_header := `This r#response_header;
++      self # set_response r;
+       if not (r # fully_successful) then 
+       translate_error path r in
+ 

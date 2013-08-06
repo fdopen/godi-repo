@@ -1,0 +1,2 @@
+ulex is a lexer generator implemented as an OCaml syntax extension,
+and with support for Unicode encodings.

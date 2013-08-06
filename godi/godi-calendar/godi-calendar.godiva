@@ -1,0 +1,15 @@
+(* NOTE: after running godiva, be sure to remove LIBDIR= from the Makefile! *)
+Package: godi-calendar
+Version: 2.03.2
+Revision: 1
+Depends: godi-ocaml (>= 3.09)
+Build-Depends: godi-findlib
+Sources: http://forge.ocamlcore.org/frs/download.php/915/calendar-%v.tar.gz
+Homepage: http://calendar.forge.ocamlcore.org/
+Maintainer: Julien Signoles <julien.signoles@gmail.com>
+Options: configure (* opt is detected automatically *)
+Docfiles: CHANGES, COPYING, LGPL, LICENSE, README, TODO
+Description: Operations over dates and times.
+The Calendar library is a library providing a set of operations over dates and
+times.
+.

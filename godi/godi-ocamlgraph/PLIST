@@ -1,0 +1,5 @@
+@comment $GODI$
+@findlib ocamlgraph
+@deepdir doc/godi-ocamlgraph
+@optional @glob gui/bin/graph-editor*
+@optional @glob gui/bin/graph-viewer*

@@ -1,0 +1,26 @@
+--- Makefile.orig	2013-03-29 21:28:25.000000000 +0000
++++ Makefile	2013-07-22 09:04:20.838400000 +0000
+@@ -44,6 +44,14 @@
+ 
+ DOCSOURCES = $(addsuffix .mli, $(DOCFILES))
+ 
++OSTYPE=$(shell ocamlfind ocamlc -config | grep '^os_type: ' | awk '{print $$2}')
++ifeq ($(OSTYPE),$(filter $(OSTYPE),Win32 Cygwin))
++EXE=.exe
++else
++EXE=
++endif
++
++
+ ifndef PREFIX
+   PREFIX = $(shell dirname $$(dirname $$(which ocamlfind)))
+   export PREFIX
+@@ -125,7 +133,7 @@
+ 	ocamlfind ocamlopt $(OCAMLFLAGS) -o atd.cmxa -a $(CMX)
+ 
+ atdcat: dep $(CMI) $(CMX) atdcat.ml
+-	ocamlfind ocamlopt $(OCAMLFLAGS) -o atdcat \
++	ocamlfind ocamlopt $(OCAMLFLAGS) -o atdcat$(EXE) \
+ 		-package "$(OCAMLPACKS)" -linkpkg \
+ 		$(CMX) atdcat.ml
+ 

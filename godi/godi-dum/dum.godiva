@@ -1,0 +1,13 @@
+Package: godi-dum
+Version: 1.0.0
+Revision: 2
+Depends: godi-ocaml (>= 3.08), godi-easy-format
+Build-Depends: godi-findlib
+Sources: http://oss.wink.com/dum/dum-1.0.0.tar.gz
+Homepage: http://oss.wink.com/dum/
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Docfiles: LICENSE
+Description: Dumper supporting cyclic values.
+Dum is a library for inspecting the runtime representation of arbitrary Objective Caml values. Shared or cyclic data are detected and labelled. This guarantees that printing would always terminate. This makes it possible to print values such as closures, objects or exceptions in depth and without risk.
+.

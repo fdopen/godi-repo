@@ -1,0 +1,56 @@
+--- runtime/Makefile.win32.orig	2000-08-19 11:05:00.000000000 +0000
++++ runtime/Makefile.win32	2012-12-08 19:23:34.968750000 +0000
+@@ -12,33 +12,36 @@
+ 
+ #* $Id: Makefile.win32,v 1.7 2000/08/19 11:05:00 xleroy Exp $
+ 
+-CC=cl
+-CFLAGS=/nologo /Zi /MT /I$(OCAMLLIB)
++#CC=cl
++#CFLAGS=/nologo /Zi /MT /I$(OCAMLLIB)
+ 
+-OBJS=idlalloc.obj comintf.obj comerror.obj superror.obj \
+-  registry.obj dispatch.obj oletypes.obj
++OBJS=idlalloc.o comintf.o comerror.o superror.o \
++  registry.o dispatch.o oletypes.o
+ 
+-all: libcamlidl.lib cfactory.obj
++all: libcamlidl.a cfactory.o
+ 
+-libcamlidl.lib: $(OBJS)
+-	- rm -f $@
+-	lib /nologo /debugtype:CV /out:$@ $(OBJS)
++libcamlidl.a: $(OBJS)
++	ocamlmklib -oc camlidl $(OBJS)
++#	- rm -f $@
++#	lib /nologo /debugtype:CV /out:$@ $(OBJS)
+ 
+ install:
+ 	cp camlidlruntime.h $(OCAMLLIB)/caml/camlidlruntime.h
+-	cp libcamlidl.lib $(OCAMLLIB)/libcamlidl.lib
+-	cp cfactory.obj $(OCAMLLIB)/cfactory.obj
++	cp libcamlidl.a $(OCAMLLIB)/libcamlidl.a
++	cd $(OCAMLLIB); $(RANLIB) libcamlidl.a
++	cp cfactory.o $(OCAMLLIB)/cfactory.o
++	test ! -f dll* || cp dll* $(OCAMLLIB)/stublibs
+ 
+ clean:
+-	rm -f *.lib *.obj
++	rm -f *.a *.o
+ 
+-.SUFFIXES: .c .cpp .obj
++.SUFFIXES: .c .cpp .o
+ 
+-.c.obj:
+-	$(CC) $(CFLAGS) -c $<
+-.cpp.obj:
+-	$(CC) $(CFLAGS) -c $<
++.c.o:
++	ocamlc -c $<
++.cpp.o:
++	$(CXX) -I$(OCAMLLIB) -c $<
+ 
+-$(OBJS) cfactory.obj: camlidlruntime.h comstuff.h registry.h
++$(OBJS) cfactory.o: camlidlruntime.h comstuff.h registry.h
+ 
+ depend:

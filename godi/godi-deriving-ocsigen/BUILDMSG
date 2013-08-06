@@ -1,0 +1,5 @@
+Available option for godi-deriving-ocsigen:
+- CONF_DERIVING_OCSIGEN_TYPE_CONV
+
+(temporary ignored, because it's not compatible with the latest
+type_conv version)

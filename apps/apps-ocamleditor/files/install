@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd  "$1" "$2" 1 \
+    --add-to-startmenu \
+    gui/bin/ocamleditor \
+    "Ocamleditor" \
+    "" \
+    "--with-mintty --with-bash" \
+    "" \
+    ""
+#--with-mintty --with-bash
+exit 0

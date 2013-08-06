@@ -1,0 +1,5 @@
+Lwt (the abbreviation stands for Light-Weight Threading) is a cooperative
+threading library for Ocaml.
+
+It required libev to be installed.
+ 

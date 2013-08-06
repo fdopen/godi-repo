@@ -1,0 +1,31 @@
+--- ocaml.ml.orig	2012-02-04 01:24:21.000000000 +0000
++++ ocaml.ml	2012-12-18 19:11:07.562500000 +0000
+@@ -119,8 +119,8 @@
+   let camlp4_stuff =
+     if !use_camlp4 then
+       let syntax, camlp4 =
+-	if !revised then "camlp4r", !camlp4r
+-	else "camlp4o", !camlp4o in
++	if !revised then "camlp4r", exe !camlp4r
++	else "camlp4o", exe !camlp4o in
+       let ppoptions = 
+ 	if !ppopt = [] then []
+ 	else 
+@@ -131,7 +131,7 @@
+ 	"-syntax" :: syntax :: ppoptions
+       else 
+ 	let space = function "" -> "" | s -> " " ^ s in
+-	["-pp"; sprintf "'%s%s'" camlp4 (space (String.concat " " ppoptions))]
++	["-pp"; sprintf "%s%s" camlp4 (space (String.concat " " ppoptions))]
+     else [] in
+   let packages =
+     if really_use_ocamlfind then
+@@ -148,7 +148,7 @@
+   
+   let xcommands, all_ml_files = extra_commands all_sources in
+ 
+-  let args = compiler @ "-o" :: "prog" :: 
++  let args = compiler @ "-o" :: (exe "prog") ::
+ 	       flags @ camlp4_stuff @ packages @ all_ml_files in
+   (init, xcommands, command args, exe "prog")
+ 

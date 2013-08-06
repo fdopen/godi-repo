@@ -1,0 +1,16 @@
+--- lib/configure/Configure.om.orig	2007-06-28 00:17:04.000000000 +0000
++++ lib/configure/Configure.om	2012-10-19 15:05:48.859375000 +0000
+@@ -268,7 +268,7 @@
+ # \end{doc}
+ #
+ public.CheckCLib(libs, funs) =
+-    CFLAGS += $(addprefix -l, $(libs))
++    LDFLAGS += $(addprefix -l, $(libs))
+ 
+     return $(TryLinkC $"""
+ #ifdef __cplusplus
+@@ -348,3 +348,4 @@
+ # your project --- if you do that, the test will still run only once.
+ # \end{doc}
+ #
++

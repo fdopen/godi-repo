@@ -1,0 +1,6 @@
+@comment $GODI$
+
+@findlib ocamlscript
+bin/ocamlscript.exe
+@optional bin/ocamlscript.byte.exe
+@deepdir doc/godi-ocamlscript

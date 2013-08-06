@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (tyxml-2.2.0.tar.gz) = b60fa2f0ba7fa1a6c412c432f65ca110b143bbe8
+Size (tyxml-2.2.0.tar.gz) = 105748 bytes
+
+SHA1 (patch-aa-makefile) = 2fdcc0c9b33db5dcd869693bd230177e759724ea
+SHA1 (patch-bb-metain) = 54178d93bbe29ebd5844465d5fdf170de8064fe2

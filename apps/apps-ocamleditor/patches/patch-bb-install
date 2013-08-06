@@ -1,0 +1,22 @@
+--- tools/install.ml.orig	2013-03-18 10:10:06.000000000 +0000
++++ tools/install.ml	2013-04-12 09:48:38.733000000 +0000
+@@ -59,7 +59,7 @@
+ To install OCamlEditor, please use the included ocamleditor.nsi script.
+ You will need the free NSIS install system (http://nsis.sourceforge.net).";
+   end else begin
+-    let exe = if Sys.os_type = "Win32" then ".exe" else "" in
++    let exe = ext in
+     let icons = sprintf "%s/share/ocamleditor/icons" !prefix in
+     mkdir_p icons;
+     kprintf run "cp -vru ../icons/* %s" icons;
+@@ -74,6 +74,10 @@
+     kprintf run "cp -v %s %s/ocamleditor%s" filename bin exe;
+     let filename = if Sys.file_exists ("oebuild/oebuild.opt" ^ exe) then ("oebuild/oebuild.opt" ^ exe) else ("oebuild/oebuild" ^ exe) in
+     kprintf run "cp -v %s %s" filename bin;
++    if is_win32 then begin
++      let filename = if Sys.file_exists "oeproc/oeproc.opt.exe" then "oeproc/oeproc.opt.exe" else "oeproc/oeproc.exe" in
++      kprintf run "cp -v %s %s" filename bin;
++    end
+   end;;
+ 
+ let _ = main ~dir:"../src" ~default_target:install ~options:[

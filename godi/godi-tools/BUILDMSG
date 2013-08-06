@@ -1,0 +1,5 @@
+Available options for godi.conf:
+
+ - GODI_TOOLS_WITH_POWERWTOOL: Enables https and WebDAV downloads
+   (yes or no)
+

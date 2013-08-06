@@ -1,0 +1,8 @@
+--- pipeline.ml.orig	2012-08-19 16:50:58.010800000 +0000
++++ pipeline.ml	2012-08-19 16:51:58.180000000 +0000
+@@ -1,4 +1,4 @@
+-(*pp $PP *)
++(*pp camlp4o -I . pa_tryfinally.cmo pa_opt.cmo *)
+ 
+ open Printf
+ open Unix

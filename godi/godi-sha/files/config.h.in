@@ -1,0 +1,3 @@
+
+#undef BIG_ENDIAN_HOST
+#undef LITTLE_ENDIAN_HOST

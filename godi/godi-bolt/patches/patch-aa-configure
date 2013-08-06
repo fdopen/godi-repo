@@ -1,0 +1,29 @@
+--- configure.orig	2012-10-26 19:19:41.000000000 +0000
++++ configure	2013-02-09 16:05:48.546875000 +0000
+@@ -20,9 +20,11 @@
+ 
+ # default values
+ ocamlbuild=`which ocamlbuild || echo '/usr/local/bin/ocamlbuild'`
+-bin_path=`dirname $ocamlbuild`
+-ocaml_prefix=`dirname $bin_path`
++bin_path="$(cygpath -m "$(dirname $ocamlbuild)")"
++ocamlbuild="$(cygpath -m "$ocamlbuild")"
++ocaml_prefix="$(cygpath -m "$(dirname $bin_path)")"
+ ocamlfind=`which ocamlfind 2> /dev/null || echo ''`
++ocamlfind="$(cygpath -m "$ocamlfind")"
+ native_dynlink='TRUE'
+ devel='FALSE'
+ 
+@@ -46,11 +48,7 @@
+ done
+ 
+ # make options
+-make_quiet=`make -f - <<EOF
+-default: gnumake
+-	@if [ "$^" != "" ]; then echo '--no-print-directory'; fi
+-gnumake:
+-EOF`
++make_quiet='--no-print-directory'
+ 
+ # file creation
+ echo "# timestamp: `date`" > Makefile.config

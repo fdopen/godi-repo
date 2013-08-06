@@ -1,0 +1,5 @@
+Config_file is an OCaml library used to manage the configuration
+file(s) of an application. You simply define your options and it
+performs the loading and saving of the options. Each option is defined
+from an option class (for example an "int" option) or from a
+combination of classes (for example to create "list of int" options).

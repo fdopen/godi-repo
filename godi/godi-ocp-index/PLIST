@@ -1,0 +1,8 @@
+bin/ocp-index.exe
+bin/ocp-index.byte.exe
+@deepdir doc/godi-ocp-index
+@deepdir lib/ocp-index
+lib/ocaml/pkg-lib/META.ocp-index
+lib/ocaml/pkg-lib/META.ocp-index-lib
+man/man1/ocp-index.1
+share/typerex/ocp-index/ocp-index.el

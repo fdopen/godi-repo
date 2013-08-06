@@ -1,0 +1,7 @@
+@comment $GODI$
+@glob bin/lablgtk2*
+@glob bin/gdk_pixbuf_mlsource*
+@glob bin/lablgladecc2*
+@deepdir doc/godi-lablgtk2
+@dllfindlib lablgtk2
+lib/godi/godi-lablgtk2.mk

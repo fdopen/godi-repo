@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib gtktop
+@deepdir doc/godi-gtktop

@@ -1,0 +1,322 @@
+--- console-src/godi-pkg/godi_ptool.ml.orig	2012-12-30 21:34:31.000000000 +0000
++++ console-src/godi-pkg/godi_ptool.ml	2013-01-09 20:16:39.250000000 +0000
+@@ -19,7 +19,7 @@
+ 
+ let sum root files =
+   (* Files relative to root *)
+-  List.fold_left 
++  List.fold_left
+     (fun acc file ->
+        Int64.add acc (Godi_file.file_size (Godi_file.addname root file)))
+     0L
+@@ -30,7 +30,7 @@
+ 
+   let rec check root path =
+     match path with
+-      | [] -> 
++      | [] ->
+ 	  false
+       | [lastname] ->
+ 	  false   (* We do not check here whether the whole path exists... *)
+@@ -76,14 +76,14 @@
+ end
+ 
+ 
+-let inst_plist_dispersion plist = 
++let inst_plist_dispersion plist =
+   new inst_plist_dispersion plist ;;
+ 
+ 
+ 
+ let library_re_config =
+   (* Note: These are extended REs, not Str-REs! *)
+-  [ "ELF", 
++  [ "ELF",
+     ( fun name ->
+ 	sprintf "^lib%s\\.(so(\\.[0-9.]+)?|a|la)$" name );
+ 
+@@ -99,7 +99,7 @@
+     "MachO",
+     ( fun name ->
+ 	sprintf "^lib%s\\.(([0-9]+\\.)+dylib|a|la)$" name );
+-    
++
+     "SOM",
+     ( fun name ->
+ 	sprintf "^lib%s\\.([0-9]+|sl|a|la)$" name );
+@@ -111,12 +111,12 @@
+ 
+ let stubdll_re_config =
+   (* Note: These are extended REs, not Str-REs! *)
+-  [ "ELF", 
+-    ( fun name -> 
++  [ "ELF",
++    ( fun name ->
+ 	sprintf "^dll%s\\.so(\\.owner)?$" name );
+ 
+     "a.out",
+-    ( fun name -> 
++    ( fun name ->
+ 	sprintf "^dll%s\\.so(\\.owner)?$" name );
+ 
+     "PE",
+@@ -172,13 +172,13 @@
+ 	    | `File(name,_) ->
+ 		(* Absolute file names are not allowed! *)
+ 		(* TODO: Move these checks to expand_plist *)
+-		let name_s = 
++		let name_s =
+ 		  Godi_file.split_filename (Godi_file.filename name) in
+ 		( match name_s with
+ 		    | `POSIX_absolute _
+ 		    | `WIN32_drive(_,_)
+ 		    | `WIN32_remote(_,_) ->
+-			failwith ("Cannot process absolute filename: " ^ 
++			failwith ("Cannot process absolute filename: " ^
+ 				    name)
+ 		    | `Relative l ->
+ 			if List.mem ".." l then
+@@ -187,10 +187,10 @@
+ 			(* but "." is no problem! *)
+ 			if has_symlink_component root l then
+ 			  failwith
+-			    ("Not allowed to cross symlinks in PLIST paths: " ^ 
++			    ("Not allowed to cross symlinks in PLIST paths: " ^
+ 			       name);
+ 		    | `Error ->
+-			failwith("Illegal file name: "  ^ 
++			failwith("Illegal file name: "  ^
+ 				   name)
+ 		);
+ 		[name]
+@@ -256,7 +256,7 @@
+        let file_s = Godi_file.split_filename (Godi_file.filename file) in
+        let file_n =  (* number of components other than "." *)
+ 	 List.length
+-	   (List.filter 
++	   (List.filter
+ 	      (fun comp -> comp <> ".")
+ 	      ( match file_s with
+ 		  | `Relative p -> p
+@@ -265,19 +265,19 @@
+ 	   ) in
+        assert(file_n >= 1);
+ 
+-       let abs_file = 
++       let abs_file =
+ 	 Godi_file.addname
+ 	   (Godi_file.combine_filename disp_root) file in
+ 
+        try
+-	 let link = 
+-	   Godi_file.split_filename 
++	 let link =
++	   Godi_file.split_filename
+ 	     (Godi_file.filename
+ 		(Godi_file.read_symlink abs_file)) in
+-		
++
+ 	 let new_link_opt =
+ 	   ( try
+-	       let disp_root_suffix = 
++	       let disp_root_suffix =
+ 		 Godi_file.strip_prefix ~prefix:disp_root link in
+ 	       let up_path =
+ 		 n_times (file_n-1) ".." in  (* TODO: portability *)
+@@ -291,7 +291,7 @@
+ 	 ( match new_link_opt with
+ 	     | None -> ()
+ 	     | Some new_link ->
+-		 printmsg con ("Fixing symlink " ^ 
++		 printmsg con ("Fixing symlink " ^
+ 				 Godi_file.slashname abs_file ^ "\n");
+ 		 Godi_file.remove abs_file;
+ 		 let new_link_s =
+@@ -319,19 +319,19 @@
+    * Second, take the exact version numbers instead of the input conditions
+    *)
+   let installed_pkgs = Godi_query.get_installed_packages con in
+-  let required_pkgs = 
+-    List.map 
+-      (fun ((pkg_name, _) as dep) -> 
++  let required_pkgs =
++    List.map
++      (fun ((pkg_name, _) as dep) ->
+ 	 try
+-	   let pkg = 
++	   let pkg =
+ 	     Godi_query.get_this_installed_package con pkg_name in
+ 	   if not (Godi_query.matches_dep pkg dep) then
+-	     user_error ("Package does not fulfil dependency: " ^ 
++	     user_error ("Package does not fulfil dependency: " ^
+ 			   Godi_versions.print_dependency dep);
+ 	   pkg
+ 	 with
+ 	   | Not_found ->
+-	       user_error ("Required package not found: " ^ 
++	       user_error ("Required package not found: " ^
+ 			     Godi_versions.print_dependency dep)
+       )
+       dependencies in
+@@ -339,7 +339,7 @@
+     Godi_plan.sort_packages
+       (required_pkgs @
+ 	 Godi_plan.get_required_packages
+-	 ~active:installed_pkgs 
++	 ~active:installed_pkgs
+ 	 ~selected:required_pkgs
+ 	 ()) in
+   let full_deps =
+@@ -368,9 +368,9 @@
+       required_pkgs' in
+   let build_dependencies' =
+     List.map
+-      (fun ((pkg_name, _) as dep) -> 
++      (fun ((pkg_name, _) as dep) ->
+ 	 try
+-	   let pkg = 
++	   let pkg =
+ 	     Godi_query.get_this_installed_package con pkg_name in
+ 	   if Godi_query.matches_dep pkg dep then
+ 	     Godi_versions.parse_dependency (pkg_name ^ "==" ^
+@@ -387,16 +387,17 @@
+     List.iter
+       (fun ((n, _) as dep) ->
+ 	 try
+-	   let pkg = 
++	   let pkg =
+ 	     Godi_query.get_this_installed_package con n in
+ 	   if Godi_query.matches_dep pkg dep then
+-	     user_error ("Conflicting package found: " ^ 
++	     user_error ("Conflicting package found: " ^
+ 			   Godi_versions.print_dependency dep)
+ 	 with
+ 	   | Not_found -> ()
+       )
+       conflicts in
+ 
++
+   let build_version_fingerprint =
+     "MD5:" ^ Digest.to_hex (Digest.string build_version) in
+ 
+@@ -436,17 +437,17 @@
+ 	    [ "+REQUIRE", requirements_script;
+ 	      "+INSTALL", install_script;
+ 	      "+DEINSTALL", deinstall_script;
+-	      "+DISPLAY", 
++	      "+DISPLAY",
+   	        (if install_message <> "" then Some install_message else None);
+-	      "+BUILD_VERSION", 
++	      "+BUILD_VERSION",
+ 	        (if build_version <> "" then Some build_version else None);
+-	      "+BUILD_INFO", 
++	      "+BUILD_INFO",
+ 	        (if build_info <> "" then Some build_info else None);
+ 	      "+PRESERVE",
+ 	        (if preserve then Some "This package must not be deleted\n"
+ 		 else None)
+ 	    ]
+-	 )) 
++	 ))
+   in
+ object(self : 'self)
+   method name = name
+@@ -531,32 +532,71 @@
+     | None ->
+ 	failwith "Godi_ptool.binary_of_dispersed_package"
+     | Some root ->
+-	let ar = Pax.create (`File out_file) `Gzip `Tar in
+-	let now = Int64.of_float(Unix.time()) in
+-
+-	(* Append the meta data first. *)
+-	List.iter
+-	  (fun (n,v) ->
+-	     Pax.add_element_from_string
+-	       ~name:n
+-	       ~mode:0o444
+-	       ~mtime:now
+-	       ~filetype:`Regular
+-	       ar
+-	       v
+-	  )
+-	  dpkg#meta_data;
+-
+-	(* Append package contents *)
+-	List.iter
+-	  (fun file ->
+-	     Pax.add_element_from_file
+-	       ~prefix:root
+-	       ar
+-	       file
+-	  )
+-	  dpkg # dispersion # files;
+-
+-	Pax.close_out ar;
++      let tmp_dir = Godi_file.allocate_tmpdir () in
++      Pax.try_finally ( fun tmp_dir ->
++        let p_tmp_dir = Godi_file.tmpdir_path tmp_dir in
++        let file_list = Godi_file.addname p_tmp_dir "files"
++        and file_list_meta = Godi_file.addname p_tmp_dir "meta_files" in
++        let fch_closed = ref false in
++        let fch = Godi_file.open_out_gen
++          [Open_wronly; Open_creat; Open_binary]
++          0o444
++          file_list
++        in
++        Pax.try_finally ( fun fch ->
++          let fchm_closed = ref false in
++          let fchm = Godi_file.open_out_gen
++            [Open_wronly; Open_creat; Open_binary]
++            0o444
++            file_list_meta
++          in
++          Pax.try_finally ( fun fchm ->
++            let to_file (n,v) =
++              let n' = Godi_file.addname p_tmp_dir n in
++              let och = Godi_file.open_out_gen
++                [Open_wronly; Open_creat; Open_binary]
++                0o444
++                n'
++              in
++              Pax.try_finally ( fun och ->
++                Pervasives.output_string och v;
++                Pervasives.output_string fchm n;
++                Pervasives.output_char fchm '\000';
++              ) och ( fun och -> Pervasives.close_out och ) och
++            in
++            List.iter to_file dpkg#meta_data;
++            let f file =
++              Pervasives.output_string fch file;
++              Pervasives.output_char fch '\000';
++            in
++	    List.iter f dpkg#dispersion#files;
++            fchm_closed := true;
++            Pervasives.close_out fchm ;
++            fch_closed := true;
++            Pervasives.close_out fch ;
++            (* default fast *)
++            (try ignore (Sys.getenv "XZ_OPT") with | _ -> Unix.putenv "XZ_OPT" "-1" );
++            Godi_exec.call_cmd
++              ~stdout:con.protocol
++              ~stderr:`Like_stdout
++              ((Godi_file.nativename (Godi_file.filename Godi_conf.cmd_tar)),
++               [| "--format=ustar";
++                  "--numeric-owner";
++                  "-chJf" ;
++                  (Godi_file.slashname out_file);
++                  "-C";
++                  (Godi_file.slashname p_tmp_dir) ;
++                  "--null";
++                  "-T";
++                  (Godi_file.slashname file_list_meta);
++                  "-C";
++                  (Godi_file.slashname root) ;
++                  "--null" ;
++                  "-T";
++                  (Godi_file.slashname file_list);
++               |] ) ;
+ 	Godi_query.get_binary_package out_file
++          ) fchm ( fun fchm -> if !fchm_closed <> false then Pervasives.close_out fchm ) fchm
++        ) fch ( fun fch -> if !fch_closed <> false then Pervasives.close_out fch ) fch
++      ) tmp_dir ( fun tmp_dir -> Godi_file.release_tmpdir tmp_dir ) tmp_dir
+ ;;

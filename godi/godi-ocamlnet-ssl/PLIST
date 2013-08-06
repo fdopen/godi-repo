@@ -1,0 +1,4 @@
+@comment $GODI$
+@dllfindlib equeue-ssl
+@findlib rpc-ssl
+@deepdir doc/godi-ocamlnet-ssl

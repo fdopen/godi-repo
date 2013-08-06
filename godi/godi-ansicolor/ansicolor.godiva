@@ -1,0 +1,14 @@
+Package: godi-ansicolor
+Version: 0.5
+Revision: 0
+Depends: godi-ocaml (>= 3.08)
+Build-Depends: godi-ocamlmakefile, godi-findlib
+Sources: http://projects.phauna.org/ansicolor/release/ansicolor-%v.tar.gz
+Homepage: http://projects.phauna.org/ansicolor/
+Maintainer: Owen Gunden <ogunden@phauna.org>
+Options: opt
+Docfiles: COPYING
+Description: Simple ANSI terminal color library.
+A very simple library for producing colorful text (and other effects)
+on ANSI-compatible terminals.
+.

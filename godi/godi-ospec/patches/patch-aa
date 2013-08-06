@@ -1,0 +1,9 @@
+--- ../../work-ref/ospec-0.3.0/src/META	2012-09-17 13:43:08.000000000 +0200
++++ ./src/META	2013-05-15 23:09:03.696000000 +0200
+@@ -1,5 +1,5 @@
+ name = "ospec"
+-version = "0.2.1"
++version = "0.3.0"
+ description = "BDD for OCaml"
+ requires = "camlp4"
+ archive(syntax,preprocessor) = "pa_spec.cmo"

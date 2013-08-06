@@ -1,0 +1,5 @@
+@comment $GODI$
+@findlib ocamltop-gtk
+@deepdir doc/apps-ocamltop-gtk
+gui/bin/mk-ocamltop-gtk
+gui/bin/ocamltop-gtk

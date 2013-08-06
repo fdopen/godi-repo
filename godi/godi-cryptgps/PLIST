@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib cryptgps
+@deepdir doc/godi-cryptgps

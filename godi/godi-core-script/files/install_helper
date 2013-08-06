@@ -1,0 +1,89 @@
+# initial checks
+# make sure that we are inside cygwin an essential
+# variables are defined
+
+# should already be set by the calling script
+set -e
+
+is_cygwin_test=`uname -s 2>/dev/null || echo b`
+case "a${is_cygwin_test}" in
+    aCYGWIN*) ;;
+    *)
+	echo "this script is intended for cygwin only" >&2
+	exit 1
+	;;
+esac    
+
+GODI_PREFIX_WIN=`cygpath -m "$GODI_PREFIX"`
+
+# helper functions for file replacement
+# some files need to be altered during the installation
+# because of changed installation folders, etc.
+# we make a backup of each file and save the checksum for
+# the new file.
+# During deinstallation we will restore the original file
+# only if it wasn't altered. This is necessary in order to
+# surpress error messages of godi
+
+make_backup_real(){
+    local do_echo ofile bfile
+    do_echo=$1
+    if [ -h "$2" ] ; then
+	echo "I won't make a backup of a symbolic link" >&2
+	exit 1
+    fi
+    ofile=`cygpath "$2"`
+    ofile=`readlink -f "$ofile"`
+    bfile=`echo "$ofile" | sed -e 's|[:\\/]|X|g'`
+    bfile="${GODI_PREFIX}/var/backups/${bfile}.orig"
+    mkdir -p "${GODI_PREFIX}/var/backups"
+    cp -p "$ofile" "$bfile"
+    if [ $do_echo -eq 1 ]; then
+	echo "$bfile"
+    fi
+}
+
+make_backup_echo() {
+    make_backup_real 1 "$@"
+}
+
+make_backup() {
+    make_backup_real 0 "$@"
+}
+
+save_checksum() {
+    local ofile cfile
+    if [ -h "$1" ] ; then
+	echo "I won't compute a checksum of a symbolic link" >&2
+	exit 1
+    fi
+    ofile=`cygpath "$1"`
+    ofile=`readlink -f "$ofile"`
+    cfile=`echo "$ofile" | sed -e 's|[:\\/]|X|g'`
+    cfile="${GODI_PREFIX}/var/backups/${cfile}.sha1"
+    mkdir -p "${GODI_PREFIX}/var/backups"
+    sha1sum "$ofile" >"$cfile"
+}
+
+replace_and_backup() {
+    make_backup "$1"
+    printf "%s" "$2" > "$1"
+    save_checksum "$1"
+}
+
+restore_backup(){
+    local ofile tfile cfile bfile
+    if [ -f "$1" ] && [ ! -h "$1" ] ; then
+	ofile=`cygpath "$1"`
+	ofile=`readlink -f "$ofile"`
+
+	tfile=`echo "$ofile" | sed -e 's|[:\\/]|X|g'`
+	cfile="${GODI_PREFIX}/var/backups/${tfile}.sha1"
+	bfile="${GODI_PREFIX}/var/backups/${tfile}.orig"
+
+	if [ -f "$bfile" ] && sha1sum --status --check "$cfile" ; then
+	    cp -p "$bfile" "$ofile" || echo "restore failed" >&2
+	fi
+	rm -f "$bfile" "$cfile"
+    fi
+}

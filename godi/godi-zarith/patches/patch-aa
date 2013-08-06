@@ -1,0 +1,80 @@
+--- ../../work-ref/zarith-1.2/configure	2013-04-24 13:54:49.000000000 +0200
++++ ./configure	2013-05-22 10:14:25.956400000 +0200
+@@ -231,7 +231,7 @@
+ 
+ # directories
+ 
+-if test "$ocamllibdir" = "auto"; then ocamllibdir=`ocamlc -where`; fi
++if test "$ocamllibdir" = "auto"; then ocamllibdir=`ocamlc -where | tr -d '\r'`; fi
+ 
+ # fails on Cygwin:
+ # if test ! -f "$ocamllibdir/caml/mlvalues.h"
+@@ -258,7 +258,7 @@
+ if test $? -eq 1 -a $ocamlfind != "no"; then 
+     instmeth='findlib'
+     if test "$installdir" = "auto"
+-    then installdir=`ocamlfind printconf destdir`; fi
++    then installdir=`ocamlfind printconf destdir | tr -d '\r'`; fi
+ else
+     searchbin install
+     if test $? -eq 1; then instmeth='install'
+@@ -383,6 +383,20 @@
+         ;;
+ esac
+ 
++exec_suffix=''
++so_suffix='.so'
++systype=`uname -s`
++case "$systype" in
++    CYGWIN*)
++	exec_suffix='.exe' 
++	so_suffix='.dll'
++	;;
++    MINGW*)
++	exec_suffix='.exe'
++	so_suffix='.dll'
++	;;
++esac
++
+ # dump Makefile
+ 
+ cat > Makefile <<EOF
+@@ -395,6 +409,8 @@
+ OCAMLMKLIB=$ocamlmklib
+ OCAMLDOC=$ocamldoc
+ OCAMLFLAGS=$mlflags
++EXEC_SUFFIX=$exec_suffix
++DLL_SUFFIX=$so_suffix
+ OCAMLOPTFLAGS=$mloptflags
+ OCAMLINC=$mlinc
+ CFLAGS=$ccinc $ccdef $ccopt
+--- ../../work-ref/zarith-1.2/META	2012-04-30 21:28:21.000000000 +0200
++++ ./META	2013-05-22 10:14:25.956400000 +0200
+@@ -1,5 +1,5 @@
+ description = "Arbitrary precision integers"
+ requires = ""
+-version = "1.1"
++version = "1.2"
+ archive(byte) = "zarith.cma"
+ archive(native) = "zarith.cmxa"
+--- ../../work-ref/zarith-1.2/project.mak	2012-12-10 10:47:31.000000000 +0100
++++ ./project.mak	2013-05-22 10:30:25.699600000 +0200
+@@ -18,7 +18,9 @@
+ else
+ OBJSUFFIX    := o
+ LIBSUFFIX    := a
+-ifeq "$(shell $(OCAMLC) -config |grep system)" "system: mingw"
++WSYSTEM=$(shell $(OCAMLC) -config |grep system | awk '{print $$2}')
++
++ifeq ($(WSYSTEM),$(filter $(WSYSTEM),mingw mingw64))
+ DLLSUFFIX    := dll
+ EXE          := .exe
+ else
+@@ -27,7 +29,6 @@
+ endif
+ endif
+ 
+-
+ # project files
+ ###############
+ 

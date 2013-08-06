@@ -1,0 +1,5 @@
+bin/gdbus-codegen
+bin/glib-gettextize
+share/gdb/auto-load/usr/*-w64-mingw32/sys-root/mingw/lib/libglib-2.0.so.*-gdb.py
+share/gdb/auto-load/usr/*-w64-mingw32/sys-root/mingw/lib/libgobject-2.0.so.*-gdb.py
+share/glib-2.0/codegen/config.py

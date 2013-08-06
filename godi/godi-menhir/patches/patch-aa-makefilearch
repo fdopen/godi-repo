@@ -1,0 +1,20 @@
+--- Makefile.arch.orig	2012-01-23 09:57:40.000000000 +0000
++++ Makefile.arch	2012-09-19 12:11:46.606800000 +0000
+@@ -1,10 +1,14 @@
+-# If ocaml reports that Sys.os_type is Unix, we assume Unix, otherwise
+-# we assume Windows.
++OSTYPE=$(shell ocamlc -config | grep '^os_type: ' | awk '{print $$2}')
+ 
+-ifeq "$(shell rm -f ./o.ml && echo print_endline Sys.os_type > ./o.ml && ocaml ./o.ml && rm -f ./o.ml)" "Unix"
++ifneq ($(OSTYPE),Win32)
+ MENHIREXE    := menhir
+ OBJ          := o
+ else
++SSTYPE=$(shell ocamlc -config | grep '^system: ' | awk '{print $$2}')
+ MENHIREXE    := menhir.exe
++ifeq ($(SSTYPE),$(filter $(SSTYPE),mingw mingw64))
++OBJ          := o
++else
+ OBJ          := obj
+ endif
++endif

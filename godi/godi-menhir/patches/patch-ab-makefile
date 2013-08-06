@@ -1,0 +1,16 @@
+--- Makefile.orig	2012-01-23 09:57:40.000000000 +0000
++++ Makefile	2012-09-19 12:02:30.404400000 +0000
+@@ -62,7 +62,13 @@
+ 
+ all:
+ 	rm -f src/installation.ml
++ifneq ($(OSTYPE),Win32)
+ 	echo "let libdir = \"${libdir}\"" > src/installation.ml
++else
++	echo "let libdir = Filename.concat (Filename.concat \
++	     (Filename.dirname (Filename.dirname Sys.executable_name))  \
++	      \"share\") \"menhir\"  " > src/installation.ml
++endif
+ 	if $(USE_OCAMLFIND) ; then \
+ 	  echo "let ocamlfind = true" >> src/installation.ml ; \
+ 	else \

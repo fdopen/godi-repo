@@ -1,0 +1,32 @@
+This is the findlib package manager for O'Caml:
+
+
+The "findlib" library provides a scheme to manage reusable software
+components (packages), and includes tools that support this
+scheme. Packages are collections of OCaml modules for which
+metainformation can be stored. The packages are kept in the filesystem
+hierarchy, but with strict directory structure. The library contains
+functions to look the directory up that stores a package, to query
+metainformation about a package, and to retrieve dependency
+information about multiple packages. There is also a tool that allows
+the user to enter queries on the command-line. In order to simplify
+compilation and linkage, there are new frontends of the various OCaml
+compilers that can directly deal with packages.
+ 
+Together with the packages metainformation is stored. This includes a
+version string, the archives the package consists of, and additional
+linker options. Packages can also be dependent on other
+packages. There is a query which finds out all predecessors of a list
+of packages and sorts them topologically. The new compiler frontends
+do this implicitly.
+ 
+Metainformation can be conditional, i.e. depend on a set of
+predicates. This is mainly used to be able to react on certain
+properties of the environment, such as if the bytecode or the native
+compiler is invoked, if the application is multi-threaded, and a few
+more. If the new compiler frontends are used, most predicates are
+found out automatically.
+ 
+There is special support for scripts. A new directive, "#require",
+loads packages into scripts. Of course, this works only with newly
+created toploops which include the "findlib" library.

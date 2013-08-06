@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (calendar-2.03.2.tar.gz) = 64336839fdc24e4bd99e08e01419b183b598831b
+Size (calendar-2.03.2.tar.gz) = 270225 bytes
+
+SHA1 (patch-aa-aconfig) = 09f53f759b51821658f1a292ac1846b24c11de8d
+SHA1 (patch-bb-bcal) = 899d2303d1b1e8a5c536fb2bb74c338bbb123d70

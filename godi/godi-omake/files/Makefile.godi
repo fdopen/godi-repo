@@ -1,0 +1,5 @@
+all:
+	./build.sh build
+
+install::
+	./build.sh install

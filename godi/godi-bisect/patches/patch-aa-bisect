@@ -1,0 +1,24 @@
+--- myocamlbuild.ml.orig	2012-11-03 20:21:53.000000000 +0000
++++ myocamlbuild.ml	2013-01-08 18:06:45.015625000 +0000
+@@ -63,16 +63,14 @@
+     let src = Pathname.mk src in
+     let dst = Pathname.mk dst in
+     let dir = Pathname.dirname dst in
+-    let cmd = Printf.sprintf "mkdir -p %s" (Pathname.to_string dir) in
+-    if Sys.command cmd <> 0 then failwith ("cannot run " ^ cmd);
++    let cmd = Printf.sprintf "mkdir %s" (Pathname.to_string dir) in
++    if Sys.file_exists dir = false then  (
++      if Sys.command cmd <> 0 then failwith ("cannot run " ^ cmd);
++    );
+     cp src dst in
+   dispatch begin function
+     | After_rules ->
+-        let camlp4of =
+-          try
+-            let path_bin = Filename.concat (Sys.getenv "PATH_OCAML_PREFIX") "bin" in
+-            Filename.concat path_bin "camlp4of"
+-          with _ -> "camlp4of" in
++        let camlp4of = "camlp4of" in
+         flag ["ocaml"; "compile"; "pp_camlp4of"] (S[A"-pp"; A camlp4of]);
+         flag ["ocaml"; "pp:dep"; "pp_camlp4of"] (S[A camlp4of]);
+         flag ["ocaml"; "compile"; "use_compiler_libs"] (S[A"-I"; A"+compiler-libs"]);

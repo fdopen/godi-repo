@@ -1,0 +1,14 @@
+Package: godi-tophide
+Version: 1.0.0
+Revision: 1
+Depends: godi-ocaml (>= 3.09)
+Build-Depends: godi-findlib
+Sources: http://martin.jambon.free.fr/tophide-1.0.0.tar.gz
+Homepage: http://martin.jambon.free.fr/ocaml.html
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: 
+Description: Hides toplevel values whose name starts with an underscore.
+Tophide hides toplevel values whose name starts with an underscore.
+This is useful for some Camlp4 syntax extensions that produce
+lots of global identifiers that should remain hidden.
+.

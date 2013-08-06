@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (lablgtkextras-1.3.tar.gz) = b737febd3c87774d80ac68b6642f3d6a111e5a9f
+Size (lablgtkextras-1.3.tar.gz) = 109713 bytes
+
+SHA1 (patch-01-1configureac) = 4fd59e206059247bc95dd1a8fe4d1bdb00085207
+SHA1 (patch-02-2configure) = 32891a9d280af8e1c764d9241112fd687daf1437
+SHA1 (patch-04-04gtksv) = b4aca14c46ecb87cee49a57c6e2bfa81c63cf783
+SHA1 (patch-05-05configwin) = 961f08cb06f0ea94f85f09732dd77be1f5632f03

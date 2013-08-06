@@ -1,0 +1,10 @@
+--- tests/combine-expr/Makefile.orig	2012-11-03 20:21:53.000000000 +0000
++++ tests/combine-expr/Makefile	2013-02-09 16:40:42.859375000 +0000
+@@ -20,6 +20,6 @@
+ 	@$(REPORT) -dump combined3-result.dump -combine-expr 'notnull(sum(<first*.out>))*2 + notnull(sum(<second*.out>))'
+ 	@(for name in first second combined1 combined2 combined3; do \
+ 		echo "     testing '$$name' ouput ..."; \
+-		diff -q $$name-result.dump $$name-reference.dump && rm -f $$name-result.dump; \
++		diff -b -q $$name-result.dump $$name-reference.dump && rm -f $$name-result.dump; \
+ 	done || exit 0)
+ 	@rm -f *.cm* *.out *.o *.jo $(EXECUTABLE)

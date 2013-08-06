@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (ocaml-uint-1.1.0.tar.gz) = 75ad7294f8c8b08ab1eed11498e6950bdff3e728
+Size (ocaml-uint-1.1.0.tar.gz) = 47114 bytes
+
+SHA1 (patch-aa-cma) = ff4ebc4f06362dfbb151018ea1b7161aa257c6cd

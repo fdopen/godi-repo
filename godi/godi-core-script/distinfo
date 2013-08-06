@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (godi-tools-3.0.18.tar.gz) = 84f3e0dd4ee257836d24605b3adb2d2e6aee7676
+Size (godi-tools-3.0.18.tar.gz) = 556082 bytes
+
+SHA1 (patch-aa-all) = 2e8ff2dd637fe8d34010c59a2048b7ade4fb055f
+SHA1 (patch-bb-qpublic) = b9d00b134cb3e4d5fdaa4573d05bc8b4664f125e
+SHA1 (patch-bf-bfmakefilescript) = ccc5cb405eeefb92ff44c15ae9bc84d381d35e3a
+SHA1 (patch-bg-bgscriptwrapper) = 9577004a48ecde0bd3b331ec96feccc37c69159e
+SHA1 (patch-cc-cbdspkgmk) = 073efd7565245c2d36de4859718af6c6561f0963

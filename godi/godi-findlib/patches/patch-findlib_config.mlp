@@ -1,0 +1,8 @@
+--- src/findlib/findlib_config.mlp.orig	2012-06-08 14:14:41.000000000 +0200
++++ src/findlib/findlib_config.mlp	2012-08-09 13:16:42.000000000 +0200
+@@ -24,3 +24,5 @@
+     | "MacOS" -> ""        (* don't know *)
+     | _ -> failwith "Unknown Sys.os_type"
+ ;;
++
++let exec_suffix = "@EXEC_SUFFIX@";;

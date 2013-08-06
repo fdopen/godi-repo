@@ -1,0 +1,13 @@
+Package: apps-godiva
+Version: 0.9.7
+Revision: 0
+Depends: godi-ocaml (>= 3.07)
+Build-Depends: godi-ocamlmakefile, godi-xstrp4 (>= 1.4)
+Sources: http://projects.phauna.org/godiva/release/godiva-%v.tar.gz
+Homepage: http://projects.phauna.org/godiva/
+Maintainer: Owen Gunden <ogunden@phauna.org>
+Docfiles: COPYING
+Description: High-level tool for simplifying the creation of GODI packages.
+GODIVA (standing for GODI Verpacken Assistant) is a tool for creating GODI
+packages from simple specification files.  It rocks!
+.

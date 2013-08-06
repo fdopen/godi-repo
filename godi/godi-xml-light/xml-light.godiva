@@ -1,0 +1,17 @@
+Package: godi-xml-light
+Version: 2.2
+Revision: 1
+Depends: godi-ocaml (>= 3.08)
+Build-Depends: godi-findlib
+Sources: http://mirrors.phauna.org/pub/tech.motion-twin.com/zip/xml-light-2.2.tar.gz
+Bytecode-Target: all
+Opt-Target: opt
+Homepage: http://tech.motion-twin.com/xmllight
+Maintainer: Owen Gunden <ogunden@phauna.org>
+Options: opt
+Docfiles: README, doc
+Description: minimal XML parser & pretty printer
+XML Light is a minimal XML parser & printer for OCaml. It provides functions to
+parse an XML document into an OCaml data structure, work with it, and print it
+back to an XML document.
+.

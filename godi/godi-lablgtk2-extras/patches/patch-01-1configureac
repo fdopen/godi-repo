@@ -1,0 +1,58 @@
+--- configure.ac.orig	2012-12-07 11:37:58.000000000 +0100
++++ configure.ac	2012-12-08 19:40:13.275769279 +0100
+@@ -42,31 +42,34 @@
+ [ WINDOWS=1])
+ 
+ if test ${WINDOWS} = 1 ; then
+-  INCS='-I "C:\ocamlmgw\lib"  -I "C:\ocamlmgw\lib\lablgtk2" -ccopt "-LC:/opt/gtk/lib"';
+-  echo '
+-OCAMLDEP="ocamldep.opt"
+-OCAMLYACC="ocamlyacc"
+-OCAMLDOC="ocamldoc"
+-OCAMLLIB="/cygdrive/c/ocamlmgw/lib"
+-OCAMLDOC_OPT="ocamldoc.opt"
+-OCAMLMKTOP="ocamlmktop"
+-OCAMLPROF="ocamlprof"
+-OCAMLBIN="/cygdrive/c/ocamlmgw/bin"
+-OCAMLC="ocamlc.opt"
+-OCAMLDOC_PLUGINSDIR="/cygdrive/c/ocamlmgw/lib/ocamldoc/custom"
+-OCAMLFIND="ocamlfind"
+-CAMLP4="camlp4"
+-OCAMLLEX="ocamllex.opt"
+-OCAML="ocaml"
+-OCAMLOPT="ocamlopt.opt"
+-OCAMLMKLIB="ocamlmklib"
+-MENHIR="menhir"
+-' > ./ocaml_config.sh
++  lablgtkconf=`ocamlfind -query -i-format lablgtk2 | tr -d '\r'`
++  gtklibs=`pkg-config --libs gtk+-2.0 | tr -d '\r'`
++  OCAMLLIB=`ocamlc -where | tr -d '\r'`
++  INCS="-I \"$OCAMLLIB\" ${lablgtkconf}  -ccopt \"${gtklibs}\"";
++  OCAMLDEP="ocamldep.opt.exe"
++  OCAMLYACC="ocamlyacc.exe"
++  OCAMLDOC="ocamldoc.exe"
++  OCAMLDOC_OPT="ocamldoc.opt.exe"
++  OCAMLMKTOP="ocamlmktop.exe"
++  OCAMLPROF="ocamlprof.exe"
++  OCAMLBIN=`which ocaml`
++  OCAMLBIN=`cygpath "$OCAMLBIN"`
++  OCAMLBIN=`dirname "$OCAMLBIN"`
++  OCAMLC="ocamlc.opt.exe"
++  OCAMLDOC_PLUGINSDIR="${OCAMLLIB}/ocamldoc/custom"
++  OCAMLFIND="ocamlfind.exe"
++  CAMLP4="camlp4.exe"
++  OCAMLLEX="ocamllex.opt.exe"
++  OCAML="ocaml.exe"
++  OCAMLOPT="ocamlopt.opt.exe"
++  OCAMLMKLIB="ocamlmklib.exe"
++  MENHIR="menhir.exe"
+ else
+   ocaml unix.cma str.cma checkocaml.ml ocaml_config.sh || exit 1
++  . ./ocaml_config.sh
+ fi
+ rm -f foo.os foo.os2
+-. ./ocaml_config.sh
++
+ 
+ # Windows shit
+ if test ${WINDOWS} = 1 ; then

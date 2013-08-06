@@ -1,0 +1,6 @@
+ATD stands for Adjustable Type Definitions.  It is a type definition
+language designed to accomodate a variety of programming languages and data
+formats by the means of target-specific annotations.  It supports sum
+types, parametrized types and inheritance.  The library provides a parser
+and other tools useful for manipulating ATD type definitions.  The
+reference manual gives a complete description of the syntax. 

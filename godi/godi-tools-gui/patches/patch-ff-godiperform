@@ -1,0 +1,254 @@
+--- console-src/godi-pkg/godi_perform.ml.orig	2012-12-30 21:34:31.000000000 +0000
++++ console-src/godi-pkg/godi_perform.ml	2013-02-10 11:35:00.750000000 +0000
+@@ -457,12 +457,13 @@
+ ;;
+ 
+ 
++(*
+ let extract_binary_archive con bin_arch =
+   (* Extract the archive file, and put the contents into a temporary
+    * directory. Returns the handle of this directory.
+    *)
+   let bin_stage = Godi_file.allocate_tmpdir() in
+-  let ar = Pax.read (`File bin_arch) `Gzip `Tar in
++  let ar = Pax.read (`File bin_arch) `Xz `Tar in
+   let cont = ref true in
+   while !cont do
+     match Pax.read_element ar with
+@@ -477,6 +478,20 @@
+   Pax.close_in ar;
+   bin_stage
+ ;;
++*)
++
++(* use real tar for faster results *)
++let extract_binary_archive con bin_arch =
++  let bin_stage = Godi_file.allocate_tmpdir() in
++  let fn = Godi_file.nativename bin_arch
++  and dir = Godi_file.nativename (Godi_file.tmpdir_path bin_stage ) in
++  Godi_exec.call_cmd
++    ~stdout:con.protocol
++    ~stderr:`Like_stdout
++    ((Godi_file.nativename (Godi_file.filename Godi_conf.cmd_bsdtar)),
++     [| "-C"; dir ; "-x" ; "--no-same-owner" ; "--no-same-permissions";  "-f"; fn |]) ;
++  bin_stage
++;;
+ 
+ 
+ let delete_installed_files prefix l =
+@@ -556,7 +571,8 @@
+ 	  Not_found ->
+ 	    file_list_map := StrMap.add prefix (ref [line]) !file_list_map
+     in
+-
++    (* This is too slow for big binary archives *)
++    (*
+     (* Iterate over the plist in a first pass, and check the integrity: *)
+     List.iter
+       (function
+@@ -595,6 +611,7 @@
+ 	     ()
+       )
+       plist;
++    *)
+ 
+     (* Further variables for PLIST interpretation: *)
+     let prefix = ref "" in
+@@ -730,23 +747,21 @@
+ 		   !file_list_map) :: !onerror;
+ 	    StrMap.iter
+ 	      (fun list_prefix rev_list ->
+-		 let cp = Pax.create_copier() in
+-		 let iter =
+-		   Pax.file_iterator_of_list (List.rev !rev_list) in
++		let cp = Pax.create_copier_fast
++                  ~src_prefix:bin_stage_path
++                  ~dst_prefix:(Godi_file.filename list_prefix)
++                in
++		let iter = Pax.file_iterator_of_list
++                  (List.rev !rev_list)
++                in
+ 		 let cont = ref true in
+ 		 while !cont do
+ 		   match Pax.next_file iter with
+ 		     | None -> cont := false
+ 		     | Some n ->
+-			 Pax.copy_file
+-			   ~prefer_link:true
+-			   ~src_prefix:bin_stage_path
+-			   ~preserve_mtime:true
+-			   cp
+-			   n
+-			   (Godi_file.filename list_prefix)
++                    Pax.copy_file_fast cp n
+ 		 done;
+-		 Pax.postprocess_copying cp
++	        Pax.postprocess_copying_fast cp
+ 	      )
+ 	      !file_list_map;
+ 
+@@ -839,6 +854,11 @@
+   (installed_pkg inst_pkg) # update_successor_file con
+ ;;
+ 
++let release_tmpdir_fast dir =
++  Godi_exec.call_cmd
++    ((Godi_file.nativename (Godi_file.filename Godi_conf.cmd_rm)),
++     [| "-rf"; Godi_file.slashname (Godi_file.tmpdir_path dir) |]) ;;
++
+ 
+ let add_pkg ?(mode = `Normal)
+             con pkg =
+@@ -869,7 +889,7 @@
+     onerror := (fun () -> bin_pkg # release_binary_archive()) :: !onerror;
+ 
+     let bin_stage = extract_binary_archive con bin_arch in
+-    onerror := (fun () -> Godi_file.release_tmpdir bin_stage) :: !onerror;
++    onerror := (fun () -> release_tmpdir_fast bin_stage) :: !onerror;
+ 
+     let plist = get_binary_plist bin_stage in
+ 
+@@ -941,7 +961,7 @@
+     );
+ 
+     (* Cleanup: *)
+-    Godi_file.release_tmpdir bin_stage;
++    release_tmpdir_fast bin_stage;
+     bin_pkg # release_binary_archive();
+     onerror := [];
+ 
+@@ -1113,6 +1133,80 @@
+ ;;
+ 
+ 
++let self_copy_script = "#!/bin/bash
++
++set -e
++
++godi_dir=\"$(dirname \"$(godi_confdir)\")\"
++godi_conf=\"${godi_dir}/etc/godi.conf\"
++godi_sbin_dir=\"${godi_dir}/sbin\"
++godi_sbin_tmp_dir=\"${godi_dir}/sbin.tmp\"
++godi_console=\"${godi_sbin_dir}/godi_console.exe\"
++
++if [ ! -d \"$godi_sbin_dir\" ]; then
++    echo \"godi sbin dir missing\" >&2
++    exit 1
++fi
++if [ ! -x \"$godi_console\" ] ; then
++    echo \"godi_console missing\" >&2
++    exit 1
++fi
++if [ ! -f \"$godi_conf\" ]; then
++    echo \"godi.conf not found\" >&2
++    exit 1
++fi
++
++OBJDUMP=\"$(godi_make -f \"${godi_conf}\" -V MINGW_TOOL_PREFIX || echo '')\"
++OBJDUMP=\"${OBJDUMP}objdump\"
++
++declare -A mymap
++
++oldIFS=$IFS
++IFS='
++'
++
++all_dlls=\"$($OBJDUMP -p \"$godi_console\" | grep 'DLL Name:' | awk '{print $3}')\"
++while read dll ; do
++    if [ -z \"$dll\" ] || [ ! -f \"${godi_sbin_dir}/${dll}\" ] ; then
++	continue
++    fi
++    mymap[$dll]=1
++done <<EOF
++\"$all_dlls\"
++EOF
++
++mkdir -p \"$godi_sbin_tmp_dir\"
++cp -p \"$godi_console\" \"$godi_sbin_tmp_dir\"
++cp -p \"${godi_sbin_dir}/bsdtar.exe\" \"$godi_sbin_tmp_dir\"
++cp -p \"${godi_sbin_dir}/bsdcpio.exe\" \"$godi_sbin_tmp_dir\"
++
++new_found=1
++while [ $new_found -eq 1 ]; do
++    new_found=0
++    for dll in ${!mymap[@]} ; do
++	value=${mymap[$dll]}
++	if [ $value -eq 1 ]; then
++	    mymap[$dll]=2
++	    cp -p \"${godi_sbin_dir}/${dll}\" \"${godi_sbin_tmp_dir}\"
++            all_dlls=\"$($OBJDUMP -p \"${godi_sbin_dir}/${dll}\" | grep 'DLL Name:' | awk '{print $3}')\"
++	    while read ndll ; do
++		if [ -z \"$ndll\" ] || [ \"a${mymap[$ndll]}\" = \"a1\" ] || \
++                    [ \"a${mymap[$ndll]}\" = \"a2\" ] || [ ! -f \"${godi_sbin_dir}/${ndll}\" ] ; then
++		    continue
++		fi
++		mymap[$ndll]=1
++		new_found=1
++	    done <<EOF
++\"$all_dlls\"
++EOF
++	fi
++    done
++done
++IFS=$oldIFS
++
++exit 0"
++
++
+ let build_pkg ?(pref_user_error=false)
+               ?(catch_self = Some "godi-tools") con pkg =
+   if pkgtype pkg <> `Source then
+@@ -1163,22 +1257,40 @@
+ 		       let sh_cmd = cmd1 ^ cmd2 in
+ 		       raise (Restart_recommended sh_cmd)
+ 		   | `Complete ->
+-		       let tmpdir_h = Godi_file.allocate_tmpdir() in
+-		       let tmpdir = Godi_file.tmpdir_path tmpdir_h in
+-		       (* This use of Filename is ok: *)
+-		       let xfilename = Filename.basename Sys.executable_name in
+-		       let self_copy = Godi_file.addname tmpdir xfilename in
+-		       Godi_file.copy
+-			 (Godi_file.filename Sys.executable_name)
+-			 self_copy;
+-		       let cmd1 = sprintf "%s delete -f %s\n" 
+-			 (Godi_file.slashname self_copy)
++                     let (filename,ch) = Filename.open_temp_file ~mode:[ Open_binary ] "script" ".sh" in
++                     let filename_deleted = ref false in
++                     try
++                       let ch_closed = ref false in
++                       try
++                         for i = 0 to String.length filename - 1 do
++                           match filename.[i] with
++                           | '\\' -> filename.[i] <- '/'
++                           | _ -> ()
++                         done;
++                         output_string ch self_copy_script;
++                         ch_closed := true;
++                         close_out ch;
++                         Godi_exec.call_cmd
++                           ~stdout:con.protocol
++		           ~stderr:`Like_stdout
++		           ~interactivity:con.interactivity
++                           ("/bin/bash", [| filename |]  );
++                         filename_deleted := true;
++                         Sys.remove filename;
++                         let self_copy = Godi_file.uquote (Godi_file.slashname ( Godi_file.filename (
++                           ( Godi_query.localbase () ) ^ "/sbin.tmp/godi_console.exe" )))
++                         in
++		         let cmd1 = sprintf "%s delete -f %s\n" self_copy
+ 			 (Godi_file.uquote (source_pkg pkg)#name) in
+-		       let cmd2 = sprintf "%s add %s\n"
+-			 (Godi_file.slashname self_copy)
++		         let cmd2 = sprintf "%s add %s\n" self_copy
+ 			 (Godi_file.uquote (Godi_file.slashname sup)) in
+-		       let sh_cmd = cmd1 ^ cmd2 in
++		         let sh_cmd = "export GODI_TOOL_SELF_UPDATE=1\n" ^ cmd1 ^ cmd2 in
+ 		       raise (Restart_recommended sh_cmd)
++                       with
++                       | x when !ch_closed = false -> close_out_noerr ch ; raise x
++                     with
++                     | x when !filename_deleted = false ->
++                        (try Sys.remove filename with _ -> () ); raise x
+ 	       )
+ 	       else (
+ 		 (* In the normal case, run these commands directly: *)

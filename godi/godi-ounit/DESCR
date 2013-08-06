@@ -1,0 +1,6 @@
+OUnit is a unit test framework for OCaml by Maas-Maarten Zeeman and Sylvain Le Gall.
+
+OUnit is based on HUnit, a unit testing framework for Haskell.
+
+More information can be found at the homepage:
+http://ounit.forge.ocamlcore.org/

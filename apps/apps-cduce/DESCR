@@ -1,0 +1,9 @@
+CDuce is a programming language adapted to XML processing.
+Main features:
+- functional
+- strong static typing + dynamic dispatch
+- powerful XML types and patterns (regular expressions)
+
+Note:
+CDuce can take advantage of the pxp, expat, curl, and netclient library
+if available.

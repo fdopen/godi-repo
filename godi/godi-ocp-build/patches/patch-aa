@@ -1,0 +1,221 @@
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildConfig.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildConfig.ml	2013-07-29 23:16:53.537600000 +0200
+@@ -49,7 +49,7 @@
+   Unix.putenv "PATH" (String.concat sep_PATH_str path)
+ 
+ let check_command_exists filename =
+-  let st = Unix.stat filename in
++  let st = BuildMisc.unix_stat filename in
+   match st.Unix.st_kind with
+       Unix.S_REG ->
+ 	begin
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngine.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildEngine.ml	2013-07-29 23:16:53.537600000 +0200
+@@ -652,7 +652,7 @@
+ 	  | FILE_REAL ->
+ 	  try
+             let filename = file_filename f in
+-	    ignore ( Unix.stat filename : Unix.stats);
++	    ignore ( BuildMisc.unix_stat filename : Unix.stats);
+ 	    f.file_exists <- true;
+ 	    f.file_mtime <- BuildEngineMtime.compute filename
+ 	  with e ->
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineContext.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildEngineContext.ml	2013-07-29 23:16:53.537600000 +0200
+@@ -60,7 +60,7 @@
+    name
+ 
+ let get_file_uid filename =
+-  let st = Unix.lstat filename in
++  let st = BuildMisc.unix_lstat filename in
+   if st.Unix.st_ino = 0 &&
+     match Win32.os_type with
+       Win32.UNIX -> false
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineDisplay.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildEngineDisplay.ml	2013-07-29 23:16:53.537600000 +0200
+@@ -163,7 +163,7 @@
+       (BuildEngineRules.command_of_command cmd)
+       @ List.map (BuildEngineRules.argument_of_argument r) cmd.cmd_args
+     in
+-    let has_stderr = (Unix.stat (temp_stderr b r)).Unix.st_size > 0 in
++    let has_stderr = (BuildMisc.unix_stat (temp_stderr b r)).Unix.st_size > 0 in
+     begin
+       if verbose 2 then begin
+         Printf.eprintf "[%d.%d]   END(%d) '%s'\n%!" r.rule_id proc.proc_step
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineMtime.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildEngineMtime.ml	2013-07-29 23:16:53.537600000 +0200
+@@ -29,7 +29,7 @@
+   if !use_digests then
+     Digest (Digest.file filename)
+   else
+-    let st = Unix.lstat filename in
++    let st = BuildMisc.unix_lstat filename in
+     Inode (st.Unix.st_dev, st.Unix.st_ino, st.Unix.st_mtime)
+ 
+ let use_digests bool = use_digests := bool
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildMisc.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildMisc.ml	2013-07-29 23:16:53.553200000 +0200
+@@ -336,3 +336,31 @@
+     with _ -> ()
+   end;
+   (status, List.rev !lines)
++
++
++
++let unix_stat,unix_lstat =
++  let win32 = (Sys.os_type = "Win32") in
++  let clean_fln fln =
++    let len = String.length fln in
++    if len < 2 then
++      fln
++    else
++      match fln.[len-1] with
++      | '\\' | '/' ->
++        if len = 3 && fln.[1] = ':' then
++          fln
++        else
++          String.sub fln 0 (len - 1)
++      | _ -> fln
++  in
++  ( fun fln ->
++    if win32 then
++      Unix.stat (clean_fln fln)
++    else
++      Unix.stat fln ),
++  ( fun fln ->
++    if win32 then
++      Unix.lstat (clean_fln fln)
++    else
++      Unix.lstat fln )
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildOCamlInstall.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildOCamlInstall.ml	2013-07-29 23:16:53.553200000 +0200
+@@ -136,7 +136,7 @@
+ let rec safe_mkdir where log filename =
+   let filename_d = in_destdir where filename in
+   try
+-    let st = Unix.stat filename_d in
++    let st = BuildMisc.unix_stat filename_d in
+ (*    Printf.eprintf "safe_mkdir: %S exists\n%!" filename_d; *)
+     match st.Unix.st_kind with
+       Unix.S_DIR -> ()
+@@ -159,7 +159,7 @@
+ let rec copy_rec where log src dst =
+     (*    Printf.eprintf "copy_rec: %S -> %S\n%!" src dst; *)
+   let dst_d = in_destdir where dst in
+-  let st = Unix.stat src in
++  let st = BuildMisc.unix_stat src in
+   match st.Unix.st_kind with
+   | Unix.S_DIR ->
+     safe_mkdir where log dst;
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildOCFGen.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocp-build/buildOCFGen.ml	2013-07-29 23:16:53.553200000 +0200
+@@ -53,7 +53,7 @@
+ 
+ let file_mtime filename =
+   try
+-    (Unix.lstat filename).Unix.st_mtime
++    (BuildMisc.unix_lstat filename).Unix.st_mtime
+   with _ -> max_float
+ 
+ module InstalledOCPParser = BuildOCPParse.MakeParser(struct
+--- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocplib/file.ml	2013-04-24 23:18:51.000000000 +0200
++++ ./src/ocplib/file.ml	2013-07-29 23:16:53.553200000 +0200
+@@ -35,6 +35,39 @@
+   else
+     ':'
+ 
++let clean_fln fln =
++  let len = String.length fln in
++  if len < 2 then
++    fln
++  else
++    match fln.[len-1] with
++    | '\\' | '/' ->
++      if len = 3 && fln.[1] = ':' then
++        fln
++      else
++        String.sub fln 0 (len - 1)
++    | _ -> fln
++
++
++let unix_stat fln =
++  if win32 then
++    Unix.stat (clean_fln fln)
++  else
++    Unix.stat fln
++
++let unix_lstat fln =
++  if win32 then
++    Unix.lstat (clean_fln fln)
++  else
++    Unix.lstat fln
++
++let unix_largefile_stat fln =
++  if win32 then
++    Unix.LargeFile.stat (clean_fln fln)
++  else
++    Unix.LargeFile.stat fln
++
++
+ let dir_separator_s = String.make 1 dir_separator
+ 
+ (*
+@@ -357,7 +390,7 @@
+ 
+   let rec safe_mkdir filename =
+     try
+-      let st = Unix.stat filename in
++      let st = unix_stat filename in
+       match st.Unix.st_kind with
+ 	Unix.S_DIR -> ()
+       | _ ->
+@@ -376,7 +409,7 @@
+ (* [dst] must be the target file name, not the name of its directory *)
+   let rec copy_rec src dst =
+ (*    Printf.eprintf "copy_rec: %S -> %S\n%!" src dst; *)
+-    match (Unix.stat src).Unix.st_kind with
++    match (unix_stat src).Unix.st_kind with
+     | Unix.S_DIR ->
+       safe_mkdir dst;
+       iter_dir (fun basename ->
+@@ -392,8 +425,8 @@
+ (* [dst] must be the target file name, not the name of its directory *)
+   let rec uncopy_rec src dst =
+     match
+-      (try Some (Unix.stat src).Unix.st_kind with _ -> None),
+-      (try Some (Unix.stat dst).Unix.st_kind with _ -> None)
++      (try Some (unix_stat src).Unix.st_kind with _ -> None),
++      (try Some (unix_stat dst).Unix.st_kind with _ -> None)
+     with
+     | _, None -> ()
+     | Some Unix.S_DIR, Some Unix.S_DIR ->
+@@ -608,23 +641,23 @@
+ 
+   let exists file = Sys.file_exists (to_string file)
+   let is_directory filename =
+-    try let s = Unix.stat (to_string filename) in
++    try let s = unix_stat (to_string filename) in
+         s.Unix.st_kind = Unix.S_DIR with _ -> false
+ 
+   let is_link filename =
+-    try let s = Unix.lstat (to_string filename) in
++    try let s = unix_lstat (to_string filename) in
+         s.Unix.st_kind = Unix.S_LNK with _ -> false
+ 
+ 
+   let size filename =
+-    let s = Unix.stat (to_string filename) in
++    let s = unix_stat (to_string filename) in
+     s.Unix.st_size
+ 
+-  let stat filename = Unix.stat (to_string filename)
+-  let lstat filename = Unix.lstat (to_string filename)
++  let stat filename = unix_stat (to_string filename)
++  let lstat filename = unix_lstat (to_string filename)
+ 
+   let size64 filename =
+-    let s = Unix.LargeFile.stat (to_string filename) in
++    let s = unix_largefile_stat (to_string filename) in
+     s.Unix.LargeFile.st_size
+ 
+   let getcwd () = of_string (Sys.getcwd ())

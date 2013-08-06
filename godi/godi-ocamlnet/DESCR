@@ -1,0 +1,39 @@
+Ocamlnet is an enhanced system platform library for Ocaml. As the name
+suggests, large parts of it have to do with network programming, but
+it is actually not restricted to this. Other parts deal with the
+management of multiple worker processes, and the interaction with
+other programs running on the same machine. You can also view Ocamlnet
+as an extension of the system interface as provided by the [Unix]
+module of the standard library.
+
+So, which kind of applications can profit from Ocamlnet?
+
+- Web applications can use the [netcgi2] library which provides
+  all core functionality like connecting to web servers, decomposing
+  web requests, and emitting web data. With the [nethttpd] library
+  Ocamlnet even includes a little web server of its own, so
+  stand-alone Ocaml programs can respond to HTTP requests. This is
+  especially interesting for providing high-speed HTTP-based APIs
+  like REST interfaces.
+- Client/server architectures can be built with the included SunRPC
+  support. This is a very robust and mature implementation of this
+  binary RPC protocol, both on the client and the server side. It
+  is wire-compatible with C implementations of SunRPC. There is a
+  generator for transforming SunRPC IDL files into Ocaml
+  modules. Authentication and encryption are also supported (using
+  GSS-API, or the non-standard SSL extension).
+- Compute jobs profit from Ocamlnet because the [netmulticore]
+  library allows it to run compute tasks on as many cores of the
+  machine as needed. The tasks can communicate with message passing
+  and exchange data via shared memory. Of course, [netmulticore] is 
+  strictly typed.
+- Any kind of application can cherry-pick the parts of Ocamlnet
+  that are considered useful. Especially, Ocamlnet includes a number
+  of network clients (for HTTP, FTP, Telnet, SMTP, POP), and a large
+  number of network-related string processing functions (e.g. for
+  URL's, Base64, UTF-8, mail headers). For interacting with the system
+  there are functions to invoke subcommands ([shell] library),
+  and also for globbing, sending email, and logging. Local and remote
+  filesystems can be accessed with the {!Netfs} framework. The
+  [netsys] library wraps lots of additional system calls that are
+  missing in the Ocaml standard library.

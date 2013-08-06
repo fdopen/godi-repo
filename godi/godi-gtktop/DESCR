@@ -1,0 +1,7 @@
+What is Gtktop ?
+
+Gtktop is a small OCaml library to ease the creation of graphical
+toplevels.
+
+Gtktop was previously part of Cameleon (called "Custop") but is now
+developped separately and is findlib compatible.

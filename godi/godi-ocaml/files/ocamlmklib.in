@@ -1,0 +1,6 @@
+#! /bin/sh
+
+# Wrapper script for ocamlmklib. It ensures that certain options are
+# always set.
+
+exec %%OCAMLMKLIB%% %%GODI_LDOPTS%% "$@"

@@ -1,0 +1,14 @@
+$NetBSD$
+
+SHA1 (camlidl-1.05.tar.gz) = 2a0d5ba70fea8c1de1c5387f8b2058357b2177df
+Size (camlidl-1.05.tar.gz) = 100640 bytes
+
+SHA1 (camlidl-1.05.doc.pdf) = 51d695393a8d9e96cdfa3957a9cb301ecd4325c7
+Size (camlidl-1.05.doc.pdf) = 179976 bytes
+
+SHA1 (patch-aa-lib-Makefile) = 8ae51e44898e4534f9bdeaa22c9630d3758806f1
+SHA1 (patch-ab-runtime-Makefile.unix) = 675035e9af2c2f80d00a5dcc89f2321e3bb8ea75
+SHA1 (patch-ac-Makefile) = 08ed8573690fd6a6534b62b8c31edfcbdd7753e4
+SHA1 (patch-ad-runtime-comintf.c) = 6d402200bcff67b5a447c59f03b9ff0697d011c2
+SHA1 (patch-af-runtime-Makefile.win32) = 41ef383d549c204a965b1ab7c288c3a08cb36964
+SHA1 (patch-ag-tools-Makefile.win32) = d9df5d29728605af6ece53f29431580c9e84f691

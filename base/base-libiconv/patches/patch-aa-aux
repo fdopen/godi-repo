@@ -1,0 +1,544 @@
+--- ../../work-ref/libiconv-1.14/autogen.sh	2010-09-24 01:28:15.000000000 +0200
++++ ./autogen.sh	2013-02-05 16:23:59.671875000 +0100
+@@ -65,11 +65,12 @@
+ fi
+ 
+ rm -f configure config.h.in include/iconv.h.build.in
+-rm -f lib/aliases.h lib/aliases_sysaix.h lib/aliases_syshpux.h lib/aliases_sysosf1.h lib/aliases_syssolaris.h
+-rm -f lib/aliases_aix.h lib/aliases_aix_sysaix.h
+-rm -f lib/aliases_osf1.h lib/aliases_osf1_sysosf1.h
+-rm -f lib/aliases_dos.h
+-rm -f lib/aliases_extra.h
++### We have no gperf, so don't remake these headers
++#rm -f lib/aliases.h lib/aliases_sysaix.h lib/aliases_syshpux.h lib/aliases_sysosf1.h lib/aliases_syssolaris.h
++#rm -f lib/aliases_aix.h lib/aliases_aix_sysaix.h
++#rm -f lib/aliases_osf1.h lib/aliases_osf1_sysosf1.h
++#rm -f lib/aliases_dos.h
++#rm -f lib/aliases_extra.h
+ rm -f lib/flags.h
+ rm -f lib/translit.h
+ rm -f man/iconv.1.html man/iconv.3.html man/iconv_close.3.html man/iconv_open.3.html
+--- ../../work-ref/libiconv-1.14/configure.ac	2011-08-07 19:48:03.000000000 +0200
++++ ./configure.ac	2013-02-05 16:23:51.453125000 +0100
+@@ -20,6 +20,7 @@
+ AC_INIT
+ AC_CONFIG_SRCDIR([lib/iconv.c])
+ AC_CONFIG_AUX_DIR([build-aux])
++AC_CONFIG_MACRO_DIR([m4])
+ AM_INIT_AUTOMAKE([libiconv], [1.14])
+ AC_CONFIG_HEADERS([config.h lib/config.h])
+ AC_PROG_MAKE_SET
+--- ../../work-ref/libiconv-1.14/lib/relocatable.c	2011-08-07 19:48:03.000000000 +0200
++++ ./lib/relocatable.c	2013-02-05 16:23:42.187500000 +0100
+@@ -2,20 +2,18 @@
+    Copyright (C) 2003-2006, 2008-2011 Free Software Foundation, Inc.
+    Written by Bruno Haible <bruno@clisp.org>, 2003.
+ 
+-   This program is free software; you can redistribute it and/or modify it
+-   under the terms of the GNU Library General Public License as published
+-   by the Free Software Foundation; either version 2, or (at your option)
+-   any later version.
++   This program is free software: you can redistribute it and/or modify
++   it under the terms of the GNU Lesser General Public License as published by
++   the Free Software Foundation; either version 2.1 of the License, or
++   (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU Lesser General Public License for more details.
+ 
+-   You should have received a copy of the GNU Library General Public
+-   License along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+-   USA.  */
++   You should have received a copy of the GNU Lesser General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ 
+ /* Tell glibc's <stdio.h> to provide a prototype for getline().
+@@ -87,6 +85,19 @@
+ # define FILE_SYSTEM_PREFIX_LEN(P) 0
+ #endif
+ 
++/* Whether to enable the more costly support for relocatable libraries.
++   It allows libraries to be have been installed with a different original
++   prefix than the program.  But it is quite costly, especially on Cygwin
++   platforms, see below.  Therefore we enable it by default only on native
++   Win32 platforms.  */
++#ifndef ENABLE_COSTLY_RELOCATABLE
++# if (defined _WIN32 || defined __WIN32__) && !defined __CYGWIN__
++#  define ENABLE_COSTLY_RELOCATABLE 1
++# else
++#  define ENABLE_COSTLY_RELOCATABLE 0
++# endif
++#endif
++
+ /* Original installation prefix.  */
+ static char *orig_prefix;
+ static size_t orig_prefix_len;
+@@ -156,7 +167,7 @@
+ #endif
+ }
+ 
+-#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR)
++#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE)
+ 
+ /* Convenience function:
+    Computes the current installation prefix, based on the original
+@@ -286,7 +297,7 @@
+ 
+ #endif /* !IN_LIBRARY || PIC */
+ 
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+ 
+ /* Full pathname of shared library, or NULL.  */
+ static char *shared_library_fullname;
+@@ -332,7 +343,9 @@
+ #if (defined __linux__ && (__GLIBC__ >= 2 || defined __UCLIBC__)) || defined __CYGWIN__
+   /* Linux has /proc/self/maps. glibc 2 and uClibc have the getline()
+      function.
+-     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.  */
++     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.
++     But it is costly: ca. 0.3 ms on Linux, 3 ms on Cygwin 1.5, and 5 ms on
++     Cygwin 1.7.  */
+   FILE *fp;
+ 
+   /* Open the current process' maps file.  It describes one VMA per line.  */
+@@ -405,7 +418,7 @@
+ const char *
+ relocate (const char *pathname)
+ {
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+   static int initialized;
+ 
+   /* Initialization code for a shared library.  */
+--- ../../work-ref/libiconv-1.14/libcharset/configure.ac	2009-10-18 17:26:59.000000000 +0200
++++ ./libcharset/configure.ac	2013-02-05 16:23:51.531250000 +0100
+@@ -23,6 +23,7 @@
+ 
+ AC_INIT([lib/localcharset.c])
+ AC_CONFIG_AUX_DIR([build-aux])
++AC_CONFIG_MACRO_DIR([m4])
+ AC_CONFIG_HEADER([config.h])
+ AC_PROG_MAKE_SET
+ AC_SUBST([PACKAGE])
+--- ../../work-ref/libiconv-1.14/libcharset/lib/localcharset.c	2011-02-28 23:43:35.000000000 +0100
++++ ./libcharset/lib/localcharset.c	2013-02-05 16:23:36.531250000 +0100
+@@ -54,10 +54,6 @@
+ #   include <locale.h>
+ #  endif
+ # endif
+-# ifdef __CYGWIN__
+-#  define WIN32_LEAN_AND_MEAN
+-#  include <windows.h>
+-# endif
+ #elif defined WIN32_NATIVE
+ # define WIN32_LEAN_AND_MEAN
+ # include <windows.h>
+@@ -124,7 +120,7 @@
+   cp = charset_aliases;
+   if (cp == NULL)
+     {
+-#if !(defined DARWIN7 || defined VMS || defined WIN32_NATIVE || defined __CYGWIN__)
++#if !(defined DARWIN7 || defined VMS || defined WIN32_NATIVE)
+       const char *dir;
+       const char *base = "charset.alias";
+       char *file_name;
+@@ -309,7 +305,7 @@
+            "DECKOREAN" "\0" "EUC-KR" "\0";
+ # endif
+ 
+-# if defined WIN32_NATIVE || defined __CYGWIN__
++# if defined WIN32_NATIVE
+       /* To avoid the troubles of installing a separate file in the same
+          directory as the DLL and of retrieving the DLL's directory at
+          runtime, simply inline the aliases here.  */
+@@ -365,64 +361,12 @@
+ 
+ # if HAVE_LANGINFO_CODESET
+ 
+-  /* Most systems support nl_langinfo (CODESET) nowadays.  */
+-  codeset = nl_langinfo (CODESET);
+-
+-#  ifdef __CYGWIN__
+-  /* Cygwin < 1.7 does not have locales.  nl_langinfo (CODESET) always
+-     returns "US-ASCII".  Return the suffix of the locale name from the
+-     environment variables (if present) or the codepage as a number.  */
+-  if (codeset != NULL && strcmp (codeset, "US-ASCII") == 0)
+-    {
+-      const char *locale;
+-      static char buf[2 + 10 + 1];
+-
+-      locale = getenv ("LC_ALL");
+-      if (locale == NULL || locale[0] == '\0')
+-        {
+-          locale = getenv ("LC_CTYPE");
+-          if (locale == NULL || locale[0] == '\0')
+-            locale = getenv ("LANG");
+-        }
+-      if (locale != NULL && locale[0] != '\0')
+-        {
+-          /* If the locale name contains an encoding after the dot, return
+-             it.  */
+-          const char *dot = strchr (locale, '.');
+-
+-          if (dot != NULL)
+-            {
+-              const char *modifier;
+-
+-              dot++;
+-              /* Look for the possible @... trailer and remove it, if any.  */
+-              modifier = strchr (dot, '@');
+-              if (modifier == NULL)
+-                return dot;
+-              if (modifier - dot < sizeof (buf))
+-                {
+-                  memcpy (buf, dot, modifier - dot);
+-                  buf [modifier - dot] = '\0';
+-                  return buf;
+-                }
+-            }
+-        }
+-
+-      /* Woe32 has a function returning the locale's codepage as a number:
+-         GetACP().  This encoding is used by Cygwin, unless the user has set
+-         the environment variable CYGWIN=codepage:oem (which very few people
+-         do).
+-         Output directed to console windows needs to be converted (to
+-         GetOEMCP() if the console is using a raster font, or to
+-         GetConsoleOutputCP() if it is using a TrueType font).  Cygwin does
+-         this conversion transparently (see winsup/cygwin/fhandler_console.cc),
+-         converting to GetConsoleOutputCP().  This leads to correct results,
+-         except when SetConsoleOutputCP has been called and a raster font is
+-         in use.  */
+-      sprintf (buf, "CP%u", GetACP ());
+-      codeset = buf;
+-    }
+-#  endif
++  /* Most systems support nl_langinfo (CODESET) nowadays.
++     POSIX allows that the returned pointer may point to a static area that
++     may be overwritten by subsequent calls to setlocale or nl_langinfo. */
++  static char codeset_buf[64];
++  codeset_buf[0] = '\0';
++  codeset = strncat (codeset_buf, nl_langinfo (CODESET), sizeof (codeset_buf));
+ 
+ # else
+ 
+--- ../../work-ref/libiconv-1.14/libcharset/lib/relocatable.c	2011-08-07 19:48:03.000000000 +0200
++++ ./libcharset/lib/relocatable.c	2013-02-05 16:23:42.234375000 +0100
+@@ -2,20 +2,18 @@
+    Copyright (C) 2003-2006, 2008-2011 Free Software Foundation, Inc.
+    Written by Bruno Haible <bruno@clisp.org>, 2003.
+ 
+-   This program is free software; you can redistribute it and/or modify it
+-   under the terms of the GNU Library General Public License as published
+-   by the Free Software Foundation; either version 2, or (at your option)
+-   any later version.
++   This program is free software: you can redistribute it and/or modify
++   it under the terms of the GNU Lesser General Public License as published by
++   the Free Software Foundation; either version 2.1 of the License, or
++   (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+-   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-   Library General Public License for more details.
++   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++   GNU Lesser General Public License for more details.
+ 
+-   You should have received a copy of the GNU Library General Public
+-   License along with this program; if not, write to the Free Software
+-   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301,
+-   USA.  */
++   You should have received a copy of the GNU Lesser General Public License
++   along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ 
+ /* Tell glibc's <stdio.h> to provide a prototype for getline().
+@@ -87,6 +85,19 @@
+ # define FILE_SYSTEM_PREFIX_LEN(P) 0
+ #endif
+ 
++/* Whether to enable the more costly support for relocatable libraries.
++   It allows libraries to be have been installed with a different original
++   prefix than the program.  But it is quite costly, especially on Cygwin
++   platforms, see below.  Therefore we enable it by default only on native
++   Win32 platforms.  */
++#ifndef ENABLE_COSTLY_RELOCATABLE
++# if (defined _WIN32 || defined __WIN32__) && !defined __CYGWIN__
++#  define ENABLE_COSTLY_RELOCATABLE 1
++# else
++#  define ENABLE_COSTLY_RELOCATABLE 0
++# endif
++#endif
++
+ /* Original installation prefix.  */
+ static char *orig_prefix;
+ static size_t orig_prefix_len;
+@@ -156,7 +167,7 @@
+ #endif
+ }
+ 
+-#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR)
++#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE)
+ 
+ /* Convenience function:
+    Computes the current installation prefix, based on the original
+@@ -286,7 +297,7 @@
+ 
+ #endif /* !IN_LIBRARY || PIC */
+ 
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+ 
+ /* Full pathname of shared library, or NULL.  */
+ static char *shared_library_fullname;
+@@ -332,7 +343,9 @@
+ #if (defined __linux__ && (__GLIBC__ >= 2 || defined __UCLIBC__)) || defined __CYGWIN__
+   /* Linux has /proc/self/maps. glibc 2 and uClibc have the getline()
+      function.
+-     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.  */
++     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.
++     But it is costly: ca. 0.3 ms on Linux, 3 ms on Cygwin 1.5, and 5 ms on
++     Cygwin 1.7.  */
+   FILE *fp;
+ 
+   /* Open the current process' maps file.  It describes one VMA per line.  */
+@@ -405,7 +418,7 @@
+ const char *
+ relocate (const char *pathname)
+ {
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+   static int initialized;
+ 
+   /* Initialization code for a shared library.  */
+--- ../../work-ref/libiconv-1.14/Makefile.devel	2011-07-03 16:05:11.000000000 +0200
++++ ./Makefile.devel	2013-02-05 16:23:59.578125000 +0100
+@@ -105,6 +105,7 @@
+ lib/aliases.h lib/canonical.h lib/canonical_local.h : lib/encodings.def lib/encodings_local.def lib/genaliases.c
+ 	$(CC) $(CFLAGS) lib/genaliases.c -o genaliases
+ 	./genaliases > lib/aliases.gperf 3> canonical.sh 4> canonical_local.sh
++	dos2unix lib/aliases.gperf
+ 	$(RM) genaliases
+ 	$(GPERF) -m 10 lib/aliases.gperf > tmp.h
+ 	$(CP) tmp.h lib/aliases.h
+@@ -115,6 +116,7 @@
+ lib/aliases_sysaix.h lib/canonical_sysaix.h lib/canonical_local_sysaix.h : lib/encodings.def lib/encodings_local.def lib/genaliases.c
+ 	$(CC) $(CFLAGS) -DUSE_AIX_ALIASES lib/genaliases.c -o genaliases
+ 	./genaliases > lib/aliases_sysaix.gperf 3> canonical.sh 4> canonical_local.sh
++	dos2unix lib/aliases_sysaix.gperf
+ 	$(RM) genaliases
+ 	$(GPERF) -m 10 lib/aliases_sysaix.gperf > tmp.h
+ 	$(CP) tmp.h lib/aliases_sysaix.h
+@@ -125,6 +127,7 @@
+ lib/aliases_syshpux.h lib/canonical_syshpux.h lib/canonical_local_syshpux.h : lib/encodings.def lib/encodings_local.def lib/genaliases.c
+ 	$(CC) $(CFLAGS) -DUSE_HPUX_ALIASES lib/genaliases.c -o genaliases
+ 	./genaliases > lib/aliases_syshpux.gperf 3> canonical.sh 4> canonical_local.sh
++	dos2unix lib/aliases_syshpux.gperf
+ 	$(RM) genaliases
+ 	$(GPERF) -m 10 lib/aliases_syshpux.gperf > tmp.h
+ 	$(CP) tmp.h lib/aliases_syshpux.h
+@@ -135,6 +138,7 @@
+ lib/aliases_sysosf1.h lib/canonical_sysosf1.h lib/canonical_local_sysosf1.h : lib/encodings.def lib/encodings_local.def lib/genaliases.c
+ 	$(CC) $(CFLAGS) -DUSE_OSF1_ALIASES lib/genaliases.c -o genaliases
+ 	./genaliases > lib/aliases_sysosf1.gperf 3> canonical.sh 4> canonical_local.sh
++	dos2unix lib/aliases_sysosf1.gperf
+ 	$(RM) genaliases
+ 	$(GPERF) -m 10 lib/aliases_sysosf1.gperf > tmp.h
+ 	$(CP) tmp.h lib/aliases_sysosf1.h
+@@ -145,6 +149,7 @@
+ lib/aliases_syssolaris.h lib/canonical_syssolaris.h lib/canonical_local_syssolaris.h : lib/encodings.def lib/encodings_local.def lib/genaliases.c
+ 	$(CC) $(CFLAGS) -DUSE_SOLARIS_ALIASES lib/genaliases.c -o genaliases
+ 	./genaliases > lib/aliases_syssolaris.gperf 3> canonical.sh 4> canonical_local.sh
++	dos2unix lib/aliases_syssolaris.gperf
+ 	$(RM) genaliases
+ 	$(GPERF) -m 10 lib/aliases_syssolaris.gperf > tmp.h
+ 	$(CP) tmp.h lib/aliases_syssolaris.h
+@@ -155,43 +160,51 @@
+ lib/aliases_aix.h lib/canonical_aix.h : lib/encodings_aix.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_AIX lib/genaliases2.c -o genaliases
+ 	./genaliases aix > lib/aliases_aix.h 3> lib/canonical_aix.h
++	dos2unix lib/aliases_aix.h lib/canonical_aix.h
+ 	$(RM) genaliases
+ 
+ lib/aliases_aix_sysaix.h lib/canonical_aix_sysaix.h : lib/encodings_aix.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_AIX -DUSE_AIX_ALIASES lib/genaliases2.c -o genaliases
+ 	./genaliases aix > lib/aliases_aix_sysaix.h 3> lib/canonical_aix_sysaix.h
++	dos2unix lib/aliases_aix_sysaix.h lib/canonical_aix_sysaix.h
+ 	$(RM) genaliases
+ 
+ lib/aliases_osf1.h lib/canonical_osf1.h : lib/encodings_osf1.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_OSF1 lib/genaliases2.c -o genaliases
+ 	./genaliases osf1 > lib/aliases_osf1.h 3> lib/canonical_osf1.h
++	dos2unix lib/aliases_osf1.h lib/canonical_osf1.h
+ 	$(RM) genaliases
+ 
+ lib/aliases_osf1_sysosf1.h lib/canonical_osf1_sysosf1.h : lib/encodings_osf1.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_OSF1 -DUSE_OSF1_ALIASES lib/genaliases2.c -o genaliases
+ 	./genaliases osf1 > lib/aliases_osf1_sysosf1.h 3> lib/canonical_osf1_sysosf1.h
++	dos2unix lib/aliases_osf1_sysosf1.h lib/canonical_osf1_sysosf1.h
+ 	$(RM) genaliases
+ 
+ lib/aliases_dos.h lib/canonical_dos.h : lib/encodings_dos.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_DOS lib/genaliases2.c -o genaliases
+ 	./genaliases dos > lib/aliases_dos.h 3> lib/canonical_dos.h
++	dos2unix lib/aliases_dos.h lib/canonical_dos.h
+ 	$(RM) genaliases
+ 
+ lib/aliases_extra.h lib/canonical_extra.h : lib/encodings_extra.def lib/genaliases2.c
+ 	$(CC) $(CFLAGS) -DUSE_EXTRA lib/genaliases2.c -o genaliases
+ 	./genaliases extra > lib/aliases_extra.h 3> lib/canonical_extra.h
++	dos2unix lib/aliases_extra.h lib/canonical_extra.h
+ 	$(RM) genaliases
+ 
+ 
+ lib/flags.h : lib/encodings.def lib/encodings_aix.def lib/encodings_osf1.def lib/encodings_dos.def lib/encodings_extra.def lib/converters.h lib/genflags.c
+ 	$(CC) $(CFLAGS) lib/genflags.c -o genflags
+ 	./genflags > lib/flags.h
++	dos2unix lib/flags.h
+ 	$(RM) genflags
+ 
+ 
+ lib/translit.h : lib/translit.def lib/gentranslit.c
+-	$(CC) $(CFLAGS) lib/gentranslit.c -o gentranslit
+-	ulimit -s unlimited; ./gentranslit < lib/translit.def > lib/translit.h
++	$(CC) $(CFLAGS) -Wl,--stack,16777216 lib/gentranslit.c -o gentranslit
++	./gentranslit < lib/translit.def > lib/translit.h
++	dos2unix lib/translit.h
+ 	$(RM) gentranslit
+ 
+ 
+--- ../../work-ref/libiconv-1.14/preload/configure.ac	2009-06-21 13:17:33.000000000 +0200
++++ ./preload/configure.ac	2013-02-05 16:23:51.562500000 +0100
+@@ -23,6 +23,7 @@
+ 
+ AC_INIT([configure.ac])
+ AC_CONFIG_AUX_DIR([../build-aux])
++AC_CONFIG_MACRO_DIR([../m4])
+ AC_PROG_MAKE_SET
+ AC_SUBST([PACKAGE])
+ AC_SUBST([VERSION])
+--- ../../work-ref/libiconv-1.14/srclib/relocatable.c	2011-08-07 15:42:06.000000000 +0200
++++ ./srclib/relocatable.c	2013-02-05 16:23:42.265625000 +0100
+@@ -3,16 +3,16 @@
+    Written by Bruno Haible <bruno@clisp.org>, 2003.
+ 
+    This program is free software: you can redistribute it and/or modify
+-   it under the terms of the GNU General Public License as published by
+-   the Free Software Foundation; either version 3 of the License, or
++   it under the terms of the GNU Lesser General Public License as published by
++   the Free Software Foundation; either version 2.1 of the License, or
+    (at your option) any later version.
+ 
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+-   GNU General Public License for more details.
++   GNU Lesser General Public License for more details.
+ 
+-   You should have received a copy of the GNU General Public License
++   You should have received a copy of the GNU Lesser General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
+ 
+ 
+@@ -85,6 +85,19 @@
+ # define FILE_SYSTEM_PREFIX_LEN(P) 0
+ #endif
+ 
++/* Whether to enable the more costly support for relocatable libraries.
++   It allows libraries to be have been installed with a different original
++   prefix than the program.  But it is quite costly, especially on Cygwin
++   platforms, see below.  Therefore we enable it by default only on native
++   Win32 platforms.  */
++#ifndef ENABLE_COSTLY_RELOCATABLE
++# if (defined _WIN32 || defined __WIN32__) && !defined __CYGWIN__
++#  define ENABLE_COSTLY_RELOCATABLE 1
++# else
++#  define ENABLE_COSTLY_RELOCATABLE 0
++# endif
++#endif
++
+ /* Original installation prefix.  */
+ static char *orig_prefix;
+ static size_t orig_prefix_len;
+@@ -154,7 +167,7 @@
+ #endif
+ }
+ 
+-#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR)
++#if !defined IN_LIBRARY || (defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE)
+ 
+ /* Convenience function:
+    Computes the current installation prefix, based on the original
+@@ -284,7 +297,7 @@
+ 
+ #endif /* !IN_LIBRARY || PIC */
+ 
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+ 
+ /* Full pathname of shared library, or NULL.  */
+ static char *shared_library_fullname;
+@@ -330,7 +343,9 @@
+ #if (defined __linux__ && (__GLIBC__ >= 2 || defined __UCLIBC__)) || defined __CYGWIN__
+   /* Linux has /proc/self/maps. glibc 2 and uClibc have the getline()
+      function.
+-     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.  */
++     Cygwin >= 1.5 has /proc/self/maps and the getline() function too.
++     But it is costly: ca. 0.3 ms on Linux, 3 ms on Cygwin 1.5, and 5 ms on
++     Cygwin 1.7.  */
+   FILE *fp;
+ 
+   /* Open the current process' maps file.  It describes one VMA per line.  */
+@@ -403,7 +418,7 @@
+ const char *
+ relocate (const char *pathname)
+ {
+-#if defined PIC && defined INSTALLDIR
++#if defined PIC && defined INSTALLDIR && ENABLE_COSTLY_RELOCATABLE
+   static int initialized;
+ 
+   /* Initialization code for a shared library.  */
+--- ../../work-ref/libiconv-1.14/srclib/xreadlink.c	2011-08-07 15:42:07.000000000 +0200
++++ ./srclib/xreadlink.c	2013-02-05 16:23:51.593750000 +0100
+@@ -38,7 +38,9 @@
+ xreadlink (char const *filename)
+ {
+   char *result = areadlink (filename);
++#ifndef NO_XMALLOC
+   if (result == NULL && errno == ENOMEM)
+     xalloc_die ();
++#endif
+   return result;
+ }
+--- ../../work-ref/libiconv-1.14/srcm4/gnulib-comp.m4	2011-08-07 15:42:12.000000000 +0200
++++ ./srcm4/gnulib-comp.m4	2013-02-05 16:23:47.515625000 +0100
+@@ -164,6 +164,7 @@
+ gl_RELOCATABLE([$gl_source_base])
+ if test $RELOCATABLE = yes; then
+   AC_LIBOBJ([progreloc])
++  AC_LIBOBJ([relocatable])
+ fi
+ gl_FUNC_READLINK_SEPARATE
+ gl_CANONICALIZE_LGPL_SEPARATE
+--- ../../work-ref/libiconv-1.14/tests/Makefile.in	2010-11-24 03:24:03.000000000 +0100
++++ ./tests/Makefile.in	2013-02-05 16:23:47.562500000 +0100
+@@ -126,10 +126,10 @@
+ 	$(srcdir)/check-stateless $(srcdir) EUC-CN
+ 	$(srcdir)/check-stateless $(srcdir) GBK
+ 	$(srcdir)/check-stateless $(srcdir) CP936
+-	$(CC) $(LDFLAGS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(srcdir)/gengb18030z.c ../srclib/libicrt.a -o gengb18030z && \
++	( $(CC) $(LDFLAGS) $(INCLUDES) $(CFLAGS) $(CPPFLAGS) $(srcdir)/gengb18030z.c ../srclib/libicrt.a -o gengb18030z && \
+ 	{ cat $(srcdir)/GB18030-BMP.TXT ; ./gengb18030z ; } | sort > GB18030.TXT && \
+ 	$(srcdir)/check-stateless . GB18030 && \
+-	$(RM) -r gengb18030z@EXEEXT@ gengb18030z.dSYM GB18030.TXT
++	$(RM) -r gengb18030z@EXEEXT@ gengb18030z.dSYM GB18030.TXT ) || /bin/true
+ 	$(srcdir)/check-stateful $(srcdir) ISO-2022-CN
+ 	$(srcdir)/check-stateful $(srcdir) ISO-2022-CN-EXT
+ 	$(srcdir)/check-stateful $(srcdir) HZ

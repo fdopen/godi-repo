@@ -1,0 +1,10 @@
+Available options for zarith:
+
+- GODI_ZARITH_ASM: enable platform-specific asm code
+  Possible values: yes,no, <blank> = yes.
+
+- GODI_ZARITH_PERF: enable performance statistics
+  Possible values: yes,no, <blank> = no.
+
+- GODI_ZARITH_RUN_TESTS: run simple tests after build
+  Possible values: yes,no, <blank> = no.

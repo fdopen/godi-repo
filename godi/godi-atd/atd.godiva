@@ -1,0 +1,13 @@
+Package: godi-atd
+Version: 1.0.1
+Revision: 1
+Depends: godi-ocaml, godi-easy-format, godi-menhir
+Build-Depends: godi-findlib
+Sources: http://oss.wink.com/atd/atd-1.0.1.tar.gz
+Homepage: http://oss.wink.com/atd/
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Docfiles: README, LICENSE
+Description: Syntax for cross-language data types
+ATD stands for Adjustable Type Definitions.  It is a type definition language designed to accomodate a variety of programming languages and data formats by the means of target-specific annotations.  It supports sum types, parametrized types and inheritance.  The library provides a parser and other tools useful for manipulating ATD type definitions.  The reference manual gives a complete description of the syntax.
+.

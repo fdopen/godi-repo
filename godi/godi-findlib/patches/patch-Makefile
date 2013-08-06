@@ -1,0 +1,28 @@
+--- Makefile.orig	2013-06-11 07:27:39.000000000 +0000
++++ Makefile	2013-06-21 10:09:40.534400000 +0000
+@@ -54,17 +54,17 @@
+ 	export USE_CYGPATH; \
+ 	cat findlib.conf.in | \
+ 		tools/patch '@SITELIB@' '$(OCAML_SITELIB)' >findlib.conf
+-	if ocamlc.opt >/dev/null 2>&1; then \
+-		echo 'ocamlc="ocamlc.opt"' >>findlib.conf; \
++	if ocamlc.opt$(EXEC_SUFFIX) >/dev/null 2>&1; then \
++		echo 'ocamlc="ocamlc.opt$(EXEC_SUFFIX)"' >>findlib.conf; \
+ 	fi
+-	if ocamlopt.opt >/dev/null 2>&1; then \
+-		echo 'ocamlopt="ocamlopt.opt"' >>findlib.conf; \
++	if ocamlopt.opt$(EXEC_SUFFIX) >/dev/null 2>&1; then \
++		echo 'ocamlopt="ocamlopt.opt$(EXEC_SUFFIX)"' >>findlib.conf; \
+ 	fi
+-	if ocamldep.opt >/dev/null 2>&1; then \
+-		echo 'ocamldep="ocamldep.opt"' >>findlib.conf; \
++	if ocamldep.opt$(EXEC_SUFFIX) >/dev/null 2>&1; then \
++		echo 'ocamldep="ocamldep.opt$(EXEC_SUFFIX)"' >>findlib.conf; \
+ 	fi
+-	if ocamldoc.opt >/dev/null 2>&1; then \
+-		echo 'ocamldoc="ocamldoc.opt"' >>findlib.conf; \
++	if ocamldoc.opt$(EXEC_SUFFIX) >/dev/null 2>&1; then \
++		echo 'ocamldoc="ocamldoc.opt$(EXEC_SUFFIX)"' >>findlib.conf; \
+ 	fi
+ 
+ .PHONY: install-doc

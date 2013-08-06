@@ -1,0 +1,3 @@
+Tophide hides toplevel values whose name starts with an underscore. This is
+useful for some Camlp4 syntax extensions that produce lots of global
+identifiers that should remain hidden. 

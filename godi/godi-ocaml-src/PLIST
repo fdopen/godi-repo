@@ -1,0 +1,4 @@
+@comment $GODI$
+@optional lib/godi/saved-src/ocaml.tar.gz
+@optional lib/godi/saved-src/ocaml.txz
+lib/godi/saved-src/config-summary.mk

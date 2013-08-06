@@ -1,0 +1,12 @@
+Available options for godi.conf:
+ 
+- GODI_BASEPKG_EXPAT: Whether to build GODI's version of libexpat
+  (yes/no). Defaults to "no".
+ 
+- GODI_EXPAT_INCDIR: Where expat.h can be found. Set this option
+  if GODI_BASEPKG_EXPAT=no, and the already installed expat
+  library is not found.
+ 
+- GODI_EXPAT_LIBDIR: Where libexpat can be found. Set this option
+  if GODI_BASEPKG_EXPAT=no, and the already installed expat
+  library is not found.

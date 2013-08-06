@@ -1,0 +1,5 @@
+Le but de ocaml-fileutils est de fournir un ensemble de fonction OCaml afin de
+permettre la manipulation de fichier directement en OCaml.
+
+The goal of ocaml-fileutils is to provide a set of ocaml functions in order to
+allow manipulation of files directly in ocaml.

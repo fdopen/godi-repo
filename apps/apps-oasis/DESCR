@@ -1,0 +1,10 @@
+OASIS is a Cabal like system for OCaml, It uses findlib for libraries and
+ocamlbuild for building.
+
+It helps to create a full and portable build system for OCaml libraries and
+applications:
+* configure: check build environment
+* build
+* install/uninstall
+
+Planned supported build tool: OMake and OCamlMakefile

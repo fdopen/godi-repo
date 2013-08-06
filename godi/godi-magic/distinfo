@@ -1,0 +1,7 @@
+$NetBSD$
+
+SHA1 (ocaml-magic-0.7.3.tar.gz) = 1722b189b2d530d313e990a21d94c39749edeb7e
+Size (ocaml-magic-0.7.3.tar.gz) = 54888 bytes
+
+SHA1 (patch-aa-configure) = c6f34d008604d6f3566ffaff14e99b5498d00af4
+SHA1 (patch-bb-srcmakefile) = 15abeef56255b2b6310650b0c8b306d8255f49ab

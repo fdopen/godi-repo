@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib bitv
+@deepdir doc/godi-bitv

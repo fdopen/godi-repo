@@ -1,0 +1,6 @@
+AC_INIT([sha], [0.1],[andreas@ml.ignorelist.com],[sha])
+
+AC_CONFIG_HEADERS([config.h])
+AC_PROG_CC
+AC_C_BIGENDIAN([AC_DEFINE(BIG_ENDIAN_HOST,1)],[AC_DEFINE(LITTLE_ENDIAN_HOST,1)])
+AC_OUTPUT

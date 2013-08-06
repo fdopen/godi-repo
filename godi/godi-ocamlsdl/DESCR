@@ -1,0 +1,4 @@
+O'Caml bindings for SDL, the Simple Direct Layer. This is an API
+to write games. It provides access to video, audio, and input
+devices like joysticks.
+

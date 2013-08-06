@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (camlbz2-0.6.0.tar.gz) = c2bbff429b36eb60f5d410d7a6dbba2f0001a245
+Size (camlbz2-0.6.0.tar.gz) = 57771 bytes
+
+SHA1 (patch-aa-makefile.in) = a0b37990ec9518f7780313d5675665c413eee2c0

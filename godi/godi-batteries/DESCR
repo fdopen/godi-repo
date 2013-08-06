@@ -1,0 +1,5 @@
+Ocaml Batteries Included serves the following purposes:
+ * define a standard set of libraries which may be expected on every
+   compliant installation of OCaml
+ * organize these libraries into a hierarchy of modules
+ * provide a consistent API for otherwise independent libraries

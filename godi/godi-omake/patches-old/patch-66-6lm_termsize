@@ -1,0 +1,26 @@
+--- src/libmojave-external/cutil/lm_termsize.c.orig	2012-09-15 19:11:19.541200000 +0000
++++ src/libmojave-external/cutil/lm_termsize.c	2012-09-15 19:14:47.676400000 +0000
+@@ -22,6 +22,11 @@
+  * Authors: Jason Hickey <jyh@cs.caltech.edu>
+  *          Aleksey Nogin <nogin@cs.cornell.edu>
+  */
++#include <caml/mlvalues.h>
++#include <caml/alloc.h>
++#include <caml/memory.h>
++#include <caml/fail.h>
++
+ #include <stdio.h>
+ #ifdef __CYGWIN__
+ #   include <sys/termios.h>
+@@ -33,11 +38,6 @@
+ #   include <sys/ioctl.h>
+ #endif
+ 
+-#include <caml/mlvalues.h>
+-#include <caml/alloc.h>
+-#include <caml/memory.h>
+-#include <caml/fail.h>
+-
+ value caml_term_size(value arg)
+ {
+     CAMLparam1(arg);

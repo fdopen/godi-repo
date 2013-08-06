@@ -1,0 +1,12 @@
+The Boolean Expression Simplifier library is an OCaml library
+providing means to simplify boolean expression. The original source
+code has been written at the chair of robotics and embedded systems
+at Technische Universität München by Alexander Ostrovsky and is
+maintained by Markus Weissmann.
+
+The releases of the Boolean Expression Simplifier library can be
+downloaded from ocamlforge. The API of the Boolean Expression
+Simplifier library is also available online. The source code is
+released as open source under the (new) BSD license.
+
+Simplify your boolean expressions!

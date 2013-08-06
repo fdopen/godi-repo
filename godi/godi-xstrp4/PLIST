@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib xstrp4
+@deepdir doc/godi-xstrp4

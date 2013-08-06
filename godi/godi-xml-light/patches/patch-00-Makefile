@@ -1,0 +1,22 @@
+--- Makefile.orig	2006-01-19 19:13:11.000000000 -0500
++++ Makefile	2006-01-19 19:13:58.000000000 -0500
+@@ -12,7 +12,9 @@
+ opt: xml-light.cmxa test_opt.exe
+ 
+ install: all opt
+-	cp xml-light.cmxa xml-light.a xml-light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi xml.cmx dtd.cmx xmlParser.cmx $(INSTALLDIR)
++	#cp xml-light.cmxa xml-light.a xml-light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi xml.cmx dtd.cmx xmlParser.cmx $(INSTALLDIR)
++	[ -f xml-light.cmxa ] && ocamlfind install xml-light xml-light.a META xml-light.cmxa xml-light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi xml.cmx dtd.cmx xmlParser.cmx || ocamlfind install xml-light META xml-light.cma xml.mli xmlParser.mli dtd.mli xml.cmi xmlParser.cmi dtd.cmi
++
+ 
+ doc:
+ 	mkdir doc
+@@ -50,6 +52,8 @@
+ 
+ xml_lexer.cmi: dtd.cmi
+ 
++xml_parser.cmi: xml_parser.mli
++
+ xml_parser.cmo: xml_parser.ml dtd.cmi xml_parser.mli xml_parser.cmi
+ 
+ xml_parser.cmx: xml_parser.ml dtd.cmi xml_parser.mli xml_parser.cmi

@@ -1,0 +1,4 @@
+@comment $GODI$
+
+bin/godigui
+@deepdir share/godigui

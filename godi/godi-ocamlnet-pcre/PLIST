@@ -1,0 +1,3 @@
+@comment $GODI$
+@findlib netstring-pcre
+@deepdir doc/godi-ocamlnet-pcre

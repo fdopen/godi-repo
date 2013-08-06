@@ -1,0 +1,15 @@
+--- ocamliface/Makefile~	2011-10-24 13:13:54.000000000 +0000
++++ ocamliface/Makefile	2013-02-09 14:39:24.375000000 +0000
+@@ -5,8 +5,11 @@
+ 
+ all: caml_cduce.cmo caml_cduce.cmx
+ 
++ifeq ($(EXE),.exe)
++STDLIB=$(shell ocamlc -where | tr -d '\r' | tr '\\' '/' )
++else
+ STDLIB=$(shell ocamlc -where)
+-
++endif
+ 
+ ifeq ($(FORPACK),true)
+   FORPACKOPT1=-for-pack Cduce_lib.Caml_cduce

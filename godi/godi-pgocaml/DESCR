@@ -1,0 +1,3 @@
+PGOCaml is a type-safe library for accessing PostgreSQL databases.
+It connects to the database at compile time to infer types of queries
+so that programs can be type-checked against it.

@@ -1,0 +1,142 @@
+#! /bin/sh
+
+# Arguments:
+# $1: The proposed curl-config script
+# $2: The suggested dependency
+#
+# Environment:
+# $CC
+
+
+CURL_CONFIG="$1"
+DEPS="$2"
+INCOUT=""
+LIBOUT=""
+NEED_RPATH="no"
+
+test -n "$CC" || CC="cc"
+test -n "$CURL_CONFIG" || CURL_CONFIG="curl-config"
+
+
+# ======================================================================
+# Generic configure functions
+# ======================================================================
+
+get_path () {
+    oldifs="$IFS"
+    IFS=":"
+    for d in $PATH; do
+        if test -x "$d/$1"; then
+            IFS="$oldifs"
+            echo "$d/$1"
+            return 0
+        fi
+    done
+    IFS="$oldifs"
+    return 1
+}
+
+my_which() {
+  case "$1" in
+   /*)  if test -x "$1"; then echo "$1"; fi;;
+   */*) echo "Relative paths not supported: $1" >&2;;
+   *)   get_path "$1";;
+   esac
+}
+
+REAL_CURL_CONFIG=`my_which "$CURL_CONFIG"`
+if test -z "$REAL_CURL_CONFIG"; then 
+  echo "===> Script $CURL_CONFIG not found" >&2
+  echo "     Consider adding GODI_BASEPKG_CURL=yes to godi.conf" >&2
+  exit 1
+fi
+echo "Found $CURL_CONFIG (= $REAL_CURL_CONFIG)"
+
+check_testpgm () {
+    # Checks whether t.c can be compiled and started. Furthermore,
+    # the output of the test program must match a criterion.
+    # $1: name of the criterion
+    # $2...: Further Arguments for compilation
+    crit="$1"
+    shift
+
+    rm -f t
+
+    echo "# Trying " $CC -o t t.c "$@" >>t.log
+    $CC -o t t.c "$@" >>t.log 2>&1
+
+    if [ $? -eq 0 ]; then
+	echo "# Successful! Now trying to start this program..." >>t.log
+	./t >t.out 2>t.err
+	if [ $? -eq 0 ]; then
+	    echo "# Successful! Now testing the output of the program..." >>t.log
+	    eval "$crit" t.out t.err
+	    if [ $? -eq 0 ]; then
+	        echo "# Successful! Using these settings." >>t.log
+		NEED_RPATH=no
+		return 0
+	    fi
+	fi
+    fi
+
+    echo "# Failure." >>t.log
+
+    return 1
+}
+
+# ======================================================================
+# Special configure functions
+# ======================================================================
+
+check_version () {
+    v=`cat $1`
+    test -n "$v" || return 1
+    echo "Found: " "$v"
+}
+
+
+check_library () {
+    cat <<'EOF' >t.c
+#include <stdlib.h>
+#include "curl/curl.h"
+
+main () {
+    char *s;
+    s=curl_version();
+    printf("%s\n", s);
+    exit(0);
+}
+EOF
+
+    check_testpgm check_version `$1 --libs --cflags`
+}
+
+
+find_library () {
+    if check_library $REAL_CURL_CONFIG; then
+      return 0
+    fi
+    echo "===> This script $REAL_CURL_CONFIG does not work" >&2
+    echo "     Consider adding GODI_BASEPKG_CURL=yes to godi.conf" >&2
+    exit 1
+}
+
+
+rm -f t.log
+
+find_library
+
+echo "*** Effective CURL configuration:"
+echo "*** curl-config:                         $REAL_CURL_CONFIG"
+echo "*** Additional dependencies:             ${DEPS:-none}"
+echo
+
+echo "CONF_CURL_CONFIG=$REAL_CURL_CONFIG" > conf-curl.mk
+echo "CONF_CURL_DEPENDS=$DEPS" >>conf-curl.mk
+
+# For Godi_script:
+
+echo "CONF_CURL_CFLAGS=" `$REAL_CURL_CONFIG --cflags`  >>conf-curl.mk
+echo "CONF_CURL_LDFLAGS=" `$REAL_CURL_CONFIG --libs`   >>conf-curl.mk
+
+exit 0

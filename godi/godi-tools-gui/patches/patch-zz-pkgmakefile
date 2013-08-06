@@ -1,0 +1,25 @@
+--- console-src/godi-pkg/Makefile.code.orig	2012-12-30 21:34:31.000000000 +0000
++++ console-src/godi-pkg/Makefile.code	2013-02-11 16:58:31.781250000 +0000
+@@ -3,7 +3,7 @@
+ #----------------------------------------------------------------------
+ # specific rules for this package:
+ 
+-REQUIRES = str, netstring
++REQUIRES = sexplib.syntax, str, netstring
+ OBJ = godi_versions.cmo \
+       godi_plist.cmo godi_types.cmo godi_profile.cmo \
+       godi_make.cmo godi_file_handler.cmo \
+@@ -26,11 +26,11 @@
+ #----------------------------------------------------------------------
+ # general rules:
+ 
+-OPTIONS   = -I ../godi-sys-$(SYSTEM_TYPE) -I ../godi-util -I ../godi-pax \
++OPTIONS   = -syntax camlp4o -I ../godi-sys-$(SYSTEM_TYPE) -I ../godi-util -I ../godi-pax \
+             -I ../godi-wtool-$(WTOOL)
+ OCAMLC    = $(OCAMLFIND) ocamlc -g   $(OPTIONS) -package "$(REQUIRES)"
+ OCAMLOPT  = $(OCAMLFIND) ocamlopt $(OPT_OPTIONS) $(OPTIONS) -package "$(REQUIRES)"
+-OCAMLDEP  = ocamldep $(OPTIONS)
++OCAMLDEP  = $(OCAMLFIND) ocamldep $(OPTIONS) -package "$(REQUIRES)"
+ OCAMLFIND = ocamlfind
+ 
+ depend: *.ml *.mli

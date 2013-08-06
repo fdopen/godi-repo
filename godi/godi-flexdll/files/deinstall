@@ -1,0 +1,68 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+make_config(){
+    local godi_conf tool_prefix gcc objdump gcc_file_path gcc_lib_path
+    godi_conf="$(godi_confdir)"
+    godi_conf="${godi_conf}/godi.conf"
+    tool_prefix="$(godi_make -f "${godi_conf}" -V MINGW_TOOL_PREFIX | tr -d '\r')"
+    if [ "a${tool_prefix}" = "a" ]; then
+        echo "Please define MINGW_TOOL_PREFIX in ${godi_conf}" >&2
+        exit 1
+    fi
+    gcc="${tool_prefix}gcc.exe"
+    gcc="$(which "$gcc")"
+    gcc="$(cygpath -m "$gcc")"
+    objdump="$(which "${tool_prefix}objdump.exe")"
+    objdump="$(cygpath -m "$objdump")"
+    gcc_file_path="$("$gcc" -print-libgcc-file-name)"
+    gcc_file_path="$(dirname "${gcc_file_path}")"
+    gcc_file_path="$(cygpath -m "${gcc_file_path}")"
+    gcc_lib_path="$("$gcc" -print-sysroot )"
+    gcc_lib_path="$(cygpath -m "${gcc_lib_path}")"
+    gcc_lib_path="${gcc_lib_path}/mingw/lib"
+
+    cat - >"$1" <<EOF
+# simplisic syntax only !
+gcc = $gcc
+objdump = $objdump
+
+# gcc_file_path = $gcc_file_path
+# usually the output of 
+# dirname \$(cygpath -m \$(\$CC -print-libgcc-file-name ))
+
+gcc_lib_path = $gcc_lib_path
+# usually the output of 
+# cygpath -m \$(\$CC -print-sysroot ) + /mingw/lib
+
+use_cygpath = true
+# overwrites command line args
+# true or false, bool_of_string will be used for conversion
+EOF
+}
+
+tmpfile="$(mktemp)"
+clean(){
+    rm -f "$tmpfile"
+}
+trap clean EXIT
+
+make_config "$tmpfile"
+
+if [ -f "${GODI_PREFIX}/etc/flexdll.conf" ]; then
+    if cmp -s "${GODI_PREFIX}/etc/flexdll.conf" "$tmpfile" ; then
+        rm -f "${GODI_PREFIX}/etc/flexdll.conf"
+    fi
+fi
+BACKUPDIR="${GODI_PREFIX}/lib/flexdll-backup"
+rm -rf "${BACKUPDIR}"
+mkdir -p "${BACKUPDIR}/bin" "${BACKUPDIR}/lib"
+cp "${GODI_PREFIX}/bin/flexlink.exe" "${BACKUPDIR}/bin"
+cp -a "${GODI_PREFIX}/lib/flexdll" "${BACKUPDIR}/lib"

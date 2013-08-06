@@ -1,0 +1,10 @@
+--- configure.orig	2012-11-03 21:21:53.000000000 +0100
++++ configure	2013-01-08 18:18:13.741907328 +0100
+@@ -72,6 +72,6 @@
+ echo "WARNINGS=$devel" >> Makefile.config
+ echo "NO_CAMLP4=$no_camlp4" >> Makefile.config
+ echo "PPX=$ppx" >> Makefile.config
+-echo "MAKE_QUIET=$make_quiet" >> Makefile.config
++echo "MAKE_QUIET= --no-print-directory" >> Makefile.config
+ echo "" >> Makefile.config
+ echo 'Makefile.config successfully created'

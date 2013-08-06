@@ -1,0 +1,13 @@
+Package: godi-easy-format
+Version: 1.0.0
+Revision: 1
+Depends: godi-ocaml (>= 3.08)
+Build-Depends: godi-findlib
+Sources: http://martin.jambon.free.fr/easy-format-1.0.0.tar.gz
+Homepage: http://martin.jambon.free.fr/easy-format.html
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Docfiles: LICENSE
+Description: Indentation made easy(ier)
+This module offers a simplified interface to the Format module of the standard library. Input data must be converted into a tree using 3 kinds of nodes: atoms, lists and labelled nodes. Each node is bound to its own formatting parameters and a single function call produces the formatted output.
+.

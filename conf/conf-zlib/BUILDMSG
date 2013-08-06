@@ -1,0 +1,9 @@
+The Zlib C library (version 1.1.3 or up) needs to be installed. 
+Available options for godi.conf:
+ 
+- GODI_ZLIB_INCDIR: Where zlib.h can be found. Set this option
+  if the installed zlib library is not found.
+ 
+- GODI_ZLIB_LIBDIR: Where libz can be found. Set this option
+  if the installed zlib library is not found.
+

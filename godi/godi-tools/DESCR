@@ -1,0 +1,5 @@
+godi-tools contains:
+- godi_console, the package management utility
+- build/mk, the make framework
+- godi_script, for simple O'Caml scripts in godi
+

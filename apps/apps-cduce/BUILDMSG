@@ -1,0 +1,11 @@
+Available options for godi.conf:
+
+- APPS_CDUCE_EXPAT: Whether to build CDuce with expat support
+  Possible values: yes,no, <blank> = autodetect (default value).
+
+- APPS_CDUCE_CURL: Whether to build CDuce with expat support
+  Possible values: yes,no, <blank> = autodetect (default value).
+
+- APPS_CDUCE_NETCLIENT: Whether to build CDuce with netclient support
+  Possible values: yes,no, <blank> = autodetect (default value).
+

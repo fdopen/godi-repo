@@ -1,0 +1,28 @@
+--- src/gtksv_utils.ml.orig	2012-04-13 14:51:37.000000000 +0000
++++ src/gtksv_utils.ml	2012-09-29 14:03:56.756800000 +0000
+@@ -28,14 +28,12 @@
+ 
+ (** {2 Files} *)
+ 
+-let home =
+-  try Sys.getenv "HOME"
+-  with Not_found -> ""
++let config_dir = Glib.get_user_config_dir () ;;
+ 
+ let sourceviews_basename = "sourceviews";;
+ 
+ let rc_dir =
+-  let d = Filename.concat home ".mlgtksourceview2" in
++  let d = Filename.concat config_dir ".mlgtksourceview2" in
+   let exist =
+     try (Unix.stat d).Unix.st_kind = Unix.S_DIR
+     with _ -> false
+@@ -44,7 +42,7 @@
+     begin
+       try
+         Unix.mkdir d 0o700;
+-        let old_d = Filename.concat home ".mlgtksourceview" in
++        let old_d = Filename.concat config_dir ".mlgtksourceview" in
+         let old_sv_file = Filename.concat old_d sourceviews_basename in
+         let new_sv_file =  Filename.concat d sourceviews_basename in
+         if Sys.file_exists old_sv_file then

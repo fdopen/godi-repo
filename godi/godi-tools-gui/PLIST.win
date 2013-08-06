@@ -1,0 +1,6 @@
+@comment $GODI$
+
+gui/bin/gui.exe
+gui/bin/installer.exe
+gui/bin/inform.exe
+@deepdir gui/share/godi-gui

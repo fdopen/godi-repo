@@ -1,0 +1,10 @@
+Available options for Lwt:
+
+- GODI_LWT_SSL: Build support for ocaml-ssl in Lwt.
+  Possible values: yes,no, <blank> = yes.
+
+- GODI_LWT_GLIB: Build support for glib in Lwt.
+  Possible values: yes,no, <blank> = yes.
+
+- GODI_LWT_OCAMLTEXT: Build support for ocaml-text in Lwt.
+  Possible values: yes,no, <blank> = yes.

@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (ocamleditor.tar.xz) = cb5c5d9fdb2fbf17fab01fb2f52dddb7e9ed6eba
+Size (ocamleditor.tar.xz) = 374364 bytes
+
+SHA1 (patch-aa-oeconfig) = edfeae860d0c79793a1c2677e0b47e7690121fc3
+SHA1 (patch-bb-install) = 7c68f14eaf3da2a5465f1cfd8b73e990011fd3e9
+SHA1 (patch-cc-common) = 91efb53088b6804233f315950f7055284b83138e
+SHA1 (patch-dd-plugin) = b4579ee363d7c671ac283e40d25002e0abac2c3e

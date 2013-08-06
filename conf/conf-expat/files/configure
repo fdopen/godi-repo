@@ -1,0 +1,203 @@
+#! /bin/sh
+
+# Arguments:
+# $1: The proposed include directory
+# $2: The proposed lib directory
+# $3: The suggested dependency
+#
+# Environment:
+# $CC
+# $RPATH_FLAG
+# $SEARCH_LIBS
+
+INC="$1"
+LIB="$2"
+DEPS="$3"
+INCOUT=""
+LIBOUT=""
+NEED_RPATH="no"
+
+test -n "$CC" || CC="cc"
+test -n "$RPATH_FLAG" || RPATH_FLAG="-R"
+test -n "$SEARCH_LIBS" || SEARCH_LIBS="/usr /usr/local /usr/pkg /opt/pkg /opt/sfw"
+
+# ======================================================================
+# Generic configure functions
+# ======================================================================
+
+check_testpgm () {
+    # Checks whether t.c can be compiled and started. Furthermore,
+    # the output of the test program must match a criterion.
+    # $1: name of the criterion
+    # $2: expected library directory
+    # $3...: Further Arguments for compilation
+    crit="$1"
+    shift
+    expectlibdir="$1"
+    shift
+
+    rm -f t
+
+    echo "# Trying " $CC -o t t.c "$@" >>t.log
+    $CC -o t t.c "$@" >>t.log 2>&1
+
+    bs=""
+
+    awk=`godi_make -f $LOCALBASE/build/mk/bsd.pkg.mk VARNAME=AWK show-var`
+    # This is at least nawk. The point is we need an awk version with
+    # support for extended regular expressions.
+
+    if [ $? -eq 0 ]; then
+	if [ "x$ELF_RPATH" = "xno" ]; then
+	    libdir="$expectlibdir"
+	else
+            libdir=`ldd t | grep "libexpat\.so" | $awk '/=>/ { print $3 }'`
+	    libdir=`dirname "$libdir"`
+            echo "# Using library in:" $libdir >>t.log
+	fi
+        if [ "x$libdir" = "x$expectlibdir" ]; then
+	 echo "# Successful! Now trying to start this program..." >>t.log
+	 ./t >t.out 2>t.err
+	 if [ $? -eq 0 ]; then
+	    echo "# Successful! Now testing the output of the program..." >>t.log
+	    eval "$crit" t.out t.err
+	    if [ $? -eq 0 ]; then
+	        echo "# Successful! Using these settings." >>t.log
+		NEED_RPATH=no
+		return 0
+	    fi
+	 fi
+        else
+         echo "# Wrong library directory. Expected:$expectlibdir" >>t.log
+        fi
+    fi
+
+    echo "# Failure, now trying with RPATH." >>t.log
+
+    # Add missing RPATH_FLAG args
+
+    rpath_flags=""
+    for arg in "$@"; do
+        case "$arg" in
+	    -L*)
+		dir=`echo X"$arg" | sed -e 's/^X-L//'`
+		rpath_flags="$rpath_flags -Wl,${RPATH_FLAG}$dir"
+		;;
+	    *)
+		: ;;
+	esac
+    done
+
+    echo "# Trying " $CC -o t t.c $rpath_flags "$@" >>t.log
+    $CC -o t t.c $rpath_flags "$@" >>t.log 2>&1
+
+    if [ $? -eq 0 ]; then
+	if [ "x$ELF_RPATH" = "xno" ]; then
+	    libdir="$expectlibdir"
+	else
+            libdir=`ldd t | grep "libexpat\.so" | $awk '/=>/ { print $3 }'`
+	    libdir=`dirname "$libdir"`
+            echo "# Using library in:" $libdir >>t.log
+	fi
+        if [ "x$libdir" = "x$expectlibdir" ]; then
+	 echo "# Successful! Now trying to start this program..." >>t.log
+	 ./t >t.out 2>t.err
+	 if [ $? -eq 0 ]; then
+	    echo "# Successful! Now testing the output of the program..." >>t.log
+	    eval "$crit" t.out t.err
+	    if [ $? -eq 0 ]; then
+	        echo "# Successful! Using these settings." >>t.log
+		NEED_RPATH=yes
+		return 0
+	    fi
+	 fi
+        else
+         echo "# Wrong library directory. Expected:$expectlibdir" >>t.log
+        fi
+    fi
+
+    echo "# Failure, trying next possibility." >>t.log
+    return 1
+}
+
+# ======================================================================
+# Special configure functions
+# ======================================================================
+
+check_version () {
+    v=`cat $1`
+    test -n "$v" || return 1
+    echo "Found: " "$v"
+}
+
+
+check_library () {
+    cat <<'EOF' >t.c
+#include <stdlib.h>
+#include "expat.h"
+
+main () {
+    printf("%s\n", XML_ExpatVersion());
+    exit(0);
+}
+EOF
+
+    INCOUT="$1"
+    LIBOUT="$2"
+    if [ "$1" = "/usr/include" ]; then
+        check_testpgm check_version $2 -L"$2" -lexpat
+    else
+	check_testpgm check_version $2 -I"$1" -L"$2" -lexpat
+    fi
+}
+
+
+find_library () {
+    if [ -n "$INC" -o -n "$LIB" ]; then
+	echo "Checking the suggestion"
+	echo "     (INC=$INC, LIB=$LIB)... "
+	test -f "$INC/expat.h" && check_library "$INC" "$LIB" && return 0
+        echo "*** This suggestion does not work (see t.log for details)."
+	exit 1
+    fi
+    # Special case: /usr/include + /lib
+    if [ -f "/usr/include/expat.h" ]; then
+	if check_library "/usr/include" "/lib"; then
+	    return 0
+	fi
+    fi
+    for loc in $SEARCH_LIBS; do
+	echo "Checking $loc... "
+	if [ -f "$loc/include/expat.h" ]; then
+	    if check_library "$loc/include" "$loc/lib"; then
+		return 0
+	    fi
+	fi
+    done
+    echo "===> expat not found" >&2
+    echo "     Consider adding GODI_BASEPKG_EXPAT=yes to godi.conf" >&2
+    exit 1
+}
+
+
+rm -f t.log
+
+find_library
+
+echo
+echo "*** Effective expat configuration:"
+echo "*** Directory for include file (expat.h): $INCOUT"
+echo "*** Libraries (-lexpat):                  $LIBOUT"
+echo "*** Needs RPATH:                          $NEED_RPATH"
+echo "*** Additional dependencies:              ${DEPS:-none}"
+echo
+
+echo "CONF_EXPAT_INCDIR=$INCOUT" > conf-expat.mk
+echo "CONF_EXPAT_LIBDIR=$LIBOUT" >>conf-expat.mk
+echo "CONF_EXPAT_NEED_RPATH=$NEED_RPATH" >>conf-expat.mk
+echo "CONF_EXPAT_DEPENDS=$DEPS" >>conf-expat.mk
+
+# Compatibility with Godi_script:
+echo "CONF_EXPAT_LIBNAMES=expat" >>conf-expat.mk
+
+exit 0

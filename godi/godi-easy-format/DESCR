@@ -1,0 +1,5 @@
+This module offers a simplified interface to the Format module of the
+standard library. Input data must be converted into a tree using 3 kinds of
+nodes: atoms, lists and labelled nodes. Each node is bound to its own
+formatting parameters and a single function call produces the formatted
+output. 

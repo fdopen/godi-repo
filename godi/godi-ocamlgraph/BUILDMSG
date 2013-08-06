@@ -1,0 +1,2 @@
+GODI_OCAMLGRAPH_VIEWER: set it to yes to enable the build of the graph viewer.
+This requires to have lablgtk compiled with gnome canvas enabled.

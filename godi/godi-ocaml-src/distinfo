@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (ocaml-4.00.1.tar.bz2) = 10b8a4d0b88d20b003e3dd719f2ac9434e6a1042
+Size (ocaml-4.00.1.tar.bz2) = 2762205 bytes
+
+SHA1 (patch-aa-astartup) = 4b03907a125146037466335f4bcaba42aeea9ea0
+SHA1 (patch-bb-arrayappend) = 23be4010cf448a7a861985f5ea2165a543320287
+SHA1 (patch-cc-makefile.nt) = 79c70e999ef161d453787d1970f1235b61aad694
+SHA1 (patch-windows) = 863feeed05efc2279b7b2628a04849b310d1b7f6

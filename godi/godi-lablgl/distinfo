@@ -1,0 +1,9 @@
+$NetBSD$
+
+SHA1 (lablgl-20120306.tar.gz) = 996f0aba788f5fa1531587fb06d667b94237cc92
+Size (lablgl-20120306.tar.gz) = 423411 bytes
+
+SHA1 (patch-aa-glutmake) = 5b572dd25550df793a349a3b677cadad433eefae
+SHA1 (patch-aa-win) = 9421e0658527b98acab0b5f5b65998a3e4cca656
+SHA1 (patch-ab-toglmake) = 72e97ebf41203a85b2ccf51154f5fa2a9a83145a
+SHA1 (patch-cc-makefile) = 338fa728cc5b96efcad0a94c0873237b9a3897e9

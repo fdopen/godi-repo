@@ -1,0 +1,11 @@
+--- Makefile.orig	2012-11-03 20:21:53.000000000 +0000
++++ Makefile	2013-02-09 17:05:31.906250000 +0000
+@@ -20,7 +20,7 @@
+ 
+ # PATHS
+ 
+-PATH_BASE=`pwd`
++PATH_BASE=$(shell cygpath -m "$$(readlink -f . )")
+ PATH_BUILD=$(PATH_BASE)/_build
+ PATH_OCAMLDOC=$(PATH_BASE)/ocamldoc
+ PATH_SRC=$(PATH_BASE)/src

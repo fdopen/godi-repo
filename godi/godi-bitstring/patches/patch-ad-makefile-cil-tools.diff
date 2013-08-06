@@ -1,0 +1,13 @@
+--- cil-tools/Makefile.in.orig	2010-03-18 12:46:52.000000000 -0700
++++ cil-tools/Makefile.in	2010-03-18 12:47:12.000000000 -0700
+@@ -43,7 +43,9 @@
+ 
+ OCAMLDOCFLAGS	= -html -sort
+ 
+-all:		bitstring-import-c bitstring-import-c.opt
++all:		bitstring-import-c
++
++opt:		bitstring-import-c.opt
+ 
+ bitstring-import-c: bitstring_import_c.cmo
+ 	$(OCAMLFIND) ocamlc $(OCAMLCFLAGS) $(OCAMLCLIBS) $< -o $@

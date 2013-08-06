@@ -1,0 +1,13 @@
+Available options for godi.conf:
+
+- GODI_LABLGTK2_USE_GL: wether to attempt building openGL support.
+  Requires both LablGL and GtkGLarea.
+  Example: GODI_LABLGTK2_USE_GL=yes
+
+- GODI_LABLGTK2_CONFARGS: other options for configure.
+    --without-glade          disable glade support
+    --without-rsvg           disable SVG support
+    --without-gnomecanvas    disable gnomecanvas support
+    --without-gnomeui        disable gnome druid support
+    --without-panel          disable gnome panel support
+    --enable-debug           compile with debug info

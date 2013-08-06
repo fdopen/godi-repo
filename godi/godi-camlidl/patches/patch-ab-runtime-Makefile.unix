@@ -1,0 +1,19 @@
+--- runtime/Makefile.unix.orig	2006-01-20 18:44:14.399650872 +0100
++++ runtime/Makefile.unix	2006-01-20 18:45:53.136275882 +0100
+@@ -17,14 +17,13 @@
+ all: libcamlidl.a
+ 
+ libcamlidl.a: $(OBJS)
+-	- rm -f $@
+-	ar rc $@ $(OBJS)
+-	$(RANLIB) $@
++	ocamlmklib -oc camlidl $(OBJS)
+ 
+ install:
+ 	cp camlidlruntime.h $(OCAMLLIB)/caml/camlidlruntime.h
+ 	cp libcamlidl.a $(OCAMLLIB)/libcamlidl.a
+ 	cd $(OCAMLLIB); $(RANLIB) libcamlidl.a
++	test ! -f dll* || cp dll* $(OCAMLLIB)/stublibs
+ 
+ clean:
+ 	rm -f *.a *.o

@@ -1,0 +1,4 @@
+@comment $GODI$
+@dllfindlib expat
+@deepdir doc/godi-expat
+

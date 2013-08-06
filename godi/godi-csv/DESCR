@@ -1,0 +1,2 @@
+This library can write CSV files, including all extensions used by Excel -
+eg. quotes, newlines, 8 bit characters in fields, "O etc.

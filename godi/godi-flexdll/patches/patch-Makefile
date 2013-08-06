@@ -1,0 +1,40 @@
+--- Makefile.orig	2012-05-30 09:29:51.000000000 +0000
++++ Makefile	2012-10-01 21:27:48.177200000 +0000
+@@ -9,6 +9,7 @@
+ MINGW64_PREFIX = x86_64-w64-mingw32
+ MIN64CC = $(MINGW64_PREFIX)-gcc
+ 
++WINDRES ?= windres
+ 
+ .PHONY: version.ml
+ version.ml:
+@@ -42,6 +43,7 @@
+ MSVCC64 = $(MSVCC_ROOT)/amd64/cl.exe /nologo /MD -D_CRT_SECURE_NO_DEPRECATE /GS-
+ CYGCC = gcc 
+ OCAMLOPT = ocamlopt
++OCAMLC	 = ocamlc
+ #OCAMLOPT = FLEXLINKFLAGS=-real-manifest ocamlopt
+ #LINKFLAGS = unix.cmxa
+ 
+@@ -60,15 +62,18 @@
+ build_mingw: flexdll_mingw.o flexdll_initer_mingw.o 
+ build_mingw64: flexdll_mingw64.o flexdll_initer_mingw64.o
+ 
+-OBJS = version.ml coff.ml cmdline.ml create_dll.ml reloc.ml
++OBJS = version.ml config_reader.ml coff.ml cmdline.ml create_dll.ml reloc.ml
+ 
+-flexlink.exe: $(OBJS) version_res.o
++flexlink.exe: $(OBJS) version_res.o config_reader.cmi
+ 	@echo Building flexlink.exe with TOOLCHAIN=$(TOOLCHAIN)
+ 	rm -f flexlink.exe
+ 	$(OCAMLOPT) -w -105 -o flexlink.exe $(LINKFLAGS) $(OBJS)
+ 
++config_reader.cmi:
++	$(OCAMLC) -c config_reader.mli
++
+ version_res.o: version.rc
+-	windres version.rc version_res.o
++	$(WINDRES) version.rc version_res.o
+ 
+ 
+ flexdll_msvc.obj: flexdll.h flexdll.c

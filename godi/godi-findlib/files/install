@@ -1,0 +1,83 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+# don't forget to keep this information in sync with the build Makefile!
+if [ "a${2}" != "aPOST-INSTALL" ]; then
+    exit 0
+fi
+
+xfile="${GODI_PREFIX}/etc/findlib.conf"
+if [ -f "$xfile" ]; then
+    ncontent="destdir=\"${GODI_PREFIX_WIN}/lib/ocaml/site-lib\"
+path=\"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib;${GODI_PREFIX_WIN}/lib/ocaml/site-lib\"
+ocamlc=\"ocamlc.opt.exe\"
+ocamlopt=\"ocamlopt.opt.exe\"
+ocamldep=\"ocamldep.opt.exe\"
+ocamldoc=\"ocamldoc.opt.exe\"
+"
+    replace_and_backup "$xfile" "$ncontent"
+fi
+
+xfile="${GODI_PREFIX}/etc/findlib-BUILD.conf"
+if [ -f "$xfile" ]; then
+    ncontent="destdir=\"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib\"
+path=\"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib\"
+ocamlc=\"ocamlc.opt.exe\"
+ocamlopt=\"ocamlopt.opt.exe\"
+ocamldep=\"ocamldep.opt.exe\"
+ocamldoc=\"ocamldoc.opt.exe\"
+"
+    replace_and_backup "$xfile" "$ncontent"
+fi
+
+xfile="${GODI_PREFIX}/lib/ocaml/std-lib/topfind"
+if [ -f "$xfile" ]; then
+    ncontent="(* For Ocaml-3.03 and up, so you can do: #use \"topfind\" and get a
+ * working findlib toploop.
+ *)
+
+#directory \"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/findlib\";;
+  (* OCaml-4.00 requires to have #directory before we load anything *)
+
+#directory \"+compiler-libs\";;
+  (* For OCaml-4.00. This directory will be later removed from path *)
+
+(* First test whether findlib_top is already loaded. If not, load it now.
+ * The test works by executing the toplevel phrase \"Topfind.reset\" and
+ * checking whether this causes an error.
+ *)
+let exec_test s =
+  let l = Lexing.from_string s in
+  let ph = !Toploop.parse_toplevel_phrase l in
+  let fmt = Format.make_formatter (fun _ _ _ -> ()) (fun _ -> ()) in
+  try
+    Toploop.execute_phrase false fmt ph
+  with
+      _ -> false
+in
+
+if not(exec_test \"Topfind.reset;;\") then (
+  Topdirs.dir_load Format.err_formatter \"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/findlib/findlib.cma\";
+  Topdirs.dir_load Format.err_formatter \"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/findlib/findlib_top.cma\";
+);;
+
+#remove_directory \"+compiler-libs\";;
+
+(* Old: *)
+(* #load \"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/findlib/findlib.cma\";; *)
+(* #load \"${GODI_PREFIX_WIN}/lib/ocaml/pkg-lib/findlib/findlib_top.cma\";; *)
+
+
+(* The following is always executed. It is harmless if findlib was already
+ * initialized
+ *)
+
+Topfind.add_predicates [ \"byte\"; \"toploop\" ];
+Topfind.don't_load [\"findlib\"];
+Topfind.announce();;
+"
+    replace_and_backup "$xfile" "$ncontent"
+fi

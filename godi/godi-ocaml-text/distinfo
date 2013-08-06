@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (ocaml-text-0.6.tar.gz) = 72f767bc3b5e52ef9cc73b5f69f7b17e946cba5c
+Size (ocaml-text-0.6.tar.gz) = 253162 bytes
+
+SHA1 (patch-win-setup.ml) =	     d3062e17504e41adb08562b15643c2901f9d38d3 

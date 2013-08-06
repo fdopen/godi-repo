@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (extlib-1.5.3.tar.gz) = 6e395ae70e690d5ec6f166cce4761798ce494580
+Size (extlib-1.5.3.tar.gz) = 70897 bytes
+
+SHA1 (patch-aa-Makefile) = ce2c1413cc8d0ca7f7a9dfa6863cd9bc33f08254

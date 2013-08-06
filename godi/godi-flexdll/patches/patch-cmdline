@@ -1,0 +1,100 @@
+--- cmdline.ml.orig	2013-05-03 11:05:03.000000000 +0000
++++ cmdline.ml	2013-07-31 19:52:16.521600000 +0000
+@@ -245,36 +245,74 @@
+     | x :: rest -> x :: tr rest
+     | [] -> []
+   in
+-  let args =
+-    match Array.to_list Sys.argv with
+-    | pgm :: args -> pgm :: tr (flexlinkflags @ args)
+-    | _ -> assert false
++  let unquote s =
++    let lenm1 = String.length s - 1 in
++    if lenm1 < 0 || s.[0] <> '"' || s.[lenm1] <> '"' then
++      s
++    else
++      let buf = Buffer.create lenm1 in
++      let rec loop  i =
++        if i < lenm1 then
++          match s.[i] with
++          | '\\' -> loop_bs 0 i
++          | c ->
++            Buffer.add_char buf c ;
++            loop (succ i)
++      and loop_bs n i =
++        if i >= lenm1 then
++          add_bs (n / 2)
++        else
++          match s.[i] with
++          | '\\' -> loop_bs (succ n) (succ i)
++          | '\"' ->
++            add_bs (n / 2);
++            loop i
++          | c   ->
++            add_bs n;
++            loop i
++      and add_bs n =
++        for i = 1 to n do
++          Buffer.add_char buf '\\' ;
++        done
++      in
++      loop 1;
++      Buffer.contents buf
+   in
+ 
+-  let add_file s =
+-    if s.[0] = '@' then
+-      let ic = open_in (String.sub s 1 (String.length s - 1)) in
+-      begin
++  let fresponse accu l =
++    let len = String.length l in
++    if len < 1 then
++      l::accu
++    else if l.[0] <> '@' then
++      l::accu
++    else
++      let fln = String.sub l 1 (pred len ) in
++      if Sys.file_exists fln = false then
++        l::accu
++      else
++        let ch = open_in fln in
++        let naccu =
++          let ac = ref accu in
+         try
+           while true do
+-            let fn = input_line ic in
+-            if fn <> "" then
+-              (* todo: better unquoting *)
+-              let fn =
+-                if fn.[0] = '\"' && fn.[String.length fn - 1] = '\"'
+-                then String.sub fn 1 (String.length fn - 2)
+-                else fn
++              ac := (unquote (input_line ch) ) :: !ac
++            done;
++            assert false
++          with
++          | End_of_file -> !ac
+               in
+-              files := fn :: !files
+-          done
+-        with End_of_file -> ()
+-      end;
+-      close_in ic
+-    else
+-       files := s :: !files
++        close_in ch;
++        naccu
++  in
++
++  let args =
++    match List.rev ( Array.fold_left fresponse [] Sys.argv ) with
++    | pgm :: args -> pgm :: tr (flexlinkflags @ args)
++    | _ -> assert false
+   in
++
+   Arg.parse_argv (Array.of_list args) (Arg.align specs)
+-    add_file usage_msg;
++    (fun x -> files := x :: !files) usage_msg;
+   if !output_file = "" && !mode <> `DUMP then begin
+     Printf.eprintf
+       "Please specify an output file (-help to get some usage information)\n";

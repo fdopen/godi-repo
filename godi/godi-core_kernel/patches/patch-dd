@@ -1,0 +1,16 @@
+--- lib/bigstring_stubs.c.orig	2013-07-30 14:37:37.000000000 +0000
++++ lib/bigstring_stubs.c	2013-08-04 21:35:29.802800000 +0000
+@@ -16,6 +16,13 @@
+ #define bswap_16 OSSwapInt16
+ #define bswap_32 OSSwapInt32
+ #define bswap_64 OSSwapInt64
++#elif __MINGW32__
++static inline uint16_t bswap_16 (uint16_t x)
++{
++    return (x << 8) | (x >> 8);
++}
++#define bswap_32 __builtin_bswap32
++#define bswap_64 __builtin_bswap64
+ #elif __GLIBC__
+ #include <byteswap.h>
+ #include <malloc.h>

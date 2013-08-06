@@ -1,0 +1,33 @@
+Note: flexdll is only available for Windows platforms!
+
+Under Windows, DLL (Dynamically-Linked Libraries) are generally used
+to improve code modularity and sharing. A DLL can be loaded
+automatically when the program is loaded (if it requires the DLL). The
+program can also explicitly request Windows to load a DLL at any
+moment during runtime, using the LoadLibrary function from the Win32
+API.
+
+This naturally suggests to use DLLs as a plugin mechanism. For
+instance, a web server could load extensions modules stored in DLLs at
+runtime. But Windows does not really make it easy to implement plugins
+that way. The reason is that when you try to create a DLL from a set
+of object files, the linker needs to resolve all the symbols, which
+leads to the very problem solved by FlexDLL:
+
+Windows DLL cannot refer to symbols defined in the main application or
+in previously loaded DLLs.
+
+Some usual solutions exist, but they are not very flexible. A notable
+exception is the edll library (its homepage also describes the usual
+solutions), which follows a rather drastic approach; indeed, edll
+implements a new dynamic linker which can directly load object files
+(without creating a Windows DLL).
+
+FlexDLL is another solution to the same problem. Contrary to edll, it
+relies on the native static and dynamic linkers. Also, it works both
+with the Microsoft environment (MS linker, Visual Studio compilers)
+and with Cygwin (GNU linker and compilers, in Cygwin or MinGW
+mode). Actually, FlexDLL implements mostly the usual dlopen POSIX API,
+without trying to be fully conformant though (e.g. it does not respect
+the official priority ordering for symbol resolution). This should
+make it easy to port applications developped for Unix.

@@ -1,0 +1,63 @@
+#include <windows.h>
+#include <process.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
+
+
+static char * add_to_file_dir(const char * prefix, const char * suffix){
+  static char cur_path[MAX_PATH];
+  char * last ;
+  char * ret ;
+  size_t output_len;
+  if ( GetModuleFileName(NULL, cur_path, MAX_PATH)  == 0 ){
+    fputs("GetModuleFileName failed\n",stderr);
+    exit(2);
+  }
+  last = strrchr(cur_path, '\\') ;
+  if ( last == NULL ){
+    fputs("Output of GetModuleFileName contains garbage\\n",stderr);
+    exit(2);
+  }
+  *last = '\0';
+
+  output_len = strlen(prefix) + strlen(suffix) + strlen(cur_path) + 1 ;
+
+  ret=malloc(output_len);
+  if ( ret == NULL ) {
+    fputs("Not enough memory\n",stderr);
+    exit(2);
+  }
+  snprintf(ret,output_len,"%s%s%s",prefix,cur_path,suffix);
+
+  return ret;
+}
+
+int main(int argc, const char ** argv)
+{
+  const char** new_argv;
+  char* prog_add;
+  int i;
+
+  prog_add=add_to_file_dir("","\\ocamlmklib_real.exe");
+
+  new_argv = malloc( (argc + 2) * sizeof (char *));
+  if (new_argv == NULL) goto error_end;
+
+  new_argv[0] = prog_add;
+  new_argv[1] = "-L%%LOCALBASE%%/lib";
+
+  for ( i = 1 ; i < argc ; i++ ) new_argv[i+1] = argv[i];
+  new_argv[argc+1] = NULL;
+
+  i = _spawnv(_P_WAIT, prog_add ,(const char **)new_argv);
+  if ( i == -1 ){
+    fputs("Cannot exec ocamlmklib_real.exe\r\n",stderr);
+    exit(127);
+  }
+  exit(i);
+
+ error_end:
+  fputs("No memory\n",stderr);
+  exit(1);
+}

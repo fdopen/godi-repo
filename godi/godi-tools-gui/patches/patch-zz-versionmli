@@ -1,0 +1,28 @@
+--- console-src/godi-pkg/godi_versions.mli.orig	2012-12-30 21:34:31.000000000 +0000
++++ console-src/godi-pkg/godi_versions.mli	2013-02-11 16:59:51.312500000 +0000
+@@ -13,6 +13,7 @@
+ 
+ (* Handle version numbers *)
+ 
++open Sexplib.Std
+ type condition =
+     (* Contains only the version number, not the package name *)
+     private
+@@ -23,7 +24,7 @@
+   | Le of string       (* pkg<=version *)
+   | Lt of string       (* pkg<version *)
+   | Ne of string       (* pkg!=version *)
+-  | Binary of string * string
++  | Binary of string * string with sexp
+       (* Binary(version,md5): This is only for binary packages.
+          Exactly [version] is requested with a build fingerprint md5
+ 
+@@ -45,7 +46,7 @@
+  *)
+ 
+ 
+-type dependency = string * condition   (* package name, version *)
++type dependency = string * condition with sexp  (* package name, version *)
+ ;;    
+ 
+ 

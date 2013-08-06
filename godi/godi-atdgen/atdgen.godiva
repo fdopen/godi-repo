@@ -1,0 +1,13 @@
+Package: godi-atdgen
+Version: 1.2.2
+Revision: 0
+Depends: godi-ocaml, godi-biniou (>= 1.0.0), godi-yojson (>= 1.0.0), godi-atd (>= 1.0.0)
+Build-Depends: godi-findlib
+Sources: http://oss.wink.com/atdgen/atdgen-1.2.2.tar.gz
+Homepage: http://oss.wink.com/atdgen/
+Maintainer: Martin Jambon <martin@mjambon.com>
+Options: opt
+Docfiles: README, LICENSE
+Description: Code generator for biniou and JSON serialization
+Atdgen is a command-line program that takes as input type definitions in the ATD syntax and produces OCaml code suitable for data serialization and deserialization. Two data formats are currently supported, these are biniou and JSON.
+.

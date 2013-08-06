@@ -1,0 +1,66 @@
+--- console-src/Makefile.orig	2012-12-30 21:34:30.000000000 +0000
++++ console-src/Makefile	2013-01-04 15:27:10.390625000 +0000
+@@ -10,17 +10,23 @@
+ 	cd godi-ui && $(MAKE) all
+ 	cd console && $(MAKE) all
+ 
++
++DEBUG_EXPORT= \
++	export CFLAGS="-g $(CFLAGS)" ; \
++	export OCAMLOPT_OPTIONS="-g" ; \
++	export OPT_OPTIONS="-g" ;
++
+ opt:
+-	test $(HAVE_GODITERM) -eq 0 || { cd godi-term && $(MAKE) opt; }
+-	cd godi-digest && $(MAKE) opt
+-	cd godi-sys-$(SYSTEM_TYPE) && $(MAKE) opt
+-	cd godi-util && $(MAKE) opt
+-	cd godi-pax && $(MAKE) opt
+-	cd godi-gzip && $(MAKE) opt
+-	cd godi-wtool-$(WTOOL) && $(MAKE) opt
+-	cd godi-pkg && $(MAKE) opt
+-	cd godi-ui && $(MAKE) opt
+-	cd console && $(MAKE) opt
++	@test $(HAVE_GODITERM) -eq 0 || ( $(DEBUG_EXPORT) cd godi-term && $(MAKE) opt )
++	@$(DEBUG_EXPORT) cd godi-digest && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-sys-$(SYSTEM_TYPE) && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-util && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-pax && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-gzip && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-wtool-$(WTOOL) &&  $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-pkg && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd godi-ui && $(MAKE) opt
++	@$(DEBUG_EXPORT) cd console && $(MAKE) opt
+ 
+ optp:
+ 	test $(HAVE_GODITERM) -eq 0 || { cd godi-term && OCAMLOPT_OPTIONS=-p $(MAKE) opt; }
+@@ -56,23 +62,26 @@
+ 	else \
+ 	    cp console/godi_console$(EXE) "$(prefix)/sbin"; \
+ 	fi
++	if [ -f console/godi_console_byte$(EXE) ]; then \
++		cp console/godi_console_byte$(EXE) "$(prefix)/sbin" ; \
++	fi
+ 	for f in update wish list info perform dep delete add ptool; do \
+             rm -f "$(prefix)/sbin/godi_$$f$(EXE)"; \
+             if [ -z "$(W32PORT)" ]; then \
+ 	        ln -s godi_console$(EXE) "$(prefix)/sbin/godi_$$f$(EXE)"; \
+             else \
+                 W32PORT="$(W32PORT)" \
+-                   ./symlink "$(LOCALBASE_NATIVE)/sbin/godi_console.exe" \
++                   ./symlink "godi_console.exe" \
+ 			     "$(prefix)/sbin/godi_$$f$(EXE)"; \
+             fi; \
+ 	done
+-	for f in make pax digest install; do \
++	for f in make pax digest install ; do \
+             rm -f "$(prefix)/bin/godi_$$f$(EXE)"; \
+ 	    if [ -z "$(W32PORT)" ]; then \
+ 	        ln -s ../sbin/godi_console$(EXE) "$(prefix)/bin/godi_$$f$(EXE)"; \
+             else \
+                 W32PORT="$(W32PORT)" \
+-                    ./symlink "$(LOCALBASE_NATIVE)/sbin/godi_console.exe" \
++		  ./symlink "../sbin/godi_console.exe" \
+ 	 	              "$(prefix)/bin/godi_$$f$(EXE)"; \
+             fi; \
+ 	done

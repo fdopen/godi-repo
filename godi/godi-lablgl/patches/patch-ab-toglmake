@@ -1,0 +1,13 @@
+--- Togl/src/Makefile~	2008-12-26 07:13:21.000000000 +0000
++++ Togl/src/Makefile	2012-10-17 11:36:43.875000000 +0000
+@@ -46,8 +46,8 @@
+ 	echo "#!/bin/sh" > lablgl
+ 	echo "# toplevel with lablGL and Togl" >> lablgl
+ 	if test -f dlltogl$(XS); then \
+-	    echo 'exec ocaml -I +labltk -I "$(INSTALLDIR)" lablgl.cma labltk.cma togl.cma $$*' >> lablgl; \
+-	 else echo 'exec "$(INSTALLDIR)/lablgltop" -I +labltk -I "$(INSTALLDIR)" $$*' >> lablgl; fi
++	    echo 'exec ocaml -I +labltk -I "$$(cygpath -m "$(INSTALLDIR)")" lablgl.cma labltk.cma togl.cma $$*' >> lablgl; \
++	 else echo 'exec "$(INSTALLDIR)/lablgltop" -I +labltk -I "$$(cygpath -m "$(INSTALLDIR)")" $$*' >> lablgl; fi
+ 	chmod 755 lablgl
+ 
+ togl_tags.c: togl_tags.var

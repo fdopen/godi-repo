@@ -1,0 +1,11 @@
+--- src/OMakefile~	2011-06-22 18:04:32.000000000 +0000
++++ src/OMakefile	2012-10-19 12:14:50.500000000 +0000
+@@ -259,7 +259,7 @@
+       $(glob i, *.cma) \
+       $(glob i, *.cmxa) \
+       $(glob i, *.a) \
+-      $(glob i, *.so)
++      $(glob i, *$(EXT_DLL))
+ 
+ INSTALL()=
+   value $(OCAMLFIND) install $(LIBRARY_PREFIX) $(INSTALL_TARGETS)
