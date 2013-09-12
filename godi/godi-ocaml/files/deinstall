@@ -4,15 +4,15 @@ set -e
 
 . "${GODI_PREFIX}/lib/godi/install_helper"
 
-windel \
-    "$1" "$2" 1 \
-    --remove-from-startmenu \
-    ../../bin/rlwrap.exe \
-    "Ocaml Toploop" \
-    "-a -H ./.ocaml_history -D 2 -i ocaml" \
-    "--with-mintty --with-bash --mintty-title \"Ocaml Toploop\"" \
-    "" \
-    "../../bin/mintty.exe"
+# windel \
+#     "$1" "$2" 1 \
+#     --remove-from-startmenu \
+#     ../../bin/rlwrap.exe \
+#     "Ocaml Toploop" \
+#     "-a -H ./.ocaml_history -D 2 -i ocaml" \
+#     "--with-mintty --with-bash --mintty-title \"Ocaml Toploop\"" \
+#     "" \
+#     "../../bin/mintty.exe"
 
 if [ "a${2}" != "aDEINSTALL" ]; then
     exit 0

@@ -16,7 +16,10 @@ BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 
 DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
+
+.if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+=	base-libpq>=0:../../base/base-libpq
+.endif
 
 WINOASIS=	yes
 

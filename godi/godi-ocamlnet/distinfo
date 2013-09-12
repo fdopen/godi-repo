@@ -1,9 +1,8 @@
 $NetBSD$
 
-SHA1 (ocamlnet-3.6.6.tar.gz) = fb630aa31e5f2c20ea1d667b8b58f1a2df811322
-Size (ocamlnet-3.6.6.tar.gz) = 3340847 bytes
+SHA1 (ocamlnet-3.7.3.tar.gz) = 8d5def2a162b772727b5af8f66a31a5c750656b0
+Size (ocamlnet-3.7.3.tar.gz) = 3352779 bytes
 
-SHA1 (patch-configure) = 0122480576eca7e5554ff9e83f45201643becd2e
-SHA1 (patch-configure-netsys) = e27875bf8d55af7b0f3d385de9f6565ba5397bf4
-SHA1 (patch-netsys_c.c) = 35999a40ee29a56df26e9333e189fc80fc6e5de8
+SHA1 (patch-netsys_c.c) = 2d79bebc89d8ad29b60a00fed52b7a5d9bc89e72
+SHA1 (patch-wj) = 74f17062cafde6e42e2b9f47d5ae50f8963501be
 SHA1 (patch-windows-netdb.mlp) = f1079f84f1452022e29a9c02b440b6397a8d03e4

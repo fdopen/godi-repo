@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.2
+VERSION=	1.2.1
 PKGNAME=	godi-zarith-${VERSION}
 PKGREVISION=	0
-DISTNAME=	zarith-${VERSION}
+DISTNAME=	zarith-1.2  #${VERSION}
 DISTFILES=	zarith-${VERSION}.tgz
 CATEGORIES=	godi
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1187/

@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	2.4.3
-PKGREVISION=	0
+PKGREVISION=	1
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	lwt-${VERSION}
@@ -21,7 +21,9 @@ DEPENDS+=		godi-ssl>=0.4.6:../../godi/godi-ssl
 CONFIGURE_ARGS+=	--enable-ssl
 .endif
 .if ${GODI_LWT_GLIB} != "no"
-DEPENDS+=		godi-lablgtk2>=0:../../godi/godi-lablgtk2
+.if defined(W32PORT) && ${W32PORT} == "mingw"
+BUILD_DEPENDS+=		base-windows>=0:../../base/base-windows
+.endif
 CONFIGURE_ARGS+=	--enable-glib
 .endif
 .if ${GODI_LWT_OCAMLTEXT} != "no"
@@ -33,6 +35,8 @@ DEPENDS+=		godi-react>=0.9.2:../../godi/godi-react
 CONFIGURE_ARGS+=	--enable-react
 
 WINOASIS=		yes
+#WINOASIS_SETUP=		no
+
 post-install:
 	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/unix
 	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/gtk

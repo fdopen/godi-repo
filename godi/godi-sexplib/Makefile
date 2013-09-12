@@ -16,7 +16,7 @@ BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 DEPENDS+=	godi-type_conv>=109.20.00:../../godi/godi-type_conv
 BUILD_DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
 
-DEPENDS+= godi-ocaml>=4.00:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.00:../../godi/godi-ocaml
 
 WINOASIS=		yes
 
@@ -24,7 +24,7 @@ WINOASIS=		yes
 post-extract:
 	${CP} ${WRKSRC}/_tags ${WRKSRC}/_tags.orig
 	cat ${WRKSRC}/_tags.orig | sed -e "s|pp(cpp|pp(${CPP}|" > ${WRKSRC}/_tags
-	#@cd ${WRKSRC} && \
+#@cd ${WRKSRC} && \
 		${SED} -e 's|$$sexp_test|$${sexp test}|' -e 's|$$conv_test|"$$conv_test"|' _oasis >_oasis.new && \
 		${MV} _oasis.new _oasis 
 .endif

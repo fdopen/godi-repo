@@ -4,15 +4,15 @@ set -e
 
 . "${GODI_PREFIX}/lib/godi/install_helper"
 
-winadd \
-    "$1" "$2" 1 \
-    --add-to-startmenu \
-    ../../bin/rlwrap.exe \
-    "Ocaml Toploop" \
-    "-a -H ./.ocaml_history -D 2 -i ocaml" \
-    "--with-mintty --with-bash --mintty-title \"Ocaml Toploop\"" \
-    "" \
-    "../../bin/mintty.exe"
+# winadd \
+#     "$1" "$2" 1 \
+#     --add-to-startmenu \
+#     ../../bin/rlwrap.exe \
+#     "Ocaml Toploop" \
+#     "-a -H ./.ocaml_history -D 2 -i ocaml" \
+#     "--with-mintty --with-bash --mintty-title \"Ocaml Toploop\"" \
+#     "" \
+#     "../../bin/mintty.exe"
 
 # don't forget to keep this information in sync with the build Makefile!
 

@@ -1,0 +1,14 @@
+--- src/batUnix.mliv~	2013-07-18 05:02:22.000000000 +0000
++++ src/batUnix.mliv	2013-08-09 12:49:41.611600000 +0000
+@@ -261,6 +261,11 @@
+                                     O_SYNC/O_DSYNC) *)
+ ##V4##  | O_SHARE_DELETE              (** OCaml 4 and Windows only: allow the file to be deleted
+ ##V4##                                   while still open *)
++##V4.01## | O_CLOEXEC (** Set the close-on-exec flag on the
++##V4.01##                 descriptor returned by {!openfile}
++##V4.01##
++##V4.01##                 Since OCaml 4.01 *)
++
+ (** The flags to {!Unix.openfile}. *)
+ 
+ 

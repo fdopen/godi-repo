@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3.1
+VERSION=	1.3.2
 PKGNAME=	godi-ocp-indent-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocp-indent-${VERSION}
-DISTFILES=	${VERSION}.tar.gz
+DISTFILES=	ocp-indent-${VERSION}.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 

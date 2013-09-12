@@ -14,14 +14,14 @@ OCAML_SVN_PATH?=	/ocaml/trunk
 
 
 # This is the official version string
-OVERSION= 	4.00.1
+OVERSION= 	4.01.0
 
 # This is the GODI version string, sometimes slightly modified
-VERSION=	4.00.1
+VERSION=	4.01.0
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
-DISTNAME=	ocaml-${OVERSION}
-PKGREVISION=	3
+DISTNAME=	ocaml-4.01.0
+PKGREVISION=	0
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -34,13 +34,13 @@ PKGREVISION=	100
 PKGNAME=	godi-ocaml-src-${VERSION}
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
-DISTFILES=	ocaml-${OVERSION}.tar.bz2
+DISTFILES=	ocaml-${OVERSION}.tar.xz
 .else
 DISTFILES=
 .endif
 
 CATEGORIES=	godi
-MASTER_SITES=   http://caml.inria.fr/distrib/ocaml-4.00/
+MASTER_SITES=   http://caml.inria.fr/distrib/ocaml-4.01/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://caml.inria.fr
 COMMENT=	OCaml sources (required for GODI builds)
@@ -103,14 +103,12 @@ post-extract:
 	svn checkout ${OCAML_SVN_ARGS} \
                http://caml.inria.fr/svn${OCAML_SVN_PATH} ocaml
 .endif
-.if defined(W32PORT) && ${W32PORT} == "mingw"
-	${CP} files/patch-win* patches
-.endif
+# .if defined(W32PORT) && ${W32PORT} == "mingw"
+# 	${CP} files/patch-win* patches
 
-.if defined(W32PORT) && ${W32PORT} == "mingw"
-pre-clean:
-	${RM} -f patches/patch-win*
-.endif
+# pre-clean:
+# 	${RM} -f patches/patch-win*
+# .endif
 
 
 # pre-configure: Create Makefile.godi. It is copied from the "files"
@@ -123,7 +121,7 @@ pre-configure:
 	${ECHO} "PREFIX=${PREFIX}" >>${WRKSRC}/Makefile.godi
 	${ECHO} "LOCALBASE=${LOCALBASE}" >>${WRKSRC}/Makefile.godi
 .if defined(W32PORT)
-	${SETENV} ${MAKE_ENV} sh -c \
+	@${SETENV} ${MAKE_ENV} sh -c \
 	'if ! flexlink -help >/dev/null 2>/dev/null; then \
 		echo "*** flexlink not found"; exit 1; \
 	fi'
@@ -146,11 +144,12 @@ LOCALBASE_NATIVE?=${LOCALBASE}
 .if defined(W32PORT)
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 MAKEFILE_MINGW=${WRKSRC}/config/Makefile.mingw64
+OCAML_BUILD_FLAGS ?= -march=x86-64 -mtune=generic -O2
 .else
 MAKEFILE_MINGW=${WRKSRC}/config/Makefile.mingw
+OCAML_BUILD_FLAGS ?= -march=i686 -mtune=generic -O2
 .endif
 .endif
-
 
 post-configure:
 	: # (1)
@@ -163,7 +162,8 @@ post-configure:
 	       -e 's|^DISTRIB=.*$$|DISTRIB=\$$(PREFIX)/doc/godi-ocaml|' \
 	       -e 's|^MANDIR=.*$$|MANDIR=\$$(PREFIX)/man/man1|' \
 	       -e 's|^FLEXDIR=.*$$|FLEXDIR=\$$(shell \$$(FLEXLINK) -where)/../lib/flexdll|' \
-	       -e 's|-O |-O2 |' -e 's|^TK_ROOT=.*$$||' -e 's|^TK_DEFS=.*$$||' -e 's|^TK_LINK.*$$||' \
+	       -e 's|^TK_ROOT=.*$$||' -e 's|^TK_DEFS=.*$$||' -e 's|^TK_LINK.*$$||' \
+	       -e 's|-O |${OCAML_BUILD_FLAGS} |' \
 	       ${MAKEFILE_MINGW} >${WRKSRC}/config/Makefile.tmp
 .if defined(OCAML_TK) && ${OCAML_TK} == "yes" 
 	${ECHO} "TK_DEFS=-I${LOCALBASE}/include" >>${WRKSRC}/config/Makefile.tmp
@@ -224,4 +224,3 @@ post-configure:
 	fi
 
 .include "../../mk/bsd.pkg.mk"
-

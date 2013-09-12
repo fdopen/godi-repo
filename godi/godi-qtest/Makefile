@@ -18,6 +18,7 @@ DEPENDS+=	godi-ocaml>3.12.0:../../godi/godi-ocaml
 DEPENDS+=	godi-ounit>=1.1:../../godi/godi-ounit
 
 WINOASIS=	 yes
+WINOASIS_SETUP=	 yes
 WINOASIS_DISABLE_TESTS= undef
 WINOASIS_DISABLE_DOCS=  undef
 

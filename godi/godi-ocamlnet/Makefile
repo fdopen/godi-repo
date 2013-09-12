@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.6.6
+VERSION=	3.7.3
 PKGREVISION=	0
 PKGNAME=	godi-ocamlnet-${VERSION}
 DISTNAME=	ocamlnet-${VERSION}
@@ -61,9 +61,12 @@ ALL_TARGET+=	opt
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 pre-clean:
 	${RM} -f patches/patch-win*
-
 post-extract:
 	${CP} files/patch-win* patches
+
+.if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
+CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp
+.endif
 .endif
 
 

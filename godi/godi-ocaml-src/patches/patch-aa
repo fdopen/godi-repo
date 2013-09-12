@@ -1,0 +1,114 @@
+--- ../../work-ref/ocaml-4.01/asmrun/startup.c	2013-08-02 16:21:40.000000000 +0200
++++ ./asmrun/startup.c	2013-08-09 11:11:06.473200000 +0200
+@@ -34,6 +34,10 @@
+ #ifdef HAS_UI
+ #include "ui.h"
+ #endif
++#ifdef _WIN32
++#include <string.h>
++#include <windows.h>
++#endif
+ 
+ extern int caml_parser_trace;
+ CAMLexport header_t caml_atom_table[256];
+@@ -155,11 +159,64 @@
+ #endif
+ 
+ 
++
++#ifdef _WIN32
++static char *
++get_executable_name(void)
++{
++#define START_LENGTH  1024
++#define MAX_LENGTH    (START_LENGTH * 64)
++    DWORD result;
++    DWORD path_size = START_LENGTH;
++    char* path      = malloc(START_LENGTH);
++
++    while ( path != NULL && path_size <= MAX_LENGTH )
++    {
++        memset(path, 0, path_size);
++        result = GetModuleFileName(NULL, path, path_size - 1);
++        if (result == 0 )
++        {
++            free(path);
++            path = NULL;
++        }
++        else if (result == path_size - 1)
++        {
++            DWORD er = GetLastError();
++            free(path);
++            path=NULL;
++            if ( er == ERROR_INSUFFICIENT_BUFFER ||
++                 er == ERROR_SUCCESS )
++            {
++                path_size = path_size * 2;
++                if ( path_size <= MAX_LENGTH )
++                  path = malloc(path_size);
++            }
++        }
++        else
++        {
++            /* don't waste memory */
++            size_t len = 1 + strlen(path);
++            char * result = malloc(len);
++            if ( result )
++              result=memcpy(result, path, len);
++            free(path);
++            path=result;
++            path_size= MAX_LENGTH + 1;
++        }
++    }
++    return path;
++#undef START_LENGTH
++#undef MAX_LENGTH
++}
++#endif /*_WIN32 */
++
+ void caml_main(char **argv)
+ {
+   char * exe_name;
+ #ifdef __linux__
+   static char proc_self_exe[256];
++#elif _WIN32
++  char * execut;
+ #endif
+   value res;
+   char tos;
+@@ -186,6 +243,11 @@
+     exe_name = proc_self_exe;
+   else
+     exe_name = caml_search_exe_in_path(exe_name);
++#elif _WIN32
++  if  ( ( execut = get_executable_name() ) != NULL )
++    exe_name = execut ;
++  else
++    exe_name = caml_search_exe_in_path(exe_name);
+ #else
+   exe_name = caml_search_exe_in_path(exe_name);
+ #endif
+--- ../../work-ref/ocaml-4.01/Makefile.nt	2013-08-02 16:21:40.000000000 +0200
++++ ./Makefile.nt	2013-08-09 11:07:31.988800000 +0200
+@@ -226,7 +226,9 @@
+ 	cd tools ; $(MAKEREC) install
+ 	cd ocamldoc ; $(MAKEREC) install
+ 	mkdir -p $(STUBLIBDIR)
+-	for i in $(OTHERLIBRARIES); do $(MAKEREC) -C otherlibs/$$i install; done
++	for i in $(OTHERLIBRARIES); do \
++		$(MAKEREC) -C otherlibs/$$i install  || exit $$? ; \
++	done
+ 	if test -f debugger/ocamldebug.exe; then (cd debugger; $(MAKEREC) install); \
+ 	   else :; fi
+ 	./build/partial-install.sh
+@@ -244,7 +246,9 @@
+ 	cp asmcomp/*.cmi driver/*.cmi $(COMPLIBDIR)
+ 	cp compilerlibs/ocamloptcomp.cma $(OPTSTART) $(COMPLIBDIR)
+ 	cd ocamldoc ; $(MAKEREC) installopt
+-	for i in $(OTHERLIBRARIES); do $(MAKEREC) -C otherlibs/$$i installopt; done
++	for i in $(OTHERLIBRARIES); do \
++		$(MAKEREC) -C otherlibs/$$i installopt || exit $$? ; \
++	done
+ 	if test -f ocamlopt.opt ; then $(MAKEREC) installoptopt; fi
+ 
+ installoptopt:

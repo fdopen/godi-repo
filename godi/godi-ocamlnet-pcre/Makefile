@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.6.6
+VERSION=	3.7.3
 PKGNAME=	godi-ocamlnet-pcre-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocamlnet-${VERSION}
@@ -27,6 +27,10 @@ CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	-disable-core
 CONFIGURE_ARGS+=-enable-pcre
+
+.if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
+CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp
+.endif
 
 ALL_TARGET=	all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"

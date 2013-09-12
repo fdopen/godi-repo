@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.4.4
-MNODE=		892
+VERSION=	0.4.5
+MNODE=		1194
 PKGREVISION=	0
 PKGNAME=	godi-fileutils-${VERSION}
 DISTNAME=	ocaml-fileutils-${VERSION}
@@ -16,8 +16,9 @@ BUILD_DEPENDS+=	godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ounit>=1:../../godi/godi-ounit
 
 WINOASIS=	yes
-WINOASIS_DISABLE_TESTS= undef
-WINOASIS_DISABLE_DOCS= undef
+# not implemented for win
+WINOASIS_DISABLE_TESTS= yes
+#WINOASIS_DISABLE_DOCS= undef
 
 #post-extract:
 #	@cd ${WRKSRC} && \

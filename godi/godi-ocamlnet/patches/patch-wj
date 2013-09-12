@@ -1,0 +1,64 @@
+--- ../../work-ref/ocamlnet-3.7.3/src/netsys/config.h	2013-08-30 20:38:26.000000000 +0200
++++ ./src/netsys/config.h	2013-08-30 21:51:08.345600000 +0200
+@@ -1,26 +1,24 @@
+-#define HAVE_PTHREAD
+-#define FANCY_PAGE_TABLES
+-#undef HAVE_NEW_MODIFY
+-#define HAVE_POSIX_SHM
+-#define HAVE_POSIX_SEM_ANON
+-#define HAVE_POSIX_SEM_NAMED
+-#define HAVE_POSIX_SPAWN
+-#define HAVE_POSIX_FADVISE
+-#define HAVE_POSIX_FALLOCATE
+-#define HAVE_POSIX_MEMALIGN
+-#define HAVE_SYSLOG
+-#define HAVE_AT
+-#define HAVE_FCHDIR
+-#define HAVE_FDOPENDIR
+-#define HAVE_REALPATH
+-#define HAVE_PTY
+-#define HAVE_PTY_OPENPT
+-#define HAVE_INITGROUPS
+-#define HAVE_CLOCK
+-#define HAVE_POSIX_TIMER
+-#define HAVE_EVENTFD
+-#define HAVE_TIMERFD
+-#define HAVE_EPOLL
+-#define HAVE_GCC_COMPARE_AND_SWAP
+-#define HAVE_GPROF
+-#define HAVE_LOCALE
++#undef HAVE_PTHREAD
++#undef FANCY_PAGE_TABLES
++#define HAVE_NEW_MODIFY
++#undef WEAK_MODIFY
++#undef HAVE_POSIX_SHM
++#undef HAVE_POSIX_SEM_ANON
++#undef HAVE_POSIX_SEM_NAMED
++#undef HAVE_POSIX_SPAWN
++#undef HAVE_POSIX_FADVISE
++#undef HAVE_POSIX_FALLOCATE
++#undef HAVE_POSIX_MEMALIGN
++#undef HAVE_SYSLOG
++#undef HAVE_AT
++#undef HAVE_FCHDIR
++#undef HAVE_FDOPENDIR
++#undef HAVE_REALPATH
++#undef HAVE_PTY
++#undef HAVE_PTY_OPENPT
++#undef HAVE_INITGROUPS
++#undef HAVE_CLOCK
++#undef HAVE_POSIX_TIMER
++#undef HAVE_EVENTFD
++#undef HAVE_TIMERFD
++#undef HAVE_EPOLL
+--- ../../work-ref/ocamlnet-3.7.3/src/netsys/configure	2013-08-30 20:38:26.000000000 +0200
++++ ./src/netsys/configure	2013-08-30 21:54:05.624000000 +0200
+@@ -122,7 +122,7 @@
+ printf "Checking for win32... "
+ system=`ocamlc -config | grep system | sed -e 's/system: //'`
+ case "$system" in
+-    mingw|msvc)
++    mingw*|msvc)
+ 	  echo "yes"
+ 	  win32=1
+           netsys_link_options="$netsys_link_options -lws2_32" ;;

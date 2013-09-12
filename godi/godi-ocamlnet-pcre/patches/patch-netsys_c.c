@@ -1,5 +1,5 @@
---- src/netsys/netsys_c.c.orig	2012-07-19 23:25:25.000000000 +0000
-+++ src/netsys/netsys_c.c	2012-08-31 15:33:19.080000000 +0000
+--- src/netsys/netsys_c.c.orig	2013-07-21 13:06:08.000000000 +0000
++++ src/netsys/netsys_c.c	2013-08-09 09:57:34.942000000 +0000
 @@ -75,6 +75,8 @@
  CAMLprim value netsys_sysconf_open_max (value unit) {
  #ifdef HAVE_SYSCONF

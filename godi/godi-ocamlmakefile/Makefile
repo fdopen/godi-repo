@@ -6,7 +6,7 @@ GODI_PLIST=	yes
 
 VERSION=        6.37.0
 PKGNAME=        godi-ocamlmakefile-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ocaml-makefile-${VERSION}
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     godi

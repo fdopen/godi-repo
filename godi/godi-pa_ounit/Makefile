@@ -2,13 +2,13 @@
 
 ONAME=		pa_ounit
 PKG=		godi-${ONAME}
-VERSION=	109.34.00
+VERSION=	109.36.00
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pa_ounit-109.34.00
-DISTFILES=      pa_ounit-109.34.00.tar.gz
+DISTNAME=       pa_ounit-109.36.00
+DISTFILES=      pa_ounit-109.36.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.34.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.36.00/individual/
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        OCaml inline testing
 

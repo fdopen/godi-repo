@@ -1,0 +1,11 @@
+--- ../../work-ref/deriving-ocsigen-0.5/syntax/Makefile	2013-08-25 17:49:24.000000000 +0200
++++ ./syntax/Makefile	2013-08-30 21:17:32.357600000 +0200
+@@ -163,7 +163,7 @@
+ 	${OCAMLDEP} ${LIBS} $^ > $@
+ 
+ defs.ml: defs.mli
+-	ln -s defs.mli defs.ml
++	cp defs.mli defs.ml
+ 
+ ifneq (${DEPEND},no)
+ include .depend

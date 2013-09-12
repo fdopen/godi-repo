@@ -5,7 +5,7 @@ VERSION=	1.3
 PKG=		godi-lablgtk2-extras
 PKGNAME=	${PKG}-${VERSION}
 
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	lablgtkextras-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 

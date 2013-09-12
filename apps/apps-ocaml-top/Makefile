@@ -2,7 +2,7 @@
 
 VERSION=	1.1.0
 PKGNAME=	apps-ocaml-top-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml-top-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	apps
@@ -23,6 +23,8 @@ BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 INSTALL_SCRIPT_FILE=files/install
 DEINSTALL_SCRIPT_FILE=files/deinstall
 ADD_ENV= ${MAKE_ENV} GODI_PREFIX=${LOCALBASE}
+FLEXLINKFLAGS+= -subsystem windows
+MAKE_ENV+=	FLEXLINKFLAGS=${FLEXLINKFLAGS:Q}
 .endif
 
 
@@ -31,7 +33,9 @@ USE_GMAKE=	yes
 
 MAKEFILE=	Makefile.win32
 
-#AUTOGENERATE_PLIST=	yes
+
+post-extract:
+	${CP} files/logo.rc ${WRKSRC:Q}/src
 
 
 do-install:
@@ -42,10 +46,10 @@ post-install:
 	${MKDIR} ${PREFIX:Q}/gui/share/ocaml-top
 	cd ${WRKSRC}/data && ${PAX} -rw -pp . ${PREFIX:Q}/gui/share/ocaml-top
 .	for F in CHANGELOG LICENSE README.md
-	    cp ${WRKSRC}/${F} ${PREFIX}/doc/${PKGBASE:Q}
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${PREFIX}/doc/${PKGBASE:Q}
 .	endfor
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-	${SETENV} ${ADD_ENV} bash files/install --add-links
+	@${SETENV} ${ADD_ENV} bash files/install --add-links
 .endif
 
 

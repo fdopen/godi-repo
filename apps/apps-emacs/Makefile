@@ -3,7 +3,7 @@
 VERSION=	24.3
 XPMVERSION=	3.5.8
 MNODE=          882	
-PKGREVISION=	0
+PKGREVISION=	1
 PKG=		apps-emacs
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	emacs
@@ -43,8 +43,7 @@ post-extract:
 	@cd ${WRKDIR:Q} && 7z x ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && ${MV} emacs-* emacs 
 	@cd ${WRKDIR:Q} && tar -xf "${LOCALBASE}/lib/godi/saved-src/ocaml.txz"
 
-do-build:
-	@cd ${WRKDIR:Q} && ${SETENV} ${MAKE_ENV} ./install.sh
+BUILD_SCRIPT= ${WRKDIR:Q}/install.sh
 
 do-install:
 	@cd ${WRKDIR} && ${FIND} opt/emacs ! -type d >${PLIST_SRC} \

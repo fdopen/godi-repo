@@ -1,8 +1,7 @@
 $NetBSD$
 
-SHA1 (deriving-ocsigen-0.3c.tar.gz) = ec7ce5acf3132c8f8ae6ad4cd73f55028eb1e48b
-Size (deriving-ocsigen-0.3c.tar.gz) = 61242 bytes
+SHA1 (deriving-ocsigen-0.5.tar.gz) = 6173a1720a46ab4e68a1659aab8a1077de0e40bb
+Size (deriving-ocsigen-0.5.tar.gz) = 63391 bytes
 
-SHA1 (patch-aa-agithub) = f8f00242d90701e501243ad6a730e7e513233b21
-SHA1 (patch-bb-bln) = d20f3bc26d06316cdc175df9b4dbe4ba1db5defb
-SHA1 (patch-cc-ce) = ca1c7cc5f9117cac09083368cfa8f7a948ea139a
+SHA1 (patch-aa) = 62f6781e7d718e0162000ead19f6b0d3e13c4e9c
+SHA1 (patch-ab) = 29474a2221d5daf6aa1315929a04ec2bebf88176

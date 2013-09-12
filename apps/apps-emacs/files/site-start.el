@@ -72,20 +72,31 @@
 (add-hook 'window-setup-hook
           (function (lambda ()
                       (interactive)
-                      (w32-send-sys-command 61488))) )
+                      (w32-send-sys-command 61488))))
 
 (require 'cygwin-mount)
 (cygwin-mount-activate)
 
 (require 'color-theme)
 
-
 (let ((fln_ocp_indent (concat (getenv "emacs_dir") "/../../share/typerex/ocp-indent/ocp-indent.el")))
-  (if 
-      (file-exists-p fln_ocp_indent)
+  (if (file-exists-p fln_ocp_indent)
       (load-file  fln_ocp_indent)))
 
 (let ((fln_ocp_index (concat (getenv "emacs_dir") "/../../share/typerex/ocp-index/ocp-index.el")))
-  (if 
-      (file-exists-p fln_ocp_index)
+  (if (file-exists-p fln_ocp_index)
       (load-file  fln_ocp_index)))
+
+(let ((omake_file (concat (getenv "emacs_dir") "/site-lisp/omake.elc")))
+  (if (file-exists-p omake_file)
+      (progn
+        (load-file  omake_file)
+        (add-to-list 'auto-mode-alist '("OMake\\(?:file\\|root\\)$" . omake-mode))
+        (add-to-list 'auto-mode-alist '("\\.om$" . omake-mode)))))
+;; (let ((fln_utop (concat (getenv "emacs_dir") "/../../share/emacs/site-lisp/utop.el")))
+;;   (if (file-exists-p fln_utop)
+;;       (progn
+;;         (load-file  fln_utop)
+;;         (require 'tuareg)
+;;         (add-hook 'utop-mode-hook 'font-lock-mode)
+;;         (add-hook 'utop-mode-hook 'tuareg-install-font-lock))))

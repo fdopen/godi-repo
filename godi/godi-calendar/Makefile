@@ -36,10 +36,10 @@ pre-configure-copy:
 
 pre-configure: pre-configure-copy
 
-ALL_TARGET=     all
-.if ${GODI_HAVE_OCAMLOPT} == "yes"
+ALL_TARGET=     all tests
+#.if ${GODI_HAVE_OCAMLOPT} == "yes"
 # ALL_TARGET+= opt
-.endif
+#.endif
 
 post-install:
 	mkdir -p ${PREFIX}/doc/${PKG}

@@ -6,7 +6,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKGNAME=	godi-ocaml-${VERSION}
-VERSION=	4.00.1
+VERSION=	4.01.0
 PKGREVISION=	0
 DISTNAME=	ocaml
 DISTFILES=
@@ -27,6 +27,9 @@ MAKEFILE=	Makefile.nt
 .else
 MAKEFILE=	Makefile
 .endif
+
+
+GODI_OCAML_RUN_TESTSUITE?= yes
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 INSTALL_SCRIPT_FILE=files/install
@@ -59,13 +62,13 @@ ALL_TARGET=	world
 MAKE_FLAGS=	TEST_DIRECTORY=true
 
 # On windows (both mingw and cygwin), check for GODI_BOOT_FLEXDLL
-.if ${OPSYS} == "CYGWIN" && defined(GODI_BOOT_FLEXDLL)
+.if ${OPSYS} == "CYGWIN" 
+.if defined(GODI_BOOT_FLEXDLL)
 PATH:=		${GODI_BOOT_FLEXDLL}:${PATH}
-MAKE_ENV+=      FLEXDIR=${GODI_BOOT_FLEXDLL}
+MAKE_ENV+=	FLEXDIR=${GODI_BOOT_FLEXDLL}
+.else
+MAKE_ENV+=	FLEXDIR=${LOCALBASE_NATIVE}/lib/flexdll
 .endif
-
-.if ${OPSYS} == "CYGWIN" && !defined(GODI_BOOT_FLEXDLL)
-MAKE_ENV+=      FLEXDIR=${LOCALBASE_NATIVE}/lib/flexdll
 .endif
 
 STAGEDIR=	${WRKDIR}/stage
@@ -107,6 +110,11 @@ post-extract:
 #		"${WRKSRC}/utils/config.mlp.orig" >"${WRKSRC}/utils/config.mlp"
 #.endif
 
+.if ${GODI_OCAML_RUN_TESTSUITE} != "no" && ${GODI_OCAML_RUN_TESTSUITE} != "NO"
+post-build:
+	@cd ${WRKSRC:Q}/testsuite && ${SETENV} ${MAKE_ENV} ${GMAKE} all
+.endif
+
 pre-install:
 	${MKDIR} "${STAGEDIR}/doc/godi-ocaml"
 
@@ -123,7 +131,7 @@ post-install:
 	mkdir -p "${WRKDIR}/tmp"
 	${SED} -e 's:%%LOCALBASE%%:${LOCALBASE}:' files/ocamlmklib.c.in > "${WRKDIR}/tmp/wrap.c"
 	${MV} "${STAGEDIR}/bin/ocamlmklib.exe" "${STAGEDIR}/bin/ocamlmklib_real.exe"
-	${SETENV} ${MAKE_ENV} ${CC} -o "${STAGEDIR}/bin/ocamlmklib.exe" "${WRKDIR}/tmp/wrap.c"
+	@${SETENV} ${MAKE_ENV} ${CC} -o "${STAGEDIR}/bin/ocamlmklib.exe" "${WRKDIR}/tmp/wrap.c"
 .else
 	${MV} "${STAGEDIR}/bin/ocamlmklib" "${STAGEDIR}/bin/ocamlmklib.bin"
 	godi_ldopts=`${AWK} '/^GODI_LDOPTS=/ { gsub("^GODI_LDOPTS=",""); print $$0 }' "${WRKSRC}/config/Makefile"`; \
@@ -160,7 +168,7 @@ post-install:
 	${TOUCH} "${STAGEDIR}/lib/ocaml/pkg-lib/stublibs/.exists"
 	@# doc:
 	${MKDIR} "${STAGEDIR}/doc/godi-ocaml"
-.	for file in README README.win32 Upgrading Changes LICENSE
+.	for file in README README.win32 Changes LICENSE
 	    ${CP} "${WRKSRC}/${file}" "${STAGEDIR}/doc/godi-ocaml"
 .	endfor
 	@# Generate the PLIST:
@@ -171,8 +179,8 @@ post-install:
 	@# Copy ${STAGEDIR} to ${PREFIX}:
 	${RM} -f ${LOCALBASE}/etc/ld.conf
 	cd "${STAGEDIR}" && ${PAX} -rw -pp . ${LOCALBASE:Q}
-.if defined(W32PORT) && ${W32PORT} == "mingw"
-	${SETENV} ${ADD_ENV} bash files/install --add-links
-.endif
+# .if defined(W32PORT) && ${W32PORT} == "mingw"
+# 	@${SETENV} ${ADD_ENV} bash files/install --add-links
+# .endif
 
 .include "../../mk/bsd.pkg.mk"

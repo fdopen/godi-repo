@@ -1,0 +1,5 @@
+Available options for godi.conf:
+
+- GODI_OCAML_RUN_TESTSUITE : run testsuite after build 
+  Possible values: yes,no, <blank> = yes.
+

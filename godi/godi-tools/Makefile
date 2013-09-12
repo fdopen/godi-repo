@@ -1,10 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37
+VERSION=	3.0.37b
+RVERSION=       3.0.37
 PKGREVISION=	0
 PKGNAME=	godi-tools-${VERSION}
-DISTNAME=	godi-tools-${VERSION}
-DISTFILES=	godi-tools-${VERSION}.tar.gz
+DISTNAME=	godi-tools-${RVERSION}
+DISTFILES=	godi-tools-${RVERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -50,6 +51,7 @@ CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
 .if ${W32PORT} == "mingw"
 BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+BUILD_DEPENDS+=	godi-ocamlmakefile>=0:../../godi/godi-ocamlmakefile
 .endif
 .endif
 
@@ -72,9 +74,13 @@ ALL_TARGET=	all opt
 .if make(self_package)
 instprefix:=${WRKDIR}/stage
 .if defined(W32PORT)
-instprefix:=${:! cygpath -m "${WRKDIR}/stage" !}
+.if !defined(CYGWIN_ROOT)
+CYGWIN_ROOT=${:! cygpath -m "/" !}
 .endif
-INSTALL_TARGET=	install prefix="${instprefix}"
+instprefix:=${CYGWIN_ROOT}${WRKDIR}/stage
+#instprefix:=${:! cygpath -m "${WRKDIR}/stage" !}
+.endif
+INSTALL_TARGET=	install prefix=${instprefix:Q}
 NO_PKG_REGISTER=yes
 .MAKEOVERRIDES+=INSTALL_TARGET instprefix NO_PKG_REGISTER
 .endif
@@ -85,16 +91,13 @@ PLIST_SRC=      ${WRKDIR:Q}/.PLIST.godi-tools
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 post-extract:
 	cp files/symlink.c ${WRKSRC}/console-src
-	tar -xf files/gorun.tar.xz -C ${WRKSRC}
+	cd ${PKGDIR:Q}/files && ${PAX} -rw -pp gorun ${WRKSRC}
 
 pre-build:
 	@${SETENV} ${MAKE_ENV} ocaml files/marshal.ml ${LOCALBASE_NATIVE}/share/godi-ocamlnet work/${DISTNAME}/console-src/console/init.ml
-
-post-build:
-	@${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/gorun
+	@${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/gorun OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile
 	@${SETENV} ${MAKE_ENV} ${CC} files/inform.c -o ${WRKSRC}/gorun/inform.exe
 .endif
-
 
 post-install:
 	mkdir -p ${instprefix}/lib/godi
@@ -103,10 +106,11 @@ post-install:
 	cp files/install_helper ${instprefix}/lib/godi
 	mkdir -p ${instprefix}/doc/godi-tools
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-	install -m 755 ${WRKSRC}/gorun/gorun.exe ${instprefix}/sbin
-	install -m 755 ${WRKSRC}/gorun/inform.exe files/winconfig.sh files/uninstall.sh files/replacesymlinks.sh ${instprefix}/lib/godi
+	${INSTALL} -m 755 ${WRKSRC}/gorun/gorun.exe ${instprefix}/sbin
+	${INSTALL} -m 755 ${WRKSRC}/gorun/inform.exe files/winconfig.sh files/uninstall.sh files/replacesymlinks.sh ${instprefix}/lib/godi
 	@${SETENV} ${MAKE_ENV} bash files/dll.sh ${LOCALBASE:Q}/bin ${WRKDIR:Q}/stage/sbin ${WRKDIR:Q}/stage/sbin/godi_console.exe
 	@${SETENV} ${MAKE_ENV} bash files/winconfig.sh --first-run
+	${RM} -f ${instprefix}/bin/godi_oasis_import ${instprefix}/sbin/godi_console_byte.exe
 .endif
 .	for F in LICENSE
 		cp ${WRKSRC}/${F} ${instprefix}/doc/godi-tools

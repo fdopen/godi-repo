@@ -1,5 +1,5 @@
 --- Makefile.in.orig	2013-04-17 18:30:17.000000000 +0000
-+++ Makefile.in	2013-07-21 17:41:01.549600000 +0000
++++ Makefile.in	2013-08-25 08:07:42.228000000 +0000
 @@ -42,6 +42,8 @@
  LIBEXT = @LIBEXT@
  OBJEXT = @OBJEXT@
@@ -18,12 +18,17 @@
  
  $(ED_CMI) $(ED_CMO): BFLAGS+= $(ED_INCLUDES)
  $(ED_CMI) $(ED_CMO): $(CMA)
-@@ -137,7 +139,7 @@
+@@ -133,11 +135,11 @@
+ $(ED_CMX): $(CMXA)
+ 
+ $(ED_DIR)/editor.byte: $(CMA) $(ED_CMO)
+-	$(OCAMLC) -g -o $@ $(ED_INCLUDES) \
++	$(OCAMLC) -g -o $@$(EXE) $(ED_INCLUDES) \
  		lablgtk.cma lablgnomecanvas.cma unix.cma $^
  
  $(ED_DIR)/editor.opt: $(CMXA) $(ED_CMX)
 -	$(OCAMLOPT) -o $@ $(ED_INCLUDES) \
-+	$(OCAMLOPT) -ccopt "-link -Wl,--subsystem,windows" -o $@ $(ED_INCLUDES) \
++	$(OCAMLOPT) -ccopt "-link -Wl,--subsystem,windows" -o $@$(EXE) $(ED_INCLUDES) \
  		lablgtk.cmxa lablgnomecanvas.cmxa unix.cmxa $^
  
  # gtk2 graph viewer (deprecated)
@@ -36,6 +41,20 @@
  
  $(VIEWER_CMI) $(VIEWER_CMO): BFLAGS+= $(VIEWER_INCLUDES)
  $(VIEWER_CMX): OFLAGS+= $(VIEWER_INCLUDES) -for-pack Viewgraph
+@@ -171,11 +173,11 @@
+ 	$(OCAMLOPT) -o $@ $(VIEWER_INCLUDES) -pack $^
+ 
+ $(VIEWER_DIR)/viewgraph.byte: $(CMA) $(VIEWER_CMOLIB)
+-	$(OCAMLC) -g -o $@ $(VIEWER_INCLUDES) \
++	$(OCAMLC) -g -o $@$(EXE) $(VIEWER_INCLUDES) \
+ 		lablgtk.cma gtkInit.cmo lablgnomecanvas.cma unix.cma $^
+ 
+ $(VIEWER_DIR)/viewgraph.opt: $(CMXA) $(VIEWER_CMXLIB)
+-	$(OCAMLOPT) -o $@ $(VIEWER_INCLUDES) \
++	$(OCAMLOPT) -o $@$(EXE) $(VIEWER_INCLUDES) \
+ 		lablgtk.cmxa gtkInit.cmx lablgnomecanvas.cmxa unix.cmxa $^
+ 
+ # new gtk2 graph viewer: dgraph
 @@ -195,7 +197,7 @@
  DGRAPH_CMX=$(DGRAPH_CMO:.cmo=.cmx)
  DGRAPH_CMI=$(filter-out dgraph/dGraphViewer.cmi, $(DGRAPH_CMO:.cmo=.cmi))
@@ -50,10 +69,84 @@
  $(DGRAPH_DIR)/dgraph.opt: $(CMXA) $(DGRAPH_CMXLIB) \
    $(DGRAPH_DIR)/dGraphViewer.cmx
 -	$(OCAMLOPT) -o $@ $(DGRAPH_INCLUDES) \
-+	$(OCAMLOPT) -ccopt "-link -Wl,--subsystem,windows" -o $@ $(DGRAPH_INCLUDES) \
++	$(OCAMLOPT) -ccopt "-link -Wl,--subsystem,windows" -o $@$(EXE) $(DGRAPH_INCLUDES) \
  		lablgtk.cmxa gtkInit.cmx lablgnomecanvas.cmxa $^
  
  # Examples
+@@ -241,28 +243,28 @@
+ demo: bin/demo.$(OCAMLBEST)
+ 
+ bin/demo.byte: $(CMA) examples/demo.cmo
+-	$(OCAMLC) -o $@ $^
++	$(OCAMLC) -o $@$(EXE) $^
+ 
+ bin/demo.opt: $(CMXA) examples/demo.cmx
+-	$(OCAMLOPT) -o $@ $^
++	$(OCAMLOPT) -o $@$(EXE) $^
+ 
+ bin/demo_planar.byte: $(CMA) examples/demo_planar.cmo
+-	$(OCAMLC) -o $@ graphics.cma unix.cma $^
++	$(OCAMLC) -o $@$(EXE) graphics.cma unix.cma $^
+ 
+ bin/demo_planar.opt: $(CMXA) examples/demo_planar.cmx
+-	$(OCAMLOPT) -o $@ graphics.cmxa unix.cmxa $^
++	$(OCAMLOPT) -o $@$(EXE) graphics.cmxa unix.cmxa $^
+ 
+ bin/color.byte: $(CMA) examples/color.cmo
+-	$(OCAMLC) -o $@ graphics.cma unix.cma $^
++	$(OCAMLC) -o $@$(EXE) graphics.cma unix.cma $^
+ 
+ bin/color.opt: $(CMXA) examples/color.cmx
+-	$(OCAMLOPT) -o $@ graphics.cmxa unix.cmxa $^
++	$(OCAMLOPT) -o $@$(EXE) graphics.cmxa unix.cmxa $^
+ 
+ bin/sudoku.byte: $(CMA) examples/sudoku.cmo
+-	$(OCAMLC) -o $@ graphics.cma unix.cma $^
++	$(OCAMLC) -o $@$(EXE) graphics.cma unix.cma $^
+ 
+ bin/sudoku.opt: $(CMXA) examples/sudoku.cmx
+-	$(OCAMLOPT) -o $@ graphics.cmxa unix.cmxa $^
++	$(OCAMLOPT) -o $@$(EXE) graphics.cmxa unix.cmxa $^
+ 
+ test: $(CMA) tests/test.ml
+ 	ocaml unix.cma graphics.cma $^
+@@ -271,7 +273,7 @@
+ 	ocaml unix.cma graphics.cma $^
+ 
+ bin/test-ts: $(CMXA) tests/test_topsort.ml
+-	$(OCAMLOPT) -o $@ unix.cmxa $^
++	$(OCAMLOPT) -o $@$(EXE) unix.cmxa $^
+ 
+ test-ts: bin/test-ts
+ 	bin/test-ts 10
+@@ -283,22 +285,22 @@
+ 	ocaml unix.cma $^
+ 
+ bin/test.byte: $(CMA) tests/test.cmo
+-	$(OCAMLC) -g -unsafe -o $@ unix.cma graphics.cma $^
++	$(OCAMLC) -g -unsafe -o$(EXE) $@ unix.cma graphics.cma $^
+ 
+ bin/test.opt: $(CMXA) tests/test.cmx
+-	$(OCAMLOPT) -unsafe -inline 100 -o $@ unix.cmxa graphics.cmxa $^
++	$(OCAMLOPT) -unsafe -inline 100 -o $@$(EXE) unix.cmxa graphics.cmxa $^
+ 
+ bin/test_bf.byte: $(CMA) tests/test_bf.ml
+-	$(OCAMLC) -g -o $@ unix.cma graphics.cma $^
++	$(OCAMLC) -g -o $@$(EXE) unix.cma graphics.cma $^
+ 
+ bin/nonneg.byte: $(CMA) tests/nonneg.ml
+-	$(OCAMLC) -g -o $@ unix.cma graphics.cma $^
++	$(OCAMLC) -g -o $@$(EXE) unix.cma graphics.cma $^
+ 
+ bench: bin/bench.$(OCAMLBEST)
+ 	bin/bench.opt
+ 
+ bin/bench.opt: $(CMXA) tests/bench.ml
+-	$(OCAMLOPT) -unsafe -inline 100 -o $@ unix.cmxa $^
++	$(OCAMLOPT) -unsafe -inline 100 -o $@$(EXE) unix.cmxa $^
+ 
+ check: $(CMA) tests/check.ml bin/test-ts
+ 	ocaml $(CMA) tests/check.ml
 @@ -330,11 +332,11 @@
  	mkdir -p $(BINDIR)
  ifeq (@LABLGNOMECANVAS@,yes)

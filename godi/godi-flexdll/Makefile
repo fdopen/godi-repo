@@ -46,14 +46,11 @@ MAKE_FLAGS+=	CHAINS=mingw
 MAKE_FLAGS+=	CHAINS=cygwin
 .endif
 
-
 # On windows (both mingw and cygwin), check for GODI_BOOT_FLEXDLL
 .if ${OPSYS} == "CYGWIN" && defined(GODI_BOOT_FLEXDLL)
 PATH:=          ${GODI_BOOT_FLEXDLL}:${PATH}
 MAKE_ENV+=      FLEXDIR=${GODI_BOOT_FLEXDLL}/../lib/flexdll
 .endif
-
-
 
 post-extract:
 	cp files/config_reader* ${WRKSRC:Q}
@@ -66,16 +63,11 @@ pre-configure:
 	@false
 .endif
 
-
-MAKEOWN_ENV=	${MAKE_ENV}
-MAKEOWN_ENV+=	GODI_PREFIX=${PREFIX}
-
 post-install:
 	mkdir -p ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/flexdll
 	mkdir -p ${PREFIX}/doc/godi-flexdll
 	${CP} ${WRKSRC}/flexlink.exe ${PREFIX}/bin
 	${CP} ${WRKSRC}/flexdll.h ${PREFIX}/include
-#for file in flexdll.h flexdll_cygwin.o flexdll_initer_cygwin.o flexdll_mingw.o flexdll_initer_mingw.o; do 
 	for file in flexdll.h flexdll_*.o ; do \
 	    ${CP} ${WRKSRC}/$$file ${PREFIX}/lib/flexdll; \
 	done
@@ -85,6 +77,5 @@ post-install:
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 	@${SETENV} ${ADD_ENV} bash files/install --add-links
 .endif
-
 
 .include "../../mk/bsd.pkg.mk"

@@ -4,7 +4,7 @@
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
 VERSION = 	2.1
-PKGREVISION=    0
+PKGREVISION=    1
 CATEGORIES=     godi
 FORGE_NODE =	1218
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
@@ -36,11 +36,12 @@ PKGREVISION = 99
 
 AUTOGENERATE_PLIST = yes
 MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man DOCROOT=${PREFIX}/doc/${PKG}
-DEPENDS+= godi-ocaml>=3.11:../../godi/godi-ocaml
+DEPENDS+= godi-ocaml>4.00.1:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1.2.5:../../godi/godi-findlib
 .if ${GODI_BATTERIES_RUN_TESTS} == "yes"
 BUILD_DEPENDS+= godi-ounit>=1.0.3:../../godi/godi-ounit
 BUILD_DEPENDS+= godi-qtest>=2.0:../../godi/godi-qtest
+BUILD_DEPENDS+= godi-bisect>=1.3:../../godi/godi-bisect
 .endif
 
 .if !defined(SHLIB_TYPE) || ${SHLIB_TYPE} == "MachO"
@@ -89,7 +90,10 @@ ALL_TARGET=     all
 INSTALL_TARGET = install
 
 .if ${GODI_BATTERIES_RUN_TESTS} == "yes"
-ALL_TARGET += test
+ALL_TARGET += test-byte # test, if compat test is working again
+.if ${GODI_HAVE_OCAMLOPT} != "no"
+ALL_TARGET += test-native
+.endif
 .endif
 
 .if ${GODI_BATTERIES_BUILD_DOCS} == "yes"

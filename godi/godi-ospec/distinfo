@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (ospec-0.3.1.tar.gz) = 2ffa8f0a7d6eb52104209a1e0f1ff8331653cdd2
-Size (ospec-0.3.1.tar.gz) = 49211 bytes
-
-SHA1 (patch-aa) = 446440383dd2be0871ef2526779e728dfa445b10
+SHA1 (ospec-0.3.2.tar.gz) = 91d893fc11077dc22f6c6886978e297168a24019
+Size (ospec-0.3.2.tar.gz) = 49205 bytes

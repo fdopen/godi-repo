@@ -1,9 +1,0 @@
---- OMakeroot.orig	2006-10-11 16:37:38.000000000 +0000
-+++ OMakeroot	2012-10-19 15:08:18.281250000 +0000
-@@ -1,3 +1,6 @@
-+OSTYPE = Win32
-+export
-+
- #
- # We want the ocamldep-omake to be accessible through the standard path.
- #

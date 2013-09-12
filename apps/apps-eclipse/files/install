@@ -1,0 +1,16 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+winadd  "$1" "$2" 1 \
+    --add-to-startmenu \
+    opt/eclipse/eclipse.exe \
+    "Eclipse" \
+    "" \
+    "" \
+    "" \
+    ""
+
+exit 0

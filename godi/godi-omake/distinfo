@@ -1,13 +1,9 @@
 $NetBSD$
 
-SHA1 (omake-0.9.8.5-3.tar.gz) = e78c9d8858749f5e234cba303637980e24085cbc
-Size (omake-0.9.8.5-3.tar.gz) = 3321245 bytes
+SHA1 (omake-0.9.8.6svn.tar.xz) = 4ee96b62e98e4259db33ef2f4deaac71ee820ec7
+Size (omake-0.9.8.6svn.tar.xz) = 2088364 bytes
 
-SHA1 (omake32.tar.xz) = a7c96beee9e3f210cc65beafe846fbe290bba951
-Size (omake32.tar.xz) = 2596368 bytes
+SHA1 (omake-boot-0.9.8.6svn.tar.xz) = 76a4b4ed4d835f58b9a5e661a18d00da938d3edf
+Size (omake-boot-0.9.8.6svn.tar.xz) = 2638484 bytes
 
-SHA1 (omake64.tar.xz) = 8f90d16bcd632ec534c36ece77a5b31ace57ec26
-Size (omake64.tar.xz) = 2706792 bytes
-
-SHA1 (patch-zz-zzx32) = 6e127eeb5f2c5b47df7a2be8630b91301f35b27e
-SHA1 (patch-zz-zzx64) = a69f48e325d073a1fabd7a1766adbb9bea470fdc
+SHA1 (patch-aa) = 35df4499fd81904de6f8f00ac462fe1ecb52bac8

@@ -4,6 +4,6 @@ SHA1 (ocamlgraph-1.8.3.tar.gz) = d10c60d33ffcdcd2fbcf7dfb9dc9ff4b754a52e0
 Size (ocamlgraph-1.8.3.tar.gz) = 262876 bytes
 
 SHA1 (patch-aa-configurein) = e6d6f6ea6c6b4d6fa48f1541d45504778b6d7e57
-SHA1 (patch-bb-makefilein) = e8966fa598f021cd1aee17406b3d92c0e27cab24
+SHA1 (patch-bb-makefilein) = d38ab234562bb88edeade090ec0ded6e336ef577
 SHA1 (patch-cc-ccedmain) = fb4eeeb97ae576428f2baa1c306fbd7d652ce07d
 SHA1 (patch-dd-configure) = b1bcef3e42b5706afadca497f341c47ee71ffa6a

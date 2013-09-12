@@ -18,9 +18,9 @@ COMMENT=        Syntax for cross-language data types
 AUTOGENERATE_PLIST = yes
 PKG  =          godi-atd
 MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man 
-DEPENDS+= godi-ocaml-[0-9]*:../../godi/godi-ocaml
-DEPENDS+= godi-easy-format-[0-9]*:../../godi/godi-easy-format
-DEPENDS+= godi-menhir-[0-9]*:../../godi/godi-menhir
+DEPENDS+=	godi-ocaml-[0-9]*:../../godi/godi-ocaml
+DEPENDS+=	godi-easy-format-[0-9]*:../../godi/godi-easy-format
+DEPENDS+=	godi-menhir-[0-9]*:../../godi/godi-menhir
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 # HAS_CONFIGURE = yes
@@ -38,8 +38,9 @@ pre-configure: pre-configure-copy
 
 ALL_TARGET=     all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
-ALL_TARGET+= opt
+ALL_TARGET+=	opt
 .endif
+ALL_TARGET+=	test
 
 post-install:
 	mkdir -p ${PREFIX}/doc/${PKG}

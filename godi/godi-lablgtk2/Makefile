@@ -5,7 +5,7 @@ VERSION=	20120823
 
 PKGNAME=	godi-lablgtk2-${VERSION}
 
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	lablgtk-2.16.0
 DISTFILES=	${DISTNAME}.tar.gz
 
@@ -34,6 +34,8 @@ DEPENDS+=	base-gtkglarea>=2:../../base/base-gtkglarea
 .endif
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi-findlib
+
+
 USE_GMAKE=	yes
 
 ALL_TARGET=	all 
@@ -61,8 +63,8 @@ CONFIGURE_ARGS+=	--without-gtksourceview
 CONFIGURE_ARGS+=	--without-panel
 CONFIGURE_ARGS+=	--without-quartz
 .if ${GODI_LABLGTK2_USE_GL} == "yes"
-LABLGLDIR=	${:! cygpath -m "$$(ocamlfind query lablGL | tr -d '\r')" !}
-CONFIGURE_ENV+=	LABLGLDIR=${LABLGLDIR}
+#LABLGLDIR=	${:! cygpath -m "$$(ocamlfind query lablGL | tr -d '\r')" !}
+CONFIGURE_ENV+=	LABLGLDIR=${LOCALBASE_NATIVE}/lib/ocaml/pkg-lib/lablgl
 .endif
 .endif
 

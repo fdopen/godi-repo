@@ -14,8 +14,8 @@ DESKTOP_DIR=''
 is_cygwin="$(/usr/bin/uname -s 2>/dev/null || echo b)"
 case "${is_cygwin}" in
     CYGWIN*)
-	is_cygwin=1
-	;;
+        is_cygwin=1
+        ;;
     *)
         echo "this script is intended for cygwin only" >&2
         exit 1
@@ -36,6 +36,7 @@ if [ $? -ne 0 ] || [ -z "$GODI_PREFIX" ] || [ ! -d "$GODI_PREFIX" ]; then
 fi
 
 GODI_PREFIX_WIN="$(/usr/bin/cygpath -w "$GODI_PREFIX")"
+GODI_PREFIX_WIN_MIXED="$(/usr/bin/cygpath -m "$GODI_PREFIX")"
 
 RUN2="${GODI_PREFIX}/sbin/gorun.exe"
 
@@ -45,15 +46,15 @@ set -e
 
 case "$WORDSIZE" in
     64*)
-	WORDSIZE=64
-	;;
+        WORDSIZE=64
+        ;;
     32*)
-	WORDSIZE=32
-	;;
+        WORDSIZE=32
+        ;;
     *)
-	echo "MINGW_WORDSIZE not set properly / godi_make not installed" >&2
-	exit 1
-	;;
+        echo "MINGW_WORDSIZE not set properly / godi_make not installed" >&2
+        exit 1
+        ;;
 esac
 
 WODI_SHELL="Wodi${WORDSIZE} Cygwin"
@@ -69,7 +70,7 @@ add_to_cygwi(){
     local P3=/usr/x86_64-w64-mingw32/bin
 
     if [ $WORDSIZE -eq 32 ]; then
-	P3=/usr/i686-w64-mingw32/bin
+        P3=/usr/i686-w64-mingw32/bin
     fi
     /usr/bin/cat - > "${PROFILE_DAT}" <<EOF
 portable_remove_from_path() {
@@ -108,8 +109,10 @@ portable_remove_from_path "${P1}"
 portable_remove_from_path "${P2}"
 portable_remove_from_path "${P3}"
 unset -f portable_remove_from_path
+OCAMLFIND_CONF="${GODI_PREFIX_WIN_MIXED}/etc/findlib.conf"
+OCAMLLIB="${GODI_PREFIX_WIN_MIXED}/lib/ocaml/std-lib"
 PATH="${P1}:${P2}:${P3}:\${PATH}"
-export PATH
+export OCAMLLIB OCAMLFIND_CONF PATH
 EOF
     chmod 755 "${PROFILE_DAT}"
 }
@@ -184,7 +187,7 @@ function win_del_single_envvar(){
     local envar=$1
     local regpath="/proc/registry/HKEY_CURRENT_USER/Environment/${envar}"
     if [ ! -f "$regpath" ]; then
-	return 0
+        return 0
     fi
     local cur="$(< "$regpath")"
     cur="$(/usr/bin/cygpath "$cur")"
@@ -270,9 +273,9 @@ function wrapreadshortcut(){
 function has_prefix(){
     local len=${#1}
     if [[ "${1:0:len}" = "$2" ]]; then
-	return 0
+        return 0
     else
-	return 1
+        return 1
     fi
 }
 
@@ -280,17 +283,17 @@ function has_prefix(){
 
 function set_desktop_dir(){
     if [ -z "$DESKTOP_DIR" ]; then
-	if [ -z "$USERPROFILE" ]; then
-	    echo "%USERPROFILE% not set, can't create desktop links" >&2
-	    return 1
-	fi
-	local d_dir="$(/usr/bin/cygpath "$USERPROFILE")"
- 	d_dir="${d_dir}/Desktop"
-	if [ ! -d "$d_dir" ]; then
-	    echo "desktop dir not found" >&2
-	    return 1
-	fi
-	DESKTOP_DIR=$d_dir
+        if [ -z "$USERPROFILE" ]; then
+            echo "%USERPROFILE% not set, can't create desktop links" >&2
+            return 1
+        fi
+        local d_dir="$(/usr/bin/cygpath "$USERPROFILE")"
+        d_dir="${d_dir}/Desktop"
+        if [ ! -d "$d_dir" ]; then
+            echo "desktop dir not found" >&2
+            return 1
+        fi
+        DESKTOP_DIR=$d_dir
     fi
     return 0
 }
@@ -320,19 +323,19 @@ function remove_from_desktop(){
     local xtmp=""
     local link="${DESKTOP_DIR}/${WODI_MANAGER}.lnk"
     if [ -f "$link" ]; then
-	xtmp="$(wrapreadshortcut "$link")"
-	xtmp="$(/usr/bin/cygpath "$xtmp")"
+        xtmp="$(wrapreadshortcut "$link")"
+        xtmp="$(/usr/bin/cygpath "$xtmp")"
         if [ "$xtmp" = "$RUN2" ]; then
-	    /usr/bin/rm "$link"
-	fi
+            /usr/bin/rm "$link"
+        fi
     fi
     link="${DESKTOP_DIR}/${WODI_SHELL}.lnk"
     if [ -f "$link" ]; then
-	xtmp="$(wrapreadshortcut "$link")"
-	xtmp="$(/usr/bin/cygpath "$xtmp")"
+        xtmp="$(wrapreadshortcut "$link")"
+        xtmp="$(/usr/bin/cygpath "$xtmp")"
         if [ "$xtmp" = "$RUN2" ]; then
-	    /usr/bin/rm "$link"
-	fi
+            /usr/bin/rm "$link"
+        fi
     fi
 }
 
@@ -340,53 +343,53 @@ function remove_from_desktop(){
 function win_add_to_path(){
     local retcode=0
     if [ $# -eq 0 ]; then
-	return 0
+        return 0
     fi
     local wpath=""
     local entries=()
     if [ -f /proc/registry/HKEY_CURRENT_USER/Environment/PATH ]; then
-	wpath="$(<  /proc/registry/HKEY_CURRENT_USER/Environment/PATH)"
-	local oldIFS=$IFS
-	local IFS=';'
-	entries=($wpath)
-	IFS=$oldIFS
+        wpath="$(<  /proc/registry/HKEY_CURRENT_USER/Environment/PATH)"
+        local oldIFS=$IFS
+        local IFS=';'
+        entries=($wpath)
+        IFS=$oldIFS
     fi
     local npath=$wpath
     local cur found to_add
     for cur in "$@" ; do
         [ -z "$cur" ] && continue
-	to_add="$(/usr/bin/cygpath -w "$cur")"
-	if [ $? -ne 0 ] || [ -z "$to_add" ] ; then
-	    echo "invalid parameter \"$1\"" >&2
-	    return 1
-	fi
-	found=0
+        to_add="$(/usr/bin/cygpath -w "$cur")"
+        if [ $? -ne 0 ] || [ -z "$to_add" ] ; then
+            echo "invalid parameter \"$1\"" >&2
+            return 1
+        fi
+        found=0
         if [ ${#entries[@]} -gt 0 ]; then
             for cur in "${entries[@]}" ; do
-	        if [[ "${cur}" = "${to_add}" ]]; then
-	            found=1
+                if [[ "${cur}" = "${to_add}" ]]; then
+                    found=1
                     break
-	        fi
-	    done
+                fi
+            done
         fi
-	if [ $found -eq 0 ]; then
-	    if [ -z "$npath" ]; then
-		npath=$to_add
-	    else
-		npath="${npath};${to_add}"
-	    fi
-	fi
+        if [ $found -eq 0 ]; then
+            if [ -z "$npath" ]; then
+                npath=$to_add
+            else
+                npath="${npath};${to_add}"
+            fi
+        fi
     done
     if [[ "${npath}" != "${wpath}" ]]; then
-	reg add 'HKCU\Environment' /v 'PATH' /t 'REG_EXPAND_SZ' /d "$npath" /f
-	retcode=$?
+        reg add 'HKCU\Environment' /v 'PATH' /t 'REG_EXPAND_SZ' /d "$npath" /f
+        retcode=$?
     fi
     return $retcode
 }
 
 function win_remove_from_path(){
     if [ ! -f /proc/registry/HKEY_CURRENT_USER/Environment/PATH ] || [ $# -eq 0 ] ; then
-	return 0
+        return 0
     fi
     local retcode=0
     local wpath="$(<  /proc/registry/HKEY_CURRENT_USER/Environment/PATH)"
@@ -411,33 +414,32 @@ function win_remove_from_path(){
         to_remove=0
         for dcur in "${ar[@]}" ; do
             [[ "${dcur}" != "${cur}" ]] && continue
-	    to_remove=1
+            to_remove=1
             break
         done
 
         if [ $to_remove -eq 0 ]; then
-	    if [ -z "$npath" ]; then
-	        npath=$cur
-	    else
-	        npath="${npath};${cur}"
-	    fi
+            if [ -z "$npath" ]; then
+                npath=$cur
+            else
+                npath="${npath};${cur}"
+            fi
         fi
     done
 
     if [[ "${npath}" != "${wpath}" ]]; then
-	if [ -z "$npath" ]; then
-	    if ! reg DELETE "HKCU\Environment" /V PATH /f ; then
-		retcode=1
-	    fi
-	else
-	    if ! reg add 'HKCU\Environment' /v 'PATH' /t 'REG_EXPAND_SZ' /d "$npath" /f ; then
-		retcode=1
-	    fi
-	fi
+        if [ -z "$npath" ]; then
+            if ! reg DELETE "HKCU\Environment" /V PATH /f ; then
+                retcode=1
+            fi
+        else
+            if ! reg add 'HKCU\Environment' /v 'PATH' /t 'REG_EXPAND_SZ' /d "$npath" /f ; then
+                retcode=1
+            fi
+        fi
     fi
     return $retcode
 }
-
 
 
 function set_start_menu_dir_winxp(){
@@ -459,17 +461,23 @@ function set_start_menu_dir_winxp(){
 function set_start_menu_dir_vista(){
     if [ -z "$START_MENU_DIR" ]; then
         set +u
-	if [ -z "$APPDATA" ]; then
+        if [ -z "$APPDATA" ]; then
             set -u
-	    return 1
-	fi
+            return 1
+        fi
         set -u
-	local roaming_dir="$(/usr/bin/cygpath "$APPDATA")"
-	local start_dir="${roaming_dir}/Microsoft/Windows/Start menu"
-	if [ ! -d "$roaming_dir" ] || [ ! -d "$start_dir" ]; then
-	    return 1
-	fi
-	START_MENU_DIR="${start_dir}/Wodi${WORDSIZE}"
+        local roaming_dir="$(/usr/bin/cygpath "$APPDATA")"
+        if [ ! -d "$roaming_dir" ]; then
+            return 1
+        fi
+        local start_dir="${roaming_dir}/Microsoft/Windows/Start menu/Programs"
+        if [ ! -d "$start_dir" ]; then
+            start_dir="${roaming_dir}/Microsoft/Windows/Start menu"
+            if [ ! -d "$start_dir" ]; then
+                return 1
+            fi
+        fi
+        START_MENU_DIR="${start_dir}/Wodi${WORDSIZE}"
     fi
     return 0
 }
@@ -499,15 +507,15 @@ function remove_startmenu_folder(){
     local do_delete=0
     local xtmp="${START_MENU_DIR}/${WODI_SHELL}.lnk"
     if [ -f "$xtmp" ]; then
-	xtmp="$(wrapreadshortcut "$xtmp")"
-	xtmp="$(/usr/bin/cygpath "$xtmp")"
+        xtmp="$(wrapreadshortcut "$xtmp")"
+        xtmp="$(/usr/bin/cygpath "$xtmp")"
 
         if [ "$xtmp" = "$RUN2" ]; then
             do_delete=1
-	fi
+        fi
     fi
     if [ $do_delete -eq 1 ] ; then
-	/usr/bin/rm -rf "$START_MENU_DIR"
+        /usr/bin/rm -rf "$START_MENU_DIR"
     fi
 }
 
@@ -546,7 +554,7 @@ function refresh_root_links(){
         fi
 
         if [ -f "$relname" ]; then
-	    xtmp="$(wrapreadshortcut -r "$relname")"
+            xtmp="$(wrapreadshortcut -r "$relname")"
             if [ "$xtmp" = "$lparams" ]; then
                 created=1
             else
@@ -584,7 +592,7 @@ function refresh_root_links(){
             done
         fi
         if [ $found -eq 0 ]; then
-	    name="$(wrapreadshortcut "$link")"
+            name="$(wrapreadshortcut "$link")"
             if [ "$name" = "$RUN2" ]; then
                 /usr/bin/rm "$link"
             fi
@@ -600,7 +608,7 @@ function refresh_startmenu_links(){
     refresh_root_links
     set_start_menu_dir || return 0
     if [ ! -d "${START_MENU_DIR}" ] || [ ! -f "${START_MENU_LIST_FILE}" ]; then
-	return 0
+        return 0
     fi
     local folder_used=0
     local xtmp=""
@@ -612,19 +620,19 @@ function refresh_startmenu_links(){
     # wrapreadshortcut has problems with character encoding
     local tmpfile="$(/usr/bin/mktemp --suffix '.lnk')"
     if [ -f "./${WODI_MANAGER}.lnk" ]; then
-	xtmp="$(wrapreadshortcut "./${WODI_MANAGER}.lnk")"
-	xtmp="$(/usr/bin/cygpath "$xtmp")"
+        xtmp="$(wrapreadshortcut "./${WODI_MANAGER}.lnk")"
+        xtmp="$(/usr/bin/cygpath "$xtmp")"
         if [ "$xtmp" = "$RUN2" ]; then
-	    folder_used=1
-	fi
+            folder_used=1
+        fi
     fi
 
     if [ $folder_used -eq 0 ] && [ -f "./${WODI_SHELL}.lnk" ]; then
-	xtmp="$(wrapreadshortcut "./${WODI_SHELL}.lnk")"
-	xtmp="$(/usr/bin/cygpath "$xtmp")"
+        xtmp="$(wrapreadshortcut "./${WODI_SHELL}.lnk")"
+        xtmp="$(/usr/bin/cygpath "$xtmp")"
         if [ "$xtmp" = "$RUN2" ]; then
             folder_used=1
-	fi
+        fi
     fi
     if [ $folder_used -eq 0 ]; then
         cd ~-
@@ -672,7 +680,7 @@ function refresh_startmenu_links(){
 
 
         if [ -f "$relname" ]; then
-	    xtmp="$(wrapreadshortcut -r "$relname")"
+            xtmp="$(wrapreadshortcut -r "$relname")"
             if [ "$xtmp" = "$lparams" ]; then
                 created=1
             else
@@ -889,13 +897,13 @@ while [ $# -gt 0 ]; do
             remove_startmenu_folder
             ;;
         "--add-cygwin-path")
-	    win_add_to_path "/bin"
+            win_add_to_path "/bin"
             changed=1
             ;;
         "--add-ocaml-path")
-	    win_add_to_path "${GODI_PREFIX}/bin"
+            win_add_to_path "${GODI_PREFIX}/bin"
             changed=1
-	    ;;
+            ;;
         '--remove-cygwin-path')
             win_remove_from_path "/bin"
             changed=1

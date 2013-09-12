@@ -4,7 +4,7 @@ GODI_PLIST=	yes
 
 VERSION=	1.04
 PKGNAME=	godi-lablgl-${VERSION}
-PKGREVISION=	3
+PKGREVISION=	4
 DISTNAME=	lablGL
 DISTFILES=	lablgl-20120306.tar.gz
 CATEGORIES=	godi
@@ -15,7 +15,7 @@ COMMENT=	OpenGL interface
 
 DEPENDS+=	godi-ocaml>=3.05:../../godi/godi-ocaml
 DEPENDS+= 	base-freeglut>=0:../../base/base-freeglut
-DEPENDS+=	base-tcltk>=0:../../base/base-tcltk
+#DEPENDS+=	base-tcltk>=0:../../base/base-tcltk
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi-findlib
 
 PATH:=		${LOCALBASE}/bin:${PATH}

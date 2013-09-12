@@ -34,7 +34,7 @@ pre-configure-copy:
 
 pre-configure: pre-configure-copy
 
-ALL_TARGET=     all
+ALL_TARGET=     all test
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
 ALL_TARGET+= opt
 .endif

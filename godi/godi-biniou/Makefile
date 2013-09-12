@@ -39,6 +39,7 @@ ALL_TARGET=     all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
 ALL_TARGET+= opt
 .endif
+ALL_TARGET+= test
 
 post-install:
 	mkdir -p ${PREFIX}/doc/${PKG}

@@ -1,0 +1,14 @@
+--- ../../work-ref/deriving-ocsigen-0.5/Makefile.config	2013-08-25 17:49:24.000000000 +0200
++++ ./Makefile.config	2013-08-30 21:15:18.150800000 +0200
+@@ -23,5 +23,10 @@
+ 
+ OBJEXT := .o
+ LIBEXT := .a
+-EXEEXT :=
+ 
++OS=$(shell ${OCAMLFIND} ocamlc -config | grep '^os_type:' | awk '{print $$2}')
++ifeq "${OS}" "Win32"
++EXEEXT := .exe
++else
++EXEEXT :=
++endif

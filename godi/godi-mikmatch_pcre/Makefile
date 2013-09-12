@@ -3,7 +3,7 @@
 VERSION=        1.0.6
 PKG  =          godi-mikmatch_pcre
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       mikmatch-${VERSION}
 DISTFILES=      mikmatch-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -13,7 +13,7 @@ HOMEPAGE=       http://mjambon.com/mikmatch.html
 COMMENT=        Pattern matching extended with regexps in Ocamllex syntax
 
 
-DEPENDS+= godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+= godi-ocaml>4.00.1:../../godi/godi-ocaml
 DEPENDS+= godi-pcre>=0:../../godi/godi-pcre
 DEPENDS+= godi-tophide>=0:../../godi/godi-tophide
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib

@@ -14,16 +14,13 @@ COMMENT=        Generate OCaml modules from source files.
 
 DEPENDS+= godi-ocaml-*:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-tools>=3.0.37b:../../godi-tools
 
 WINOASIS=	yes
 WINOASIS_SETUP=	no
 WINOASIS_DISABLE_TESTS=	yes
 
-post-extract:
-	${CP} files/* ${WRKSRC}
 
-#post-install:
-#	${MV} ${AUTOGENERATE_IMAGE}/bin/ocamlmod ${AUTOGENERATE_IMAGE}/bin/ocamlmod.exe
 
 
 .include "../../mk/bsd.pkg.mk"

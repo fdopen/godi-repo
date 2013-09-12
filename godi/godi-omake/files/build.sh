@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+set -u
 
 export PREFIX=
 
@@ -9,8 +10,10 @@ if [ -z "$INSTDIR" ]; then
     exit 1
 fi
 DIR=$(readlink -f $(dirname "$0"))
+cd "${DIR}" 
 if [ "$1" = "install" ]; then
-    cd "${DIR}" 
+    export OMAKEFLAGS= 
+    export OMAKEPATH="$(cygpath -m "$(readlink -f lib)")"
     ./omake-boot install
 else
     cd mmtranslate
@@ -18,11 +21,14 @@ else
     cd ..
     PATH="${DIR}/mmtranslate":$PATH
     export PATH
-    make bootstrap
+    #make bootstrap
+    export OMAKEFLAGS= 
+    export OMAKEPATH="$(cygpath -m "$(readlink -f lib)")"
+    cp ../boot/omake.exe omake-boot.exe
+    chmod 755 omake-boot.exe
     ./omake-boot
     cp .config .config.alt
     sed -e "s|^PREFIX.*$|PREFIX=\$(dir \$\'$INSTDIR\')|" .config.alt >.config
-    #-e 's|^CFLAGS\s*=|CFLAGS =-g3 -O0|g'
     ./omake-boot all
 fi
 exit 0

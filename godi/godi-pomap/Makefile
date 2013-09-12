@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        3.0.1
+VERSION=        3.0.2
 PKGNAME=        godi-pomap-${VERSION}
 PKGREVISION=    0
 DISTNAME=       pomap-${VERSION}

@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.6.6
+VERSION=	3.7.3
 PKGNAME=	godi-ocamlnet-ssl-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocamlnet-${VERSION}
@@ -42,6 +42,9 @@ MAKE_FLAGS+= "INC_RPC=-package rpc"
 MAKE_FLAGS+= "INC_SHELL=-package shell"
 MAKE_FLAGS+= "INC_NETGSSAPI=-package netgssapi"
 
+.if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
+CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp
+.endif
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+= base-ssl>=0:../../base/base-ssl

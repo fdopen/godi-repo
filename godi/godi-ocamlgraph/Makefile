@@ -36,7 +36,7 @@ MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV}
 
 INSTALL_TARGET = install-findlib
 
-ALL_TARGET = all
+ALL_TARGET = all test check
 .if	${GODI_OCAMLGRAPH_VIEWER} == "yes"
 .         if exists(${LOCALBASE}/lib/godi/godi-lablgtk2.mk)
 .           include "${LOCALBASE}/lib/godi/godi-lablgtk2.mk"
@@ -66,7 +66,7 @@ post-install:
 	${MKDIR} ${PREFIX}/gui/bin
 	${MV} ${PREFIX:Q}/bin/graph-editor* ${PREFIX:Q}/bin/graph-viewer* ${PREFIX:Q}/gui/bin 
 .endif
-	${SETENV} ${ADD_ENV} bash files/install --add-links
+	@${SETENV} ${ADD_ENV} bash files/install --add-links
 .endif
 
 

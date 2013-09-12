@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=6.10
+VERSION=6.11
 NAME=camlp5
 PKGNAME=godi-${NAME}-${VERSION}
 PKGREVISION=0

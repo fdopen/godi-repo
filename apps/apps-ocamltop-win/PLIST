@@ -1,0 +1,5 @@
+@comment $GODI$
+@dllfindlib ocamltopwin
+@deepdir doc/apps-ocamltop-win
+gui/bin/mk-ocamltop-win
+gui/bin/ocamltopwin

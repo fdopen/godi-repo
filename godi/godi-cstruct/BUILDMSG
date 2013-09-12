@@ -1,0 +1,4 @@
+Available options for Cstruct:
+
+- GODI_CSTRUCT_LWT: Build support for lwt.
+  Possible values: yes,no, <blank> = yes.

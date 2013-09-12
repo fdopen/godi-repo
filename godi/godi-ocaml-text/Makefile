@@ -33,6 +33,7 @@ post-install:
 
 CONFIGURE_ARGS+=		--enable-pcre
 WINOASIS=		 	yes
+WINOASIS_SETUP=		 	yes
 CONFIGURE_ENV+=			GODI_PREFIX=${LOCALBASE}
 
 

@@ -15,9 +15,9 @@
 @findlib rpc-generator
 @findlib rpc-auth-dh
 @findlib shell
-@findlib netcamlbox
-@findlib netmulticore
 @findlib netgssapi
+@optional @findlib netcamlbox
+@optional @findlib netmulticore
 @optional @dllfindlib rpc-xti
 @optional @dllfindlib rpc-auth-local
 @deepdir share/godi-ocamlnet

@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (ocaml-fileutils-0.4.4.tar.gz) = d30e9ada2c805c83f3ff6c8015b058d73fa1449d
-Size (ocaml-fileutils-0.4.4.tar.gz) = 82221 bytes
-
-SHA1 (patch-install-data) = 5596384732dd1cc5a5d02fe2ea9ff0d64e86dbdf
+SHA1 (ocaml-fileutils-0.4.5.tar.gz) = 94d02385a55eef373eb96f256068d3efa724016b
+Size (ocaml-fileutils-0.4.5.tar.gz) = 83511 bytes

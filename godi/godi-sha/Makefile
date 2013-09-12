@@ -14,6 +14,7 @@ COMMENT=	binding for SHA interface code in OCaml
 
 DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-ounit>=0:../../godi/godi-ounit
 
 PATH:=		${LOCALBASE}/bin:${PATH}
 
@@ -21,7 +22,7 @@ MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
 HAS_CONFIGURE=  yes
 USE_GMAKE=	yes
-ALL_TARGET=	all doc
+ALL_TARGET=	all doc tests
 
 post-extract:
 	${CP} files/* ${WRKSRC:Q}

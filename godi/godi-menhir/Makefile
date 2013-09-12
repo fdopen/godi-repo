@@ -3,7 +3,7 @@
 
 VERSION=        20130116
 PKGNAME=        godi-menhir-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       menhir-${VERSION}
 DISTFILES=      menhir-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -30,6 +30,7 @@ DEPENDS+= godi-ocaml>=3.09:../../godi/godi-ocaml
 USE_GMAKE = yes
 
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
+
 
 pre-configure-copy:
 .	if exists(files)
