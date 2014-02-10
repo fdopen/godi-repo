@@ -1,3 +1,0 @@
-VERSION64=7.31.0
-EXTRACT_ONLY=base-curl-7.31.0_64.tar.xz 
-DISTFILES= base-curl-7.31.0_64.tar.xz curl-7.31.0.tar.lzma 

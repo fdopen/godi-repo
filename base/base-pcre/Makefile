@@ -1,45 +1,44 @@
 .include "../../mk/bsd.prefs.mk"
 
-PKG=		base-pcre
-PKGNAME=	${PKG}-${VERSION}
+VERSION=	8.34
+PKG=		pcre
+PKGNAME=	${CATEGORIES}-${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+DISTNAME=	pcre-${VERSION}
+DISTFILES=	${DISTNAME}.tar.bz2
 CATEGORIES=	base
-MASTER_SITES=
+MASTER_SITES=	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.pcre.org
 COMMENT=	regular expression pattern matching
 
+USE_GMAKE=		yes
+MINGW_AUTOTOOLS_BUILD=	yes
+HAS_CONFIGURE=		yes
 
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
+CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+CONFIGURE_ARGS+=	--enable-shared 
+CONFIGURE_ARGS+=	--disable-static
+CONFIGURE_ARGS+=	--enable-utf 
+CONFIGURE_ARGS+=	--enable-pcre16 
+CONFIGURE_ARGS+=	--disable-cpp 
+CONFIGURE_ARGS+=	--with-gnu-ld
 
-
+ALL_TARGET=	all
+IMAGE=          ${WRKDIR}/image
+INSTALL_ENV=	DESTDIR=${IMAGE:Q}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 
-.if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
-post-extract:
-	@echo "**********************************************"
-	@echo "*** ${PKG} is only intended for Windows ***"
-	@echo "**********************************************"
-	@false
-.endif
-
-
-do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-
-do-install:
-	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
-	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
+post-install:
+	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	for F in AUTHORS ChangeLog COPYING HACKING INSTALL LICENCE NEWS README
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	endfor
+	${RM} -rf ${IMAGE}/${LOCALBASE}/share
+	${RM} -f ${IMAGE}/${LOCALBASE}/bin/pcre*exe
+	@cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC} && \
+	  ${PAX} -rw -pp . ${LOCALBASE:Q}
 
 
 .include "../../mk/bsd.pkg.mk"

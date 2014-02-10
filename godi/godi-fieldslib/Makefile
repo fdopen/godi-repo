@@ -2,18 +2,21 @@
 
 ONAME=		fieldslib
 PKG=		godi-${ONAME}
-VERSION=	109.20.00
+VERSION=	109.20.03
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       fieldslib-109.20.00
-DISTFILES=      fieldslib-109.20.00.tar.gz
+DISTNAME=       fieldslib-109.20.03
+DISTFILES=      fieldslib-109.20.03.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.20.00/individual/
-HOMEPAGE=       https://github.com/janestreet/pa_ounit
+HOMEPAGE=       https://github.com/janestreet/fieldslib
 COMMENT=        OCaml record fields as first class values
 
+DEPENDS+=	godi-type_conv<=109.60.01:../../godi/godi-type_conv
 DEPENDS+=	godi-type_conv>=109.20.00:../../godi/godi-type_conv
-DEPENDS+= godi-ocaml>=4.00:../../godi/godi-ocaml
+DEPENDS+=	godi-type_conv<=109.60.01:../../godi/godi-type_conv
+DEPENDS+=	godi-type_conv>=109.20.00:../../godi/godi-type_conv
+DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
 
 BUILD_DEPENDS+= godi-findlib>=1.3.2:../../godi/godi-findlib
 

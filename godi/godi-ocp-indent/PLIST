@@ -1,10 +1,7 @@
 bin/ocp-indent.exe
-bin/ocp-indent.byte.exe
 @deepdir doc/godi-ocp-indent
-lib/ocaml/pkg-lib/META.ocp-indent
-lib/ocaml/pkg-lib/META.ocp-indent-lexer
-lib/ocaml/pkg-lib/META.ocp-indent-lib
-lib/ocaml/pkg-lib/META.ocp-indent-utils
-@deepdir lib/ocp-indent
-man/man1/ocp-indent.1
+@deepdir lib/ocaml/pkg-lib/ocp-indent
 @deepdir share/typerex/ocp-indent
+share/emacs/site-lisp/ocp-indent.el
+share/vim/syntax/ocp-indent.vim
+man/man3/ocp-indent.1

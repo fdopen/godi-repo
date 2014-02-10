@@ -12,6 +12,5 @@ windel  "$1" "$2" 1 \
     "--with-mintty --with-bash" \
     "" \
     ""
-
 #--with-mintty --with-bash
 exit 0

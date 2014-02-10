@@ -1,0 +1,23 @@
+--- _oasis~	2013-10-22 14:10:46.000000000 +0000
++++ _oasis	2013-12-07 09:14:58.097600000 +0000
+@@ -322,13 +322,13 @@
+ # | Doc                                                               |
+ # +-------------------------------------------------------------------+
+ 
+-Document "lwt-manual"
+-  Title: Lwt user manual
+-  Type: custom (0.3)
+-  Install: true
+-  XCustom: make -C manual manual.pdf
+-  DataFiles: manual/manual.pdf
+-  InstallDir: $pdfdir
++# Document "lwt-manual"
++#  Title: Lwt user manual
++#  Type: custom (0.3)
++#  Install: true
++#  XCustom: make -C manual manual.pdf
++#  DataFiles: manual/manual.pdf
++#  InstallDir: $pdfdir
+ 
+ Document "lwt-api"
+   Title: API reference for Lwt

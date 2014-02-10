@@ -8,7 +8,7 @@ DISTNAME=       cppo-0.9.3
 DISTFILES=      cppo-0.9.3.tar.gz
 CATEGORIES=     apps
 MASTER_SITES=   http://mjambon.com/releases/cppo/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Martin Jambon <martin@mjambon.com>
 HOMEPAGE=       http://mjambon.com/cppo.html
 COMMENT=        cpp for OCaml
 

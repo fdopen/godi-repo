@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.8
+VERSION=	1.9
 PKG=		godi-sha
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-sha-${VERSION}
-DISTFILES=	v${VERSION}.tar.gz
+DISTNAME=	ocaml-sha-ocaml-sha-v${VERSION}
+DISTFILES=	ocaml-sha-v${VERSION}.tar.xz	
 CATEGORIES=	godi
-MASTER_SITES=   http://github.com/vincenthz/ocaml-sha/archive/
+MASTER_SITES=   ${MASTER_SITES_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://github.com/vincenthz/ocaml-sha
 COMMENT=	binding for SHA interface code in OCaml
@@ -22,7 +22,7 @@ MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
 HAS_CONFIGURE=  yes
 USE_GMAKE=	yes
-ALL_TARGET=	all doc tests
+ALL_TARGET=	all doc #tests
 
 post-extract:
 	${CP} files/* ${WRKSRC:Q}

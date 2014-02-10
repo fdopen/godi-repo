@@ -1,0 +1,4 @@
+Available options for extlib:
+
+- GODI_EXTLIB_MINIMAL: 
+    Possible values: yes,no, <blank> = yes

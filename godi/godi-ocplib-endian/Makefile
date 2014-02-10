@@ -2,7 +2,7 @@
 
 VERSION=        0.4
 PKGNAME=        godi-ocplib-endian-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ocplib-endian-0.4
 DISTFILES=      ocplib-endian-0.4.tar.gz
 CATEGORIES=     godi

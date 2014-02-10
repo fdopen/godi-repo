@@ -1,19 +1,63 @@
---- Makefile.orig	2012-10-05 19:24:37.000000000 +0000
-+++ Makefile	2013-09-02 22:18:13.900000000 +0000
-@@ -1,4 +1,4 @@
+--- Makefile.orig	2013-10-07 04:06:32.000000000 +0000
++++ Makefile	2013-12-07 10:07:56.051600000 +0000
+@@ -1,7 +1,8 @@
 -CFLAGS = -Wall -O3 -funroll-loops -I/usr/include
 +CFLAGS = -Wall -O3 -funroll-loops
  OCAMLC = ocamlc
  OCAMLOPT = ocamlopt
  OCAMLMKLIB = ocamlmklib
-@@ -21,8 +21,8 @@
++OCAMLFIND = ocamlfind
+ 
+ # on unix architecture we just use the default value
+ EXE=
+@@ -21,8 +22,9 @@
  
  OCAMLOPTFLAGS =
  
 -OCAML_TEST_INC = -I `ocamlfind query oUnit`
 -OCAML_TEST_LIB = `ocamlfind query oUnit`/oUnit.cmxa
-+OCAML_TEST_INC = -I `ocamlfind query oUnit | tr -d '\r'`
-+OCAML_TEST_LIB = `ocamlfind query oUnit | tr -d '\r'`/oUnit.cmxa
++OUNIT_DIR=$(shell ocamlfind query oUnit | tr -d '\r' | tr '\\' '/')
++OCAML_TEST_INC = -I $(OUNIT_DIR)
++OCAML_TEST_LIB = $(OUNIT_DIR)/oUnit.cmxa
  
  PROGRAMS_BINS = sha1sum sha256sum sha512sum
  PROGRAMS = $(addsuffix $(EXE), $(PROGRAMS_BINS))
+@@ -70,10 +72,10 @@
+ tests: sha.test
+ 	./sha.test
+ 
+-sha.test: sha1.cmxa sha256.cmxa sha512.cmxa sha.test.cmx
++sha.test: sha1.cmxa sha256.cmxa sha512.cmxa sha_test.cmx
+ 
+ %.test:
+-	$(OCAMLOPT) -o $@ $(OCAML_BFLAGS) unix.cmxa $(OCAML_TEST_INC) $(OCAML_TEST_LIB) $+
++	$(OCAMLFIND) ocamlopt -linkpkg -package ounit -o $@ $+
+ 
+ %.test.cmo: %.test.ml
+ 	$(OCAMLC) -c -o $@ $(OCAML_BFLAGS) -custom $(OCAML_TEST_INC) $<
+@@ -82,13 +84,13 @@
+ 	$(OCAMLOPT) -c -o $@ $(OCAML_BFLAGS) $(OCAML_TEST_INC) $<
+ 
+ %.cmo: %.ml
+-	$(OCAMLC) -c -o $@ $<
++	$(OCAMLC) $(OCAML_TEST_INC) -c -o $@ $<
+ 
+ %.cmi: %.mli
+-	$(OCAMLC) -c -o $@ $<
++	$(OCAMLC) $(OCAML_TEST_INC) -c -o $@ $<
+ 
+ %.cmx: %.ml
+-	$(OCAMLOPT) $(OCAMLOPTFLAGS) -c -o $@ $<
++	$(OCAMLOPT) $(OCAML_TEST_INC) $(OCAMLOPTFLAGS) -c -o $@ $<
+ 
+ %.$(OBJ): %.c
+ 	$(OCAMLC) -ccopt "$(CFLAGS)" -c -o $@ $<
+@@ -102,7 +104,7 @@
+ 	ocamldoc -html -d html *.mli
+ 
+ clean:
+-	rm -f *.$(OBJ) *.$(A) *.$(SO) *.cmo *.cmi *.cma *.cmx *.cmxa sha.test $(PROGRAMS)
++	rm -f *.$(OBJ) *.$(A) *.$(SO) *.cmo *.cmi *.cma *.cmx *.cmxa sha_test $(PROGRAMS)
+ 
+ install: sha1.cma sha1.cmxa sha256.cma sha256.cmxa sha512.cma sha512.cmxa sha.cma sha.cmxa META
+ 	ocamlfind install sha META *.cmx sha1.cmi sha1.cma sha1.cmxa sha256.cmi sha256.cma sha256.cmxa sha512.cmi sha512.cma sha512.cmxa sha.cma sha.cmxa *.$(A) *.$(SO)

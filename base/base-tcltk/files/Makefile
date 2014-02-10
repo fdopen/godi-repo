@@ -6,24 +6,30 @@ all: tcl tk
 
 .PHONY: tcl
 tcl:
-	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR)
+	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR) all
 
 configure-tk.ok: tcl
 	./configure-tk
 
 .PHONY: tk
 tk: tcl configure-tk.ok
-	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR)
+	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR) all
 
 .PHONY: clean
 clean:
 	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR) clean
 	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR) clean
 
+.PHONY: test
+test: 
+	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR) test
+	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR) test
+
+
 .PHONY: install
 install:
-	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR) install
-	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR) install
+	make -C tcl$(TCLTKVERSION)/$(SYSTEMSUBDIR) install-binaries install-libraries
+	make -C tk$(TCLTKVERSION)/$(SYSTEMSUBDIR) install-binaries install-libraries
 
 .PHONY: distclean
 distclean: clean

@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.3.0
+VERSION=	1.0.1
 PKGNAME=	godi-ocp-index-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocp-index-${VERSION}
-DISTFILES=	${VERSION}.tar.gz
+DISTFILES=	ocp-index-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
@@ -19,6 +19,7 @@ DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 DEPENDS+=	godi-cmdliner>=0:../../godi/godi-cmdliner
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocp-build>=1.99.7beta:../../godi/godi-ocp-build
+BUILD_DEPENDS+= godi-ocp-indent>=1.4.0:../../godi/godi-ocp-indent
 
 INSTALL_SCRIPT_FILE=files/install
 DEINSTALL_SCRIPT_FILE=files/deinstall
@@ -32,8 +33,8 @@ HAS_CONFIGURE=yes
 
 MINGW_AUTOTOOLS_BUILD=	yes
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE_NATIVE:Q}
-CONFIGURE_ARGS+=	--docdir=${LOCALBASE_NATIVE:Q}\\doc\\${PKG:Q}
-CONFIGURE_ARGS+=	--mandir=${LOCALBASE_NATIVE:Q}\\man
+CONFIGURE_ARGS+=	--docdir=${LOCALBASE_NATIVE:Q}/doc/${PKG:Q}
+CONFIGURE_ARGS+=	--mandir=${LOCALBASE_NATIVE:Q}/man
 
 ALL_TARGET=
 INSTALL_TARGET=install
@@ -42,11 +43,13 @@ INSTALL_TARGET=install
 
 
 post-install:
+	cd ${LOCALBASE}/lib && ${MV} ocp-index ${LOCALBASE}/lib/ocaml/pkg-lib
 	${MKDIR} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	for F in LICENSE README.md
 	    cp ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	endfor
-	${MV} ${LOCALBASE:Q}/bin/ocp-index.asm ${LOCALBASE:Q}/bin/ocp-index.exe
+	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-index
+	${CP} ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-index.el ${LOCALBASE:Q}/share/typerex/ocp-index
 
 
 .include "../../mk/bsd.pkg.mk"

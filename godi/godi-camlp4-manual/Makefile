@@ -8,7 +8,7 @@ DISTFILES=      manual-camlp4-${VERSION}.tar.gz
 DISTFILES+=     tutorial-camlp4-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     gerd@gerd-stolpmann.de
 HOMEPAGE=       http://caml.inria.fr/
 COMMENT=        The manuals for Camlp4
 

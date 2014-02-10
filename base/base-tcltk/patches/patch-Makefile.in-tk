@@ -1,5 +1,5 @@
---- tk8.5.14/win/Makefile.in.orig	2012-08-10 16:51:39.356800000 +0000
-+++ tk8.5.14/win/Makefile.in	2012-08-10 17:16:38.719600000 +0000
+--- tk8.5.15/win/Makefile.in.orig	2012-08-10 16:51:39.356800000 +0000
++++ tk8.5.15/win/Makefile.in	2012-08-10 17:16:38.719600000 +0000
 @@ -34,7 +34,7 @@
  # to be different than those used for actually reference files at
  # run-time.  INSTALL_ROOT is prepended to $prefix and $exec_prefix

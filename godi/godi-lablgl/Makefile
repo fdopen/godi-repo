@@ -2,13 +2,14 @@
 
 GODI_PLIST=	yes
 
-VERSION=	1.04
+VERSION=	1.05
+MNODE=		1254
 PKGNAME=	godi-lablgl-${VERSION}
-PKGREVISION=	4
+PKGREVISION=	0
 DISTNAME=	lablGL
 DISTFILES=	lablgl-20120306.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/816/
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${MNODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://wwwfun.kurims.kyoto-u.ac.jp/soft/olabl/lablgl.html
 COMMENT=	OpenGL interface

@@ -3,10 +3,10 @@
 
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
-VERSION = 	2.1
-PKGREVISION=    1
+VERSION = 	2.2
+PKGREVISION=    0
 CATEGORIES=     godi
-FORGE_NODE =	1218
+FORGE_NODE =	1363
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://batteries.forge.ocamlcore.org
@@ -90,7 +90,7 @@ ALL_TARGET=     all
 INSTALL_TARGET = install
 
 .if ${GODI_BATTERIES_RUN_TESTS} == "yes"
-ALL_TARGET += test-byte # test, if compat test is working again
+ALL_TARGET += test 
 .if ${GODI_HAVE_OCAMLOPT} != "no"
 ALL_TARGET += test-native
 .endif

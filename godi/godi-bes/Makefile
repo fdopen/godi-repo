@@ -3,7 +3,7 @@
 VERSION=        0.9.4.2
 FNODE=		1160
 PKGNAME=        godi-bes-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 #DISTNAME=       bes-${VERSION}
 DISTNAME=	0.9.4.2
 DISTFILES=      bes-0.9.4.2.tar.gz

@@ -9,7 +9,7 @@ DISTNAME=	ocaml-expat-${VERSION}
 DISTFILES=	ocaml-expat-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://www.xs4all.nl/~mmzeeman/ocaml/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	Alain.Frisch@ens.fr
 HOMEPAGE=	http://www.xs4all.nl/~mmzeeman/ocaml/
 COMMENT=	Bindings for the expat XML parser
 

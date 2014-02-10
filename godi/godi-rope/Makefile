@@ -3,7 +3,7 @@
 VERSION=        0.5
 MNODE=		1156
 PKGNAME=        godi-rope-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       rope-${VERSION}
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     godi

@@ -6,7 +6,7 @@ DISTNAME=	xstr
 DISTFILES=	xstr-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://ocaml-programming.de/packages/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	gerd@gerd-stolpmann.de
 HOMEPAGE=	http://ocaml-programming.de
 COMMENT=	additional string functions
 

@@ -8,7 +8,7 @@ DISTNAME=	ocaml-magic-${VERSION}
 DISTFILES=	ocaml-magic-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES= 	http://downloads.sourceforge.net/project/ocaml-magic/ocaml-magic/0.7/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://sourceforge.net/projects/ocaml-magic/
 COMMENT=	binding for libmagic
 
@@ -23,7 +23,6 @@ CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
-
 USE_GMAKE=	yes
 INSTALL_TARGET= install
 ALL_TARGET=	byte
@@ -36,6 +35,7 @@ MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
 
 
 .if !defined(W32PORT) || ${W32PORT} == "cygwin" 
+
 BUILD_DEPENDS+= conf-magic>=0:../../conf/conf-magic
 .if exists(${LOCALBASE}/lib/godi/conf-magic.mk)
 .include "${LOCALBASE}/lib/godi/conf-magic.mk"
@@ -53,7 +53,7 @@ LDFLAGS+=-Wl,${ELF_RPATH_FLAG}${CONF_MAGIC_NEED_RPATH}
 .endif
 
 .else
-DEPENDS+= base-magic>=0:../../base/base-magic
+BUILD_DEPENDS+= base-magic>=0:../../base/base-magic
 
 .endif
 

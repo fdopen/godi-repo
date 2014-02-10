@@ -4,11 +4,12 @@ ONAME=		jsonm
 PKG=		godi-${ONAME}
 VERSION=        0.9.1
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tbz
 CATEGORIES=     godi
 MASTER_SITES=   http://erratique.ch/software/${ONAME}/releases/
+MAINTAINER=     andreas@ml.ignorelist.com
 HOMEPAGE=       http://erratique.ch/software/${ONAME}
 COMMENT=        A non-blocking streaming JSON codec for OCaml
 

@@ -1,0 +1,24 @@
+--- bitfn.h~	2013-10-07 04:06:32.000000000 +0000
++++ bitfn.h	2013-12-07 09:22:49.935200000 +0000
+@@ -65,18 +65,14 @@
+ #endif
+ 
+ /* big endian to cpu */
+-#ifdef __APPLE__
+-#include <architecture/byte_order.h>
+-#else
+-#include <endian.h>
+-#endif
++#include "config.h"
+ 
+-#if LITTLE_ENDIAN == BYTE_ORDER
++#if LITTLE_ENDIAN_HOST == 1
+ #define be32_to_cpu(a) swap32(a)
+ #define cpu_to_be32(a) swap32(a)
+ #define be64_to_cpu(a) swap64(a)
+ #define cpu_to_be64(a) swap64(a)
+-#elif BIG_ENDIAN == BYTE_ORDER
++#elif BIG_ENDIAN_HOST == 1
+ #define be32_to_cpu(a) (a)
+ #define cpu_to_be32(a) (a)
+ #define be64_to_cpu(a) (a)

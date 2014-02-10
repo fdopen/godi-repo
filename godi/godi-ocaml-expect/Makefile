@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.0.3
-MNODE=		894
+VERSION=        0.0.4
+MNODE=		1289
 PKGNAME=        godi-ocaml-expect-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ocaml-expect-${VERSION}
 DISTFILES=      ocaml-expect-${VERSION}.tar.gz
 CATEGORIES=     godi

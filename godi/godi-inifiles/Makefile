@@ -7,7 +7,7 @@ DISTNAME=	inifiles-${VERSION}
 DISTFILES=	inifiles-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES= http://homepage.mac.com/letaris/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	eric.stokes@csun.edu
 HOMEPAGE=	http://homepage.mac.com/letaris/
 COMMENT=	ini format config file parsing
 

@@ -8,7 +8,7 @@ DISTNAME=       godiva-0.9.7
 DISTFILES=      godiva-0.9.7.tar.gz
 CATEGORIES=     apps
 MASTER_SITES=   http://projects.phauna.org/godiva/release/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Owen Gunden <ogunden@phauna.org>
 HOMEPAGE=       http://projects.phauna.org/godiva/
 COMMENT=        High-level tool for simplifying the creation of GODI packages.
 

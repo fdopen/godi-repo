@@ -1,7 +1,7 @@
+bin/libIDL-config-2
 bin/bonobo-slay
 bin/croco-[0-9]*-config
 bin/freetype-config
-bin/icu-config
 bin/libart2-config
 bin/libpng-config
 bin/libpng[0-9]*-config
@@ -16,12 +16,6 @@ lib/bonobo/servers/Bonobo_CosNaming_NamingContext.server
 lib/bonobo/servers/Bonobo_Sample_Controls.server
 lib/bonobo/servers/Bonobo_Sample_Echo.server
 lib/bonobo/servers/CanvDemo.server
-lib/icu/[0-9]*/Makefile.inc
-lib/icu/[0-9]*/pkgdata.inc
-lib/icu/current/Makefile.inc
-lib/icu/current/pkgdata.inc
-lib/icu/Makefile.inc
-lib/icu/pkgdata.inc
 lib/xml2Conf.sh
 share/dbus-1/services/gconf.service
 share/dbus-1/services/gnome-vfs-daemon.service

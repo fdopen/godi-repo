@@ -11,7 +11,6 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.zlib.net/
 COMMENT=	essential windows libraries and tools
 
-
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
 .include "Makefile.64"
 VERSION=${VERSION64}

@@ -3,7 +3,7 @@
 VERSION=6.11
 NAME=camlp5
 PKGNAME=godi-${NAME}-${VERSION}
-PKGREVISION=0
+PKGREVISION=1
 DISTNAME=${NAME}-${VERSION}
 DISTFILES=${DISTNAME}.tgz
 CATEGORIES=godi
@@ -13,6 +13,11 @@ HOMEPAGE=http://pauillac.inria.fr/~ddr/camlp5/
 COMMENT=pre-processor-pretty-printer for ocaml
 
 HAS_CONFIGURE=yes
+
+.if defined(W32PORT) && ${W32PORT} == "mingw"
+INSTALL_SCRIPT_FILE=files/install
+DEINSTALL_SCRIPT_FILE=files/deinstall
+.endif
 
 #CONFIGURE_ARGS=--transitional
 USE_GMAKE=yes

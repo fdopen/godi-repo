@@ -1,13 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=        0.8.16
-MNODE=		1063
 PKGNAME=        godi-pa_do-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       pa_do-${VERSION}
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${MNODE}/
+FNODE=		1063
+MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FNODE}/
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=       http://pa-do.forge.ocamlcore.org/
 COMMENT=	Syntax extension to write arithmetic expressions
 

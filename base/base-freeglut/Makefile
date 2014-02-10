@@ -12,6 +12,10 @@ HOMEPAGE=	http://freeglut.sourceforge.net/
 COMMENT=	open source alternative to the OpenGL Utility Toolkit
 
 
+#libgcc
+DEPENDS+= base-windows>=0:../../base/base-windows
+
+
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
 .include "Makefile.64"
 VERSION=${VERSION64}

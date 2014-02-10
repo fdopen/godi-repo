@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.1.0
+VERSION=	1.1.2
 PKGNAME=	apps-ocaml-top-${VERSION}
-PKGREVISION=	1
+PKGREVISION=	0
 DISTNAME=	ocaml-top-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	apps

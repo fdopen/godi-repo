@@ -1,17 +1,19 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.00b148
+RVERSION=	1.09.1
+VERSION=	2.00z${RVERSION}
 PKGREVISION=	0
 PKG=		apps-console2
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	
-DISTFILES=	Console-2.00b148-Beta_32bit.zip Console-2.00b148-Beta_src.zip
-EXTRACT_ONLY=	
+DISTFILES=	ConsoleZ.x86.${RVERSION}.tar.gz ConsoleZ.x86.${RVERSION}.tar.xz
+EXTRACT_ONLY=	ConsoleZ.x86.${RVERSION}.tar.xz
+DISTNAME=	ConsoleZ.x86.${RVERSION}
 CATEGORIES=	apps
-MASTER_SITES=	http://sourceforge.net/projects/console/files/console-devel/2.00/
+MASTER_SITES=	${MASTER_SITES_BACKUP}
 
 
-MAINTAINER=	wodi@ml.ignorelist.com
+
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://sourceforge.net/projects/console/
 COMMENT=	Windows Command Prompt
 
@@ -31,13 +33,11 @@ pre-configure:
 .endif
 
 do-build:
-	@rm -rf ${WRKDIR:Q}/Console2 ${WRKDIR:Q}/opt
-	@cd ${WRKDIR:Q} && 7z x ${DISTDIR}/Console-2.00b148-Beta_32bit.zip
-	@${MKDIR} ${WRKDIR:Q}/opt
-	@${MV} ${WRKDIR:Q}/Console2 ${WRKDIR:Q}/opt
+	@${MKDIR} -p ${WRKDIR:Q}/opt/Console2
+	@cd ${WRKSRC:Q} && ${MV} * ${WRKDIR:Q}/opt/Console2 && ${RMDIR} ${WRKSRC:Q}
 
 do-install:
-	@cd ${WRKDIR} && ${FIND} opt/Console2 ! -type d >${PLIST_SRC} \
+	@cd ${WRKDIR} && ${FIND} opt/Console2 ! -type d >${PLIST_SRC:Q} \
 	 && ${PAX} -rw -pp opt ${LOCALBASE:Q}
 	@${SETENV} ${ADD_ENV} bash files/install --add-links
 

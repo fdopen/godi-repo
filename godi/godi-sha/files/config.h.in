@@ -1,3 +1,9 @@
 
 #undef BIG_ENDIAN_HOST
 #undef LITTLE_ENDIAN_HOST
+#undef HAVE_O_CLOEXEC
+
+
+#ifndef HAVE_O_CLOEXEC
+#define O_CLOEXEC 0
+#endif

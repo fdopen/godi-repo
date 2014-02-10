@@ -8,7 +8,7 @@ DISTNAME=       calendar-2.03.2
 DISTFILES=      calendar-2.03.2.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/915/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Julien Signoles <julien.signoles@gmail.com>
 HOMEPAGE=       http://calendar.forge.ocamlcore.org/
 COMMENT=        Operations over dates and times.
 
@@ -36,10 +36,10 @@ pre-configure-copy:
 
 pre-configure: pre-configure-copy
 
-ALL_TARGET=     all tests
-#.if ${GODI_HAVE_OCAMLOPT} == "yes"
+ALL_TARGET=     all
+.if ${GODI_HAVE_OCAMLOPT} == "yes"
 # ALL_TARGET+= opt
-#.endif
+.endif
 
 post-install:
 	mkdir -p ${PREFIX}/doc/${PKG}

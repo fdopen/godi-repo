@@ -27,12 +27,34 @@ then
     exit 1
 fi
 
+
+cdir="$(pwd)"
+
+cd "${godi_bin_dir}"
+cp -p gspawn-win*-helper*.exe "${godi_gui_dir}/bin"
+cd "$cdir"
+
 cp -a "${godi_root_dir}/etc/fonts" "${godi_gui_dir}/etc"
 cp -a "${godi_root_dir}/etc/gtk-2.0" "${godi_gui_dir}/etc"
 cp -a "${godi_root_dir}/lib/gtk-2.0/2.10.0/engines" "${godi_gui_dir}/lib/gtk-2.0/2.10.0"
 cp -a "${godi_root_dir}/lib/gtk-2.0/modules" "${godi_gui_dir}/lib/gtk-2.0"
 cp -a "${godi_root_dir}/share/themes/MS-Windows" "${godi_gui_dir}/share/themes"
 cp -a "${godi_root_dir}/share/gtksourceview-2.0" "${godi_gui_dir}/share"
+
+
+cd "${godi_gui_dir}/share/gtksourceview-2.0/language-specs/"
+for f in *.* ; do
+    [ ! -f "$f" ] && continue
+    case "$f" in
+        c.lang|cpp.lang|def.lang|language.rng|language2.rng|ocaml.lang|styles.rng)
+            continue
+            ;;
+        *)
+            rm "$f"
+    esac
+done
+cd "$cdir"
+
 
 #1: found
 #2: checked
@@ -70,7 +92,7 @@ while [ $new_found -eq 1 ]; do
 	    cp -p "${godi_bin_dir}/${dll}" "${godi_gui_dir}/bin"
 	    for ndll in `$OBJDUMP -p "${godi_bin_dir}/${dll}" | grep 'DLL Name:' | awk '{print $3}'` ; do
 		if [ -z "$ndll" ] || [ ! -f "${godi_bin_dir}/${ndll}" ] \
-		    || [ "a${mymap[$ndll]}" = "a1" ] || [ "a${mymap[$ndll]}" = "a2" ] ; then
+		    || [ "${mymap[$ndll]}" = "1" ] || [ "${mymap[$ndll]}" = "2" ] ; then
 		    continue
 		fi
 		mymap[$ndll]=1
@@ -82,11 +104,9 @@ done
 
 IFS=$oldIFS
 
-
 find "${godi_gui_dir}" -type l -delete
 find "${godi_gui_dir}" -type f -name '*~' -delete
 find "${godi_gui_dir}" -type f -name '*README*' -delete
 find "${godi_gui_dir}" -type d -empty -delete
-
 
 exit 0

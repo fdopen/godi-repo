@@ -1,9 +1,10 @@
 $NetBSD$
 
-SHA1 (v1.8.tar.gz) = 523028756430c4f564f9bff8aa65d4d69e0f5756
-Size (v1.8.tar.gz) = 11895 bytes
+SHA1 (ocaml-sha-v1.9.tar.xz) = 1a12152fdc5527117d10949887313231e86cada3
+Size (ocaml-sha-v1.9.tar.xz) = 11176 bytes
 
-SHA1 (patch-aa-meta) = 9473620cf8610de89fd851c930068d489c58e619
-SHA1 (patch-bb-bitfn) = 7970908042d2057c4d11112a2c90da55565da6ac
+SHA1 (patch-bb-bitfn2) = 10dc620bcf29f56e51f68f7ac6427fcd29d01199
 SHA1 (patch-cc-sha512) = abb447aa96e8b47be169366169849b82063ea785
-SHA1 (patch-dd-makefile) = 36b9c0f8f743752d1258db9b35015ad3a113839e
+SHA1 (patch-dd-makefile) = 30b7fee0c39aa71e182cfcb793d198a97faaa3f3
+SHA1 (patch-sha_test) = c78af177bc9daa7369b32db71694b4db19102222
+SHA1 (patch-si) = fb21ff36a4423b3451fd0ecf0011d7338e2108b1

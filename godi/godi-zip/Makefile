@@ -7,7 +7,7 @@ DISTNAME=	camlzip-${VERSION}
 DISTFILES=	camlzip-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1037/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	Julien.Signoles@gmail.com
 HOMEPAGE=	http://forge.ocamlcore.org/projects/camlzip
 COMMENT=	Bindings for zlib
 

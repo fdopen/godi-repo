@@ -7,7 +7,7 @@ DISTNAME=	ocamlsdl-${VERSION}
 DISTFILES=	ocamlsdl-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=ocamlsdl/}
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://ocamlsdl.sourceforge.net/
 COMMENT=	SDL, the Simple Direct Layer for video, audio, input devices
 

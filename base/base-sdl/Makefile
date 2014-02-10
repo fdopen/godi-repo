@@ -11,8 +11,8 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.libsdl.org/index.php
 COMMENT=	cross-platform multimedia library
 
-#zlib!
-#DEPENDS+= base-windows>=0:../../base/base-windows
+#libgcc
+DEPENDS+= base-windows>=0:../../base/base-windows
 
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
 .include "Makefile.64"

@@ -7,7 +7,7 @@ DISTNAME=	ocaml-json-${VERSION}
 DISTFILES=	ocaml-json-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=json/}
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	Gerd Stolpmann <gerd@gerd-stolpmann.de>
 HOMEPAGE=	http://www.json.org/
 COMMENT=	Data marshalling with JSON
 

@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.7.1
+VERSION=        1.0.1
 PKGNAME=        godi-cstruct-${VERSION}
-DISTNAME=       ocaml-cstruct-ocaml-cstruct-${VERSION}
-DISTFILES=      ocaml-cstruct-${VERSION}.tar.gz
+DISTNAME=       ocaml-cstruct-1.0.1
+DISTFILES=      cstruct-1.0.1.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mirage/ocaml-cstruct/archive
+MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://github.com/mirage/ocaml-cstruct
 COMMENT=        access C structures via a camlp4 extension

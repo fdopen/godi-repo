@@ -20,14 +20,12 @@ VERSION=${VERSION64}
 VERSION=${VERSION32}
 .endif
 
-#zlib,libintl
+#glib,zlib,...
 DEPENDS+= base-windows>=0:../../base/base-windows
-
-#DEPENDS+= base-curl>=0:../../base/base-curl
 DEPENDS+= base-expat>=0:../../base/base-expat
-DEPENDS+= base-pcre>=0:../../base/base-pcre
-DEPENDS+= base-sqlite3>=0:../../base/base-sqlite3
-
+#DEPENDS+= base-bzip2>=0:../../base/base-bzip2
+#DEPENDS+= base-pcre>=0:../../base/base-pcre
+#DEPENDS+= base-sqlite3>=0:../../base/base-sqlite3
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 

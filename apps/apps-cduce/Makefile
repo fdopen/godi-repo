@@ -20,7 +20,7 @@ DISTFILES=      cduce-${VERSION}.tar.gz
 
 CATEGORIES=     apps
 MASTER_SITES=   http://www.cduce.org/download/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     jmaloberti@gmail.com
 HOMEPAGE=       http://cduce.org/
 COMMENT=        XML-oriented functional language
 

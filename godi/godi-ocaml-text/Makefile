@@ -2,13 +2,13 @@
 
 VERSION= 	0.6
 PKGNAME= 	godi-ocaml-text-${VERSION}
-PKGREVISION= 	1
+PKGREVISION= 	2
 DISTNAME=	ocaml-text-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	godi
 FINODE=		937
 MASTER_SITES= 	http://forge.ocamlcore.org/frs/download.php/${FINODE}/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://ocaml-text.forge.ocamlcore.org/
 COMMENT=	A library dealing with text as sequence of unicode characters.
 
@@ -33,7 +33,6 @@ post-install:
 
 CONFIGURE_ARGS+=		--enable-pcre
 WINOASIS=		 	yes
-WINOASIS_SETUP=		 	yes
 CONFIGURE_ENV+=			GODI_PREFIX=${LOCALBASE}
 
 

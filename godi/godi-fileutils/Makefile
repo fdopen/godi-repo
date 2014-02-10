@@ -2,7 +2,7 @@
 
 VERSION=	0.4.5
 MNODE=		1194
-PKGREVISION=	0
+PKGREVISION=	1
 PKGNAME=	godi-fileutils-${VERSION}
 DISTNAME=	ocaml-fileutils-${VERSION}
 DISTFILES=	ocaml-fileutils-${VERSION}.tar.gz

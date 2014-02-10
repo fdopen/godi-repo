@@ -2,21 +2,24 @@
 
 ONAME=		pa_ounit
 PKG=		godi-${ONAME}
-VERSION=	109.36.00
+VERSION=	109.53.02
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
-DISTNAME=       pa_ounit-109.36.00
-DISTFILES=      pa_ounit-109.36.00.tar.gz
+PKGREVISION=    1
+DISTNAME=       pa_ounit-109.53.02
+DISTFILES=      pa_ounit-109.53.02.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.36.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.53.00/individual/
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        OCaml inline testing
 
-BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
-DEPENDS+=	godi-type_conv>=109.15.00:../../godi/godi-type_conv
-DEPENDS+= godi-ocaml>=4.00:../../godi/godi-ocaml
-DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
+DEPENDS+=	godi-type_conv<=109.60.01:../../godi/godi-type_conv
+DEPENDS+=	godi-type_conv>=109.53.00:../../godi/godi-type_conv
+DEPENDS+=	godi-type_conv<=109.60.01:../../godi/godi-type_conv
+DEPENDS+=	godi-type_conv>=109.53.00:../../godi/godi-type_conv
+DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+= godi-ounit-*:../../godi/godi-ounit
 
 WINOASIS=	yes
 

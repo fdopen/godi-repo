@@ -20,8 +20,6 @@ HAS_CONFIGURE=		yes
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q} 
 CONFIGURE_ARGS+=	--enable-shared
 CONFIGURE_ARGS+=	--disable-static
-#CONFIGURE_ARGS+=	--enable-static 
-#CONFIGURE_ARGS+=	--disable-shared 
 CONFIGURE_ARGS+=	--with-lib-opengl32
 
 USE_GMAKE=	yes
@@ -40,6 +38,10 @@ post-build:
 
 
 post-install:
+	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	for F in AUTHORS ChangeLog COPYING MAINTAINERS NEWS README TODO
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	endfor
 	@cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC} && \
 	  ${PAX} -rw -pp . ${LOCALBASE:Q}
 

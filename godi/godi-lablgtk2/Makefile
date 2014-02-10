@@ -1,16 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
 
 # This date was taken from the CHANGES file.
-VERSION=	20120823
-
+VERSION=	20131001
+#VERSION=	2.16.0
 PKGNAME=	godi-lablgtk2-${VERSION}
 
-PKGREVISION=	2
-DISTNAME=	lablgtk-2.16.0
+PKGREVISION=	1
+DISTNAME=	lablgtk-2.18.0
 DISTFILES=	${DISTNAME}.tar.gz
 
 CATEGORIES=	godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/979/
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1261/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://lablgtk.forge.ocamlcore.org/
 COMMENT=	An object-oriented interface to GTK2

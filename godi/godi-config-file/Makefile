@@ -11,7 +11,7 @@ DISTFILES=	${DISTNAME}.tar.gz
 
 CATEGORIES=	godi
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/845/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://config-file.forge.ocamlcore.org/
 COMMENT=	library used to manage the configuration file(s) of an application
 

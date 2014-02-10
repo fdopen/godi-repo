@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3.2
+VERSION=	1.4.1
 PKGNAME=	godi-ocp-indent-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocp-indent-${VERSION}
-DISTFILES=	ocp-indent-${VERSION}.tar.xz
+DISTFILES=	ocp-indent-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
@@ -19,6 +19,7 @@ DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 DEPENDS+=	godi-cmdliner>=0:../../godi/godi-cmdliner
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocp-build>=1.99.7beta:../../godi/godi-ocp-build
+BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
 
 
 INSTALL_SCRIPT_FILE=files/install
@@ -42,11 +43,13 @@ INSTALL_TARGET=install
 
 
 post-install:
+	cd ${LOCALBASE}/lib && ${MV} ocp-indent ${LOCALBASE}/lib/ocaml/pkg-lib
 	${MKDIR} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	for F in CHANGELOG LICENSE README.md
-	    cp ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	endfor
-	${MV} ${LOCALBASE:Q}/bin/ocp-indent.asm ${LOCALBASE:Q}/bin/ocp-indent.exe
+	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-indent
+	${CP} ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-indent.el ${LOCALBASE:Q}/share/typerex/ocp-indent
 
 
 .include "../../mk/bsd.pkg.mk"

@@ -7,7 +7,7 @@ DISTNAME=       ulex-${VERSION}
 DISTFILES=	ulex-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	http://www.cduce.org/download/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Alain.Frisch@inria.fr
 HOMEPAGE=       http://www.cduce.org/download.html
 COMMENT=        Lexer generator with support for Unicode
 

@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.7
+VERSION=        1.10
 MNODE=		1122
 ONAME=		utop
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       utop-1.7
-DISTFILES=      1.7.tar.gz
+DISTNAME=       utop-1.10
+DISTFILES=      utop-1.10.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://github.com/diml/utop/archive/
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=       https://github.com/diml/utop
 COMMENT=        improved toplevel for OCaml
 

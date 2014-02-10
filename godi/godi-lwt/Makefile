@@ -1,13 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.3
-PKGREVISION=	1
+VERSION=	2.4.4
+PKGREVISION=	0
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	lwt-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz  
 CATEGORIES=	godi
-MASTER_SITES=	http://www.ocsigen.org/download/
+#MASTER_SITES=	http://www.ocsigen.org/download/
+MASTER_SITES=	${MASTER_SITES_BACKUP}
 HOMEPAGE=	http://www.ocsigen.org/install/lwt
 COMMENT=	Light-weight threading library
 

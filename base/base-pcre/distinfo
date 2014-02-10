@@ -1,4 +1,4 @@
-SHA1 (base-pcre-8.31.1.136_32.tar.xz) = 8ae5499c62911580abb7a09dfbffdd54452bf085
-Size (base-pcre-8.31.1.136_32.tar.xz) = 317256 bytes 
-SHA1 (base-pcre-8.31.1.128_64.tar.xz) = 85254a4552324079f00eadfc1e847e19e6fa937d
-Size (base-pcre-8.31.1.128_64.tar.xz) = 320256 bytes 
+$NetBSD$
+
+SHA1 (pcre-8.34.tar.bz2) = e02257272c2c554b14bee723158d46da2b1ad72a
+Size (pcre-8.34.tar.bz2) = 1468794 bytes

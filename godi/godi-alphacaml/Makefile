@@ -8,7 +8,7 @@ DISTNAME=       alphaCaml-20061214
 DISTFILES=      alphaCaml-20061214.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://cristal.inria.fr/~fpottier/alphaCaml/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     François Pottier <Francois.Pottier@inria.fr>
 HOMEPAGE=       http://cristal.inria.fr/~fpottier/alphaCaml/
 COMMENT=        A tool that helps deal with alpha-conversion issues.
 

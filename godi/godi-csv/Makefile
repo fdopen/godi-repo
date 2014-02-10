@@ -1,13 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3.1
+VERSION=	1.3.2
 INODE=		1152
 PKG=		godi-csv
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	csv-1.3.1
-DISTFILES=	csv-1.3.1.tar.gz
+PKGREVISION=	1
+DISTNAME=	csv-1.3.2
+DISTFILES=	csv-1.3.2.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1235/
+MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1298/
 HOMEPAGE=	https://forge.ocamlcore.org/projects/csv/
 COMMENT=	CSV library for OCaml
 

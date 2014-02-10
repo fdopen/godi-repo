@@ -11,6 +11,9 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.sqlite.org/
 COMMENT=	a self-contained, embeddable, zero-configuration SQL database engine
 
+#libgcc
+DEPENDS+= base-windows>=0:../../base/base-windows
+
 
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
 .include "Makefile.64"

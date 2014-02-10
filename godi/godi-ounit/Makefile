@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.1.2
+VERSION=        2.0.0
 MNODE=		886
 PKGNAME=        godi-ounit-${VERSION}
-PKGREVISION=    3
-DISTNAME=       ounit-${VERSION}
-DISTFILES=      ounit-${VERSION}.tar.gz
+PKGREVISION=    1
+DISTNAME=       ounit-2.0.0
+DISTFILES=      ounit-2.0.0.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${MNODE}/
+MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/1258/
 HOMEPAGE=       http://ounit.forge.ocamlcore.org/
 COMMENT=        Unit test framework for OCaml
 
@@ -17,7 +17,7 @@ BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 
 WINOASIS=	yes
 WINOASIS_DISABLE_TESTS= undef
-WINOASIS_DISABLE_DOCS=  undef
+#WINOASIS_DISABLE_DOCS=  undef
 
 
 .include "../../mk/bsd.pkg.mk"

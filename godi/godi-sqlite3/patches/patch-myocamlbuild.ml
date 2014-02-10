@@ -1,7 +1,7 @@
---- myocamlbuild.ml.orig	2012-07-16 14:41:22.000000000 +0000
-+++ myocamlbuild.ml	2012-08-16 13:47:17.734000000 +0000
-@@ -534,6 +534,23 @@
- # 535 "myocamlbuild.ml"
+--- myocamlbuild.ml~	2013-12-16 21:25:06.000000000 +0000
++++ myocamlbuild.ml	2014-01-08 20:03:21.701600000 +0000
+@@ -608,6 +608,23 @@
+ # 609 "myocamlbuild.ml"
  (* OASIS_STOP *)
  
 +

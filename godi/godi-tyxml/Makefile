@@ -7,7 +7,7 @@ DISTNAME=	tyxml-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	godi  
 MASTER_SITES=	http://www.ocsigen.org/download/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	jmaloberti@gmail.com
 HOMEPAGE=	http://www.ocsigen.org/eliom/install/
 COMMENT=	A parser and printer for xml.
 

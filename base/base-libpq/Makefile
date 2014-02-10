@@ -32,11 +32,11 @@ CONFIGURE_ARGS+=	--without-readline
 #no:
 #CONFIGURE_ARGS+=	--enable-relocatable
 
-BUILD_SCRIPT=		${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/src/interfaces/libpq all && \
+BUILD_SCRIPT=		${GMAKE} -C ${WRKSRC}/src/interfaces/libpq all && \
 			${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/src/bin/pg_config all
 
-INSTALL_SCRIPT=		${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/src/interfaces/libpq install DESTDIR=${IMAGE} && \
-			${SETENV} ${MAKE_ENV} ${GMAKE} -C ${WRKSRC}/src/bin/pg_config install DESTDIR=${IMAGE}
+INSTALL_SCRIPT=		${GMAKE} -C ${WRKSRC}/src/interfaces/libpq install DESTDIR=${IMAGE} && \
+			${SETENV} ${INSTALL_ENV} ${GMAKE} -C ${WRKSRC}/src/bin/pg_config install DESTDIR=${IMAGE}
 
 #USE_GMAKE=	yes
 #ALL_TARGET=	all check

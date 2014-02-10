@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	109.35.00
+VERSION=	109.35.02
 ONAME=		herelib
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       herelib-109.35.00
-DISTFILES=      herelib-109.35.00.tar.gz
+DISTNAME=       herelib-109.35.02
+DISTFILES=      herelib-109.35.02.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.35.00/individual/
 HOMEPAGE=       https://github.com/janestreet/herelib

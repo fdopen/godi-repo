@@ -6,7 +6,7 @@ PKGNAME=	conf-expat-${VERSION}
 DISTNAME=	pseudo
 DISTFILES=
 CATEGORIES=	conf
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	Alain.Frisch@ens.fr
 HOMEPAGE=	n/a
 COMMENT=	Configures which expat library to use
 

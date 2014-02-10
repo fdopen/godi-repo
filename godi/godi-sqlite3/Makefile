@@ -1,18 +1,18 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        2.0.4
+VERSION=        2.0.5
 PKGNAME=        godi-sqlite3-${VERSION}
 PKGREVISION=    0
-DISTNAME=       sqlite3-ocaml-${VERSION}
-DISTFILES=      ${DISTNAME}.tar.gz
+DISTNAME=       sqlite3-ocaml-2.0.5
+DISTFILES=      sqlite3-ocaml-2.0.5.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://bitbucket.org/mmottl/sqlite3-ocaml/downloads/
+MASTER_SITES=   https://bitbucket.org/mmottl/sqlite3-ocaml/downloads/
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=       https://bitbucket.org/mmottl/sqlite3-ocaml
 COMMENT=	Bindings for SQLite3 database clients
 
-BUILD_DEPENDS+=	godi-findlib>=0:../../godi/godi-findlib
-
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+BUILD_DEPENDS+=	godi-findlib>=0:../../godi/godi-findlib
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+= base-sqlite3>=0:../../base-sqlite3

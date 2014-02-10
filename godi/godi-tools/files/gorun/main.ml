@@ -140,17 +140,18 @@ let prepend_to_path = [  ]
 let append_to_path = [ godi_root / "bin" ; godi_root / "sbin" ]
 
 
+let test_dir name =
+  let d = cygwin_root / "home" / name in
+  try
+    if Sys.is_directory d then
+      d
+    else
+      raise Not_found
+  with
+  | Sys_error _ -> raise Not_found
+
+
 let default_dir () =
-  let test_dir name =
-    let d = cygwin_root / "home" / name in
-    try
-      if Sys.is_directory d then
-        d
-      else
-        raise Not_found
-    with
-    | Sys_error _ -> raise Not_found
-  in
   try
     Sys.getenv "USER" |> test_dir
   with
@@ -160,6 +161,37 @@ let default_dir () =
     with
     | Not_found ->
       Sys.getcwd  ()
+
+
+let default_home () =
+  let win =
+    try
+      let d = Sys.getenv "HOME" in
+      if Sys.is_directory d then
+        Some d
+      else
+        raise Not_found
+    with
+    | Not_found ->
+      try
+        Some( Sys.getenv "USER" |> test_dir )
+      with
+      | Not_found ->
+        try
+          Some( Sys.getenv "USERNAME" |> test_dir )
+        with
+        | Not_found -> None
+  in
+  (match win with
+  | None -> ()
+  | Some x ->
+    for i = 0 to String.length x - 1 do
+      match x.[i] with
+      | '\\' -> x.[i] <- '/'
+      | _ -> ()
+    done;
+  );
+  win
 
 
 let read_special f file =
@@ -271,7 +303,7 @@ let get_env exe add_paths add_cygwin =
       read_special f env_file_ignore;
       htl
     and f k _v a = k::a in
-    Hashtbl.fold f htl_add [ "PATH" ; "Path" ] |>
+    Hashtbl.fold f htl_add [ "PATH" ; "Path" ; "HOME" ] |>
         Hashtbl.fold f htl_ignore |> list_unique
   and new_path =
     let append_to_path =
@@ -294,6 +326,10 @@ let get_env exe add_paths add_cygwin =
     let f k v a = (k ^ "=" ^ v)::a in
     Hashtbl.fold f htl_add [ "PATH=" ^ new_path ]
   and env = environment_with_removed_values ignore_keys in
+  let to_add = match default_home () with
+  | None ->  to_add
+  | Some x -> ( "HOME=" ^ x )::to_add
+  in
   to_add @ ( Array.to_list env )
 
 

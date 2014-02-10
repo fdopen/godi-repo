@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.0.3
+VERSION=        4.0.4
 PKGREVISION=    0
 PKG=		godi-res
 PKGNAME=        ${PKG}-${VERSION}
-DISTNAME=       res-4.0.3
-DISTFILES=      res-4.0.3.tar.gz
+DISTNAME=       res-4.0.4
+DISTFILES=      res-4.0.4.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   https://bitbucket.org/mmottl/res/downloads/
 HOMEPAGE=       https://bitbucket.org/mmottl/res

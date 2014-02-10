@@ -7,7 +7,7 @@ DISTNAME=	bisect-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES= 	http://forge.ocamlcore.org/frs/download.php/1051/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	jmaloberti@gmail.com
 HOMEPAGE=	http://bisect.x9c.fr/index.html
 COMMENT=	A code coverage tool.
 

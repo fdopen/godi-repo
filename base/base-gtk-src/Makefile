@@ -13,6 +13,7 @@ PKGREVISION=	0
 DISTNAME=	mingw
 DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
 CATEGORIES=	base
+MASTER_SITES=
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	-
 COMMENT=	dummy package for legal reasons.

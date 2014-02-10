@@ -1,0 +1,28 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+godi_env_add(){
+    local ENVNAME ENVVALUE ENVDAT tmpfln
+    if [ "a${2}" = "aPOST-INSTALL" ] ; then
+        ENVDAT="${GODI_PREFIX}/etc/env_add" 
+        if [ -f "${ENVDAT}" ]; then
+            ENVNAME=$3
+            ENVVALUE=$4
+ 
+            tmpfln="$(mktemp)"
+            trap "rm -f \"${tmpfln}\"" EXIT
+            grep -v "$ENVNAME" "$ENVDAT" > "$tmpfln"
+            echo "" >> "$tmpfln"
+            echo "${ENVNAME}|${ENVVALUE}" >> "$tmpfln"
+            grep -v '^$' "$tmpfln" > "$ENVDAT"
+        fi
+    fi
+}
+
+godi_env_add "$1" "$2" "CAMLP5LIB" "${GODI_PREFIX_WIN}/lib/ocaml/std-lib/camlp5"
+
+
+exit 0

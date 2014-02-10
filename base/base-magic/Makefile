@@ -12,6 +12,10 @@ HOMEPAGE=	http://www.darwinsys.com/file/
 COMMENT=	library to determine file type
 
 
+#zlib, libgcc
+DEPENDS+= base-windows>=0:../../base/base-windows
+
+
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
 .include "Makefile.64"
 VERSION=${VERSION64}
@@ -19,7 +23,6 @@ VERSION=${VERSION64}
 .include "Makefile.32"
 VERSION=${VERSION32}
 .endif
-
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
@@ -36,7 +39,7 @@ post-extract:
 do-build:
 	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
 	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-	@${RM} ${WRKSRC:Q}/bin/file.exe ${WRKSRC:Q}/man/man1/file.1.gz
+	@${RM} -f ${WRKSRC:Q}/bin/file.exe 
 
 do-install:
 	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \

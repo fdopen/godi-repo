@@ -1,44 +1,24 @@
---- ../../work-ref/ocaml-top-1.1.0/Makefile.win32	2013-07-23 18:03:49.000000000 +0200
-+++ ./Makefile.win32	2013-08-24 19:41:44.428400000 +0200
-@@ -22,7 +22,7 @@
- 
- ocaml-top$(EXEEXT): utils/mkwinapp$(EXEEXT) src/ocaml-top$(EXEEXT)
- 	cp src/ocaml-top$(EXEEXT) .
--	utils/mkwinapp$(EXEEXT) ocaml-top$(EXEEXT)
-+#	utils/mkwinapp$(EXEEXT) ocaml-top$(EXEEXT)
- 
- .PHONY: clean
- clean:
---- ../../work-ref/ocaml-top-1.1.0/src/Makefile	2013-07-23 18:03:49.000000000 +0200
-+++ ./src/Makefile	2013-08-24 20:45:52.979600000 +0200
-@@ -8,16 +8,26 @@
- ifeq (WIN,$(findstring WIN,$(UNAME)))
-   EXEEXT := .exe
-   SRC += sigint_win.c
-+  WOBJ := logo.o
-+
-+WINDRES ?= windres
-+logo.o:
-+	$(WINDRES) -o $@ logo.rc
-+
- else
-+  WOBJ=
-   EXEEXT :=
-   SRC += sigint_unix.c
- endif
- 
--$(NAME)-byte$(EXEEXT): $(SRC)
--	ocamlfind ocamlc -custom $(OCAMLFIND_OPTS) $(SRC) -o $@
- 
--$(NAME)$(EXEEXT): $(SRC)
--	ocamlfind ocamlopt $(OCAMLFIND_OPTS) $(SRC) -o $@
-+
-+
-+$(NAME)-byte$(EXEEXT): $(SRC) $(WOBJ)
-+	ocamlfind ocamlc -custom $(OCAMLFIND_OPTS) $(SRC) -o $@ $(WOBJ)
-+
-+$(NAME)$(EXEEXT): $(SRC) $(WOBJ)
-+	ocamlfind ocamlopt $(OCAMLFIND_OPTS) $(SRC) -o $@ $(WOBJ)
- 
- .PHONY: clean
- clean:
+--- ../../work-ref/ocaml-top-1.1.2/src/completion.ml	2014-01-15 15:01:28.000000000 +0100
++++ ./src/completion.ml	2014-02-09 06:32:37.362800000 +0100
+@@ -213,11 +213,11 @@
+     let dirs = [!Cfg.datadir] in
+     let dirs =
+       try
+-        let ic = Unix.open_process_in "ocamlc -where" in
+-        let dirs = (try input_line ic :: dirs with End_of_file -> dirs) in
+-        ignore (Unix.close_process_in ic);
+-        dirs
+-      with Unix.Unix_error _ | Sys_error _ -> dirs
++        let x = Sys.getenv "OCAMLLIB" in
++        let y = Filename.concat (Filename.dirname x) "pkg-lib" in
++        x::y::dirs
++      with
++      | _ -> dirs
+     in
+     try
+       LibIndex.load (LibIndex.Misc.unique_subdirs dirs)
+@@ -234,4 +234,3 @@
+   setup_show_type index buf message;
+   Tools.debug "Type display activated";
+   ()
+-

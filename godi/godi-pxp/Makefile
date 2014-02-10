@@ -10,7 +10,7 @@ DISTNAME=       pxp-${VERSION}
 DISTFILES=      pxp-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://download.camlcity.org/download/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     gerd@gerd-stolpmann.de
 HOMEPAGE=       http://www.ocaml-programing.de/
 COMMENT=        PXP is an advanced XML parser
 

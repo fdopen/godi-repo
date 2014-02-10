@@ -1,3 +1,5 @@
+OCAMLMAKEFILE ?= OCamlMakefile
+
 ANNOTATE = yes
 
 SOURCES	= run.c main.ml

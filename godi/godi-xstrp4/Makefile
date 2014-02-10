@@ -7,7 +7,7 @@ DISTNAME=	xstrp4-${VERSION}
 DISTFILES=	xstrp4-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://ocaml-programming.de/packages/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	gerd@gerd-stolpmann.de
 HOMEPAGE=	http://ocaml-programming.de
 COMMENT=	camlp4 macros for inline expansion
 

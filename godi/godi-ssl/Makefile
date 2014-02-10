@@ -7,7 +7,7 @@ DISTNAME=	ocaml-ssl-${VERSION}
 DISTFILES=	ocaml-ssl-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://downloads.sourceforge.net/project/savonet/ocaml-ssl/0.4.6/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	jmaloberti@gmail.com
 HOMEPAGE=	http://savonet.sourceforge.net/
 COMMENT=	The Secure Socket Layer
 
@@ -27,7 +27,7 @@ PATH:=		${LOCALBASE}/bin:${PATH}
 # Use the build time configuration file:
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
-MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
+#MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
 # 2007-08-05: Commenting out MAKE_FLAGS since the shared
 # OCamlMakefile doesn't work. (Gerd Stolpmann <gerd@gerd-stolpmann.de>)
 

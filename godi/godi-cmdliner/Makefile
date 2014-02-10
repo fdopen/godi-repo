@@ -3,11 +3,12 @@
 VERSION= 	0.9.3
 PKG=		godi-cmdliner
 PKGNAME= 	godi-cmdliner-${VERSION}  
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	cmdliner-${VERSION} 
 DISTFILES=	${DISTNAME}.tbz  
 CATEGORIES=	godi  
 MASTER_SITES= 	http://erratique.ch/software/cmdliner/releases/ 
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://erratique.ch/software/cmdliner 
 COMMENT=	library for declarative definition of command line interfaces
 

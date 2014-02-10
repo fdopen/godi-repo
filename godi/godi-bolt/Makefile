@@ -8,7 +8,7 @@ DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	godi  
 INODE=		1043
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${INODE}/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://bolt.x9c.fr/
 COMMENT=	logging tool for the OCaml
 

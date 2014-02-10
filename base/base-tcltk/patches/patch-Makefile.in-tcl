@@ -1,5 +1,5 @@
---- tcl8.5.14/win/Makefile.in.orig	2012-07-25 16:45:06.000000000 +0000
-+++ tcl8.5.14/win/Makefile.in	2012-09-04 10:33:14.201600000 +0000
+--- tcl8.5.15/win/Makefile.in.orig	2012-07-25 16:45:06.000000000 +0000
++++ tcl8.5.15/win/Makefile.in	2012-09-04 10:33:14.201600000 +0000
 @@ -28,7 +28,7 @@
  # with replication. It allows the pathnames used for installation to be
  # different than those used for actually reference files at run-time.

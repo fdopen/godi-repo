@@ -8,7 +8,7 @@ DISTNAME=       ansicolor-0.5
 DISTFILES=      ansicolor-0.5.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://projects.phauna.org/ansicolor/release/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Owen Gunden <ogunden@phauna.org>
 HOMEPAGE=       http://projects.phauna.org/ansicolor/
 COMMENT=        Simple ANSI terminal color library.
 

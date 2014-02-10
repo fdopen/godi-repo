@@ -7,7 +7,7 @@ DISTNAME=       tophide-1.0.1
 DISTFILES=      tophide-1.0.1.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://mjambon.com/releases/tophide/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     Martin Jambon <martin@mjambon.com>
 HOMEPAGE=       http://mjambon.com/ocaml.html
 COMMENT=        Hides toplevel values whose name starts with an underscore.
 

@@ -10,7 +10,7 @@ DISTNAME=	libiconv-${VERSION}
 DISTFILES=	libiconv-${VERSION}.tar.gz
 CATEGORIES=	base
 MASTER_SITES=	http://ftp.gnu.org/pub/gnu/libiconv/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	https://www.gnu.org/software/libiconv/
 COMMENT=	converting character strings from one character encoding to another
 

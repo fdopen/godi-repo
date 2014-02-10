@@ -4,6 +4,7 @@ VERSION=	1.9
 MNODE=		1229
 PKG=		godi-cryptokit
 PKGNAME=	${PKG}-${VERSION}
+PKGREVISION=    1
 DISTNAME=	cryptokit-${VERSION}
 DISTFILES=	cryptokit-${VERSION}.tar.gz
 CATEGORIES=	godi

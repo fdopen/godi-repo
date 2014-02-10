@@ -3,7 +3,7 @@
 PKG=		base-ssl
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-VERSION=	1.0.1e
+VERSION=	1.0.1f
 DISTNAME=	openssl-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	base
@@ -17,13 +17,14 @@ DEPENDS+=	base-windows>=0:../../base/base-windows
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
-post-extract:	
-	${INSTALL} -m 0755 files/myconfigure ${WRKSRC:Q}
+#post-extract:	
+#	${INSTALL} -m 0755 files/myconfigure ${WRKSRC:Q}
 
 HAS_CONFIGURE=		yes
 
-CONFIGURE_SCRIPT=	./myconfigure
-CONFIGURE_ENV+=		CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q}
+CC=			gcc
+CONFIGURE_SCRIPT=	${WRKSRC:Q}/Configure
+CONFIGURE_ENV+=		CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q} 
 
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == 64 
 CONFIGURE_ARGS+=	mingw64 
@@ -35,16 +36,24 @@ CONFIGURE_ARGS+=	shared
 CONFIGURE_ARGS+=	zlib-dynamic
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
 
+NO_MINGW_TOOLS_PREFIX=  yes
+
 USE_GMAKE=	yes
 
 IMAGE=          ${WRKDIR}/image
-MAKE_FLAGS+=    INSTALL_PREFIX=${IMAGE}
+MAKE_FLAGS+=    INSTALL_PREFIX=${IMAGE} 
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+
+ALL_TARGET=	all # test
 
 INSTALL_TARGET=	install_sw
 
 post-install:
+	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	for F in ACKNOWLEDGMENTS CHANGES CHANGES.SSLeay FAQ LICENSE PROBLEMS NEWS README README.ASN1 README.ENGINE
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	endfor
 	cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC}
 	cd ${IMAGE}/${LOCALBASE} && ${PAX} -rw -pp . ${LOCALBASE:Q}
 

@@ -1,0 +1,103 @@
+diff -b -B -u -r ../work-ref/tcl8.5.15/win/tclWin32Dll.c ./tcl8.5.15/win/tclWin32Dll.c
+--- tcl8.5.15/win/tclWin32Dll.c.orig	2013-08-30 15:58:40.000000000 +0000
++++ tcl8.5.15/win/tclWin32Dll.c	2013-12-03 13:01:10.952000000 +0000
+@@ -53,14 +53,14 @@
+  * them by creating an EXCEPTION_REGISTRATION within the activation record.
+  */
+ 
+-typedef struct EXCEPTION_REGISTRATION {
+-    struct EXCEPTION_REGISTRATION *link;
++typedef struct TCL_EXCEPTION_REGISTRATION {
++    struct TCL_EXCEPTION_REGISTRATION *link;
+     EXCEPTION_DISPOSITION (*handler)(
+ 	    struct _EXCEPTION_RECORD*, void*, struct _CONTEXT*, void*);
+     void *ebp;
+     void *esp;
+     int status;
+-} EXCEPTION_REGISTRATION;
++} TCL_EXCEPTION_REGISTRATION;
+ #endif
+ 
+ /*
+@@ -1086,7 +1086,7 @@
+ 
+ #   else
+ 
+-    EXCEPTION_REGISTRATION registration;
++    TCL_EXCEPTION_REGISTRATION registration;
+ 
+     /*
+      * Execute the CPUID instruction with the given index, and store results
+diff -b -B -u -r ../work-ref/tcl8.5.15/win/tclWinChan.c ./tcl8.5.15/win/tclWinChan.c
+--- tcl8.5.15/win/tclWinChan.c.orig	2013-08-30 15:58:40.000000000 +0000
++++ tcl8.5.15/win/tclWinChan.c	2013-12-03 13:01:10.967600000 +0000
+@@ -127,14 +127,14 @@
+  * them by creating an EXCEPTION_REGISTRATION within the activation record.
+  */
+ 
+-typedef struct EXCEPTION_REGISTRATION {
+-    struct EXCEPTION_REGISTRATION* link;
++typedef struct TCL_EXCEPTION_REGISTRATION {
++    struct TCL_EXCEPTION_REGISTRATION *link;
+     EXCEPTION_DISPOSITION (*handler)(
+ 	    struct _EXCEPTION_RECORD*, void*, struct _CONTEXT*, void*);
+     void* ebp;
+     void* esp;
+     int status;
+-} EXCEPTION_REGISTRATION;
++} TCL_EXCEPTION_REGISTRATION;
+ #endif
+ 
+ /*
+@@ -1027,7 +1027,7 @@
+ 				 * TCL_WRITABLE to indicate file mode. */
+ {
+ #if defined(HAVE_NO_SEH) && !defined(_WIN64)
+-    EXCEPTION_REGISTRATION registration;
++    TCL_EXCEPTION_REGISTRATION registration;
+ #endif
+     char channelName[16 + TCL_INTEGER_SPACE];
+     Tcl_Channel channel = NULL;
+diff -b -B -u -r ../work-ref/tcl8.5.15/win/tclWinFCmd.c ./tcl8.5.15/win/tclWinFCmd.c
+--- tcl8.5.15/win/tclWinFCmd.c.orig	2013-08-30 15:58:40.000000000 +0000
++++ tcl8.5.15/win/tclWinFCmd.c	2013-12-03 13:01:10.967600000 +0000
+@@ -72,17 +72,17 @@
+ /*
+  * Unlike Borland and Microsoft, we don't register exception handlers by
+  * pushing registration records onto the runtime stack. Instead, we register
+- * them by creating an EXCEPTION_REGISTRATION within the activation record.
++ * them by creating an TCL_EXCEPTION_REGISTRATION within the activation record.
+  */
+ 
+-typedef struct EXCEPTION_REGISTRATION {
+-    struct EXCEPTION_REGISTRATION *link;
++typedef struct TCL_EXCEPTION_REGISTRATION {
++    struct TCL_EXCEPTION_REGISTRATION *link;
+     EXCEPTION_DISPOSITION (*handler)(
+ 	    struct _EXCEPTION_RECORD *, void *, struct _CONTEXT *, void *);
+     void *ebp;
+     void *esp;
+     int status;
+-} EXCEPTION_REGISTRATION;
++} TCL_EXCEPTION_REGISTRATION;
+ 
+ #endif
+ 
+@@ -176,7 +176,7 @@
+ 				 * (native). */
+ {
+ #if defined(HAVE_NO_SEH) && !defined(_WIN64)
+-    EXCEPTION_REGISTRATION registration;
++    TCL_EXCEPTION_REGISTRATION registration;
+ #endif
+     DWORD srcAttr, dstAttr;
+     int retval = -1;
+@@ -568,7 +568,7 @@
+     CONST TCHAR *nativeDst)	/* Pathname of file to copy to (native). */
+ {
+ #if defined(HAVE_NO_SEH) && !defined(_WIN64)
+-    EXCEPTION_REGISTRATION registration;
++    TCL_EXCEPTION_REGISTRATION registration;
+ #endif
+     int retval = -1;
+ 

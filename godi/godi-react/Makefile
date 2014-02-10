@@ -1,13 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION= 	0.9.4
-PKGREVISION= 	0
 PKG=		godi-react
 PKGNAME= 	godi-react-${VERSION}  
+PKGREVISION= 	1
 DISTNAME=	react-${VERSION} 
 DISTFILES=	${DISTNAME}.tbz  
 CATEGORIES=	godi  
 MASTER_SITES= 	http://erratique.ch/software/react/releases/ 
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://erratique.ch/software/react 
 COMMENT=	A module for functional reactive programming (FRP).
 

@@ -1,16 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.2
-MNODE=		944
 ONAME=		zed
 PKG=		godi-${ONAME}
+VERSION=        1.2
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${MNODE}/
-MAINTAINER=	wodi@ml.ignorelist.com
+FINODE=		944
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${FINODE}/
+MAINTAINER=     andreas@ml.ignorelist.com
 HOMEPAGE=       https://github.com/diml/zed
 COMMENT=        abstract engine for text edition
 
@@ -20,6 +20,7 @@ DEPENDS+=	godi-react>=0.9:../../godi/godi-react
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 WINOASIS=	yes
+
 
 
 .include "../../mk/bsd.pkg.mk"

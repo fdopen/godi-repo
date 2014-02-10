@@ -1,16 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3
+VERSION=	1.4
+MNODE=		1282
 
 PKG=		godi-lablgtk2-extras
 PKGNAME=	${PKG}-${VERSION}
 
-PKGREVISION=	1
+PKGREVISION=	0
 DISTNAME=	lablgtkextras-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 
 CATEGORIES=	godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/848/
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${MNODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://gtk-extras.forge.ocamlcore.org/
 COMMENT=	useful libraries and modules for LablGtk2 applications

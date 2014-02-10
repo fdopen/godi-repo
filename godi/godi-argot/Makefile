@@ -7,7 +7,7 @@ DISTNAME=	argot-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz  
 CATEGORIES=	godi  
 MASTER_SITES= 	http://forge.ocamlcore.org/frs/download.php/960/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	jmaloberti@gmail.com 
 HOMEPAGE=	http://argot.x9c.fr/index.html 
 COMMENT=	enhanced ocamldoc generator
 

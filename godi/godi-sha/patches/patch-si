@@ -1,0 +1,30 @@
+--- ../../work-ref/ocaml-sha-ocaml-sha-v1.9/sha1_stubs.c	2013-10-07 06:06:32.000000000 +0200
++++ ./sha1_stubs.c	2013-12-07 10:48:18.516800000 +0100
+@@ -16,6 +16,7 @@
+ #define _GNU_SOURCE
+ #include <unistd.h>
+ #include <fcntl.h>
++#include "config.h"
+ #include "sha1.h"
+ 
+ static inline int sha1_file(char *filename, sha1_digest *digest)
+--- ../../work-ref/ocaml-sha-ocaml-sha-v1.9/sha256_stubs.c	2013-10-07 06:06:32.000000000 +0200
++++ ./sha256_stubs.c	2013-12-07 10:47:56.630000000 +0100
+@@ -16,6 +16,7 @@
+ #define _GNU_SOURCE
+ #include <unistd.h>
+ #include <fcntl.h>
++#include "config.h"
+ #include "sha256.h"
+ 
+ static inline int sha256_file(char *filename, sha256_digest *digest)
+--- ../../work-ref/ocaml-sha-ocaml-sha-v1.9/sha512_stubs.c	2013-10-07 06:06:32.000000000 +0200
++++ ./sha512_stubs.c	2013-12-07 10:48:46.004000000 +0100
+@@ -16,6 +16,7 @@
+ #define _GNU_SOURCE
+ #include <unistd.h>
+ #include <fcntl.h>
++#include "config.h"
+ #include "sha512.h"
+ 
+ static inline int sha512_file(char *filename, sha512_digest *digest)

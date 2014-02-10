@@ -8,7 +8,7 @@ DISTNAME=	camlspotter-pa_monad_custom-4c555d5133ce
 DISTFILES=	v${VERSION}.tar.bz2  
 CATEGORIES=	godi  
 MASTER_SITES= 	https://bitbucket.org/camlspotter/pa_monad_custom/get/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	https://bitbucket.org/camlspotter/pa_monad_custom
 COMMENT=	Syntactic Sugar for Monads
 

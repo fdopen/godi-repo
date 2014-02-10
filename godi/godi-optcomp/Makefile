@@ -1,15 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
 
 ONAME=		optcomp
-FINODE=		1011
+#FINODE=		1011
 PKG=		godi-${ONAME}
-VERSION=        1.4
+VERSION=        1.5
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${FINODE}/
+MASTER_SITES=	${MASTER_SITES_BACKUP}
+#http://forge.ocamlcore.org/frs/download.php/${FINODE}/
 HOMEPAGE=       https://github.com/diml/optcomp
 COMMENT=        optional compilation with cpp-like directives
 

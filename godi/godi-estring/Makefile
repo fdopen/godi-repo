@@ -4,12 +4,13 @@ ONAME=		estring
 PKG=		godi-${ONAME}
 VERSION=        1.3
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tar.gz
 CATEGORIES=     godi
 FINODE=		1012
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${FINODE}/
+MAINTAINER=     andreas@ml.ignorelist.com
 HOMEPAGE=       https://github.com/diml/estring
 COMMENT=        Extension for string literals
 

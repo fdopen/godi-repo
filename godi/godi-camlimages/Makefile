@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.1.0
+VERSION=        4.1.1
 
 ONAME=		camlimages
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       camlspotter-camlimages-668faa3494fe
-DISTFILES=      ${VERSION}.tar.bz2
+DISTNAME=       camlimages-${VERSION}
+DISTFILES=      ${DISTNAME}.tar.xz
 CATEGORIES=     godi
-MASTER_SITES=   https://bitbucket.org/camlspotter/camlimages/get/
+MASTER_SITES=   ${MASTER_SITES_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://gallium.inria.fr/camlimages/
 COMMENT=        Objective Caml image processing library
@@ -24,7 +24,7 @@ USE_OMAKE=  yes
 
 post-install:
 	mkdir -p ${PREFIX}/doc/${PKG}
-.	for DOC in README Changes.txt INSTALL.txt License.txt 
+.	for DOC in README.rst Changes.txt INSTALL.rst License.txt 
 	    install -m 0644 ${WRKSRC}/${DOC} ${PREFIX}/doc/${PKG}
 .	endfor
 	${MKDIR} ${PREFIX}/doc/${PKG}/examples

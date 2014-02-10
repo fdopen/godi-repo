@@ -1,0 +1,20 @@
+--- tk8.5.15/win/tkWin32Dll.c~	2013-08-30 16:27:27.000000000 +0000
++++ tk8.5.15/win/tkWin32Dll.c	2013-12-03 13:17:43.814000000 +0000
+@@ -20,14 +20,14 @@
+  * them by creating an EXCEPTION_REGISTRATION within the activation record.
+  */
+ 
+-typedef struct EXCEPTION_REGISTRATION {
+-    struct EXCEPTION_REGISTRATION *link;
++typedef struct TK_EXCEPTION_REGISTRATION {
++    struct TK_EXCEPTION_REGISTRATION *link;
+     EXCEPTION_DISPOSITION (*handler)(
+ 	    struct _EXCEPTION_RECORD*, void*, struct _CONTEXT*, void*);
+     void *ebp;
+     void *esp;
+     int status;
+-} EXCEPTION_REGISTRATION;
++} TK_EXCEPTION_REGISTRATION;
+ 
+ /*
+  * Need to add noinline flag to DllMain declaration so that gcc -O3 does not

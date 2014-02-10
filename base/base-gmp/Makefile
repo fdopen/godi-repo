@@ -3,43 +3,40 @@
 PKG=		base-gmp
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+VERSION=	5.1.3
+DISTNAME=	gmp-${VERSION}
+DISTFILES=	${DISTNAME}.tar.xz
 CATEGORIES=	base
-MASTER_SITES=
+MASTER_SITES=	ftp://ftp.gmplib.org/pub/${DISTNAME}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://gmplib.org/
 COMMENT=	GNU Multiple Precision Arithmetic Library
 
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
+USE_GMAKE=		yes
+MINGW_AUTOTOOLS_BUILD=	yes
+HAS_CONFIGURE=		yes
 
+CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+CONFIGURE_ARGS+=	--enable-shared 
+CONFIGURE_ARGS+=	--disable-static
+CONFIGURE_ARGS+=	--disable-cxx
+CONFIGURE_ARGS+=	--with-gnu-ld
 
+ALL_TARGET=	all check
+IMAGE=          ${WRKDIR}/image
+INSTALL_ENV=	DESTDIR=${IMAGE:Q}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
-
-.if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
-pre-configure:
-	@echo "**********************************************"
-	@echo "*** ${PKG} is only intended for Windows ***"
-	@echo "**********************************************"
-	@false
-.endif
+NO_MINGW_TOOLS_PREFIX=	yes
 
 
-do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-
-
-do-install:
-	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
-	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
+post-install:
+	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	for F in AUTHORS COPYING COPYING.LIB README
+	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
+.	endfor
+	@cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC} && \
+	  ${PAX} -rw -pp . ${LOCALBASE:Q}
 
 
 .include "../../mk/bsd.pkg.mk"

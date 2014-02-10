@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (atd-1.0.3.tar.gz) = 1d76deca68bd0cddf0df28799eed19d5620bc145
-Size (atd-1.0.3.tar.gz) = 36924 bytes
-
-SHA1 (patch-aa-makefile) = 3ac7b7cf6828439a709adce739872f4aa781a0d1
+SHA1 (atd-1.1.1.tar.gz) = 64c85601800dd2b77e7effdf40ce9cdef9f6fc92
+Size (atd-1.1.1.tar.gz) = 37744 bytes

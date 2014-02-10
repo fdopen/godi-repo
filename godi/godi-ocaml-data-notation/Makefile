@@ -1,13 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.0.10
+VERSION=        0.0.11
+NODE=		1310
 PKG=		godi-ocaml-data-notation
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    1
 DISTNAME=       ocaml-data-notation-${VERSION}
 DISTFILES=      ocaml-data-notation-${VERSION}.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/1029/
+MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${NODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://forge.ocamlcore.org/projects/odn
 COMMENT=        Store data using OCaml notation
