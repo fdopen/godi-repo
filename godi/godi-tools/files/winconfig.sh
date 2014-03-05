@@ -65,6 +65,7 @@ ENVIRONMENT_IGNORE_FILE="${GODI_PREFIX}/etc/env_ignore"
 PROFILE_DAT="/etc/profile.d/wodi${WORDSIZE}.sh"
 
 add_to_cygwi(){
+    # we might not have the necessary rights to write to ${PROFILE_DAT}"
     local P1="${GODI_PREFIX}/bin"
     local P2="${GODI_PREFIX}/sbin"
     local P3=/usr/x86_64-w64-mingw32/bin
@@ -114,12 +115,14 @@ OCAMLLIB="${GODI_PREFIX_WIN_MIXED}/lib/ocaml/std-lib"
 PATH="${P1}:${P2}:${P3}:\${PATH}"
 export OCAMLLIB OCAMLFIND_CONF PATH
 EOF
-    chmod 755 "${PROFILE_DAT}"
+    chmod 0755 "${PROFILE_DAT}"
 }
 
 if [ ! -f "$PROFILE_DAT" ]; then
-    FIRST_RUN=1
-    add_to_cygwi
+    if echo "" > "${PROFILE_DAT}"; then
+        add_to_cygwi ;
+        FIRST_RUN=1
+    fi
 fi
 
 function create_default_environment_list_file(){
@@ -160,7 +163,7 @@ fi
 if [ ! -f "$START_MENU_LIST_FILE" ]; then
     # link|name|params|runparams|folder|picture
     echo "# Never delete the first two lines!" > "$START_MENU_LIST_FILE"
-    echo "../../bin/mintty.exe|${WODI_SHELL}|-i /Cygwin-Terminal.ico -|--no-paths||/Cygwin-Terminal.ico" >> "$START_MENU_LIST_FILE"
+    echo "../../bin/mintty.exe|${WODI_SHELL}|-i /Cygwin-Terminal.ico -|||/Cygwin-Terminal.ico" >> "$START_MENU_LIST_FILE"
     echo "gui/bin/gui.exe|${WODI_MANAGER}||||" >> "$START_MENU_LIST_FILE"
     FIRST_RUN=1
 fi
@@ -523,6 +526,9 @@ function remove_startmenu_folder(){
 function refresh_root_links(){
     cd "/" || return 1
 
+    # don't abort, if we don't have the rights to create links in the root folder
+    set +e
+
     local link name relname folder params runparams picture xtmp created dat lparams cur found prog prog_win
     local arr=()
     local oldIFS=$IFS
@@ -599,6 +605,7 @@ function refresh_root_links(){
         fi
     done
 
+    set -e
     cd ~-
 }
 

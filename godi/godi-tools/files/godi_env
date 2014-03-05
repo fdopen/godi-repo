@@ -1,0 +1,57 @@
+#!/bin/sh
+
+portable_remove_from_path() {
+    local NPATH remaining dir to_remove do_stop
+    to_remove=$1
+    do_stop=2
+    case ${PATH+set} in
+        set)
+            remaining=$PATH
+            while [ $do_stop -gt 0 ]; do
+                dir=${remaining%%:*}
+                if [ "$dir" != "$to_remove" ]; then
+                    if [ -z "$NPATH" ]; then
+                        NPATH=$dir
+                    else
+                        NPATH="${NPATH}:${dir}"
+                    fi
+                fi
+
+                remaining=${remaining#*:}
+                case $remaining in
+                    *:*)
+                        continue ;;
+                    *)
+                        do_stop=$(( $do_stop - 1 ))
+                        ;;
+                esac
+            done
+            PATH=$NPATH
+            ;;
+        *)
+            ;;
+    esac
+}
+
+OCAMLLIB="$(dirname "$(dirname "$0")")"
+
+portable_remove_from_path "${OCAMLLIB}/bin"
+portable_remove_from_path "${OCAMLLIB}/sbin"
+unset -f portable_remove_from_path
+
+PATH="${OCAMLLIB}/bin:${OCAMLLIB}/sbin:${PATH}"
+OCAMLLIB="$(cygpath -m "$OCAMLLIB")"
+OCAMLFIND_CONF="${OCAMLLIB}/etc/findlib.conf"
+CAMOMILE_DIR="${OCAMLLIB}/share/camomile"
+OCAMLNET_DB_DIR="${OCAMLLIB}/share/godi-ocamlnet"
+OCAMLLIB="${OCAMLLIB}/lib/ocaml/std-lib"
+
+cat - <<EOF
+PATH="$PATH"
+OCAMLLIB="$OCAMLLIB"
+OCAMLFIND_CONF="$OCAMLFIND_CONF"
+CAMOMILE_DIR="$CAMOMILE_DIR"
+OCAMLNET_DB_DIR="$OCAMLNET_DB_DIR"
+OCAMLLIB="$OCAMLLIB"
+export OCAMLLIB OCAMLFIND_CONF CAMOMILE_DIR OCAMLNET_DB_DIR PATH
+EOF

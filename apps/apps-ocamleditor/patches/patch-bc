@@ -1,0 +1,11 @@
+--- ../../work-ref/ocamleditor-1.11.0/src/startup_info.ml	2014-01-17 18:16:09.000000000 +0100
++++ ./src/startup_info.ml	2014-02-12 04:41:56.745600000 +0100
+@@ -27,7 +27,7 @@
+ module Config = Oe_config
+ 
+ (** print *)
+-let print () = if true || App_config.application_debug then begin
++let print () = if (* true ||*) App_config.application_debug then begin
+   let copyright = Str.replace_first (Str.regexp_string "©") "(c)" About.copyright in
+   Printf.printf "\n%s %s\n\n%!" About.program_name About.version (*copyright*);
+   let ocaml_version = Str.global_replace

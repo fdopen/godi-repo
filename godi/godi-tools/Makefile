@@ -2,7 +2,7 @@
 
 VERSION=	3.0.37b
 RVERSION=       3.0.37
-PKGREVISION=	1
+PKGREVISION=	2
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
@@ -90,7 +90,7 @@ PLIST_SRC=      ${WRKDIR:Q}/.PLIST.godi-tools
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 post-extract:
-	cp files/symlink.c ${WRKSRC}/console-src
+	cp files/symlink.c files/dummy* ${WRKSRC}/console-src
 	cd ${PKGDIR:Q}/files && ${PAX} -rw -pp gorun ${WRKSRC}
 
 pre-build:
@@ -103,9 +103,10 @@ post-install:
 	mkdir -p ${instprefix}/lib/godi
 	echo "GODI_TOOLS_HAS_ADD=1" >${instprefix}/lib/godi/godi-tools.sh
 	echo "GODI_TOOLS_HAS_DELETE=1" >>${instprefix}/lib/godi/godi-tools.sh
-	cp files/install_helper ${instprefix}/lib/godi
 	mkdir -p ${instprefix}/doc/godi-tools
 .if defined(W32PORT) && ${W32PORT} == "mingw"
+	${INSTALL} -m 755 files/install_helper ${instprefix}/lib/godi
+	${INSTALL} -m 755 files/godi_env ${instprefix}/sbin
 	${INSTALL} -m 755 ${WRKSRC}/gorun/gorun.exe ${instprefix}/sbin
 	${INSTALL} -m 755 ${WRKSRC}/gorun/inform.exe files/winconfig.sh files/uninstall.sh files/replacesymlinks.sh ${instprefix}/lib/godi
 	@${SETENV} ${MAKE_ENV} bash files/dll.sh ${LOCALBASE:Q}/bin ${WRKDIR:Q}/stage/sbin ${WRKDIR:Q}/stage/sbin/godi_console.exe

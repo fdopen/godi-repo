@@ -1,6 +1,7 @@
 $NetBSD$
 
-SHA1 (ocamleditor-1.10.2.tar.xz) = c3f5e14f196106f8b5819b814aadfe6f021f1dbf
-Size (ocamleditor-1.10.2.tar.xz) = 376860 bytes
+SHA1 (ocamleditor-1.11.0.tar.xz) = cbcc710d436f4e727ed7193a2f2459f6d0b3137c
+Size (ocamleditor-1.11.0.tar.xz) = 401344 bytes
 
 SHA1 (patch-bb-install) = 7c68f14eaf3da2a5465f1cfd8b73e990011fd3e9
+SHA1 (patch-bc) = e73a3d8a96d1fd85edc43ccb83785e2f6fc46a05
