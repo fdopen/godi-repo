@@ -1,0 +1,12 @@
+--- otherlibs/win32unix/unix.ml	2013-08-01 14:13:56.000000000 +0200
++++ otherlibs/win32unix/unix.ml.new	2014-02-27 18:32:44.592808600 +0100
+@@ -786,7 +786,8 @@
+ 
+ let make_cmdline args =
+   let maybe_quote f =
+-    if String.contains f ' ' || String.contains f '\"'
++    if f = "" then "\"\""
++    else if String.contains f ' ' || String.contains f '\"'
+     then Filename.quote f
+     else f in
+   String.concat " " (List.map maybe_quote (Array.to_list args))
