@@ -1,0 +1,137 @@
+--- configure.in	2013-04-30 14:15:31.372067800 +0200
++++ configure.in.new	2013-04-30 14:18:23.359426200 +0200
+@@ -43,7 +43,7 @@
+ #   OCAMLDEP      "ocamldep"
+ #   OCAMLLEX      "ocamllex" (or "ocamllex.opt" if present)
+ #   OCAMLYACC     "ocamlyac"
+-#   OCAMLLIB      the path to the ocaml standard library
++#   OCAMLSTDLIB      the path to the ocaml standard library
+ #   OCAMLVERSION  the ocaml version number
+ #   OCAMLWEB      "ocamlweb" (not mandatory)
+ #   OCAMLWIN32    "yes"/"no" depending on Sys.os_type = "Win32"
+@@ -64,8 +64,8 @@
+ # we extract Ocaml version number and library path
+ OCAMLVERSION=`$OCAMLC -v | sed -n -e 's|.*version *\(.*\)$|\1|p' `
+ echo "ocaml version is $OCAMLVERSION"
+-OCAMLLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
+-echo "ocaml library path is $OCAMLLIB"
++OCAMLSTDLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
++echo "ocaml library path is $OCAMLSTDLIB"
+ SMTPRELUDE="/usr/local/lib/ergo/smt_prelude.mlw"
+ 
+ case $OCAMLVERSION in
+@@ -78,14 +78,14 @@
+ #looking for ocamlgraph library
+ 
+ if test "$OCAMLFIND" = no; then
+-   OCAMLGRAPHPATH=$OCAMLLIB/ocamlgraph;
++   OCAMLGRAPHPATH=$OCAMLSTDLIB/ocamlgraph;
+ else
+    OCAMLGRAPHPATH=$($OCAMLFIND query ocamlgraph | tr -d '\r\n')
+ fi
+ 
+ AC_CHECK_FILE($OCAMLGRAPHPATH/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
+ if test "$OCAMLGRAPH" = no ; then
+-   AC_CHECK_FILE($OCAMLLIB/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
++   AC_CHECK_FILE($OCAMLSTDLIB/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
+    if test "$OCAMLGRAPH" = no ; then	
+       AC_MSG_ERROR(Cannot find ocamlgraph library. Please install the *libocamlgraph-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://ocamlgraph.lri.fr/*)
+    else		  
+@@ -166,7 +166,7 @@
+ # checking for lablgtk2
+ dnl AC_CHECK_PROG(LABLGTK2,lablgtksourceview2,yes,no)
+ dnl if test "$LABLGTK2" = yes ; then
+-dnl    if test -e "$OCAMLLIB/lablgtk2/lablgtksourceview2.cmxa" ; then
++dnl    if test -e "$OCAMLSTDLIB/lablgtk2/lablgtksourceview2.cmxa" ; then
+ dnl       LABLGTK2LIB="-I +lablgtk2"
+ dnl    else
+ dnl       LABLGTK2LIB
+@@ -174,7 +174,7 @@
+ dnl fi
+ 
+ if test "$OCAMLFIND" = no; then
+-   LABLGTK_PATH=$OCAMLLIB/lablgtk2;
++   LABLGTK_PATH=$OCAMLSTDLIB/lablgtk2;
+    LABLGTK_INC="-I +lablgtk2"
+ else 
+    LABLGTK_PATH=$($OCAMLFIND query lablgtk2 | tr -d '\r\n')
+@@ -213,7 +213,7 @@
+ AC_SUBST(OCAMLYACC)
+ AC_SUBST(OCAMLBEST)
+ AC_SUBST(OCAMLVERSION)
+-AC_SUBST(OCAMLLIB)
++AC_SUBST(OCAMLSTDLIB)
+ AC_SUBST(OCAMLGRAPHLIB)
+ AC_SUBST(OCAMLWEB)
+ AC_SUBST(LABLGTK2LIB)
+--- Makefile.in	2013-04-30 14:15:31.382082200 +0200
++++ Makefile.in.new	2013-04-30 14:20:09.634280600 +0200
+@@ -47,7 +47,7 @@
+ OCAMLDEP = @OCAMLDEP@
+ OCAMLLEX = @OCAMLLEX@
+ OCAMLYACC= @OCAMLYACC@
+-OCAMLLIB = @OCAMLLIB@
++OCAMLSTDLIB = @OCAMLSTDLIB@
+ OCAMLBEST = @OCAMLBEST@
+ OCAMLVERSION = @OCAMLVERSION@
+ OCAMLWIN32 = @OCAMLWIN32@
+--- configure	2013-04-30 14:15:31.382082200 +0200
++++ configure.new	2013-04-30 14:21:08.138405400 +0200
+@@ -590,7 +590,7 @@
+ INCLUDEGTK2
+ LABLGTK2LIB
+ OCAMLGRAPHLIB
+-OCAMLLIB
++OCAMLSTDLIB
+ OCAMLVERSION
+ OCAMLBEST
+ OCAMLWIZARD
+@@ -1729,8 +1729,8 @@
+ # we extract Ocaml version number and library path
+ OCAMLVERSION=`$OCAMLC -v | sed -n -e 's|.*version *\(.*\)$|\1|p' `
+ echo "ocaml version is $OCAMLVERSION"
+-OCAMLLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
+-echo "ocaml library path is $OCAMLLIB"
++OCAMLSTDLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
++echo "ocaml library path is $OCAMLSTDLIB"
+ SMTPRELUDE="/usr/local/lib/ergo/smt_prelude.mlw"
+ 
+ case $OCAMLVERSION in
+@@ -1780,7 +1780,7 @@
+ #looking for ocamlgraph library
+ 
+ if test "$OCAMLFIND" = no; then
+-   OCAMLGRAPHPATH=$OCAMLLIB/ocamlgraph;
++   OCAMLGRAPHPATH=$OCAMLSTDLIB/ocamlgraph;
+ else
+    OCAMLGRAPHPATH=$($OCAMLFIND query ocamlgraph | tr -d '\r\n')
+ fi
+@@ -1809,15 +1809,15 @@
+ fi
+ 
+ if test "$OCAMLGRAPH" = no ; then
+-   as_ac_File=`$as_echo "ac_cv_file_$OCAMLLIB/graph.cmi" | $as_tr_sh`
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $OCAMLLIB/graph.cmi" >&5
+-$as_echo_n "checking for $OCAMLLIB/graph.cmi... " >&6; }
++   as_ac_File=`$as_echo "ac_cv_file_$OCAMLSTDLIB/graph.cmi" | $as_tr_sh`
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $OCAMLSTDLIB/graph.cmi" >&5
++$as_echo_n "checking for $OCAMLSTDLIB/graph.cmi... " >&6; }
+ if eval \${$as_ac_File+:} false; then :
+   $as_echo_n "(cached) " >&6
+ else
+   test "$cross_compiling" = yes &&
+   as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
+-if test -r "$OCAMLLIB/graph.cmi"; then
++if test -r "$OCAMLSTDLIB/graph.cmi"; then
+   eval "$as_ac_File=yes"
+ else
+   eval "$as_ac_File=no"
+@@ -2181,7 +2181,7 @@
+ # checking for lablgtk2
+ 
+ if test "$OCAMLFIND" = no; then
+-   LABLGTK_PATH=$OCAMLLIB/lablgtk2;
++   LABLGTK_PATH=$OCAMLSTDLIB/lablgtk2;
+    LABLGTK_INC="-I +lablgtk2"
+ else
+    LABLGTK_PATH=$($OCAMLFIND query lablgtk2 | tr -d '\r\n')

@@ -1,0 +1,14 @@
+- In order to build Alt-ergo GUI, godi-lablgtk2 must be installed with
+gtksourceview2 support. Please ensure that gtksourceview2
+and its header files are installed on your system. If this is not the
+case, install them and ask godi to rebuild godi-lablgtk2 (if
+godi-lablgtk2 hasn't been built yet, you only need to ensure that
+gtksourceview is correctly installed, godi will take care of the
+rest).
+
+Available options:
+- CONF_ALTERGO_ENABLE_GUI: enables the GUI (altgr-ergo).
+  Can be set to yes, no, or auto (default is auto)
+  - yes will force the GUI to be built, and fail if this cannot be done
+  - no will not build the GUI
+  - auto will build the GUI if lablgtk2 has the necessary support (see above)

@@ -1,0 +1,4 @@
+Available options:
+- CONF_COQ_WITH_IDE: set it to yes to build coqide (requires lablgtk2)
+- CONF_COQ_DOCUMENTATION: set it to yes to build coq documentation
+  (requires hevea, a latex distribution and netbpm)

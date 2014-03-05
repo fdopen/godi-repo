@@ -1,0 +1,3 @@
+bin/alt-ergo
+@optional bin/altgr-ergo
+@deepdir lib/alt-ergo
