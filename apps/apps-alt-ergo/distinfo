@@ -1,0 +1,7 @@
+$GODI$
+
+SHA1 (alt-ergo-0.94.tar.gz) = 52d32f5ba9ea1ce7bf90ce204d92571d1f62d6db
+Size (alt-ergo-0.94.tar.gz) = 188414 bytes
+SHA1 (patch-aa-use-findlib) = de7dd4b866f524b97dfdf1699a1fb4d8809d211d
+SHA1 (patch-ab-gtksourceview-custom-location) = b19bb576841234302354841b01b3ed043379f48c
+SHA1 (patch-ac-ocamllib-windows) = 65bc43b9d41052490638ccfddbfe6a9d90628088

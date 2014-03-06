@@ -1,0 +1,8 @@
+From the coq web site:
+Coq is a formal proof management system: a proof done with Coq is
+mechanically checked by the machine. In particular, Coq allows:
+
+    * to define functions or predicates,
+    * to state mathematical theorems and software specifications,
+    * to develop interactively formal proofs of these theorems,
+    * to check these proofs by a relatively small certification "kernel".

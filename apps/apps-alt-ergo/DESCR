@@ -1,0 +1,6 @@
+From the ergo web site:
+Ergo is an automatic theorem prover dedicated to program
+verification. Ergo is based on CC(X) a congruence closure algorithm
+parameterized by an equational theory X. Currently, CC(X) can be
+instanciated by the empty equational theory and by the linear
+arithmetics.

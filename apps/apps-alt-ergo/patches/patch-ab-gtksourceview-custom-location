@@ -1,0 +1,55 @@
+--- configure.in	2013-03-20 18:56:42.326304400 +0100
++++ configure.in.new	2013-03-20 19:16:30.877466000 +0100
+@@ -185,6 +185,7 @@
+ if test "$LABLGTK2" = no ; then
+       AC_MSG_RESULT(Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*)
+ else
++   GTKSOURCEVIEW_SHARE=$(pkg-config --variable=prefix gtksourceview-2.0)/share/gtksourceview-2.0
+    LABLGTK2LIB="$LABLGTK_INC -I +threads"
+ fi
+ 
+@@ -220,6 +221,7 @@
+ AC_SUBST(OCAMLWIN32)
+ AC_SUBST(EXE)
+ AC_SUBST(OCAMLWIZARD)
++AC_SUBST(GTKSOURCEVIEW_SHARE)
+ 
+ # Finally create the Makefile from Makefile.in
+ AC_OUTPUT(Makefile)
+--- configure	2013-03-20 18:56:42.346333200 +0100
++++ configure.new	2013-03-20 19:18:17.741128400 +0100
+@@ -584,6 +584,7 @@
+ ac_unique_file="cc.mli"
+ ac_subst_vars='LTLIBOBJS
+ LIBOBJS
++GTKSOURCEVIEW_SHARE
+ EXE
+ OCAMLWIN32
+ INCLUDEGTK2
+@@ -2214,6 +2215,7 @@
+       { $as_echo "$as_me:${as_lineno-$LINENO}: result: Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*" >&5
+ $as_echo "Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*" >&6; }
+ else
++   GTKSOURCEVIEW_SHARE=$(pkg-config --variable=prefix gtksourceview-2.0)/share/gtksourceview-2.0
+    LABLGTK2LIB="$LABLGTK_INC -I +threads"
+ fi
+ 
+@@ -2313,6 +2315,7 @@
+ 
+ 
+ 
++
+ 
+ 
+ 
+--- Makefile.in	2011-12-07 10:37:55.000000000 +0100
++++ Makefile.in.new	2013-03-20 19:13:52.477642000 +0100
+@@ -208,7 +208,7 @@
+ install-gui: install-indep
+ 	mkdir -p $(BINDIR)
+ 	cp -f altgr-ergo.opt $(BINDIR)/altgr-ergo$(EXE)
+-	cp -f util/gtk-lang/alt-ergo.lang /usr/share/gtksourceview-2.0/language-specs/alt-ergo.lang
++	cp -f util/gtk-lang/alt-ergo.lang @GTKSOURCEVIEW_SHARE@/language-specs/alt-ergo.lang
+ 
+ install-pack: xpack pack
+ 	mkdir -p $(LIBDIR)

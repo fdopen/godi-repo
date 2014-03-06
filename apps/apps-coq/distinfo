@@ -1,0 +1,6 @@
+$GODI$
+
+SHA1 (coq-8.4pl1.tar.gz) = 23d403dbe9e410a99c584d0210dc527950051679
+Size (coq-8.4pl1.tar.gz) = 4139808 bytes
+SHA1 (patch-aa-ocamlfind) = 118ef33c8aa0cd020c7f2c6de9e028fa2f25b057
+SHA1 (patch-ab-coqide-filtered-args) = 2fe35234d18f2c8cbc601e9ef4765e635f289425

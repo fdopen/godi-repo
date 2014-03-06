@@ -1,0 +1,46 @@
+bin/coq-tex
+bin/coq_makefile
+bin/coqc
+bin/coqchk
+@optional bin/coqchk.opt
+bin/coqdep
+bin/coqdoc
+@optional bin/coqide
+@optional bin/coqide.byte
+@optional bin/coqide.opt
+@optional bin/coqide.exe
+@optional bin/coqide.byte.exe
+@optional bin/coqide.opt.exe
+bin/coqmktop
+bin/coqtop
+bin/coqtop.byte
+@optional bin/coqtop.opt
+@optional bin/coqtop.opt.exe
+bin/coqwc
+bin/gallina
+
+@deepdir lib/coq
+
+share/man/man1/coq-tex.1
+share/man/man1/coq_makefile.1
+share/man/man1/coqc.1
+share/man/man1/coqchk.1
+share/man/man1/coqdep.1
+share/man/man1/coqdoc.1
+@optional share/man/man1/coqide.1
+share/man/man1/coqmktop.1
+share/man/man1/coqtop.1
+share/man/man1/coqtop.byte.1
+share/man/man1/coqtop.opt.1
+share/man/man1/coqwc.1
+share/man/man1/gallina.1
+
+share/emacs/site-lisp/coq-inferior.el
+share/emacs/site-lisp/coq-db.el
+share/emacs/site-lisp/coq-font-lock.el
+share/emacs/site-lisp/coq-syntax.el
+share/emacs/site-lisp/coq.el
+
+share/texmf/tex/latex/misc/coqdoc.sty
+
+@deepdir doc/apps-coq
