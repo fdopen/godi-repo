@@ -22,6 +22,12 @@ CONF_COQ_WITH_IDE?=yes
 
 DEPENDS+=       godi-ocaml>=3.08:../../godi/godi-ocaml
 
+.if defined(W32PORT) && ${W32PORT} == "mingw"
+INSTALL_SCRIPT_FILE=files/install
+DEINSTALL_SCRIPT_FILE=files/deinstall
+ADD_ENV= ${MAKE_ENV} GODI_PREFIX=${LOCALBASE}
+.endif
+
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
 CONFIGURE_ARGS+= -opt
 COQIDE_BUILD=opt
@@ -49,10 +55,11 @@ DEPENDS+=	godi-camlp5>=5.01:../../godi/godi-camlp5
 USE_GMAKE=      yes
 
 HAS_CONFIGURE=   yes
-CONFIGURE_ARGS+= --prefix `cygpath -m ${PREFIX}`
+CONFIGURE_ARGS+= --prefix ${LOCALBASE_NATIVE}
 CONFIGURE_ARGS+= --emacslib ${PREFIX}/share/emacs/site-lisp
 CONFIGURE_ARGS+= --coqdocdir ${PREFIX}/share/texmf/tex/latex/misc
-CONFIGURE_ARGS+= --libdir `cygpath -m ${PREFIX}/lib/coq`
+CONFIGURE_ARGS+= --libdir ${LOCALBASE_NATIVE}/lib/coq
+CONFIGURE_ARGS+= --docdir ${LOCALBASE_NATIVE}/doc/apps-coq
 
 ALL_TARGET=      world
 
@@ -67,5 +74,7 @@ post-install:
 .	for F in LICENSE COPYRIGHT CREDITS
 	  ${CP} ${WRKSRC}/${F} ${LOCALBASE}/doc/apps-coq
 .	endfor
+	@${SETENV} ${ADD_ENV} bash files/install --add-links
+
 
 .include "../../mk/bsd.pkg.mk"

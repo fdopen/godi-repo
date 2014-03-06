@@ -1,65 +1,5 @@
---- configure.in	2011-12-07 10:37:55.000000000 +0100
-+++ configure.in.new	2013-03-20 18:12:08.360086600 +0100
-@@ -73,9 +73,17 @@
-         AC_MSG_ERROR(Alt-Ergo does not compile with this version of Ocaml);;
- esac
- 
-+AC_CHECK_PROG(OCAMLFIND,ocamlfind,ocamlfind,no)
-+
- #looking for ocamlgraph library
- 
--AC_CHECK_FILE($OCAMLLIB/ocamlgraph/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
-+if test "$OCAMLFIND" = no; then
-+   OCAMLGRAPHPATH=$OCAMLLIB/ocamlgraph;
-+else
-+   OCAMLGRAPHPATH=$($OCAMLFIND query ocamlgraph | tr -d '\r\n')
-+fi
-+
-+AC_CHECK_FILE($OCAMLGRAPHPATH/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
- if test "$OCAMLGRAPH" = no ; then
-    AC_CHECK_FILE($OCAMLLIB/graph.cmi,OCAMLGRAPH=yes,OCAMLGRAPH=no)
-    if test "$OCAMLGRAPH" = no ; then	
-@@ -84,7 +92,7 @@
- 	OCAMLGRAPHLIB=""
-    fi
- else
--   OCAMLGRAPHLIB="-I +ocamlgraph"
-+   OCAMLGRAPHLIB="-I $OCAMLGRAPHPATH"
- fi
- 
- # then we look for ocamlopt; if not present, we issue a warning
-@@ -165,18 +173,26 @@
- dnl    fi      
- dnl fi
- 
--AC_CHECK_FILE($OCAMLLIB/lablgtk2/lablgtksourceview2.cmxa,LABLGTK2=yes,LABLGTK2=no)
-+if test "$OCAMLFIND" = no; then
-+   LABLGTK_PATH=$OCAMLLIB/lablgtk2;
-+   LABLGTK_INC="-I +lablgtk2"
-+else 
-+   LABLGTK_PATH=$($OCAMLFIND query lablgtk2 | tr -d '\r\n')
-+   LABLGTK_INC="-I $LABLGTK_PATH"
-+fi
-+
-+AC_CHECK_FILE($LABLGTK_PATH/lablgtksourceview2.cmxa,LABLGTK2=yes,LABLGTK2=no)
- if test "$LABLGTK2" = no ; then
-       AC_MSG_RESULT(Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*)
- else
--   LABLGTK2LIB="-I +lablgtk2 -I +threads"
-+   LABLGTK2LIB="$LABLGTK_INC -I +threads"
- fi
- 
- AC_CHECK_PROG(OCAMLWEB,ocamlweb,ocamlweb,true)
- 
- # platform
- AC_MSG_CHECKING(platform)
--if echo "let _ = Sys.os_type" | ocaml | grep -q Win32; then
-+if echo "let _ = Sys.os_type;;" | ocaml | grep -q Win32; then
-     AC_MSG_RESULT(Win32)
-     OCAMLWIN32=yes
-     EXE=.exe
---- configure	2011-12-07 10:37:55.000000000 +0100
-+++ configure.new	2013-03-20 18:13:08.146054600 +0100
+--- ../../work-ref/alt-ergo-0.94/configure	2011-12-07 10:37:55.000000000 +0100
++++ ./configure	2014-03-06 14:09:55.118200000 +0100
 @@ -1,11 +1,9 @@
  #! /bin/sh
  # Guess values for system-dependent variables and create Makefiles.
@@ -278,7 +218,22 @@
  # so uname gets run too.
  ac_hostname=`(hostname || uname -n) 2>/dev/null | sed 1q`
  
-@@ -573,6 +601,7 @@
+@@ -556,12 +584,13 @@
+ ac_unique_file="cc.mli"
+ ac_subst_vars='LTLIBOBJS
+ LIBOBJS
++GTKSOURCEVIEW_SHARE
+ EXE
+ OCAMLWIN32
+ INCLUDEGTK2
+ LABLGTK2LIB
+ OCAMLGRAPHLIB
+-OCAMLLIB
++OCAMLSTDLIB
+ OCAMLVERSION
+ OCAMLBEST
+ OCAMLWIZARD
+@@ -573,6 +602,7 @@
  OCAMLOPTDOTOPT
  OCAMLCDOTOPT
  OCAMLOPT
@@ -286,7 +241,7 @@
  OCAMLC
  target_alias
  host_alias
-@@ -681,8 +710,9 @@
+@@ -681,8 +711,9 @@
    fi
  
    case $ac_option in
@@ -298,7 +253,7 @@
    esac
  
    # Accept the important Cygnus configure options, so we can diagnose typos.
-@@ -727,7 +757,7 @@
+@@ -727,7 +758,7 @@
      ac_useropt=`expr "x$ac_option" : 'x-*disable-\(.*\)'`
      # Reject names that are not valid shell variable names.
      expr "x$ac_useropt" : ".*[^-+._$as_cr_alnum]" >/dev/null &&
@@ -307,7 +262,7 @@
      ac_useropt_orig=$ac_useropt
      ac_useropt=`$as_echo "$ac_useropt" | sed 's/[-+.]/_/g'`
      case $ac_user_opts in
-@@ -753,7 +783,7 @@
+@@ -753,7 +784,7 @@
      ac_useropt=`expr "x$ac_option" : 'x-*enable-\([^=]*\)'`
      # Reject names that are not valid shell variable names.
      expr "x$ac_useropt" : ".*[^-+._$as_cr_alnum]" >/dev/null &&
@@ -316,7 +271,7 @@
      ac_useropt_orig=$ac_useropt
      ac_useropt=`$as_echo "$ac_useropt" | sed 's/[-+.]/_/g'`
      case $ac_user_opts in
-@@ -957,7 +987,7 @@
+@@ -957,7 +988,7 @@
      ac_useropt=`expr "x$ac_option" : 'x-*with-\([^=]*\)'`
      # Reject names that are not valid shell variable names.
      expr "x$ac_useropt" : ".*[^-+._$as_cr_alnum]" >/dev/null &&
@@ -325,7 +280,7 @@
      ac_useropt_orig=$ac_useropt
      ac_useropt=`$as_echo "$ac_useropt" | sed 's/[-+.]/_/g'`
      case $ac_user_opts in
-@@ -973,7 +1003,7 @@
+@@ -973,7 +1004,7 @@
      ac_useropt=`expr "x$ac_option" : 'x-*without-\(.*\)'`
      # Reject names that are not valid shell variable names.
      expr "x$ac_useropt" : ".*[^-+._$as_cr_alnum]" >/dev/null &&
@@ -334,7 +289,7 @@
      ac_useropt_orig=$ac_useropt
      ac_useropt=`$as_echo "$ac_useropt" | sed 's/[-+.]/_/g'`
      case $ac_user_opts in
-@@ -1003,8 +1033,8 @@
+@@ -1003,8 +1034,8 @@
    | --x-librar=* | --x-libra=* | --x-libr=* | --x-lib=* | --x-li=* | --x-l=*)
      x_libraries=$ac_optarg ;;
  
@@ -345,7 +300,7 @@
      ;;
  
    *=*)
-@@ -1012,7 +1042,7 @@
+@@ -1012,7 +1043,7 @@
      # Reject names that are not valid shell variable names.
      case $ac_envvar in #(
        '' | [0-9]* | *[!_$as_cr_alnum]* )
@@ -354,7 +309,7 @@
      esac
      eval $ac_envvar=\$ac_optarg
      export $ac_envvar ;;
-@@ -1022,7 +1052,7 @@
+@@ -1022,7 +1053,7 @@
      $as_echo "$as_me: WARNING: you should use --build, --host, --target" >&2
      expr "x$ac_option" : ".*[^-._$as_cr_alnum]" >/dev/null &&
        $as_echo "$as_me: WARNING: invalid host type: $ac_option" >&2
@@ -363,7 +318,7 @@
      ;;
  
    esac
-@@ -1030,13 +1060,13 @@
+@@ -1030,13 +1061,13 @@
  
  if test -n "$ac_prev"; then
    ac_option=--`echo $ac_prev | sed 's/_/-/g'`
@@ -379,7 +334,7 @@
      *)     $as_echo "$as_me: WARNING: unrecognized options: $ac_unrecognized_opts" >&2 ;;
    esac
  fi
-@@ -1059,7 +1089,7 @@
+@@ -1059,7 +1090,7 @@
      [\\/$]* | ?:[\\/]* )  continue;;
      NONE | '' ) case $ac_var in *prefix ) continue;; esac;;
    esac
@@ -388,7 +343,7 @@
  done
  
  # There might be people who depend on the old broken behavior: `$host'
-@@ -1073,8 +1103,6 @@
+@@ -1073,8 +1104,6 @@
  if test "x$host_alias" != x; then
    if test "x$build_alias" = x; then
      cross_compiling=maybe
@@ -397,7 +352,7 @@
    elif test "x$build_alias" != "x$host_alias"; then
      cross_compiling=yes
    fi
-@@ -1089,9 +1117,9 @@
+@@ -1089,9 +1118,9 @@
  ac_pwd=`pwd` && test -n "$ac_pwd" &&
  ac_ls_di=`ls -di .` &&
  ac_pwd_ls_di=`cd "$ac_pwd" && ls -di .` ||
@@ -409,7 +364,7 @@
  
  
  # Find the source files, if location was not specified.
-@@ -1130,11 +1158,11 @@
+@@ -1130,11 +1159,11 @@
  fi
  if test ! -r "$srcdir/$ac_unique_file"; then
    test "$ac_srcdir_defaulted" = yes && srcdir="$ac_confdir or .."
@@ -423,7 +378,7 @@
  	pwd)`
  # When building in place, set srcdir=.
  if test "$ac_abs_confdir" = "$ac_pwd"; then
-@@ -1174,7 +1202,7 @@
+@@ -1174,7 +1203,7 @@
        --help=short        display options specific to this package
        --help=recursive    display the short help of all the included packages
    -V, --version           display version information and exit
@@ -432,7 +387,7 @@
        --cache-file=FILE   cache test results in FILE [disabled]
    -C, --config-cache      alias for \`--cache-file=config.cache'
    -n, --no-create         do not create output files
-@@ -1287,9 +1315,9 @@
+@@ -1287,9 +1316,9 @@
  if $ac_init_version; then
    cat <<\_ACEOF
  configure
@@ -444,7 +399,7 @@
  This configure script is free software; the Free Software Foundation
  gives unlimited permission to copy, distribute and modify it.
  _ACEOF
-@@ -1304,7 +1332,7 @@
+@@ -1304,7 +1333,7 @@
  running configure, to aid debugging if configure makes a mistake.
  
  It was created by $as_me, which was
@@ -453,7 +408,7 @@
  
    $ $0 $@
  
-@@ -1414,11 +1442,9 @@
+@@ -1414,11 +1443,9 @@
    {
      echo
  
@@ -467,7 +422,7 @@
      echo
      # The following way of writing the cache mishandles newlines in values,
  (
-@@ -1452,11 +1478,9 @@
+@@ -1452,11 +1479,9 @@
  )
      echo
  
@@ -481,7 +436,7 @@
      echo
      for ac_var in $ac_subst_vars
      do
-@@ -1469,11 +1493,9 @@
+@@ -1469,11 +1494,9 @@
      echo
  
      if test -n "$ac_subst_files"; then
@@ -495,7 +450,7 @@
        echo
        for ac_var in $ac_subst_files
        do
-@@ -1487,11 +1509,9 @@
+@@ -1487,11 +1510,9 @@
      fi
  
      if test -s confdefs.h; then
@@ -509,7 +464,7 @@
        echo
        cat confdefs.h
        echo
-@@ -1546,7 +1566,12 @@
+@@ -1546,7 +1567,12 @@
  ac_site_file1=NONE
  ac_site_file2=NONE
  if test -n "$CONFIG_SITE"; then
@@ -523,7 +478,7 @@
  elif test "x$prefix" != xNONE; then
    ac_site_file1=$prefix/share/config.site
    ac_site_file2=$prefix/etc/config.site
-@@ -1561,7 +1586,11 @@
+@@ -1561,7 +1587,11 @@
      { $as_echo "$as_me:${as_lineno-$LINENO}: loading site script $ac_site_file" >&5
  $as_echo "$as_me: loading site script $ac_site_file" >&6;}
      sed 's/^/| /' "$ac_site_file" >&5
@@ -536,7 +491,7 @@
    fi
  done
  
-@@ -1637,7 +1666,7 @@
+@@ -1637,7 +1667,7 @@
  $as_echo "$as_me: error: in \`$ac_pwd':" >&2;}
    { $as_echo "$as_me:${as_lineno-$LINENO}: error: changes in the environment can compromise the build" >&5
  $as_echo "$as_me: error: changes in the environment can compromise the build" >&2;}
@@ -545,7 +500,7 @@
  fi
  ## -------------------- ##
  ## Main body of script. ##
-@@ -1658,7 +1687,7 @@
+@@ -1658,7 +1688,7 @@
  set dummy ocamlc; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -554,7 +509,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLC"; then
-@@ -1670,7 +1699,7 @@
+@@ -1670,7 +1700,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -563,7 +518,7 @@
      ac_cv_prog_OCAMLC="ocamlc"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -1693,7 +1722,7 @@
+@@ -1693,32 +1723,77 @@
  
  
  if test "$OCAMLC" = no ; then
@@ -572,7 +527,13 @@
  fi
  
  # we extract Ocaml version number and library path
-@@ -1705,20 +1734,65 @@
+ OCAMLVERSION=`$OCAMLC -v | sed -n -e 's|.*version *\(.*\)$|\1|p' `
+ echo "ocaml version is $OCAMLVERSION"
+-OCAMLLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
+-echo "ocaml library path is $OCAMLLIB"
++OCAMLSTDLIB=`$OCAMLC -v | tail -1 | cut -f 4 -d " "`
++echo "ocaml library path is $OCAMLSTDLIB"
+ SMTPRELUDE="/usr/local/lib/ergo/smt_prelude.mlw"
  
  case $OCAMLVERSION in
    3.10.1+rc1)
@@ -626,9 +587,9 @@
 -$as_echo_n "checking for $OCAMLLIB/ocamlgraph/graph.cmi... " >&6; }
 -if { as_var=$as_ac_File; eval "test \"\${$as_var+set}\" = set"; }; then :
 +if test "$OCAMLFIND" = no; then
-+   OCAMLGRAPHPATH=$OCAMLLIB/ocamlgraph;
++   OCAMLGRAPHPATH=$OCAMLSTDLIB/ocamlgraph;
 +else
-+   OCAMLGRAPHPATH=$($OCAMLFIND query ocamlgraph | tr -d '\r\n')
++   OCAMLGRAPHPATH=$($OCAMLFIND query ocamlgraph | tr -d '\r\n' | tr '\\' '/')
 +fi
 +
 +as_ac_File=`$as_echo "ac_cv_file_$OCAMLGRAPHPATH/graph.cmi" | $as_tr_sh`
@@ -645,7 +606,7 @@
    eval "$as_ac_File=yes"
  else
    eval "$as_ac_File=no"
-@@ -1727,8 +1801,7 @@
+@@ -1727,23 +1802,22 @@
  eval ac_res=\$$as_ac_File
  	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
  $as_echo "$ac_res" >&6; }
@@ -655,21 +616,28 @@
    OCAMLGRAPH=yes
  else
    OCAMLGRAPH=no
-@@ -1738,11 +1811,11 @@
-    as_ac_File=`$as_echo "ac_cv_file_$OCAMLLIB/graph.cmi" | $as_tr_sh`
- { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $OCAMLLIB/graph.cmi" >&5
- $as_echo_n "checking for $OCAMLLIB/graph.cmi... " >&6; }
+ fi
+ 
+ if test "$OCAMLGRAPH" = no ; then
+-   as_ac_File=`$as_echo "ac_cv_file_$OCAMLLIB/graph.cmi" | $as_tr_sh`
+-{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $OCAMLLIB/graph.cmi" >&5
+-$as_echo_n "checking for $OCAMLLIB/graph.cmi... " >&6; }
 -if { as_var=$as_ac_File; eval "test \"\${$as_var+set}\" = set"; }; then :
++   as_ac_File=`$as_echo "ac_cv_file_$OCAMLSTDLIB/graph.cmi" | $as_tr_sh`
++{ $as_echo "$as_me:${as_lineno-$LINENO}: checking for $OCAMLSTDLIB/graph.cmi" >&5
++$as_echo_n "checking for $OCAMLSTDLIB/graph.cmi... " >&6; }
 +if eval \${$as_ac_File+:} false; then :
    $as_echo_n "(cached) " >&6
  else
    test "$cross_compiling" = yes &&
 -  as_fn_error "cannot check for file existence when cross compiling" "$LINENO" 5
+-if test -r "$OCAMLLIB/graph.cmi"; then
 +  as_fn_error $? "cannot check for file existence when cross compiling" "$LINENO" 5
- if test -r "$OCAMLLIB/graph.cmi"; then
++if test -r "$OCAMLSTDLIB/graph.cmi"; then
    eval "$as_ac_File=yes"
  else
-@@ -1752,20 +1825,19 @@
+   eval "$as_ac_File=no"
+@@ -1752,20 +1826,19 @@
  eval ac_res=\$$as_ac_File
  	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
  $as_echo "$ac_res" >&6; }
@@ -693,7 +661,7 @@
  fi
  
  # then we look for ocamlopt; if not present, we issue a warning
-@@ -1775,7 +1847,7 @@
+@@ -1775,7 +1848,7 @@
  set dummy ocamlopt; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -702,7 +670,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLOPT"; then
-@@ -1787,7 +1859,7 @@
+@@ -1787,7 +1860,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -711,7 +679,7 @@
      ac_cv_prog_OCAMLOPT="ocamlopt"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -1833,7 +1905,7 @@
+@@ -1833,7 +1906,7 @@
  set dummy ocamlc.opt; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -720,7 +688,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLCDOTOPT"; then
-@@ -1845,7 +1917,7 @@
+@@ -1845,7 +1918,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -729,7 +697,7 @@
      ac_cv_prog_OCAMLCDOTOPT="ocamlc.opt"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -1887,7 +1959,7 @@
+@@ -1887,7 +1960,7 @@
  set dummy ocamlopt.opt; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -738,7 +706,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLOPTDOTOPT"; then
-@@ -1899,7 +1971,7 @@
+@@ -1899,7 +1972,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -747,7 +715,7 @@
      ac_cv_prog_OCAMLOPTDOTOPT="ocamlopt.opt"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -1941,7 +2013,7 @@
+@@ -1941,7 +2014,7 @@
  set dummy ocamldep; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -756,7 +724,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLDEP"; then
-@@ -1953,7 +2025,7 @@
+@@ -1953,7 +2026,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -765,7 +733,7 @@
      ac_cv_prog_OCAMLDEP="ocamldep"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -1976,14 +2048,14 @@
+@@ -1976,14 +2049,14 @@
  
  
  if test "$OCAMLDEP" = no ; then
@@ -782,7 +750,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLLEX"; then
-@@ -1995,7 +2067,7 @@
+@@ -1995,7 +2068,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -791,7 +759,7 @@
      ac_cv_prog_OCAMLLEX="ocamllex"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -2018,13 +2090,13 @@
+@@ -2018,13 +2091,13 @@
  
  
  if test "$OCAMLLEX" = no ; then
@@ -807,7 +775,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLLEXDOTOPT"; then
-@@ -2036,7 +2108,7 @@
+@@ -2036,7 +2109,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -816,7 +784,7 @@
      ac_cv_prog_OCAMLLEXDOTOPT="ocamllex.opt"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -2067,7 +2139,7 @@
+@@ -2067,7 +2140,7 @@
  set dummy ocamlyacc; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -825,7 +793,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLYACC"; then
-@@ -2079,7 +2151,7 @@
+@@ -2079,7 +2152,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -834,7 +802,7 @@
      ac_cv_prog_OCAMLYACC="ocamlyacc"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -2102,20 +2174,28 @@
+@@ -2102,20 +2175,28 @@
  
  
  if test "$OCAMLYACC" = no ; then
@@ -849,10 +817,10 @@
 -$as_echo_n "checking for $OCAMLLIB/lablgtk2/lablgtksourceview2.cmxa... " >&6; }
 -if { as_var=$as_ac_File; eval "test \"\${$as_var+set}\" = set"; }; then :
 +if test "$OCAMLFIND" = no; then
-+   LABLGTK_PATH=$OCAMLLIB/lablgtk2;
++   LABLGTK_PATH=$OCAMLSTDLIB/lablgtk2;
 +   LABLGTK_INC="-I +lablgtk2"
 +else
-+   LABLGTK_PATH=$($OCAMLFIND query lablgtk2 | tr -d '\r\n')
++   LABLGTK_PATH=$($OCAMLFIND query lablgtk2 | tr -d '\r\n' | tr '\\' '/')
 +   LABLGTK_INC="-I $LABLGTK_PATH"
 +fi
 +
@@ -870,7 +838,7 @@
    eval "$as_ac_File=yes"
  else
    eval "$as_ac_File=no"
-@@ -2124,8 +2204,7 @@
+@@ -2124,8 +2205,7 @@
  eval ac_res=\$$as_ac_File
  	       { $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_res" >&5
  $as_echo "$ac_res" >&6; }
@@ -880,11 +848,12 @@
    LABLGTK2=yes
  else
    LABLGTK2=no
-@@ -2135,14 +2214,14 @@
+@@ -2135,14 +2215,15 @@
        { $as_echo "$as_me:${as_lineno-$LINENO}: result: Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*" >&5
  $as_echo "Will not be able to compile GUI. Please install the *liblablgtksourceview2-ocaml-dev* Debian package - or use the GODI caml package system *http://godi.ocaml-programming.de/* - or compile from sources *http://wwwfun.kurims.kyoto-u.ac.jp/soft/lsl/lablgtk.html*" >&6; }
  else
 -   LABLGTK2LIB="-I +lablgtk2 -I +threads"
++   GTKSOURCEVIEW_SHARE=$(pkg-config --variable=prefix gtksourceview-2.0)/share/gtksourceview-2.0
 +   LABLGTK2LIB="$LABLGTK_INC -I +threads"
  fi
  
@@ -897,7 +866,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLWEB"; then
-@@ -2154,7 +2233,7 @@
+@@ -2154,7 +2235,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -906,7 +875,7 @@
      ac_cv_prog_OCAMLWEB="ocamlweb"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -2180,7 +2259,7 @@
+@@ -2180,7 +2261,7 @@
  # platform
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking platform" >&5
  $as_echo_n "checking platform... " >&6; }
@@ -915,7 +884,7 @@
      { $as_echo "$as_me:${as_lineno-$LINENO}: result: Win32" >&5
  $as_echo "Win32" >&6; }
      OCAMLWIN32=yes
-@@ -2194,7 +2273,7 @@
+@@ -2194,7 +2275,7 @@
  set dummy ocamlwizard; ac_word=$2
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking for $ac_word" >&5
  $as_echo_n "checking for $ac_word... " >&6; }
@@ -924,7 +893,7 @@
    $as_echo_n "(cached) " >&6
  else
    if test -n "$OCAMLWIZARD"; then
-@@ -2206,7 +2285,7 @@
+@@ -2206,7 +2287,7 @@
    IFS=$as_save_IFS
    test -z "$as_dir" && as_dir=.
      for ac_exec_ext in '' $ac_executable_extensions; do
@@ -933,7 +902,15 @@
      ac_cv_prog_OCAMLWIZARD="ocamlwizard"
      $as_echo "$as_me:${as_lineno-$LINENO}: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -2314,10 +2393,21 @@
+@@ -2247,6 +2328,7 @@
+ 
+ 
+ 
++
+ # Finally create the Makefile from Makefile.in
+ ac_config_files="$ac_config_files Makefile"
+ 
+@@ -2314,10 +2396,21 @@
       :end' >>confcache
  if diff "$cache_file" confcache >/dev/null 2>&1; then :; else
    if test -w "$cache_file"; then
@@ -957,7 +934,7 @@
    else
      { $as_echo "$as_me:${as_lineno-$LINENO}: not updating unwritable cache $cache_file" >&5
  $as_echo "$as_me: not updating unwritable cache $cache_file" >&6;}
-@@ -2369,6 +2459,7 @@
+@@ -2369,6 +2462,7 @@
  
  ac_libobjs=
  ac_ltlibobjs=
@@ -965,7 +942,7 @@
  for ac_i in : $LIBOBJS; do test "x$ac_i" = x: && continue
    # 1. Remove the extension, and $U if already installed.
    ac_script='s/\$U\././;s/\.o$//;s/\.obj$//'
-@@ -2384,7 +2475,7 @@
+@@ -2384,7 +2478,7 @@
  
  
  
@@ -974,7 +951,7 @@
  ac_write_fail=0
  ac_clean_files_save=$ac_clean_files
  ac_clean_files="$ac_clean_files $CONFIG_STATUS"
-@@ -2485,6 +2576,7 @@
+@@ -2485,6 +2579,7 @@
  IFS=" ""	$as_nl"
  
  # Find who we are.  Look in the path if we contain no directory separator.
@@ -982,7 +959,7 @@
  case $0 in #((
    *[\\/]* ) as_myself=$0 ;;
    *) as_save_IFS=$IFS; IFS=$PATH_SEPARATOR
-@@ -2530,19 +2622,19 @@
+@@ -2530,19 +2625,19 @@
  (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
  
  
@@ -1010,7 +987,7 @@
    as_fn_exit $as_status
  } # as_fn_error
  
-@@ -2680,16 +2772,16 @@
+@@ -2680,16 +2775,16 @@
      # ... but there are two gotchas:
      # 1) On MSYS, both `ln -s file dir' and `ln file dir' fail.
      # 2) DJGPP < 2.04 has no symlinks; `ln -s' creates a wrapper executable.
@@ -1031,7 +1008,7 @@
  fi
  rm -f conf$$ conf$$.exe conf$$.dir/conf$$.file conf$$.file
  rmdir conf$$.dir 2>/dev/null
-@@ -2738,7 +2830,7 @@
+@@ -2738,7 +2833,7 @@
        test -d "$as_dir" && break
      done
      test -z "$as_dirs" || eval "mkdir $as_dirs"
@@ -1040,7 +1017,7 @@
  
  
  } # as_fn_mkdir_p
-@@ -2749,28 +2841,16 @@
+@@ -2749,28 +2844,16 @@
    as_mkdir_p=false
  fi
  
@@ -1079,7 +1056,7 @@
  
  # Sed expression to map a string onto a valid CPP name.
  as_tr_cpp="eval sed 'y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g'"
-@@ -2792,7 +2872,7 @@
+@@ -2792,7 +2875,7 @@
  # values after options handling.
  ac_log="
  This file was extended by $as_me, which was
@@ -1088,7 +1065,7 @@
  
    CONFIG_FILES    = $CONFIG_FILES
    CONFIG_HEADERS  = $CONFIG_HEADERS
-@@ -2845,10 +2925,10 @@
+@@ -2845,10 +2928,10 @@
  ac_cs_config="`$as_echo "$ac_configure_args" | sed 's/^ //; s/[\\""\`\$]/\\\\&/g'`"
  ac_cs_version="\\
  config.status
@@ -1101,7 +1078,7 @@
  This config.status script is free software; the Free Software Foundation
  gives unlimited permission to copy, distribute and modify it."
  
-@@ -2863,11 +2943,16 @@
+@@ -2863,11 +2946,16 @@
  while test $# != 0
  do
    case $1 in
@@ -1119,7 +1096,7 @@
    *)
      ac_option=$1
      ac_optarg=$2
-@@ -2889,6 +2974,7 @@
+@@ -2889,6 +2977,7 @@
      $ac_shift
      case $ac_optarg in
      *\'*) ac_optarg=`$as_echo "$ac_optarg" | sed "s/'/'\\\\\\\\''/g"` ;;
@@ -1127,7 +1104,7 @@
      esac
      as_fn_append CONFIG_FILES " '$ac_optarg'"
      ac_need_defaults=false;;
-@@ -2899,7 +2985,7 @@
+@@ -2899,7 +2988,7 @@
      ac_cs_silent=: ;;
  
    # This is an error.
@@ -1136,7 +1113,7 @@
  Try \`$0 --help' for more information." ;;
  
    *) as_fn_append ac_config_targets " $1"
-@@ -2919,7 +3005,7 @@
+@@ -2919,7 +3008,7 @@
  _ACEOF
  cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
  if \$ac_cs_recheck; then
@@ -1145,7 +1122,7 @@
    shift
    \$as_echo "running CONFIG_SHELL=$SHELL \$*" >&6
    CONFIG_SHELL='$SHELL'
-@@ -2950,7 +3036,7 @@
+@@ -2950,7 +3039,7 @@
    case $ac_config_target in
      "Makefile") CONFIG_FILES="$CONFIG_FILES Makefile" ;;
  
@@ -1154,7 +1131,7 @@
    esac
  done
  
-@@ -2971,9 +3057,10 @@
+@@ -2971,9 +3060,10 @@
  # after its creation but before its name has been assigned to `$tmp'.
  $debug ||
  {
@@ -1167,7 +1144,7 @@
  ' 0
    trap 'as_fn_exit 1' 1 2 13 15
  }
-@@ -2981,12 +3068,13 @@
+@@ -2981,12 +3071,13 @@
  
  {
    tmp=`(umask 077 && mktemp -d "./confXXXXXX") 2>/dev/null` &&
@@ -1183,7 +1160,7 @@
  
  # Set up the scripts for CONFIG_FILES section.
  # No need to generate them if there are no CONFIG_FILES.
-@@ -3003,12 +3091,12 @@
+@@ -3003,12 +3094,12 @@
  fi
  ac_cs_awk_cr=`$AWK 'BEGIN { print "a\rb" }' </dev/null 2>/dev/null`
  if test "$ac_cs_awk_cr" = "a${ac_cr}b"; then
@@ -1198,7 +1175,7 @@
  _ACEOF
  
  
-@@ -3017,18 +3105,18 @@
+@@ -3017,18 +3108,18 @@
    echo "$ac_subst_vars" | sed 's/.*/&!$&$ac_delim/' &&
    echo "_ACEOF"
  } >conf$$subs.sh ||
@@ -1221,7 +1198,7 @@
    else
      ac_delim="$ac_delim!$ac_delim _$ac_delim!! "
    fi
-@@ -3036,7 +3124,7 @@
+@@ -3036,7 +3127,7 @@
  rm -f conf$$subs.sh
  
  cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
@@ -1230,7 +1207,7 @@
  _ACEOF
  sed -n '
  h
-@@ -3084,7 +3172,7 @@
+@@ -3084,7 +3175,7 @@
  rm -f conf$$subs.awk
  cat >>$CONFIG_STATUS <<_ACEOF || ac_write_fail=1
  _ACAWK
@@ -1239,7 +1216,7 @@
    for (key in S) S_is_set[key] = 1
    FS = ""
  
-@@ -3116,21 +3204,29 @@
+@@ -3116,21 +3207,29 @@
    sed "s/$ac_cr\$//; s/$ac_cr/$ac_cs_awk_cr/g"
  else
    cat
@@ -1278,7 +1255,7 @@
  s/^[^=]*=[	 ]*$//
  }'
  fi
-@@ -3148,7 +3244,7 @@
+@@ -3148,7 +3247,7 @@
    esac
    case $ac_mode$ac_tag in
    :[FHL]*:*);;
@@ -1287,7 +1264,7 @@
    :[FH]-) ac_tag=-:-;;
    :[FH]*) ac_tag=$ac_tag:$ac_tag.in;;
    esac
-@@ -3167,7 +3263,7 @@
+@@ -3167,7 +3266,7 @@
      for ac_f
      do
        case $ac_f in
@@ -1296,7 +1273,7 @@
        *) # Look for the file first in the build tree, then in the source tree
  	 # (if the path is not absolute).  The absolute path cannot be DOS-style,
  	 # because $ac_f cannot contain `:'.
-@@ -3176,7 +3272,7 @@
+@@ -3176,7 +3275,7 @@
  	   [\\/$]*) false;;
  	   *) test -f "$srcdir/$ac_f" && ac_f="$srcdir/$ac_f";;
  	   esac ||
@@ -1305,7 +1282,7 @@
        esac
        case $ac_f in *\'*) ac_f=`$as_echo "$ac_f" | sed "s/'/'\\\\\\\\''/g"`;; esac
        as_fn_append ac_file_inputs " '$ac_f'"
-@@ -3202,8 +3298,8 @@
+@@ -3202,8 +3301,8 @@
      esac
  
      case $ac_tag in
@@ -1316,7 +1293,7 @@
      esac
      ;;
    esac
-@@ -3328,23 +3424,24 @@
+@@ -3328,23 +3427,24 @@
  s&@abs_top_builddir@&$ac_abs_top_builddir&;t t
  $ac_datarootdir_hack
  "
@@ -1351,7 +1328,7 @@
   ;;
  
  
-@@ -3359,7 +3456,7 @@
+@@ -3359,7 +3459,7 @@
  ac_clean_files=$ac_clean_files_save
  
  test $ac_write_fail = 0 ||
@@ -1360,7 +1337,7 @@
  
  
  # configure is writing to config.log, and then calls config.status.
-@@ -3380,7 +3477,7 @@
+@@ -3380,7 +3480,7 @@
    exec 5>>config.log
    # Use ||, not &&, to avoid exiting from the if with $? = 1, which
    # would make configure fail if this is the last instruction.

@@ -1,6 +1,5 @@
 .include "../../mk/bsd.prefs.mk"
 
-
 VERSION=        0.9.4
 
 PKGREVISION=
@@ -22,6 +21,8 @@ USE_GMAKE=      yes
 GNU_CONFIGURE=   yes
 
 CONF_ALTERGO_ENABLE_GUI?=auto
+
+CONFIGURE_ARGS+= --mandir=${PREFIX}/man
 
 # remove any existing archive of alt-ergo 0.8, as it has silently changed
 # without version number update...

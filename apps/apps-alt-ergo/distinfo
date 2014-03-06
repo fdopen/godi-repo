@@ -1,7 +1,8 @@
-$GODI$
+$NetBSD$
 
 SHA1 (alt-ergo-0.94.tar.gz) = 52d32f5ba9ea1ce7bf90ce204d92571d1f62d6db
 Size (alt-ergo-0.94.tar.gz) = 188414 bytes
-SHA1 (patch-aa-use-findlib) = de7dd4b866f524b97dfdf1699a1fb4d8809d211d
-SHA1 (patch-ab-gtksourceview-custom-location) = b19bb576841234302354841b01b3ed043379f48c
-SHA1 (patch-ac-ocamllib-windows) = 65bc43b9d41052490638ccfddbfe6a9d90628088
+
+SHA1 (patch-aa-makefile) = c5d2af97a6ae012f3e9d657ea376ba6b6f92c24f
+SHA1 (patch-ab-configure_in) = d0d9c61d1a0610578fd2e1768bacdd4f5bfe6a9f
+SHA1 (patch-zz-configure) = fdea07ed6b9a78b4c097c1a9e5bb5db0d393a745

@@ -3,6 +3,7 @@ bin/coq_makefile
 bin/coqc
 bin/coqchk
 @optional bin/coqchk.opt
+@optional bin/coqchk.opt.exe
 bin/coqdep
 bin/coqdoc
 @optional bin/coqide
@@ -44,3 +45,4 @@ share/emacs/site-lisp/coq.el
 share/texmf/tex/latex/misc/coqdoc.sty
 
 @deepdir doc/apps-coq
+@optional share/coq/coq.png

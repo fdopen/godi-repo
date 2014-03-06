@@ -1,5 +1,5 @@
---- lib/envars.ml	2013-12-21 09:03:14.000000000 +0100
-+++ lib/envars.ml.new	2014-02-28 14:35:45.943761900 +0100
+--- lib/envars.ml.orig	2013-12-21 08:03:14.000000000 +0000
++++ lib/envars.ml	2014-03-06 11:02:49.688800000 +0000
 @@ -9,6 +9,8 @@
  (* This file gathers environment variables needed by Coq to run (such
     as coqlib) *)
@@ -9,7 +9,7 @@
  let coqbin =
    System.canonical_path_name (Filename.dirname Sys.executable_name)
  
-@@ -27,8 +29,8 @@
+@@ -27,18 +29,18 @@
  
  let reldir instdir testfile oth =
    let rpath = if Coq_config.local then [] else instdir in
@@ -20,7 +20,10 @@
  
  let guess_coqlib () =
    let file = "states/initial.coq" in
-@@ -38,7 +40,7 @@
+-    reldir (if Coq_config.arch = "win32" then ["lib"] else ["lib";"coq"]) file
++    reldir ["lib";"coq"] file
+       (fun () ->
+         let coqlib = match Coq_config.coqlib with
            | Some coqlib -> coqlib
            | None -> coqroot
          in
