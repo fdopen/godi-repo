@@ -1,0 +1,46 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aPOST-INSTALL" ] ; then
+    exit 0
+fi
+
+mtmpdir="$(mktemp -d)"
+if [ -z "$mtmpdir" ] || [ ! -d "$mtmpdir" ]; then
+    echo "no tempdir" >&2
+    exit 1
+fi
+trap "rm -rf \"$mtmpdir\"" EXIT
+
+cd "$mtmpdir"
+
+tar -xf "${GODI_PREFIX}/lib/opam-installer/binaries.tar.xz"
+
+wbits=0
+
+xxx="$(/bin/uname -m)"
+case "$xxx" in
+    x86_64)
+        wbits=64 ;;
+    i[3-9]86)
+        wbits=32 ;;
+    *_64*)
+        wbits=64 ;;
+esac
+
+if [ $wbits -eq 0 ]; then
+    xxx="$(/bin/arch)"
+    case "$xxx" in
+        *_64*)
+            wbits=64 ;;
+        *)
+            wbits=32 ;;
+    esac
+fi
+
+${GODI_PREFIX}/bin/godi_install -m 0755 "opam-installer.${wbits}.exe" ${GODI_PREFIX}/sbin/opam-installer.exe
+
+cd ..

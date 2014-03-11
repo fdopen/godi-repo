@@ -1,5 +1,5 @@
 --- mk/build/mk/bsd.pkg.mk.orig	2013-04-14 13:03:20.000000000 +0000
-+++ mk/build/mk/bsd.pkg.mk	2013-08-31 22:26:11.864600000 +0000
++++ mk/build/mk/bsd.pkg.mk	2014-03-08 18:34:13.537200000 +0000
 @@ -34,6 +34,14 @@
  # PACKAGE FIXUP
  ######################################################################
@@ -24,7 +24,7 @@
  .else
  .if defined(USE_OMAKE)
  MAKE_PROGRAM=		${LOCALBASE}/bin/omake
-@@ -258,6 +268,87 @@
+@@ -258,6 +268,93 @@
  ESSENTIAL_ENV:=		${ESSENTIAL_ENV} ${_var}=${_value:Q}
  .endfor
  
@@ -98,8 +98,14 @@
 +# MINGW_HOST should be add to godi.conf by the bootstrap script.
 +# User can change it, if they want to generate faster code that is
 +# restricted to their cpu
++.if defined(CYGWIN_WORDSIZE) && ${CYGWIN_WORDSIZE} == 64
++CONFIGURE_ARGS+=	--host=${MINGW_HOST} --build=x86_64-pc-cygwin
++.else
 +CONFIGURE_ARGS+=	--host=${MINGW_HOST} --build=i686-pc-cygwin
 +.endif
++
++.endif
++
 +.if defined(USE_OMAKE)
 +MAKE_FLAGS+= 	LDFLAGS=${LDFLAGS:Q}
 +MAKE_FLAGS+= 	CFLAGS=${CFLAGS:Q}
@@ -112,7 +118,7 @@
  # How to invoke "make" in wrkdir to build and install the software:
  MAKE_ENV+=		OPSYS=${OPSYS:Q}
  .if defined(W32PORT)
-@@ -274,7 +365,15 @@
+@@ -274,7 +371,15 @@
  MAKE_ENV+=		WHOLE_ARCHIVE_FLAG=${WHOLE_ARCHIVE_FLAG:Q}
  MAKE_ENV+=		NO_WHOLE_ARCHIVE_FLAG=${NO_WHOLE_ARCHIVE_FLAG:Q}
  MAKE_ENV+=		LINK_ALL_LIBGCC_HACK=${LINK_ALL_LIBGCC_HACK:Q}
@@ -128,7 +134,7 @@
  MAKE_ENV+=		PREFIX=${PREFIX:Q}
  MAKE_ENV+= 		LOCALBASE=${LOCALBASE:Q}
  MAKE_ENV+= 		LOCALBASE_NATIVE=${LOCALBASE_NATIVE:Q}
-@@ -317,7 +416,12 @@
+@@ -317,7 +422,12 @@
  CONFIGURE_ENV+=		ELF_RPATH_FLAG=${ELF_RPATH_FLAG:Q}
  CONFIGURE_ENV+=		RPATH_FLAG=${RPATH_FLAG:Q}
  .endif
@@ -141,7 +147,7 @@
  CONFIGURE_ENV+=		PREFIX=${PREFIX:Q}
  CONFIGURE_ENV+= 	LOCALBASE=${LOCALBASE:Q}
  CONFIGURE_ENV+= 	LOCALBASE_NATIVE=${LOCALBASE_NATIVE:Q}
-@@ -327,7 +431,8 @@
+@@ -327,7 +437,8 @@
  CONFIGURE_ENV+=		ac_given_INSTALL=${INSTALL:Q}\ -c
  CONFIGURE_ENV+=		INSTALL_DATA=${INSTALL_DATA:Q}
  CONFIGURE_ENV+=		INSTALL_PROGRAM=${INSTALL_PROGRAM:Q}
@@ -151,7 +157,7 @@
  CONFIGURE_ENV+=		M4=${M4:Q}
  CONFIGURE_ENV+=		AWK=${AWK:Q}
  .if defined(CC)
-@@ -390,7 +495,14 @@
+@@ -390,7 +501,14 @@
  GODI_SCRIPT ?= ${LOCALBASE}/bin/godi_script
  
  .if defined(CONF_SCRIPT) && ${CONF_SCRIPT:M*.gcs} != ""
@@ -167,7 +173,7 @@
  BUILD_DEPENDS += godi-core-script-*
  .else
  .  if defined(CONF_SCRIPT_TEXT)
-@@ -406,7 +518,11 @@
+@@ -406,7 +524,11 @@
  CONFIGURE_SCRIPT:=${GODI_SCRIPT} -c ${CONF_SCRIPT_FULL_TEXT:Q}
  BUILD_DEPENDS += godi-core-script>=3.0.18
  .  else
@@ -180,7 +186,7 @@
  .  endif
  .endif
  
-@@ -442,6 +558,155 @@
+@@ -442,6 +564,155 @@
  AUTOGENERATE_IMAGE=	${WRKDIR}/image/${LOCALBASE}
  .endif
  
@@ -336,7 +342,7 @@
  
  # --- other ---
  
-@@ -623,10 +888,12 @@
+@@ -623,10 +894,12 @@
  			${DEPENDS:D-set-dependencies ${DEPENDS:QQ}} \
  			${BUILD_DEPENDS:D-set-build-dependencies ${BUILD_DEPENDS:QQ}} \
  			${CONFLICTS:D-set-conflicts ${CONFLICTS:QQ}} \
@@ -350,7 +356,7 @@
  			${SRC_FPRINT:D-set-src-fingerprint ${SRC_FPRINT:QQ}}
  
  ######################################################################
-@@ -637,15 +904,23 @@
+@@ -637,15 +910,23 @@
  INSTALL_TARGET?=	install
  
  CONFIGURE_SCRIPT?=	./configure
@@ -376,7 +382,7 @@
  
  ALLFILES?=	${DISTFILES}
  CKSUMFILES?=	${ALLFILES}
-@@ -934,6 +1209,7 @@
+@@ -934,6 +1215,7 @@
  	    return 1
  	fi
  	source=`cat "$PKGDIR"/.source 2>/dev/null || true`
@@ -384,7 +390,7 @@
          for site in $sites; do
  	    right_source=0
  	    case "$site" in
-@@ -1118,7 +1394,7 @@
+@@ -1118,7 +1400,7 @@
  
  _EXTRACT_SUFFICES=	.tar.gz .tgz .tar.bz2 .tbz .tar.Z .tar
  _EXTRACT_SUFFICES+=	.shar.gz .shar.bz2 .shar.Z .shar
@@ -393,7 +399,7 @@
  
  ## GODI: We do not support zip, lha, zoo
  
-@@ -1126,6 +1402,10 @@
+@@ -1126,6 +1408,10 @@
  DECOMPRESS_CMD.tgz=		${DECOMPRESS_CMD.tar.gz}
  DECOMPRESS_CMD.tar.bz2=	 	${BZCAT}
  DECOMPRESS_CMD.tbz=		${DECOMPRESS_CMD.tar.bz2}
@@ -404,7 +410,7 @@
  DECOMPRESS_CMD.tar.Z=		${GZCAT}
  DECOMPRESS_CMD.tar=		${CAT}
  
-@@ -1137,6 +1417,8 @@
+@@ -1137,6 +1423,8 @@
  DECOMPRESS_CMD.Z=		${GZCAT}
  DECOMPRESS_CMD.bz2=		${BZCAT}
  DECOMPRESS_CMD.gz=		${GZCAT}
@@ -413,7 +419,7 @@
  
  .undef EXTRACT_CMD.tar.gz
  .undef EXTRACT_CMD.tgz
-@@ -1157,6 +1439,8 @@
+@@ -1157,6 +1445,8 @@
  
  DOWNLOADED_DISTFILE=	$${extract_file}
  
@@ -422,7 +428,7 @@
  .for __suffix__ in .gz .bz2 .Z
  EXTRACT_CMD${__suffix__}=	${DECOMPRESS_CMD${__suffix__}} "$${extract_file}" > `${BASENAME} "$${extract_file}" ${__suffix__}`
  .endfor
-@@ -1181,6 +1465,28 @@
+@@ -1181,6 +1471,28 @@
  .  endif
  .endfor
  
@@ -451,7 +457,7 @@
  # _SHELL_EXTRACT is a "subroutine" for extracting an archive.  It extracts
  # the contents of archive named by the shell variable "extract_file" based
  # on the file extension of the archive.
-@@ -1201,6 +1507,9 @@
+@@ -1201,6 +1513,9 @@
  	${_PKG_SILENT}${_PKG_DEBUG}					\
  	extract_file=${DISTDIR:Q}/${__file__:Q}; export extract_file;	\
  	cd ${WRKDIR:Q}; ${EXTRACT_CMD}
@@ -461,7 +467,7 @@
  .  endfor
  .  if defined(DISTNAME) && !empty(DISTNAME)
  	${MKDIR} ${WRKSRC}
-@@ -1378,7 +1687,8 @@
+@@ -1378,7 +1693,8 @@
  INCR_PATCH_FN=
  .text
  incr_patch() {
@@ -471,7 +477,7 @@
  (* --- ocaml script --- *)
  let p = Sys.argv.(1);;
  let c1 =
-@@ -1405,6 +1715,8 @@
+@@ -1405,6 +1721,8 @@
  print_endline q;;
  (* --- END ocaml script '` --- *)
  EOF
@@ -480,7 +486,7 @@
  }
  .endtext
  
-@@ -1500,7 +1812,7 @@
+@@ -1500,7 +1818,7 @@
  	     $SED -e 's/^file-//')"
  	if expr "x$f" '>' "x$p" >/dev/null; then p="$f"; fi
          # Increase p by 1
@@ -489,7 +495,7 @@
          # Save patch
  	$MKDIR "$patchdir"
  	if [ -s "$PATCHREF/diff" ]; then
-@@ -1567,9 +1879,15 @@
+@@ -1567,9 +1885,15 @@
  do-configure:
  .  if defined(HAS_CONFIGURE)
  .    for DIR in ${CONFIGURE_DIRS}
@@ -505,7 +511,7 @@
  .    endfor
  .  endif
  .endif
-@@ -1823,7 +2141,7 @@
+@@ -1823,7 +2147,7 @@
  ${FLIST}:
  	${_PKG_SILENT}${_PKG_DEBUG}\
  	${MAKE} -C ${.CURDIR:Q} ${MAKEFLAGS} file-list-pkg > ${FLIST}
@@ -514,7 +520,7 @@
  
  .PHONY: file-list-pkg
  .if !target(file-list-pkg)
-@@ -1903,6 +2221,11 @@
+@@ -1903,6 +2227,11 @@
  	     echo "exists ($file)" ;;
  	 esac
         done
@@ -526,7 +532,7 @@
       } < $FLIST > $BUILD_VERSION_FILE
  .  endscript
  
-@@ -1975,7 +2298,7 @@
+@@ -1975,7 +2304,7 @@
  	    exit 1
  	  fi
  	fi
@@ -535,7 +541,7 @@
  	if [ -n "$out_name" ]; then
  		base_out_name=`basename "$out_name"`
  		make_package_links "$base_out_name" || exit
-@@ -2474,7 +2797,7 @@
+@@ -2474,7 +2803,7 @@
  CP_REG_FILE=${LOCALBASE}/build/files_registered
  CP_ACT_FILE=${LOCALBASE}/build/files_actual  
  
@@ -544,7 +550,7 @@
  
  .PHONY: checkpoint
  checkpoint:
-@@ -2497,7 +2820,7 @@
+@@ -2497,7 +2826,7 @@
          find ${CHECKPOINT_DIRS} -type f -o -type l 2>/dev/null | \
              LC_ALL=C sort | uniq >${CP_ACT_FILE}
  	${_PKG_SILENT}${_PKG_DEBUG}                                    \
@@ -553,7 +559,7 @@
              echo "### PLIST incorrect: ${PKGNAME}"; \
              echo "### Unregistered files:"; \
  	    if comm --version >/dev/null 2>/dev/null; then \
-@@ -2610,7 +2933,7 @@
+@@ -2610,7 +2939,7 @@
  	test -f Makefile
  	test -f DESCR
  	test -f distinfo
@@ -562,7 +568,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
-@@ -2659,7 +2982,7 @@
+@@ -2659,7 +2988,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
@@ -571,7 +577,7 @@
  	${PKG_TOOLS_BIN}/godi_console rprofile \
  		-site "${EXPORT_PROFILES}" \
  		-put "${EXPORT_PROFILE_NAME}"
-@@ -2674,7 +2997,7 @@
+@@ -2674,7 +3003,7 @@
  	${_PKG_SILENT}${_PKG_DEBUG}
  	${MKDIR} "${EXPORT_PACKAGES}"
  	out_name=`${PKG_PTOOL} -in-installed ${PKGNAME} \

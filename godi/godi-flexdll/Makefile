@@ -2,7 +2,7 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz
 CATEGORIES=	godi

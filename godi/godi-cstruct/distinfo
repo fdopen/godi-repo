@@ -1,6 +1,7 @@
 $NetBSD$
 
-SHA1 (cstruct-1.0.1.tar.gz) = ec336152df66338b8f76e566ef30fca74722baa9
-Size (cstruct-1.0.1.tar.gz) = 231273 bytes
+SHA1 (cstruct-1.1.0.tar.gz) = 522b20c189d433afa719a3ff64734e0fd4a6712b
+Size (cstruct-1.1.0.tar.gz) = 236731 bytes
 
 SHA1 (patch-aa) = d0a035823b29b4ffcfa624835600473b42e06511
+SHA1 (patch-ab) = 78ca545622ae27dda024faafcae7f63ac7376b0a

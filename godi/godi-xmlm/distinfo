@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (xmlm-1.1.1.tbz) = 7df4735aab532901a73f8919777aba50ebd75a3c
-Size (xmlm-1.1.1.tbz) = 69318 bytes
-
-SHA1 (patch-aa-Makefile.txt) = 2d481d88876c7178f9aa4fa31330c3dc6d430ac0
+SHA1 (xmlm-1.2.0.tbz) = e81d12b3ce5be8eb0216e5b0d56059aacf6d3c60
+Size (xmlm-1.2.0.tbz) = 38181 bytes

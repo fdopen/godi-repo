@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.0.1
+VERSION=        1.1.0
 PKGNAME=        godi-cstruct-${VERSION}
-DISTNAME=       ocaml-cstruct-1.0.1
-DISTFILES=      cstruct-1.0.1.tar.gz
+DISTNAME=       ocaml-cstruct-1.1.0
+DISTFILES=      cstruct-1.1.0.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -13,9 +13,10 @@ COMMENT=        access C structures via a camlp4 extension
 GODI_CSTRUCT_LWT?=	yes
 
 
-DEPENDS+= 	godi-ocaml>=3.10:../../godi/godi-ocaml
-BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ocplib-endian>=0:../../godi/godi-ocplib-endian
+BUILD_DEPENDS+=  godi-ounit-*:../../godi/godi-ounit
+DEPENDS+= 	godi-ocaml-*:../../godi/godi-ocaml
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-ocplib-endian-*:../../godi/godi-ocplib-endian
 
 .if ${GODI_CSTRUCT_LWT} != "no" && ${GODI_CSTRUCT_LWT} != "NO"
 DEPENDS+=	godi-lwt>=0:../../godi/godi-lwt
@@ -25,6 +26,18 @@ CONFIGURE_ARGS+=	--enable-lwt
 
 WINOASIS=		yes
 #WINOASIS_DISABLE_DOCS=  yes
+
+
+.if !defined(CYGWIN_ROOT)
+CYGWIN_ROOT=${:! cygpath -m "/" !}
+.endif
+
+CAML_LD_LIBRARY_PATH_TEST=${CYGWIN_ROOT}${WRKSRC}/_build/lib
+.if defined(CAML_LD_LIBRARY_PATH) && ${CAML_LD_LIBRARY_PATH} != ""
+MAKE_ENV+=	CAML_LD_LIBRARY_PATH=${CAML_LD_LIBRARY_PATH_TEST}:${CAML_LD_LIBRARY_PATH}
+.else
+MAKE_ENV+=	CAML_LD_LIBRARY_PATH=${CAML_LD_LIBRARY_PATH_TEST}
+.endif
 
 CONFIGURE_ARGS+=	--enable-unix
 

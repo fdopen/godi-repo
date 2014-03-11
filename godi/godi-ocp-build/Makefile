@@ -2,12 +2,10 @@
 
 VERSION=	1.99.7beta
 PKGNAME=	godi-ocp-build-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocp-build-ocp-build.1.99.7-beta
-EXTRACT_ONLY=   ocp-build.1.99.7-beta.tar.gz
 # boot console manually generated with cygwin's ocaml
-BOOT_CONSOLE_OCP_BUILD= ocp-build.1.99.7-beta-boot.tar.xz 
-DISTFILES=	ocp-build.1.99.7-beta.tar.gz ${BOOT_CONSOLE_OCP_BUILD}
+DISTFILES=	ocp-build.1.99.7-beta.tar.gz ocp-build.1.99.7-beta-boots.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
@@ -35,10 +33,13 @@ CONFIGURE_ARGS+=	--mandir=${LOCALBASE_NATIVE:Q}/man
 ALL_TARGET=
 INSTALL_TARGET=install
 
-# Just to generate config.h
-
 post-extract:
-	@cd ${WRKSRC:Q} && ${RM} -rf boot && tar -xf ${DISTDIR:Q}/${BOOT_CONSOLE_OCP_BUILD}
+	@${RM} -rf ${WRKSRC:Q}/boot
+.if	defined(CYGWIN_WORDSIZE) && ${CYGWIN_WORDSIZE} == 64
+	@${MV} ${WRKDIR:Q}/boot64 ${WRKSRC:Q}/boot
+.else
+	@${MV} ${WRKDIR:Q}/boot32 ${WRKSRC:Q}/boot
+.endif
 
 post-install:
 	${MV} ${LOCALBASE:Q}/bin/ocp-build.asm ${LOCALBASE:Q}/bin/ocp-build.exe

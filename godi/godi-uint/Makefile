@@ -1,23 +1,23 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	1.1.0
+VERSION= 	1.1.1
 MNODE=		1100 
 PKG=		godi-uint
 PKGNAME= 	godi-uint-${VERSION}  
-PKGREVISION= 	2
-DISTNAME=	ocaml-uint-${VERSION} 
-DISTFILES=	${DISTNAME}.tar.gz
+PKGREVISION= 	0
+DISTNAME=	ocaml-uint-1.1.1
+DISTFILES=	ocaml-uint-1.1.1.tar.gz
 CATEGORIES=	godi 
-MASTER_SITES= 	http://forge.ocamlcore.org/frs/download.php/${MNODE}/
+MASTER_SITES= 	https://forge.ocamlcore.org/frs/download.php/1377/
 HOMEPAGE=	https://forge.ocamlcore.org/projects/ocaml-uint/
 COMMENT=	Unsigned ints for OCaml
 
 
 BUILD_DEPENDS+= godi-tools>=3.0.37b:../../godi-tools
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ospec>=0.3:../../godi/godi-ospec
+BUILD_DEPENDS+= godi-ospec>=0.3.1:../../godi/godi-ospec
 
-DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 
 MAKE_ENV+= CAML_LD_LIBRARY_PATH=${CYGWIN_ROOT}${WRKSRC}/_build/lib
 

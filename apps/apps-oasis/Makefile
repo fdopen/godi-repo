@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.4.1
+VERSION=        0.4.2
 RVERSION=       ${VERSION}
 PKGNAME=        apps-oasis-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       oasis-${RVERSION}
 DISTFILES=      oasis-${RVERSION}.tar.gz
 CATEGORIES=     apps
-MNODE=		1355
+MNODE=		1379
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${MNODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://oasis.forge.ocamlcore.org
@@ -31,8 +31,8 @@ WINOASIS=		yes
 WINOASIS_SETUP=		no
 WINOASIS_USE_BASH=	yes
 
-#CONFIGURE_ARGS+= --disable-tests
 # PKG = apps-oasis
+# CONFIGURE_ARGS+= --disable-tests
 
 # HAS_CONFIGURE = yes
 # CONFIGURE_SCRIPT=ocaml setup.ml -configure

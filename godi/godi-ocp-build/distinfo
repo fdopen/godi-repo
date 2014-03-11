@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (ocp-build.1.99.7-beta.tar.gz) = 83b56db3e45dd3ce5a66f29f7a994f18ec036e9c
 Size (ocp-build.1.99.7-beta.tar.gz) = 647595 bytes
 
-SHA1 (ocp-build.1.99.7-beta-boot.tar.xz) = cc38b109a7003b723270a772235b665ce92d9b8a
-Size (ocp-build.1.99.7-beta-boot.tar.xz) = 254848 bytes
+SHA1 (ocp-build.1.99.7-beta-boots.tar.xz) = fc1f9a8dcdda1b8d3f86de44d77dff824d5cbc7c
+Size (ocp-build.1.99.7-beta-boots.tar.xz) = 333504 bytes
 
 SHA1 (patch-aa) = 8ca5e91bf458c6fd7f4483d15880db498f9bed3a
 SHA1 (patch-meta) = 974fe620f2859008d0a17178c9eec44caee2d650

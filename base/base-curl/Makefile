@@ -3,7 +3,7 @@
 PKG=		curl
 VERSION=	7.35.0
 PKGNAME=	base-${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	${PKG}-${VERSION}
 DISTFILES=	${PKG}-${VERSION}.tar.lzma
 CATEGORIES=	base
@@ -20,14 +20,19 @@ MINGW_AUTOTOOLS_BUILD=	yes
 HAS_CONFIGURE=		yes
 
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+
+.if !defined(GODI_BASE_CURL_CONF_ARGS)
 CONFIGURE_ARGS+=	--enable-shared 
-CONFIGURE_ARGS+=	--enable-ares
 CONFIGURE_ARGS+=	--disable-static
 CONFIGURE_ARGS+=	--with-winssl
 CONFIGURE_ARGS+=	--with-winidn
 CONFIGURE_ARGS+=	--enable-ipv6
 CONFIGURE_ARGS+=	--without-ca-bundle
 CONFIGURE_ARGS+=	--with-zlib=${LOCALBASE:Q}
+.else
+CONFIGURE_ARGS+=	${GODI_BASE_CURL_CONF_ARGS}
+.endif
+
 ALL_TARGET=		all
 IMAGE=          	${WRKDIR}/image
 INSTALL_ENV=		DESTDIR=${IMAGE:Q}

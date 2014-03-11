@@ -1,0 +1,9 @@
+If necessary, you can set the following options:
+
+- GODI_BASE_CURL_CONF_ARGS: Additional arguments for the
+  configure script. For example, set it to
+    --with-libs=/path
+  to add /path to the search path for libraries like libssl.
+  Or disable support for ssl:
+    --without-ssl
+

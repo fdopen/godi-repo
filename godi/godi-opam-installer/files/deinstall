@@ -1,0 +1,11 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+rm -f ${GODI_PREFIX}/sbin/opam-installer.exe
