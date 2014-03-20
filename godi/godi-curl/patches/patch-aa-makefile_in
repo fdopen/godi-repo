@@ -1,0 +1,44 @@
+--- Makefile.in~	2014-03-08 06:35:04.000000000 +0000
++++ Makefile.in	2014-03-16 11:41:00.160800000 +0000
+@@ -27,7 +27,9 @@
+ 
+ CLIBS = @CURLLIBS@
+ 
+-TARGETS := curl.cma libcurl-helper.a dllcurl-helper.so
++EXTDLL=$(shell $(OCAMLC) -config | grep '^ext_dll: ' | awk '{print $$2}')
++
++TARGETS := curl.cma libcurl-helper.a dllcurl-helper$(EXTDLL)
+ ifneq (@OCAML_PKG_lwt@,no)
+ TARGETS += curl_lwt.cmo
+ endif
+@@ -60,10 +62,10 @@
+ examples:
+ 		(cd examples; $(MAKE))
+ 
+-curl.cma:	$(CURLBCOBJS) dllcurl-helper.so
++curl.cma:	$(CURLBCOBJS) dllcurl-helper$(EXTDLL)
+ 		$(OCAMLMKLIB) -o curl $(CURLBCOBJS) -oc curl-helper $(CLIBS)
+ 
+-curl.cmxa:	$(CURLOBJS) dllcurl-helper.so
++curl.cmxa:	$(CURLOBJS) dllcurl-helper$(EXTDLL)
+ 		$(OCAMLMKLIB) -o curl $(CURLOBJS) -oc curl-helper $(CLIBS)
+ 
+ curl_lwt.cmo: curl_lwt.ml
+@@ -84,7 +86,7 @@
+ .ml.cmo:
+ 		$(OCAMLC) -c $(FLAGS) $< -o $@
+ 
+-libcurl-helper.a dllcurl-helper.so:	$(CURLHELPEROBJS)
++libcurl-helper.a dllcurl-helper$(EXTDLL):	$(CURLHELPEROBJS)
+ 		$(OCAMLMKLIB) -oc curl-helper $(CURLHELPEROBJS) $(CLIBS)
+ 
+ .c.o:
+@@ -119,7 +121,7 @@
+ 	gpg -a -b $(NAME).tar.gz
+ 
+ clean:
+-		@rm -f $(TARGETS) *~ *.cm* *.o *.a *.so .depend core
++		@rm -f $(TARGETS) *~ *.cm* *.o *.a *$(EXTDLL) .depend core
+ 		@(cd examples; $(MAKE) clean)
+ 
+ distclean: clean

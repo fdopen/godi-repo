@@ -1,9 +1,0 @@
-$NetBSD$
-
-SHA1 (ocamltop-gtk-2.1.1.tar.gz) = e06c0c7ec8a25e702b025e9735ac88574301ee14
-Size (ocamltop-gtk-2.1.1.tar.gz) = 44677 bytes
-
-SHA1 (patch-aa-configurein) = c02be3516d55b668b5e1fb14c017ebd677310131
-SHA1 (patch-aa-regularn) = ce321fe90de5386db44e5575a4adf3c68d5d02ed
-SHA1 (patch-bb-configure) = 79ab6eab23a62645ab50f6344e7f22a97c4a1fe9
-SHA1 (patch-cc-makefile) = 9b51b548b0ce1d2b3929644f1227220c5efc7552

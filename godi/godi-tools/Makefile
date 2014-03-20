@@ -2,7 +2,7 @@
 
 VERSION=	3.0.37b
 RVERSION=       3.0.37
-PKGREVISION=	3
+PKGREVISION=	4
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz

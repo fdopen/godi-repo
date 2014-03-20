@@ -3,7 +3,7 @@
 
 PKG=		base-libpq
 #1.14 is broken on windows (?)
-VERSION=	9.2.4
+VERSION=	9.3.3
 PKGREVISION=	0
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	postgresql-${VERSION}
@@ -17,17 +17,27 @@ COMMENT=	programmer\'s interface to PostgreSQL
 MINGW_AUTOTOOLS_BUILD=	yes
 HAS_CONFIGURE=		yes
 
+#zlib
+DEPENDS+=	base-windows>=0:../../base/base-windows
+
 # we only need libpq, but the configure script wants to configure
 # the whole server :-(
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
 CONFIGURE_ARGS+=	--docdir=${LOCALBASE:Q}/doc/${PKG:Q}
 CONFIGURE_ARGS+=	--mandir=${LOCALBASE:Q}/man
+
+.if defined(GODI_BASE_LIBPQ_CONF_ARGS)
+CONFIGURE_ARGS+=	${GODI_BASE_LIBPQ_CONF_ARGS}
+.else
+CONFIGURE_ARGS+=	--with-includes=${LOCALBASE:Q}/include
+CONFIGURE_ARGS+=	--with-libraries=${LOCALBASE:Q}/lib
 CONFIGURE_ARGS+=	--with-gnu-ld
 CONFIGURE_ARGS+=	--disable-rpath
 CONFIGURE_ARGS+=	--disable-nls
 CONFIGURE_ARGS+=	--with-system-tzdata=/usr/share/zoneinfo
-CONFIGURE_ARGS+=	--without-zlib
+#CONFIGURE_ARGS+=	--without-zlib
 CONFIGURE_ARGS+=	--without-readline
+.endif
 
 #no:
 #CONFIGURE_ARGS+=	--enable-relocatable
@@ -48,7 +58,7 @@ PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 post-install:
 	${MV} ${IMAGE}/${LOCALBASE}/lib/*.[Dd][Ll][Ll] ${IMAGE}/${LOCALBASE}/bin
-	install -m 0644 ${WRKSRC}/src/include/postgres_ext.h ${IMAGE}/${LOCALBASE}/include
+	install -m 0644 ${WRKSRC}/src/include/postgres_ext.h ${WRKSRC}/src/include/pg_config_ext.h ${IMAGE}/${LOCALBASE}/include
 	install -m 0755 -d ${IMAGE}/${LOCALBASE}/include/libpq
 	install -m 0644 ${WRKSRC}/src/include/libpq/libpq-fs.h ${IMAGE}/${LOCALBASE}/include/libpq
 	cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC}

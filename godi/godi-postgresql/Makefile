@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	2.0.5
+VERSION= 	2.0.6
 PKG=		godi-postgresql
 PKGNAME= 	godi-postgresql-${VERSION}  
-PKGREVISION= 	1
-DISTNAME=	postgresql-ocaml-2.0.5
-DISTFILES=	postgresql-ocaml-2.0.5.tar.gz
+PKGREVISION= 	0
+DISTNAME=	postgresql-ocaml-2.0.6
+DISTFILES=	postgresql-ocaml-2.0.6.tar.gz
 CATEGORIES=	godi  
 MASTER_SITES= 	https://bitbucket.org/mmottl/postgresql-ocaml/downloads/
 HOMEPAGE=	https://bitbucket.org/mmottl/postgresql-ocaml

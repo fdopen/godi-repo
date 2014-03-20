@@ -1,7 +1,0 @@
-@comment $GODI$
-
-@comment godi-script:
-bin/godi_script
-@optional bin/godi_script_toploop
-@findlib godi-script
-@deepdir doc/godi-core-script

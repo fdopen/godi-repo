@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.7
+VERSION=	0.2.8
 GVERSION=	3.0.37
 PKGREVISION=	0
 PKGNAME=	godi-tools-gui-${VERSION}

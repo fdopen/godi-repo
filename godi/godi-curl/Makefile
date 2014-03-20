@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.6.1
-FORGENODE=	1374
+VERSION=	0.7.0
+FORGENODE=	1382
 PKGNAME=	godi-curl-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocurl-${VERSION}
@@ -13,55 +13,42 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://ocurl.forge.ocamlcore.org/
 COMMENT=	Bindings for libcurl
 
-PATH:=		${LOCALBASE}/bin:${PATH}
-
 .if exists(${LOCALBASE}/lib/godi/conf-curl.mk)
 .include "${LOCALBASE}/lib/godi/conf-curl.mk"
 .endif
 
-.if defined(W32PORT) && ${W32PORT} == "mingw"
-DEPENDS+=	base-curl>=0:../../base/base-curl
+
+.if defined(CONF_CURL_CFLAGS) && ${CONF_CURL_CFLAGS} != ""
+CFLAGS+= ${CONF_CURL_CFLAGS}
 .endif
 
+.if defined(CONF_CURL_LDFLAGS) && ${CONF_CURL_LDFLAGS} != ""
+LDFLAGS+= ${CONF_CURL_LDFLAGS}
+.endif
 
+.if defined(CONF_CURL_DEPENDS) && ${CONF_CURL_DEPENDS} != ""
+DEPENDS+= ${CONF_CURL_DEPENDS}
+.endif
+
+GODI_CURL_LWT?=	yes
 MINGW_AUTOTOOLS_BUILD=yes
+HAS_CONFIGURE=yes
+ALL_TARGET= all doc
 
-CONF_CURL_CONFIG?=
 
 DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ocamlmakefile>=0:../../godi/godi-ocamlmakefile
 BUILD_DEPENDS+=	conf-curl>=3:../../conf/conf-curl
-DEPENDS+=	${CONF_CURL_DEPENDS}
+.if ${GODI_CURL_LWT} == "yes"
+BUILD_DEPENDS+=	godi-lwt>=2.4:../../godi/godi-lwt
+.endif
 
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-
-MAKE_FLAGS=	NO_CUSTOM=y
-MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
-
-MAKE_FLAGS+= "CURL_CONFIG=${CONF_CURL_CONFIG}"
-
-.if ${GODI_HAVE_DLL} != "yes"
-MAKE_FLAGS+=    STATIC=1
-.endif
-
-ALL_TARGET=     htdoc byte-code-library
-.if ${GODI_HAVE_OCAMLOPT} == "yes"
-ALL_TARGET+=    native-code-library
-.endif
-
 USE_GMAKE=	yes
-
-INSTALL_TARGET= libinstall
-HAS_CONFIGURE=yes
-# Just to generate config.h
-
-post-configure:
-	${CP} files/Makefile ${WRKSRC}
 
 post-install:
 	${MKDIR} ${LOCALBASE}/doc/godi-curl/html
-	${CP} ${WRKSRC}/COPYING ${WRKSRC}/CHANGES.txt ${LOCALBASE}/doc/godi-curl
-	${CP} ${WRKSRC}/doc/curl/html/* ${LOCALBASE}/doc/godi-curl/html
+	${INSTALL} -m 0644 ${WRKSRC}/README ${WRKSRC}/COPYING ${WRKSRC}/CHANGES.txt ${LOCALBASE}/doc/godi-curl
+	${INSTALL} -m 0644 ${WRKSRC}/doc/*.* ${LOCALBASE}/doc/godi-curl/html
 
 .include "../../mk/bsd.pkg.mk"
