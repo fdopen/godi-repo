@@ -1,15 +1,6 @@
---- Makefile.orig	2011-10-24 13:13:54.000000000 +0000
-+++ Makefile	2013-02-09 11:56:49.921875000 +0000
-@@ -7,6 +7,8 @@
- ALL_TARGET=cduce cduce_lib.cma
- INSTALL_BINARIES=cduce$(EXE)
- 
-+WINDRES?=windres 
-+
- ifneq ($(ML_INTERFACE), false)
-   INSTALL_BINARIES += cduce_mktop
- endif
-@@ -247,7 +250,7 @@
+--- Makefile.distrib.orig	2014-03-05 13:49:17.000000000 +0000
++++ Makefile.distrib	2014-03-21 09:29:11.426400000 +0000
+@@ -248,7 +248,7 @@
  
  cduce: $(CDUCE:.cmo=.$(EXTENSION))
  	@echo "Build $@"
@@ -18,9 +9,11 @@
  
  cduce_packed.ml: $(CDUCE:.cmo=.ml)
  	rm -f cduce_packed.ml
-@@ -317,7 +320,7 @@
+@@ -323,8 +323,9 @@
+ 
  include depend
  
++WINDRES?=windres
  cduceres.o: win32/cduce.rc win32/cduce_logo-bw.ico
 -	(cd win32; windres -i cduce.rc -o cduceres.o; mv cduceres.o ..)
 +	(cd win32; $(WINDRES) -i cduce.rc -o cduceres.o; mv cduceres.o ..)

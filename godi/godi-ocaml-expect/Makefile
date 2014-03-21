@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.0.4
-MNODE=		1289
+VERSION=        0.0.5
+MNODE=		1372
 PKGNAME=        godi-ocaml-expect-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    0
 DISTNAME=       ocaml-expect-${VERSION}
 DISTFILES=      ocaml-expect-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -16,7 +16,7 @@ BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 
 DEPENDS+=	godi-ocaml>=3.10.2:../../godi/godi-ocaml
 DEPENDS+=	godi-pcre>=0:../../godi/godi-pcre
-DEPENDS+=	godi-extlib>=0:../../godi/godi-extlib
+DEPENDS+=	godi-batteries>=0:../../godi/godi-batteries
 
 WINOASIS=		   yes
 WINOASIS_DISABLE_TESTS=    undef

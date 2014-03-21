@@ -5,7 +5,7 @@
 #APPS_CDUCE_SVN_ARGS?=	--non-interactive
 #APPS_CDUCE_SVN_PATH?= /cduce/trunk
 
-VERSION=        0.5.5
+VERSION=        0.6.0
 PKGNAME=        apps-cduce-${VERSION}
 
 #.if ${APPS_CDUCE_SVN_CHECKOUT} != "yes"
@@ -40,6 +40,7 @@ APPS_CDUCE_NETCLIENT?=no
 HAS_CONFIGURE = yes
 CONFIGURE_ARGS+=--prefix="${LOCALBASE}" --docdir="${LOCALBASE}/doc/apps-cduce"
 
+
 .if ${APPS_CDUCE_PXP} == "yes"
 CONFIGURE_ARGS+=--with-pxp
 DEPENDS+= godi-pxp>=1.1.95:../../godi/godi-pxp
@@ -66,7 +67,6 @@ CONFIGURE_ARGS+=--without-curl
 
 .if ${APPS_CDUCE_NETCLIENT} == "yes"
 CONFIGURE_ARGS+=--with-netclient
-#DEPENDS+=  godi-netclient>=0.90.3:../../godi/godi-netclient
 .endif
 .if ${APPS_CDUCE_NETCLIENT} == "no"
 CONFIGURE_ARGS+=--without-netclient
@@ -77,6 +77,7 @@ CONFIGURE_ARGS+=--without-netclient
 
 USE_GMAKE=      yes
 MAKE_ENV+=      ${BUILD_OCAMLFIND_ENV}
+ALL_TARGET=	all test
 
 #pre-configure:
 #	cd ${WRKDIR} && \

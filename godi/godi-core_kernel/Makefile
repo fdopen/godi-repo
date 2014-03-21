@@ -1,18 +1,18 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.03.00
+VERSION=	111.06.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       core_kernel-111.03.00
-DISTFILES=      core_kernel-111.03.00.tar.gz
+DISTNAME=       core_kernel-111.06.00
+DISTFILES=      core_kernel-111.06.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://blogs.janestreet.com/ocaml-core/111.03.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.06.00/individual/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
 COMMENT=        Part of Jane Street’s Core library
 
-DEPENDS+=  godi-typerep<=109.55.02:../../godi/godi-typerep
-DEPENDS+=  godi-typerep>=109.55.00:../../godi/godi-typerep
+DEPENDS+=  godi-enumerate>=111.03.00:../../godi/godi-enumerate
+DEPENDS+=  godi-typerep>=111.06.00:../../godi/godi-typerep
 DEPENDS+=  godi-pa_bench<=109.55.02:../../godi/godi-pa_bench
 DEPENDS+=  godi-pa_bench>=109.55.00:../../godi/godi-pa_bench
 DEPENDS+=  godi-comparelib>=109.60.00:../../godi/godi-comparelib
