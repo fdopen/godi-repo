@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.4.2
+VERSION=        0.4.4
 RVERSION=       ${VERSION}
 PKGNAME=        apps-oasis-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    0
 DISTNAME=       oasis-${RVERSION}
 DISTFILES=      oasis-${RVERSION}.tar.gz
 CATEGORIES=     apps
-MNODE=		1379
+MNODE=		1391
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${MNODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://oasis.forge.ocamlcore.org
@@ -22,14 +22,15 @@ BUILD_DEPENDS+= godi-ocaml-expect>=0:../../godi/godi-ocaml-expect
 BUILD_DEPENDS+= godi-fileutils>=0.4:../../godi/godi-fileutils
 BUILD_DEPENDS+= godi-tools>=3.0.37b:../../godi-tools
 .else
-WINOASIS_DISABLE_TESTS=yes
+WINOASIS_DISABLE_TESTS=	yes
 .endif
 BUILD_DEPENDS+= apps-ocamlify>=0.0.1:../../apps/apps-ocamlify
 BUILD_DEPENDS+= apps-ocamlmod>=0.0.3:../../apps/apps-mod
 
 WINOASIS=		yes
-WINOASIS_SETUP=		no
+#WINOASIS_SETUP=		no
 WINOASIS_USE_BASH=	yes
+WINOASIS_DISABLE_DOCS=	no
 
 # PKG = apps-oasis
 # CONFIGURE_ARGS+= --disable-tests

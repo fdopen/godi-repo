@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.1
+VERSION=	1.2
 
 PKG=		godi-config-file
 PKGNAME=	${PKG}-${VERSION}
@@ -10,7 +10,7 @@ DISTNAME=	config-file-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 
 CATEGORIES=	godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/845/
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1387/
 MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://config-file.forge.ocamlcore.org/
 COMMENT=	library used to manage the configuration file(s) of an application

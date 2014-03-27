@@ -1,134 +1,37 @@
-diff -r -N -u ../oasis-0.4.2.orig/examples/with test space/LICENSE.txt ./examples/with test space/LICENSE.txt
---- ../oasis-0.4.2.orig/examples/with test space/LICENSE.txt	1970-01-01 01:00:00.000000000 +0100
-+++ ./examples/with test space/LICENSE.txt	2014-03-11 12:29:28.838298194 +0100
-@@ -0,0 +1,21 @@
-+********************************************************************************
-+*  OASIS: architecture for building OCaml libraries and applications           *
-+*                                                                              *
-+*  Copyright (C) 2008-2010, OCamlCore SARL                                     *
-+*                                                                              *
-+*  This library is free software; you can redistribute it and/or modify it     *
-+*  under the terms of the GNU Lesser General Public License as published by    *
-+*  the Free Software Foundation; either version 2.1 of the License, or (at     *
-+*  your option) any later version, with the OCaml static compilation           *
-+*  exception.                                                                  *
-+*                                                                              *
-+*  This library is distributed in the hope that it will be useful, but         *
-+*  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY  *
-+*  or FITNESS FOR A PARTICULAR PURPOSE. See the file COPYING for more          *
-+*  details.                                                                    *
-+*                                                                              *
-+*  You should have received a copy of the GNU Lesser General Public License    *
-+*  along with this library; if not, write to the Free Software Foundation,     *
-+*  Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA               *
-+********************************************************************************
-+
-diff -r -N -u ../oasis-0.4.2.orig/examples/with test space/_oasis ./examples/with test space/_oasis
---- ../oasis-0.4.2.orig/examples/with test space/_oasis	1970-01-01 01:00:00.000000000 +0100
-+++ ./examples/with test space/_oasis	2014-03-11 12:29:28.838298194 +0100
-@@ -0,0 +1,20 @@
-+OASISFormat: 0.1
-+Name:        with-data
-+Version:     0.1
-+License:     GPL
-+LicenseFile: LICENSE.txt
-+Authors:     Sylvain Le Gall
-+Synopsis:    Library and executable with test
-+Plugins:     META (0.0.1)
-+BuildTools:  ocamlbuild
-+
-+Executable test
-+ Install: false
-+ Path: src
-+ MainIs: test.ml
-+ BuildDepends: oUnit
-+
-+Test "main"
-+ Type: Custom (0.0.1)
-+ Command: $test
-+ WorkingDirectory: src
-diff -r -N -u ../oasis-0.4.2.orig/examples/with test space/src/test.ml ./examples/with test space/src/test.ml
---- ../oasis-0.4.2.orig/examples/with test space/src/test.ml	1970-01-01 01:00:00.000000000 +0100
-+++ ./examples/with test space/src/test.ml	2014-03-11 12:29:28.838298194 +0100
-@@ -0,0 +1,32 @@
-+(******************************************************************************)
-+(* OASIS: architecture for building OCaml libraries and applications          *)
-+(*                                                                            *)
-+(* Copyright (C) 2008-2010, OCamlCore SARL                                    *)
-+(*                                                                            *)
-+(* This library is free software; you can redistribute it and/or modify it    *)
-+(* under the terms of the GNU Lesser General Public License as published by   *)
-+(* the Free Software Foundation; either version 2.1 of the License, or (at    *)
-+(* your option) any later version, with the OCaml static compilation          *)
-+(* exception.                                                                 *)
-+(*                                                                            *)
-+(* This library is distributed in the hope that it will be useful, but        *)
-+(* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *)
-+(* or FITNESS FOR A PARTICULAR PURPOSE. See the file COPYING for more         *)
-+(* details.                                                                   *)
-+(*                                                                            *)
-+(* You should have received a copy of the GNU Lesser General Public License   *)
-+(* along with this library; if not, write to the Free Software Foundation,    *)
-+(* Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA              *)
-+(******************************************************************************)
-+
-+open OUnit;;
-+
-+let myrun t =
-+  let lst =
-+    run_test_tt_main t
-+  in
-+    lst
-+;;
-+
-+myrun ("main" >:: (fun () -> ()))
-+;;
-diff -r -N -u ../oasis-0.4.2.orig/examples/with test space/src/test.mli ./examples/with test space/src/test.mli
---- ../oasis-0.4.2.orig/examples/with test space/src/test.mli	1970-01-01 01:00:00.000000000 +0100
-+++ ./examples/with test space/src/test.mli	2014-03-11 12:29:28.838298194 +0100
-@@ -0,0 +1,22 @@
-+(******************************************************************************)
-+(* OASIS: architecture for building OCaml libraries and applications          *)
-+(*                                                                            *)
-+(* Copyright (C) 2008-2010, OCamlCore SARL                                    *)
-+(*                                                                            *)
-+(* This library is free software; you can redistribute it and/or modify it    *)
-+(* under the terms of the GNU Lesser General Public License as published by   *)
-+(* the Free Software Foundation; either version 2.1 of the License, or (at    *)
-+(* your option) any later version, with the OCaml static compilation          *)
-+(* exception.                                                                 *)
-+(*                                                                            *)
-+(* This library is distributed in the hope that it will be useful, but        *)
-+(* WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY *)
-+(* or FITNESS FOR A PARTICULAR PURPOSE. See the file COPYING for more         *)
-+(* details.                                                                   *)
-+(*                                                                            *)
-+(* You should have received a copy of the GNU Lesser General Public License   *)
-+(* along with this library; if not, write to the Free Software Foundation,    *)
-+(* Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301 USA              *)
-+(******************************************************************************)
-+
-+val myrun : OUnit.test -> OUnit.test_result list
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseCheck.ml ./src/base/BaseCheck.ml
---- ../oasis-0.4.2.orig/src/base/BaseCheck.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseCheck.ml	2014-03-11 15:18:38.598405263 +0100
-@@ -118,9 +118,10 @@
+Nur in ./examples: with test space.
+diff -b -B -r -u ../oasis-0.4.4.orig/_oasis ./_oasis
+--- ../oasis-0.4.4.orig/_oasis	2014-03-26 02:14:11.000000000 +0100
++++ ./_oasis	2014-03-26 11:20:25.000000000 +0100
+@@ -222,9 +222,7 @@
+ 
+ Test main
+   Type: custom (0.3)
+-  Command: $test -oasis $oasis -is-native $is_native \
+-                 -native-dynlink $native_dynlink \
+-                 -ocamlmod $ocamlmod -fake-ocamlfind $fake_ocamlfind
++  Command: $test -oasis $oasis -is-native $is_native -native-dynlink $native_dynlink -ocamlmod $ocamlmod -fake-ocamlfind $fake_ocamlfind
+   WorkingDirectory: test
+   TestTools: oasis, test, ocamlmod, fake_ocamlfind
+ 
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCheck.ml ./src/base/BaseCheck.ml
+--- ../oasis-0.4.4.orig/src/base/BaseCheck.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseCheck.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -118,9 +118,11 @@
    in
    let findlib_dir pkg =
      let dir =
--      OASISExec.run_read_one_line ~ctxt:!BaseContext.default
--        (ocamlfind ())
--        ["query"; "-format"; "%d"; pkg]
 +      OASISHostPath.of_unix (
-+        OASISExec.run_read_one_line ~ctxt:!BaseContext.default
-+          (ocamlfind ())
-+          ["query"; "-format"; "%d"; pkg] )
++        OASISHostPath.ocamlfind_unquote (
+       OASISExec.run_read_one_line ~ctxt:!BaseContext.default
+         (ocamlfind ())
+-        ["query"; "-format"; "%d"; pkg]
++            ["query"; "-format"; "%d"; pkg] ) )
      in
        if Sys.file_exists dir && Sys.is_directory dir then
          dir
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseCustom.ml ./src/base/BaseCustom.ml
---- ../oasis-0.4.2.orig/src/base/BaseCustom.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseCustom.ml	2014-03-11 12:29:28.838298194 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCustom.ml ./src/base/BaseCustom.ml
+--- ../oasis-0.4.4.orig/src/base/BaseCustom.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseCustom.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -31,7 +31,7 @@
    OASISExec.run ~ctxt:!BaseContext.default ~quote:false
      (var_expand cmd)
@@ -138,9 +41,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseCustom.ml ./src/base/BaseCustom.m
         (args @ (Array.to_list extra_args)))
  
  
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseEnv.ml ./src/base/BaseEnv.ml
---- ../oasis-0.4.2.orig/src/base/BaseEnv.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseEnv.ml	2014-03-11 12:29:28.838298194 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.ml ./src/base/BaseEnv.ml
+--- ../oasis-0.4.4.orig/src/base/BaseEnv.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseEnv.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -72,7 +72,7 @@
    Genlex.make_lexer []
  
@@ -163,9 +66,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseEnv.ml ./src/base/BaseEnv.ml
                 | _ ->
                     failwithf
                       (f_ "Unknown expression '%s' in variable expansion of %s.")
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseEnv.mli ./src/base/BaseEnv.mli
---- ../oasis-0.4.2.orig/src/base/BaseEnv.mli	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseEnv.mli	2014-03-11 12:29:28.838298194 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.mli ./src/base/BaseEnv.mli
+--- ../oasis-0.4.4.orig/src/base/BaseEnv.mli	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseEnv.mli	2014-03-26 11:20:25.000000000 +0100
 @@ -78,9 +78,9 @@
  
  (** Expand variable that can be found in string. Variable follow definition of
@@ -178,9 +81,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseEnv.mli ./src/base/BaseEnv.mli
  
  (** Get variable.
    *)
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseOCamlcConfig.ml ./src/base/BaseOCamlcConfig.ml
---- ../oasis-0.4.2.orig/src/base/BaseOCamlcConfig.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseOCamlcConfig.ml	2014-03-11 12:29:28.838298194 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseOCamlcConfig.ml ./src/base/BaseOCamlcConfig.ml
+--- ../oasis-0.4.4.orig/src/base/BaseOCamlcConfig.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseOCamlcConfig.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -116,6 +116,9 @@
      match nm with
        | "ocaml_version" ->
@@ -191,38 +94,14 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseOCamlcConfig.ml ./src/base/BaseOC
        | _ -> nm, (fun x -> x)
    in
      var_redefine
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseSetup.ml ./src/base/BaseSetup.ml
---- ../oasis-0.4.2.orig/src/base/BaseSetup.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseSetup.ml	2014-03-11 12:40:35.473447144 +0100
-@@ -88,34 +88,52 @@
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseSetup.ml ./src/base/BaseSetup.ml
+--- ../oasis-0.4.4.orig/src/base/BaseSetup.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseSetup.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -88,9 +88,27 @@
  
  let configure t args =
    (* Run configure *)
--  BaseCustom.hook
--    t.package.conf_custom
--    (fun () ->
--       (* Reload if preconf has changed it *)
--       begin
--         try
--           unload ();
--           load ();
--         with _ ->
--           ()
--       end;
--
--       (* Run plugin's configure *)
--       t.configure t.package args;
--
--       (* Dump to allow postconf to change it *)
--       dump ())
--    ();
--
--  (* Reload environment *)
--  unload ();
--  load ();
- 
--  (* Save environment *)
--  print ();
++
 +  (* use-bash is an exception. It's already needed to run the
 +     pre-configure script. *)
 +  let rec f = function
@@ -239,65 +118,33 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseSetup.ml ./src/base/BaseSetup.ml
 +    | _::tl -> f tl
 +  in
 +    f (Array.to_list args);
-+    BaseCustom.hook
-+      t.package.conf_custom
-+      (fun () ->
+   BaseCustom.hook
+     t.package.conf_custom
+     (fun () ->
 +         OASISHostPath.bash_cmd := BaseStandardVar.bash_cmd;
-+         (* Reload if preconf has changed it *)
-+         begin
-+           try
-+             unload ();
-+             load ();
-+           with _ ->
-+             ()
-+         end;
-+
-+         (* Run plugin's configure *)
-+         t.configure t.package args;
-+
-+         (* Dump to allow postconf to change it *)
-+         dump ())
-+      ();
-+
-+    (* Reload environment *)
-+    unload ();
-+    load ();
- 
--  (* Replace data in file *)
--  BaseFileAB.replace t.package.files_ab
-+    (* Save environment *)
-+    print ();
-+
-+    (* Replace data in file *)
-+    BaseFileAB.replace t.package.files_ab
- 
- 
- let build t args =
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseStandardVar.ml ./src/base/BaseStandardVar.ml
---- ../oasis-0.4.2.orig/src/base/BaseStandardVar.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseStandardVar.ml	2014-03-11 12:50:21.942297267 +0100
+        (* Reload if preconf has changed it *)
+        begin
+          try
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.ml ./src/base/BaseStandardVar.ml
+--- ../oasis-0.4.4.orig/src/base/BaseStandardVar.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseStandardVar.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -136,15 +136,27 @@
  
  
  let (/) a b =
 -  if os_type () = Sys.os_type then
--    Filename.concat a b
--  else if os_type () = "Unix" then
--    OASISUnixPath.concat a b
--  else
--    OASISUtils.failwithf (f_ "Cannot handle os_type %s filename concat")
--      (os_type ())
 +  let os = os_type () in
 +    if os = Sys.os_type then
 +      if Sys.os_type = "Win32" && OASISHostPath.use_bash () then
 +        OASISUnixPath.concat a b
 +      else
-+        Filename.concat a b
+     Filename.concat a b
+-  else if os_type () = "Unix" then
 +    else if os = "Unix" then
-+      OASISUnixPath.concat a b
-+    else
-+      OASISUtils.failwithf (f_ "Cannot handle os_type %s filename concat")
-+        (os_type ())
+     OASISUnixPath.concat a b
+   else
+     OASISUtils.failwithf (f_ "Cannot handle os_type %s filename concat")
+       (os_type ())
  (**/**)
  
 +let bash_cmd =
@@ -389,15 +236,48 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseStandardVar.ml ./src/base/BaseSta
  
  
  let debug =
-@@ -425,3 +467,5 @@
+@@ -391,14 +433,29 @@
+          let has_native_dynlink =
+            let ocamlfind = ocamlfind () in
+              try
+-               let fn =
++               (* -format %d/%a doesn't work, because ocamlfind quotes %d
++                * and %a separatly *)
++               let fn1 =
++                 OASISHostPath.ocamlfind_unquote (
++                   OASISExec.run_read_one_line
++                     ~ctxt:!BaseContext.default
++                     ocamlfind
++                     ["query"; "-predicates"; "native"; "dynlink";
++                      "-format"; "%d"] )
++               in
++               let fn2 =
++                 OASISHostPath.ocamlfind_unquote (
+                  OASISExec.run_read_one_line
+                    ~ctxt:!BaseContext.default
+                    ocamlfind
+                    ["query"; "-predicates"; "native"; "dynlink";
+-                    "-format"; "%d/%a"]
++                      "-format"; "%a"] )
+                in
+-                 Sys.file_exists fn
++                 if fn1 <> "" && fn2 <> "" &&
++                   Sys.file_exists (Filename.concat fn1 fn2) then
++                   true
++                 else
++                   false
+              with _ ->
+                false
+          in
+@@ -425,3 +482,5 @@
    rpkg := Some pkg;
    List.iter (fun f -> f pkg.oasis_version) !var_cond
  
 +let () =
 +  OASISHostPath.bash_cmd := bash_cmd
-diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseStandardVar.mli ./src/base/BaseStandardVar.mli
---- ../oasis-0.4.2.orig/src/base/BaseStandardVar.mli	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/base/BaseStandardVar.mli	2014-03-11 12:29:34.686465828 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.mli ./src/base/BaseStandardVar.mli
+--- ../oasis-0.4.4.orig/src/base/BaseStandardVar.mli	2014-03-26 02:14:11.000000000 +0100
++++ ./src/base/BaseStandardVar.mli	2014-03-26 11:20:25.000000000 +0100
 @@ -73,6 +73,9 @@
  val systhread_supported:      unit -> string
  
@@ -408,9 +288,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/base/BaseStandardVar.mli ./src/base/BaseSt
  (** {2 Paths}
  
      See {{:http://www.gnu.org/prep/standards/html_node/Directory-Variables.html} GNU standards}.
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISCustom.ml ./src/oasis/OASISCustom.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISCustom.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISCustom.ml	2014-03-11 14:43:33.422124617 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISCustom.ml ./src/oasis/OASISCustom.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISCustom.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISCustom.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -38,14 +38,14 @@
    let pre_command =
      new_field_conditional schm ("Pre"^nm^"Command")
@@ -428,21 +308,21 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISCustom.ml ./src/oasis/OASISCust
        hlp_post
        (fun pkg -> (sync pkg).post_command)
    in
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISExec.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISExec.ml	2014-03-11 13:02:23.955218580 +0100
-@@ -26,25 +26,215 @@
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISExec.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISExec.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -26,25 +26,221 @@
  open OASISMessage
  
  
 +
 +
 +(* In general, there is no chance to quote properly with the current
-+ * settings. ( Note, that this is only a problem, if BaseCustom.run is
-+ * used (e.g test commands, PreConfigure,....). Most of the time,
-+ * OASISExec.run is used with enabled quoting.
++ * settings. ( This is only a problem, if BaseCustom.run is used (e.g
++ * test commands, PreConfigure,....). Most of the time, OASISExec.run
++ * is used with enabled quoting.)
 + *
-+ * "$rm" should ideally expand to 'rm -f' (no quotes), but "$text_exec"
++ * "$rm" should ideally expand to 'rm -f' (no quotes), but "$test_exec"
 + * should ideally expand to '"C:\Program Files\dir\test.exe"' (with
 + * quotes). Paths with spaces are common on Windows, so this problem
 + * can't be ignored.
@@ -451,31 +331,31 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
 + * for trivial cases like $rm. You could add an additional parameter
 + * for $make in order to use a special compatibility mode, on windows
 + * you can use it to inform ocaml that a certain program is a shell
-+ * script ('sh.exe pcre-config'), ...
++ * script ('sh.exe pcre-config').
 + *
 + * An additional parameter (e.g. $rm_switches) would be ugly,
 + * especially for *nix users, who don't use space characters in their
 + * installation paths anyway.
 + *
-+ * Therefore, I use the following workaround which should work most of
-+ * the time:
++ * I use the following workaround, which should work most of the time:
++ *
 + * - if cmd doesn't contains spaces or other suspicious characters, it
-+ *   can be quoted in the usual way (not ambigous, I think)
++ * can be quoted in the usual way (not ambigous, I think)
++ *
 + * - if cmd does contain spaces, a file with this name exists, and the
-+ *   beginning of cmd looks like a absolute pathname
-+ *   ('\\test\dir\foo.exe' or "C:\\sa df\\foo.exe" - not "foo.exe" ), I
-+ *   will also quote it. (ambigous, there could be "C:\bin\rm.exe" and
-+ *   "C:\bin\rm -f.exe").  Relative filenames are not considered,
-+ *   because I assume the source code folder contains only well named
-+ *   files and relative paths like "../../make.exe" are uncommon
-+ *   (autoconf even rejects them)
-+ *)
++ * beginning of cmd looks like a absolute pathname
++ * ('\\test\dir\foo.exe' or "C:\\sa df\\foo.exe" - not "foo.exe" ), I
++ * will also quote it. (ambigous, there could be "C:\bin\rm.exe" and
++ * "C:\bin\rm -f.exe").  Relative filenames are not considered, because
++ * I assume the source code folder contains only well named files and
++ * relative paths like "../../make.exe" are uncommon (autoconf even
++ * rejects them) *)
 +
 +
 +(* stricter settings as for regular windows batch lines
 + * necessary because of shell comannds like:
 + *   LC_ALL=C make ....
-+*)
++ *)
 +let is_dubious_char = function
 +  | '~' | ':' | '.' | '-' | '_' | '/' | '\\' -> false
 +  | c ->
@@ -483,9 +363,15 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
 +    OASISString.is_alpha c = false
 +
 +
-+let win_quote_needed ~sep str =
-+  String.length str = 0 ||
-+  OASISString.exists ( fun c -> c = sep || c = '"' || OASISString.is_whitespace c ) str
++let win_quote_needed str =
++  let f = function
++    (* this list is not exhaustive. Feel free to added common chars, that
++     * can be passed to cmd.exe without quoting *)
++    | 'a' .. 'z'  | 'A' .. 'Z' | '0' .. '9'
++    | '_' | '-' | '~' | '.' | ':' | ',' | '\\' -> false
++    | _ -> true
++  in
++    str = "" || OASISString.exists f str
 +
 +let is_simple_command str =
 +  String.length str > 0 &&
@@ -573,7 +459,7 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
 +                  if Sys.os_type <> "Win32" then
 +                    Filename.quote bash
 +                  else
-+                    if win_quote_needed ~sep:'\\' bash = false then
++                    if win_quote_needed bash = false then
 +                      bash
 +                    else
 +                      begin
@@ -627,11 +513,10 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
 -          (* Double the 1st double quote... win32... sigh *)
 -          "\""^(Filename.quote cmd)
 -        else
--          cmd
 +        begin
-+          if win_quote_needed ~sep:'/' cmd = false then
-+            cmd
-+          else
++          if win_quote_needed cmd = false then
+           cmd
+       else
 +            begin
 +              (* Double the 1st double quote... win32... sigh *)
 +              (* Above comment ist false. The whole string must be quoted.
@@ -641,7 +526,7 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
 +              Filename.quote cmd
 +            end
 +        end
-       else
++      else
          Filename.quote cmd
      else
        cmd
@@ -655,7 +540,7 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
    in
      info ~ctxt (f_ "Running command '%s'") cmdline;
      match f_exit_code, Sys.command cmdline with
-@@ -57,6 +247,13 @@
+@@ -57,6 +253,13 @@
            f i
  
  
@@ -669,9 +554,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.m
  let run_read_output ~ctxt ?f_exit_code cmd args =
    let fn =
      Filename.temp_file "oasis-" ".txt"
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFileUtil.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISFileUtil.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISFileUtil.ml	2014-03-11 14:18:03.426068313 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFileUtil.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISFileUtil.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISFileUtil.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -100,7 +100,10 @@
        | _ ->
            [""]
@@ -683,7 +568,7 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFi
  
  
  (**/**)
-@@ -117,32 +120,31 @@
+@@ -117,32 +120,55 @@
        dn
  
  
@@ -701,20 +586,46 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFi
 -      | _ ->
 -          OASISExec.run ~ctxt
 -            "cp" ["-r"; q src; q tgt]
++    (*
++      'xcopy /E' and 'cp -r' don't have the same semantic!
++      -dir2 does exist:
++        xcopy dir dir2 /E -> copys content of dir into dir2 (dir2/dir doesn't exist!)
++        cp -r dir dir2    -> copys dir to dir2 (dir2/dir does exist!)
++      -dir2 doesn't exist:
++        xcopy dir dir2 /E -> request on command line, if dir2 is an directory or file.
++        cp -r dir dir2    -> dir and dir2 have the same content (dir2/dir doesn't exist)
++      Probably, there are even more differences,....
++    *)
 +    if Sys.os_type = "Win32" && OASISHostPath.use_bash () = false then
-+      OASISExec.run ~ctxt "xcopy" [q src; q tgt; "/E"]
-+    else
-+      OASISExec.run ~ctxt "cp" ["-r"; q src; q tgt]
++      let tgt_real =
++        if Sys.file_exists tgt = false then
++          begin
++            OASISExec.run ~ctxt "md" [q tgt];
++            tgt
++          end
    else
-     OASISExec.run ~ctxt
+-    OASISExec.run ~ctxt
 -      (match Sys.os_type with
 -       | "Win32" -> "copy"
 -       | _ -> "cp")
-+      ( if Sys.os_type = "Win32" && OASISHostPath.use_bash () = false then
-+          "copy"
-+        else
-+          "cp" )
-       [q src; q tgt]
+-      [q src; q tgt]
++          let base = Filename.basename src in
++          if base = "." then
++            tgt
++          else
++            let tgt_real = Filename.concat tgt base in
++              if Sys.file_exists tgt_real = false then
++                OASISExec.run ~ctxt "md" [q tgt_real];
++            tgt_real
++      in
++      OASISExec.run ~ctxt "xcopy" [q src; q tgt_real; "/E" ; "/Q" ; "/Y"]
++    else
++      OASISExec.run ~ctxt "cp" ["-r"; q src; q tgt]
++  else
++    if Sys.os_type = "Win32" && OASISHostPath.use_bash () = false then
++      OASISExec.run ~ctxt "copy" [q src; q tgt ; "/Y"]
++    else
++      OASISExec.run ~ctxt "cp" [q src; q tgt]
  
  
  let mkdir ~ctxt tgt =
@@ -729,22 +640,22 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFi
      [q tgt]
  
  
-@@ -172,10 +174,9 @@
- let rmdir ~ctxt tgt =
-   if Sys.readdir tgt = [||] then
-     begin
--      match Sys.os_type with
--        | "Win32" ->
-+      if Sys.os_type = "Win32" && not (OASISHostPath.use_bash ()) then
-             OASISExec.run ~ctxt "rd" [q tgt]
--        | _ ->
-+      else
-             OASISExec.run ~ctxt "rm" ["-r"; q tgt]
-     end
+@@ -171,10 +197,9 @@
  
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASISHostPath.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISHostPath.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISHostPath.ml	2014-03-11 12:29:28.890299685 +0100
+ let rmdir ~ctxt tgt =
+   if Sys.readdir tgt = [||] then begin
+-    match Sys.os_type with
+-      | "Win32" ->
++    if Sys.os_type = "Win32" && OASISHostPath.use_bash () = false then
+           OASISExec.run ~ctxt "rd" [q tgt]
+-      | _ ->
++    else
+           OASISExec.run ~ctxt "rm" ["-r"; q tgt]
+   end else begin
+     OASISMessage.error ~ctxt
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASISHostPath.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISHostPath.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -26,6 +26,118 @@
  
  module Unix = OASISUnixPath
@@ -864,17 +775,14 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASISHo
  
  let make =
    function
-@@ -35,20 +147,17 @@
+@@ -35,20 +147,32 @@
          List.fold_left Filename.concat hd tl
  
  
 -let of_unix ufn =
 -  if Sys.os_type = "Unix" then
 -    ufn
-+let of_unix str =
-+  if win = false then
-+    str
-   else
+-  else
 -    make
 -      (List.map
 -         (fun p ->
@@ -882,21 +790,40 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASISHo
 -              current_dir_name
 -            else if p = Unix.parent_dir_name then
 -              parent_dir_name
++let of_unix str =
++  if win = false then
++    str
++  else
 +    let path_sep =
 +      if use_bash () then
 +        "/"
-             else
--              p)
--         (OASISString.nsplit ufn '/'))
++            else
 +        "\\"
 +    in
 +      uniform_path path_sep str
++
++
++
++(* see findlib's src/findlib/frontend.ml for details *)
++let ocamlfind_unquote dir =
++  match Sys.os_type with
++    | "Cygwin"
++    | "Win32" ->
++      let len = String.length dir in
++        if len < 3 || dir.[0] <> '"' || dir.[len - 1] <> '"' ||
++          String.contains dir ' ' = false then
++          dir
+             else
+-              p)
+-         (OASISString.nsplit ufn '/'))
++          String.sub dir 1 (len - 2)
++    | _ -> dir
  
  
  (* END EXPORT *)
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISHostPath.mli ./src/oasis/OASISHostPath.mli
---- ../oasis-0.4.2.orig/src/oasis/OASISHostPath.mli	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISHostPath.mli	2014-03-11 12:29:28.890299685 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.mli ./src/oasis/OASISHostPath.mli
+--- ../oasis-0.4.4.orig/src/oasis/OASISHostPath.mli	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISHostPath.mli	2014-03-26 11:21:30.000000000 +0100
 @@ -29,6 +29,27 @@
  open OASISTypes
  
@@ -925,9 +852,20 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISHostPath.mli ./src/oasis/OASISH
  (** Create a filename out of its components.
    *)
  val make: host_filename list -> host_filename
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISString.ml ./src/oasis/OASISString.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISString.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISString.ml	2014-03-11 12:29:28.890299685 +0100
+@@ -57,5 +78,9 @@
+ val add_extension: host_filename -> string -> host_filename
+ 
+ 
++(** Unquote functions for filenames from 'ocamlfind query ...' *)
++val ocamlfind_unquote: string -> string
++
++
+ (** Map for host filename. {b Not exported.} *)
+ module Map: OASISUtils.MapExt.S with type key = host_filename
+Nur in ./src/oasis: OASISHostPath.mli.orig.
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISString.ml ./src/oasis/OASISString.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISString.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISString.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -149,15 +149,30 @@
      done;
      buf
@@ -960,10 +898,10 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISString.ml ./src/oasis/OASISStri
  
  let tokenize ?(is_whitespace=is_whitespace) ?(tokens=[]) str =
    let lst = ref [] in
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISValues.ml ./src/oasis/OASISValues.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISValues.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISValues.ml	2014-03-11 14:53:35.479787579 +0100
-@@ -474,6 +474,38 @@
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.ml ./src/oasis/OASISValues.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISValues.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISValues.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -484,6 +484,38 @@
             space_separated.print (cmd :: args))
      }
  
@@ -1002,9 +940,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISValues.ml ./src/oasis/OASISValu
  
  let command_line_options =
    { parse = (fun ~ctxt s -> POSIXShell.split s);
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISValues.mli ./src/oasis/OASISValues.mli
---- ../oasis-0.4.2.orig/src/oasis/OASISValues.mli	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISValues.mli	2014-03-11 12:29:28.890299685 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.mli ./src/oasis/OASISValues.mli
+--- ../oasis-0.4.4.orig/src/oasis/OASISValues.mli	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISValues.mli	2014-03-26 11:20:25.000000000 +0100
 @@ -183,6 +183,9 @@
  val command_line: (string * string list) t
  
@@ -1015,9 +953,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISValues.mli ./src/oasis/OASISVal
  (** Arguments of command line programs.  See {!OASISUtils.POSIX.split}
      for more information. *)
  val command_line_options: string list t
-diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISVersion.ml ./src/oasis/OASISVersion.ml
---- ../oasis-0.4.2.orig/src/oasis/OASISVersion.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/oasis/OASISVersion.ml	2014-03-11 12:29:28.890299685 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISVersion.ml ./src/oasis/OASISVersion.ml
+--- ../oasis-0.4.4.orig/src/oasis/OASISVersion.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/oasis/OASISVersion.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -45,12 +45,10 @@
  
  
@@ -1033,9 +971,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/oasis/OASISVersion.ml ./src/oasis/OASISVer
  
  
  let is_special =
-diff -r -N -u ../oasis-0.4.2.orig/src/plugins/custom/CustomPlugin.ml ./src/plugins/custom/CustomPlugin.ml
---- ../oasis-0.4.2.orig/src/plugins/custom/CustomPlugin.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/plugins/custom/CustomPlugin.ml	2014-03-11 14:32:38.557870148 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/custom/CustomPlugin.ml ./src/plugins/custom/CustomPlugin.ml
+--- ../oasis-0.4.4.orig/src/plugins/custom/CustomPlugin.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/plugins/custom/CustomPlugin.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -217,7 +217,7 @@
        schema
        id
@@ -1081,9 +1019,9 @@ diff -r -N -u ../oasis-0.4.2.orig/src/plugins/custom/CustomPlugin.ml ./src/plugi
        (fun () ->
           s_ "Run command to distclean test step.")
        test_data (fun _ t -> t.cmd_distclean)
-diff -r -N -u ../oasis-0.4.2.orig/src/plugins/internal/InternalInstallPlugin.ml ./src/plugins/internal/InternalInstallPlugin.ml
---- ../oasis-0.4.2.orig/src/plugins/internal/InternalInstallPlugin.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/plugins/internal/InternalInstallPlugin.ml	2014-03-11 12:29:28.894299799 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.ml ./src/plugins/internal/InternalInstallPlugin.ml
+--- ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/plugins/internal/InternalInstallPlugin.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -63,11 +63,19 @@
    "install-findlib"
  
@@ -1107,9 +1045,24 @@ diff -r -N -u ../oasis-0.4.2.orig/src/plugins/internal/InternalInstallPlugin.ml 
      (* Arguments for the first command: *)
      let first_args = ["install"; findlib_name; meta] in
      (* Arguments for remaining commands: *)
-diff -r -N -u ../oasis-0.4.2.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml ./src/plugins/ocamlbuild/OCamlbuildCommon.ml
---- ../oasis-0.4.2.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-11 12:29:28.894299799 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml
+--- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 11:37:07.000000000 +0100
+@@ -93,7 +93,9 @@
+   with Not_found -> s
+ 
+ (* ocamlfind command *)
+-let ocamlfind x = S[Sh (exec_from_conf "ocamlfind"); x]
++let ocamlfind x = S[Sh (
++  Ocamlbuild_pack.Shell.quote_filename_if_needed
++    (exec_from_conf "ocamlfind") ); x]
+ 
+ (* This lists all supported packages. *)
+ let find_packages () =
+Nur in ./src/plugins/ocamlbuild: MyOCamlbuildFindlib.ml.orig.
+diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml ./src/plugins/ocamlbuild/OCamlbuildCommon.ml
+--- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-26 11:20:25.000000000 +0100
 @@ -56,7 +56,7 @@
            "-no-log";
            "-no-links";
@@ -1119,31 +1072,137 @@ diff -r -N -u ../oasis-0.4.2.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml ./s
          ]
        else
          [];
-diff -r -N -u ../oasis-0.4.2.orig/test/TestFull.ml ./test/TestFull.ml
---- ../oasis-0.4.2.orig/test/TestFull.ml	2014-02-23 13:05:14.000000000 +0100
-+++ ./test/TestFull.ml	2014-03-11 12:29:28.894299799 +0100
+diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFull.ml ./test/TestFull.ml
+--- ../oasis-0.4.4.orig/test/TestFull.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./test/TestFull.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -39,8 +39,8 @@
+     else
+       false
+   in
+-  let setup_test_directories test_ctxt fpath path =
+-    setup_test_directories test_ctxt ~is_native
++  let setup_test_directories ?tmpdir_prefix test_ctxt fpath path =
++    setup_test_directories ?tmpdir_prefix test_ctxt ~is_native
+       ~native_dynlink:(native_dynlink test_ctxt)
+       (fpath test_ctxt path)
+   in
 @@ -314,6 +314,24 @@
           (* Run standard test. *)
           standard_test test_ctxt t);
  
-+    "examples//with test space" >::
++    "examples/with test space" >::
 +    (fun test_ctxt ->
-+       let () = skip_long_test test_ctxt in
 +       let () =
 +         skip_long_test test_ctxt;
-+         skip_if
-+           (Sys.os_type <> "Win32")
-+           "Folders with spaces are only supported on windows"
++         skip_if (Sys.os_type <> "Win32") "Win32 only test"
 +       in
 +       let t =
-+         setup_test_directories test_ctxt in_example_dir ["examples//with test space"]
++         setup_test_directories ~tmpdir_prefix:"s p a c e" test_ctxt 
++           in_example_dir ["with test space"]
 +       in
 +         oasis_setup test_ctxt t;
-+         (* Setup expectation. *)
-+         register_generated_files t oasis_ocamlbuild_files;
-+         (* Run standard test. *)
-+         standard_test test_ctxt t);
++         run_ocaml_setup_ml test_ctxt t
++           ["-configure"; "--enable-tests"];
++         run_ocaml_setup_ml test_ctxt t
++           ["-build"];
++         run_ocaml_setup_ml test_ctxt t
++           ["-test"]; );
 +
      (* Use sub-packages *)
      "examples/with-subpackage" >::
      (fun test_ctxt ->
+diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFullUtils.ml ./test/TestFullUtils.ml
+--- ../oasis-0.4.4.orig/test/TestFullUtils.ml	2014-03-26 02:14:11.000000000 +0100
++++ ./test/TestFullUtils.ml	2014-03-26 11:20:25.000000000 +0100
+@@ -193,9 +193,14 @@
+ 
+ 
+ (* Create tree structure for a test project and copy it there. *)
+-let setup_test_directories test_ctxt ~is_native ~native_dynlink dn =
++let setup_test_directories ?tmpdir_prefix test_ctxt ~is_native ~native_dynlink dn =
+   (* Create a temporary directory. *)
+-  let tmpdir = bracket_tmpdir test_ctxt in
++  let prefix =
++    match tmpdir_prefix with
++      | None -> "ounit-"
++      | Some x -> x
++  in
++  let tmpdir = bracket_tmpdir ~prefix test_ctxt in
+ 
+   (* Copy sources in this temporary directory. *)
+   let src_dir =
+@@ -256,7 +261,8 @@
+ (* Precompile setup.ml to speedup the tests, if possible. *)
+ let rec precompile_setup_ml test_ctxt t =
+   let setup_exe =
+-    Filename.concat t.precompile_dir (Filename.chop_extension setup_ml)
++    exec (Filename.concat t.precompile_dir
++            (Filename.chop_extension setup_ml))
+   in
+   let full_setup_ml = in_src_dir t setup_ml in
+ 
+@@ -280,16 +286,17 @@
+     let timer = timer_start "precompile_setup_ml" in
+     let exit_code =
+       FileUtil.cp ~force:FileUtil.Force [full_setup_ml] t.precompile_dir;
+-      Sys.command ("ocamlfind ocamlc -o "^setup_exe^" "
+-                   ^(Filename.concat t.precompile_dir setup_ml))
++      let f1 = Filename.quote setup_exe in
++      let f2 = Filename.quote (Filename.concat t.precompile_dir setup_ml) in
++        Sys.command ("ocamlfind ocamlc -o "^f1^" "^f2)
+     in
+     timer_stop test_ctxt timer;
+     if exit_code = 0 then begin
+       (* Compilation succeed, update the digest *)
+-      logf test_ctxt `Info "Compilation of setup.ml succeeds.";
++      logf test_ctxt `Info "Compilation of setup.ml (%S) succeeds." setup_exe;
+       `Done_for (Digest.file full_setup_ml)
+     end else begin
+-      logf test_ctxt `Warning "Compilation of setup.ml doesn't succeed.";
++      logf test_ctxt `Warning "Compilation of setup.ml (%S) doesn't succeed." setup_exe;
+       `Not_possible
+     end
+   in
+@@ -308,7 +315,7 @@
+ 
+       | `Done_for digest ->
+           if (Digest.file full_setup_ml) = digest then begin
+-            Some (exec setup_exe)
++            Some setup_exe
+           end else begin
+             t.setup_ml_precompiled <- compile ();
+             precompile_setup_ml test_ctxt t
+@@ -526,6 +533,10 @@
+   | InstalledBin of filename list
+ 
+ 
++
++let system =
++  (BaseOCamlcConfig.var_define "system") ()
++
+ (* Register a set of files expected to be built. *)
+ let register_installed_files test_ctxt t installed_files_lst =
+   let rec file_list =
+@@ -586,7 +597,12 @@
+                acc
+            | "a" ->
+                let fn =
+-                 if is_win32 then FilePath.replace_extension fn "lib" else fn
++                 if not is_win32 then
++                   fn
++                 else
++                   match system with
++                     | "mingw" | "mingw64" -> fn
++                     | _ -> FilePath.replace_extension fn "lib"
+                in
+                  if (* library matching the .cmxa *)
+                    t.is_native ||
+@@ -598,7 +614,7 @@
+                    (* no .a matching bytecode only library. *)
+                    acc
+            | "so" when is_win32 ->
+-               (FilePath.replace_extension fn ".dll") :: acc
++               (FilePath.replace_extension fn "dll") :: acc
+            | _ ->
+                fn :: acc)
+       [] lst

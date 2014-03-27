@@ -1,0 +1,55 @@
+diff -N -r -u "../oasis-0.4.3.orig/examples/with test space/_oasis" "./examples/with test space/_oasis"
+--- "../oasis-0.4.3.orig/examples/with test space/_oasis"	1970-01-01 00:00:00.000000000 +0000
++++ "./examples/with test space/_oasis"	2014-03-15 13:36:04.011600000 +0000
+@@ -0,0 +1,24 @@
++OASISFormat: 0.4
++Name:        spacetest
++Version:     0.0.1
++Synopsis:    test folders with space
++Authors:     andreas@ml.ignorelist.com
++License:     GPL-3
++Plugins:     META (0.4)
++
++Library argv
++  Path:       src
++  BuildTools: ocamlbuild
++  Modules: Argv
++
++Executable "test_main"
++  Path:         tests
++  Build$:       flag(tests)
++  MainIs:       main.ml
++  BuildDepends: argv
++  BuildTools:   ocamlbuild
++  Install:      false
++
++Test main
++  Type: Custom (0.2)
++  Command: $test_main 3 2 1
+diff -N -r -u "../oasis-0.4.3.orig/examples/with test space/src/argv.ml" "./examples/with test space/src/argv.ml"
+--- "../oasis-0.4.3.orig/examples/with test space/src/argv.ml"	1970-01-01 00:00:00.000000000 +0000
++++ "./examples/with test space/src/argv.ml"	2014-03-15 13:36:04.011600000 +0000
+@@ -0,0 +1,10 @@
++let test () =
++  let argv_len = Array.length Sys.argv in
++    if argv_len < 2 then
++      true
++    else
++      try
++        let len = int_of_string Sys.argv.(1) in
++          len = pred argv_len
++      with
++        | _ -> false
+diff -N -r -u "../oasis-0.4.3.orig/examples/with test space/tests/main.ml" "./examples/with test space/tests/main.ml"
+--- "../oasis-0.4.3.orig/examples/with test space/tests/main.ml"	1970-01-01 00:00:00.000000000 +0000
++++ "./examples/with test space/tests/main.ml"	2014-03-15 13:36:04.011600000 +0000
+@@ -0,0 +1,9 @@
++let () =
++  if Argv.test () then (
++    print_endline "Ok!";
++    exit 0
++  )
++  else (
++    prerr_endline "Error!";
++    exit 1
++  )
