@@ -1,5 +1,5 @@
 --- mk/build/mk/bsd.pkg.mk.orig	2013-04-14 13:03:20.000000000 +0000
-+++ mk/build/mk/bsd.pkg.mk	2014-03-14 19:54:16.810400000 +0000
++++ mk/build/mk/bsd.pkg.mk	2014-04-05 13:49:05.174000000 +0000
 @@ -34,6 +34,14 @@
  # PACKAGE FIXUP
  ######################################################################
@@ -173,7 +173,7 @@
  BUILD_DEPENDS += godi-core-script-*
  .else
  .  if defined(CONF_SCRIPT_TEXT)
-@@ -406,7 +524,11 @@
+@@ -406,13 +524,207 @@
  CONFIGURE_SCRIPT:=${GODI_SCRIPT} -c ${CONF_SCRIPT_FULL_TEXT:Q}
  BUILD_DEPENDS += godi-core-script>=3.0.18
  .  else
@@ -186,7 +186,203 @@
  .  endif
  .endif
  
-@@ -442,6 +564,161 @@
+ CONFIGURE_ARGS:=${CONF_SCRIPT_ARGS}
+ .endif
+ 
++### WINGMAKE ###
++.if defined(WINGMAKE) && ${WINGMAKE} == "yes"
++MAINTAINER?=		gmake@ml.ignorelist.com
++MAKE_PROGRAM=		${GMAKE}
++
++
++WINGMAKE_IMAGEDIR=  	${WRKDIR}/image
++WINGMAKE_IMAGEDIRWIN=	${CYGWIN_ROOT}${WRKDIR}/image
++
++AUTOGENERATE_PLIST=	yes
++AUTOGENERATE_IMAGE=	${WINGMAKE_IMAGEDIRWIN}${LOCALBASE}
++
++CONFIGURE_ENV+=		${BUILD_OCAMLFIND_ENV}
++MAKE_ENV+=		${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
++
++CONFIGURE_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++BUILD_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++INSTALL_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++
++
++CONFIGURE_SCRIPT?= ${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} wingmake-configure
++
++
++.if defined(HAS_CONFIGURE) && ${HAS_CONFIGURE} == "yes"
++WINGMAKE_CONFIGURE?=	${WRKSRC}/configure
++.else
++WINGMAKE_CONFIGURE?=	no
++HAS_CONFIGURE=		yes
++.endif
++
++WINGMAKE_HTML_DIR?=	#empty
++
++wingmake-configure:
++.script
++.  import LOCALBASE WRKSRC PKGDIR CHMOD
++.  import WINGMAKE_CONFIGURE CONFIGURE_ARGS PAX
++.  expand
++	${_PKG_SILENT}${_PKG_DEBUG}
++.  noexpand
++set -e
++unset DEBUG PROFILE TEST TESTS
++if [ -d "${PKGDIR}/files" ]; then
++  echo "files exists"
++  files_found=0
++  cd "${PKGDIR}/files"
++  for f in * .* ; do
++    if [ -e "$f" ]; then
++      files_found=1;
++      break;
++    fi
++  done
++  if [ $files_found -eq 1 ]; then
++    echo ${PAX} -rw -pp . "${WRKSRC}"
++    ${PAX} -rw -pp . "${WRKSRC}"
++  fi
++fi
++cd "$WRKSRC"
++if [ "$WINGMAKE_CONFIGURE" != "no" ]; then
++  case "${WINGMAKE_CONFIGURE}" in
++    "${WRKSRC}"*)
++	if [ -f "${WINGMAKE_CONFIGURE}" ]; then
++          ${CHMOD} 0755 "${WINGMAKE_CONFIGURE}"
++	fi
++	;;
++  esac
++
++  if [ -z "$CONFIGURE_ARGS" ]; then
++	${WINGMAKE_CONFIGURE}
++  else
++	${WINGMAKE_CONFIGURE} ${CONFIGURE_ARGS}
++  fi
++fi
++.endscript
++
++INSTALL_SCRIPT?= ${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} wingmake-install
++WINGMAKE_DESTDIR?=	yes
++WINGMAKE_IMPORT?=	
++
++DESTDIR=${AUTOGENERATE_IMAGE:Q}
++
++wingmake-install:
++.script
++.  import INSTALL WINGMAKE_IMAGEDIR LOCALBASE PKGBASE WRKSRC GREP FILE_CMD WINGMAKE_DESTDIR MAKE_FLAGS MAKEFILE INSTALL_TARGET GMAKE WINGMAKE_IMPORT MKDIR MV WINGMAKE_HTML_DIR PAX
++.  expand
++	${_PKG_SILENT}${_PKG_DEBUG}
++.  noexpand
++set -e
++unset DEBUG PROFILE TEST TESTS
++
++${MKDIR} "${WINGMAKE_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}"
++cd "${WRKSRC}"
++
++if [ "${WINGMAKE_DESTDIR}" = "yes" ]; then
++	echo ${GMAKE} "DESTDIR=${WINGMAKE_IMAGEDIR}" ${MAKE_FLAGS} -f ${MAKEFILE} ${INSTALL_TARGET}
++	${GMAKE} "DESTDIR=${WINGMAKE_IMAGEDIR}" ${MAKE_FLAGS} -f ${MAKEFILE} ${INSTALL_TARGET}
++else
++	${GMAKE} ${MAKE_FLAGS} -f "${MAKEFILE}" ${INSTALL_TARGET}
++fi
++
++if [ -n "$WINGMAKE_IMPORT" ]; then
++ for f in $WINGMAKE_IMPORT ; do
++	if [ -d "${LOCALBASE}/${f}" ] || [ -f "${LOCALBASE}/${f}" ]; then
++	  mdirname=$(dirname "${LOCALBASE}/${f}")
++	  ${MKDIR} "${WINGMAKE_IMAGEDIR}${LOCALBASE}/${mdirname}"
++	  ${MV} "${LOCALBASE}/${f}" "${WINGMAKE_IMAGEDIR}${LOCALBASE}/${mdirname}"
++	fi
++ done
++fi
++
++if [ -n "$WINGMAKE_HTML_DIR" ]; then
++  if [ -d "${WRKSRC}/${WINGMAKE_HTML_DIR}" ]; then
++    ${MKDIR} "${WINGMAKE_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}/html"
++    cd "${WINGMAKE_HTML_DIR}"
++    ${PAX} -rw -pp . "${WINGMAKE_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}/html"
++    cd "${WRKSRC}"
++  fi
++fi
++
++for F in *.[Tt][Xx][Tt] *.[Mm][Dd] *.[Hh][Tt][Mm] *.[Hh][Tt][Mm][Ll] *.[Cc][Ss][Ss] *.[Pp][Dd][Ff] \
++	 [Aa][Uu][Tt][Hh][Oo][Rr][Ss] [Rr][Ee][Aa][Dd][Mm][Ee] [Ll][Ii][Cc][Ee][Nn][Ss][Ee] [Tt][Oo][Dd][Oo] \
++	[Cc][Hh][Aa][Nn][Gg][Ee][Ss] [Cc][Oo][Pp][Yy][Ii][Nn][Gg] [Cc][Hh][Aa][Nn][Gg][Ee][Ll][Oo][Gg] \
++	[Vv][Ee][Rr][Ss][Ii][Oo][Nn] [Gg][Pp][Ll] [Ll][Gg][Pp][Ll] [Mm][Ii][Tt] [Ii][Nn][Ss][Tt][Aa][Ll][Ll] ; do
++	if [ -f "$F" ] && [ ! -h "$F" ]; then
++	  $INSTALL -m 0644 "$F" "${WINGMAKE_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}"
++	fi
++done
++cd "${WRKSRC}"
++for file in * ; do
++	ok=0
++	case "$file" in
++	  _*) continue ;;
++	  .*) continue ;;
++          *.[Ss][Hh]) continue ;;
++          *.[Cc]) continue ;;
++          *.[Cc][Cc]) continue ;;
++          *.[Cc][Pp][Pp]) continue ;;
++          *.[Hh]) continue ;;
++          *.[Pp][Ll]) continue ;;
++          *.[Mm][Ll]) continue ;;
++          *.[Mm][Ll][Ii]) continue ;;
++          *.[Ii][Nn]) continue ;;
++          *.[Aa][Mm]) continue ;;
++	  *[Aa][Uu][Tt][Hh][Oo][Rr]*) ok=1 ;;
++	  *[Cc][Hh][Aa][Nn][Gg]*) ok=1 ;;
++	  *[Cc][Oo][Pp][Yy]*) ok=1 ;;
++	  *[Ll][Ii][Cc][Ee]*) ok=1 ;;
++	  *[Rr][Ee][Aa][Dd][Mm][Ee]*) ok=1 ;;
++	  *[Dd][Ii][Ss][Cc][Ll][Aa][Ii][Mm]*) ok=1 ;;
++	  *[Tt][Hh][Ii][Rr][Dd]-[Pp][Aa][Rr][Tt]*) ok=1 ;;
++	  *[Gg][Pp][Ll]*) ok=1 ;;
++	  *[Bb][Oo][Oo][Ss][Tt]*) ok=1 ;;
++	  *[Ff][Aa][Qq]*) ok=1 ;;
++	  *[Tt][Oo][Dd][Oo]*) ok=1 ;;
++	  *[Hh][Aa][Cc][Kk][Ii][Nn][Gg]*) ok=1 ;;
++	  *[Nn][Oo][Tt][Ee]*) ok=1 ;;
++	  *[Rr][Ee][Ll][Ee][Aa][Ss][Ee]*) ok=1 ;;
++	  *[Mm][Aa][Ii][Nn][Tt][Aa][Ii][Nn]*) ok=1 ;;
++	  *[Nn][Ee][Ww][Ss]*) ok=1 ;;
++	  *[Aa][Cc][Kk][Nn][Oo][Ww][Ll][Ee][Dd][Gg][Ee]*) ok=1 ;;
++	  *[Pp][Rr][Oo][Bb][Ll][Ee][Mm]*) ok=1 ;;
++	  *[Ff][Ee][Aa][Uu][Tt][Uu][Rr][Ee]*) ok=1 ;;
++	  *[Hh][Ee][Ll][Pp]*) ok=1 ;;
++	  *[Ii][Nn][Tt][Rr][Oo]*) ok=1 ;;
++	  *.*) continue ;;
++	  [Ii][Nn][Ss][Tt][Aa][Ll][Ll]-[Ss][Hh]*) continue ;;
++	  [Bb][Oo][Oo][Tt][Ss][Tt][Rr][Aa][Pp]*) continue ;;
++	  [Dd][Ee][Pp]) continue ;;
++	  [Dd][Ee][Pp][Ee][Nn][Dd]*) continue ;;
++	  [Dd][Ee][Pp][Cc][Oo]*) continue ;;
++	  *[Mm][Kk][Ff][Ii]*) continue;;
++	  META) continue ;;
++	  O[Mm]*) continue ;;
++	  *[Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]*) continue ;;
++	  [Cc][Oo][Nn][Ff][Ii][Gg]*) continue ;;
++	  [A-Za-z]*) ok=1;;
++	  *) continue ;;
++	esac
++	if [ $ok -eq 1 ] && [ -f "$file" ] && [ ! -h "$file" ] ; then
++	   if $FILE_CMD "$file" | $GREP -q -i ' text' ; then
++		$INSTALL -m 0644 "$file" "${WINGMAKE_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}"
++	   fi
++	fi
++done
++.	endscript
++
++
++
++.endif  # WINGMAKE
++
++
+ 
+ # --- OASIS ---
+ 
+@@ -442,6 +754,190 @@
  AUTOGENERATE_IMAGE=	${WRKDIR}/image/${LOCALBASE}
  .endif
  
@@ -312,31 +508,60 @@
 +	fi
 +done
 +
-+for F in * ; do
++cd "${WRKSRC}"
++for file in * ; do
 +	ok=0
-+	case "$F" in
-+	*.*)
-+	  ok=0
-+	;;
-+	META)
-+	  ok=0
-+	;;
-+	*[Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]*)
-+	  ok=0
-+	;;
-+	[Cc][Oo][Nn][Ff][Ii][Gg][Uu][Rr][Ee])
-+	  ok=0
-+	;;
-+	[A-Za-z]*)
-+	  ok=1
-+	;;
-+	*)
-+	  ok=0
-+	;;
++	case "$file" in
++	  _*) continue ;;
++	  .*) continue ;;
++          *.[Ss][Hh]) continue ;;
++          *.[Cc]) continue ;;
++          *.[Cc][Cc]) continue ;;
++          *.[Cc][Pp][Pp]) continue ;;
++          *.[Hh]) continue ;;
++          *.[Pp][Ll]) continue ;;
++          *.[Mm][Ll]) continue ;;
++          *.[Mm][Ll][Ii]) continue ;;
++          *.[Ii][Nn]) continue ;;
++          *.[Aa][Mm]) continue ;;
++	  *[Aa][Uu][Tt][Hh][Oo][Rr]*) ok=1 ;;
++	  *[Cc][Hh][Aa][Nn][Gg]*) ok=1 ;;
++	  *[Cc][Oo][Pp][Yy]*) ok=1 ;;
++	  *[Ll][Ii][Cc][Ee]*) ok=1 ;;
++	  *[Rr][Ee][Aa][Dd][Mm][Ee]*) ok=1 ;;
++	  *[Dd][Ii][Ss][Cc][Ll][Aa][Ii][Mm]*) ok=1 ;;
++	  *[Tt][Hh][Ii][Rr][Dd]-[Pp][Aa][Rr][Tt]*) ok=1 ;;
++	  *[Gg][Pp][Ll]*) ok=1 ;;
++	  *[Bb][Oo][Oo][Ss][Tt]*) ok=1 ;;
++	  *[Ff][Aa][Qq]*) ok=1 ;;
++	  *[Tt][Oo][Dd][Oo]*) ok=1 ;;
++	  *[Hh][Aa][Cc][Kk][Ii][Nn][Gg]*) ok=1 ;;
++	  *[Nn][Oo][Tt][Ee]*) ok=1 ;;
++	  *[Rr][Ee][Ll][Ee][Aa][Ss][Ee]*) ok=1 ;;
++	  *[Mm][Aa][Ii][Nn][Tt][Aa][Ii][Nn]*) ok=1 ;;
++	  *[Nn][Ee][Ww][Ss]*) ok=1 ;;
++	  *[Aa][Cc][Kk][Nn][Oo][Ww][Ll][Ee][Dd][Gg][Ee]*) ok=1 ;;
++	  *[Pp][Rr][Oo][Bb][Ll][Ee][Mm]*) ok=1 ;;
++	  *[Ff][Ee][Aa][Uu][Tt][Uu][Rr][Ee]*) ok=1 ;;
++	  *[Hh][Ee][Ll][Pp]*) ok=1 ;;
++	  *[Ii][Nn][Tt][Rr][Oo]*) ok=1 ;;
++	  *.*) continue ;;
++	  [Ii][Nn][Ss][Tt][Aa][Ll][Ll]-[Ss][Hh]*) continue ;;
++	  [Bb][Oo][Oo][Tt][Ss][Tt][Rr][Aa][Pp]*) continue ;;
++	  [Dd][Ee][Pp]) continue ;;
++	  [Dd][Ee][Pp][Ee][Nn][Dd]*) continue ;;
++	  [Dd][Ee][Pp][Cc][Oo]*) continue ;;
++	  *[Mm][Kk][Ff][Ii]*) continue;;
++	  META) continue ;;
++	  O[Mm]*) continue ;;
++	  *[Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]*) continue ;;
++	  [Cc][Oo][Nn][Ff][Ii][Gg]*) continue ;;
++	  [A-Za-z]*) ok=1;;
++	  *) continue ;;
 +	esac
-+	if [ $ok -eq 1 ] && [ -f "$F" ] && [ ! -h "$F" ] ; then
-+	   if $FILE_CMD "$F" | $GREP -q -i ' text' ; then
-+		$INSTALL -m 0644 "$F" "${WINOASIS_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}"
++	if [ $ok -eq 1 ] && [ -f "$file" ] && [ ! -h "$file" ] ; then
++	   if $FILE_CMD "$file" | $GREP -q -i ' text' ; then
++		$INSTALL -m 0644 "$file" "${WINOASIS_IMAGEDIR}/${LOCALBASE}/doc/${PKGBASE}"
 +	   fi
 +	fi
 +done
@@ -348,7 +573,7 @@
  
  # --- other ---
  
-@@ -623,10 +900,12 @@
+@@ -623,10 +1119,12 @@
  			${DEPENDS:D-set-dependencies ${DEPENDS:QQ}} \
  			${BUILD_DEPENDS:D-set-build-dependencies ${BUILD_DEPENDS:QQ}} \
  			${CONFLICTS:D-set-conflicts ${CONFLICTS:QQ}} \
@@ -362,7 +587,7 @@
  			${SRC_FPRINT:D-set-src-fingerprint ${SRC_FPRINT:QQ}}
  
  ######################################################################
-@@ -637,15 +916,23 @@
+@@ -637,15 +1135,23 @@
  INSTALL_TARGET?=	install
  
  CONFIGURE_SCRIPT?=	./configure
@@ -388,7 +613,7 @@
  
  ALLFILES?=	${DISTFILES}
  CKSUMFILES?=	${ALLFILES}
-@@ -934,6 +1221,7 @@
+@@ -934,6 +1440,7 @@
  	    return 1
  	fi
  	source=`cat "$PKGDIR"/.source 2>/dev/null || true`
@@ -396,7 +621,7 @@
          for site in $sites; do
  	    right_source=0
  	    case "$site" in
-@@ -1118,7 +1406,7 @@
+@@ -1118,7 +1625,7 @@
  
  _EXTRACT_SUFFICES=	.tar.gz .tgz .tar.bz2 .tbz .tar.Z .tar
  _EXTRACT_SUFFICES+=	.shar.gz .shar.bz2 .shar.Z .shar
@@ -405,7 +630,7 @@
  
  ## GODI: We do not support zip, lha, zoo
  
-@@ -1126,6 +1414,10 @@
+@@ -1126,6 +1633,10 @@
  DECOMPRESS_CMD.tgz=		${DECOMPRESS_CMD.tar.gz}
  DECOMPRESS_CMD.tar.bz2=	 	${BZCAT}
  DECOMPRESS_CMD.tbz=		${DECOMPRESS_CMD.tar.bz2}
@@ -416,7 +641,7 @@
  DECOMPRESS_CMD.tar.Z=		${GZCAT}
  DECOMPRESS_CMD.tar=		${CAT}
  
-@@ -1137,6 +1429,8 @@
+@@ -1137,6 +1648,8 @@
  DECOMPRESS_CMD.Z=		${GZCAT}
  DECOMPRESS_CMD.bz2=		${BZCAT}
  DECOMPRESS_CMD.gz=		${GZCAT}
@@ -425,7 +650,7 @@
  
  .undef EXTRACT_CMD.tar.gz
  .undef EXTRACT_CMD.tgz
-@@ -1157,6 +1451,8 @@
+@@ -1157,6 +1670,8 @@
  
  DOWNLOADED_DISTFILE=	$${extract_file}
  
@@ -434,7 +659,7 @@
  .for __suffix__ in .gz .bz2 .Z
  EXTRACT_CMD${__suffix__}=	${DECOMPRESS_CMD${__suffix__}} "$${extract_file}" > `${BASENAME} "$${extract_file}" ${__suffix__}`
  .endfor
-@@ -1181,6 +1477,28 @@
+@@ -1181,6 +1696,28 @@
  .  endif
  .endfor
  
@@ -463,7 +688,7 @@
  # _SHELL_EXTRACT is a "subroutine" for extracting an archive.  It extracts
  # the contents of archive named by the shell variable "extract_file" based
  # on the file extension of the archive.
-@@ -1201,6 +1519,9 @@
+@@ -1201,6 +1738,9 @@
  	${_PKG_SILENT}${_PKG_DEBUG}					\
  	extract_file=${DISTDIR:Q}/${__file__:Q}; export extract_file;	\
  	cd ${WRKDIR:Q}; ${EXTRACT_CMD}
@@ -473,7 +698,7 @@
  .  endfor
  .  if defined(DISTNAME) && !empty(DISTNAME)
  	${MKDIR} ${WRKSRC}
-@@ -1378,7 +1699,8 @@
+@@ -1378,7 +1918,8 @@
  INCR_PATCH_FN=
  .text
  incr_patch() {
@@ -483,7 +708,7 @@
  (* --- ocaml script --- *)
  let p = Sys.argv.(1);;
  let c1 =
-@@ -1405,6 +1727,8 @@
+@@ -1405,6 +1946,8 @@
  print_endline q;;
  (* --- END ocaml script '` --- *)
  EOF
@@ -492,7 +717,7 @@
  }
  .endtext
  
-@@ -1500,7 +1824,7 @@
+@@ -1500,7 +2043,7 @@
  	     $SED -e 's/^file-//')"
  	if expr "x$f" '>' "x$p" >/dev/null; then p="$f"; fi
          # Increase p by 1
@@ -501,11 +726,11 @@
          # Save patch
  	$MKDIR "$patchdir"
  	if [ -s "$PATCHREF/diff" ]; then
-@@ -1567,9 +1891,15 @@
+@@ -1567,9 +2110,15 @@
  do-configure:
  .  if defined(HAS_CONFIGURE)
  .    for DIR in ${CONFIGURE_DIRS}
-+.    if defined(WINOASIS) && ${WINOASIS} == "yes"
++.    if ( defined(WINOASIS) && ${WINOASIS} == "yes" ) || ( defined(WINGMAKE) && ${WINGMAKE} == "yes" )
 +	${_PKG_SILENT}${_PKG_DEBUG}${_ULIMIT_CMD}cd ${DIR:Q} && ${SETENV} \
 +	    ${CONFIGURE_ENV} ${SANDBOX_CONFIGURE_CMD} \
 +            ${CONFIGURE_SCRIPT}
@@ -517,7 +742,7 @@
  .    endfor
  .  endif
  .endif
-@@ -1823,7 +2153,7 @@
+@@ -1823,7 +2372,7 @@
  ${FLIST}:
  	${_PKG_SILENT}${_PKG_DEBUG}\
  	${MAKE} -C ${.CURDIR:Q} ${MAKEFLAGS} file-list-pkg > ${FLIST}
@@ -526,7 +751,7 @@
  
  .PHONY: file-list-pkg
  .if !target(file-list-pkg)
-@@ -1903,6 +2233,11 @@
+@@ -1903,6 +2452,11 @@
  	     echo "exists ($file)" ;;
  	 esac
         done
@@ -538,7 +763,7 @@
       } < $FLIST > $BUILD_VERSION_FILE
  .  endscript
  
-@@ -1975,7 +2310,7 @@
+@@ -1975,7 +2529,7 @@
  	    exit 1
  	  fi
  	fi
@@ -547,7 +772,7 @@
  	if [ -n "$out_name" ]; then
  		base_out_name=`basename "$out_name"`
  		make_package_links "$base_out_name" || exit
-@@ -2474,7 +2809,7 @@
+@@ -2474,7 +3028,7 @@
  CP_REG_FILE=${LOCALBASE}/build/files_registered
  CP_ACT_FILE=${LOCALBASE}/build/files_actual  
  
@@ -556,7 +781,7 @@
  
  .PHONY: checkpoint
  checkpoint:
-@@ -2497,7 +2832,7 @@
+@@ -2497,7 +3051,7 @@
          find ${CHECKPOINT_DIRS} -type f -o -type l 2>/dev/null | \
              LC_ALL=C sort | uniq >${CP_ACT_FILE}
  	${_PKG_SILENT}${_PKG_DEBUG}                                    \
@@ -565,7 +790,7 @@
              echo "### PLIST incorrect: ${PKGNAME}"; \
              echo "### Unregistered files:"; \
  	    if comm --version >/dev/null 2>/dev/null; then \
-@@ -2610,7 +2945,7 @@
+@@ -2610,7 +3164,7 @@
  	test -f Makefile
  	test -f DESCR
  	test -f distinfo
@@ -574,7 +799,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
-@@ -2659,7 +2994,7 @@
+@@ -2659,7 +3213,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
@@ -583,7 +808,7 @@
  	${PKG_TOOLS_BIN}/godi_console rprofile \
  		-site "${EXPORT_PROFILES}" \
  		-put "${EXPORT_PROFILE_NAME}"
-@@ -2674,7 +3009,7 @@
+@@ -2674,7 +3228,7 @@
  	${_PKG_SILENT}${_PKG_DEBUG}
  	${MKDIR} "${EXPORT_PACKAGES}"
  	out_name=`${PKG_PTOOL} -in-installed ${PKGNAME} \
