@@ -1,5 +1,5 @@
 @comment $GODI$
-@dllfindlib js_of_ocaml
 bin/js_of_ocaml
-@deepdir doc/godi-js_of_ocaml
-@deepdir share/js_of_ocaml
+bin/jsoo_minify
+@dllfindlib js_of_ocaml
+@deepdir doc/godi-jsofocaml

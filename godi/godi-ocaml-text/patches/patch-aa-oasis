@@ -1,0 +1,23 @@
+--- _oasis.orig	2014-04-09 12:52:10.000000000 +0000
++++ _oasis	2014-04-12 19:11:41.418800000 +0000
+@@ -68,13 +68,13 @@
+ # | Doc                                                               |
+ # +-------------------------------------------------------------------+
+ 
+-Document "manual"
+-  Title: OCamlText user manual
+-  Type: custom (0.4)
+-  Install: false
+-  XCustom: make -C manual manual.pdf
+-  DataFiles: manual/manual.pdf
+-  InstallDir: $pdfdir
++#Document "manual"
++#  Title: OCamlText user manual
++#  Type: custom (0.4)
++#  Install: false
++#  XCustom: make -C manual manual.pdf
++#  DataFiles: manual/manual.pdf
++#  InstallDir: $pdfdir
+ 
+ Document "api"
+   Title: API reference for OCamlText

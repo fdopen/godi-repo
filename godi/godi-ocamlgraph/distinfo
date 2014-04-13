@@ -1,9 +1,6 @@
 $NetBSD$
 
-SHA1 (ocamlgraph-1.8.3.tar.gz) = d10c60d33ffcdcd2fbcf7dfb9dc9ff4b754a52e0
-Size (ocamlgraph-1.8.3.tar.gz) = 262876 bytes
+SHA1 (ocamlgraph-1.8.5.tar.gz) = e53a92d50685ab38f2b856eb64d93aa36dc7bcdf
+Size (ocamlgraph-1.8.5.tar.gz) = 269438 bytes
 
-SHA1 (patch-aa-configurein) = e6d6f6ea6c6b4d6fa48f1541d45504778b6d7e57
-SHA1 (patch-bb-makefilein) = d38ab234562bb88edeade090ec0ded6e336ef577
-SHA1 (patch-cc-ccedmain) = fb4eeeb97ae576428f2baa1c306fbd7d652ce07d
-SHA1 (patch-dd-configure) = b1bcef3e42b5706afadca497f341c47ee71ffa6a
+SHA1 (patch-aa) = c22413e61d826c73b42105ef0d37fe74f7c3c683
