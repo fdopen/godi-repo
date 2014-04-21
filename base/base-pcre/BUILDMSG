@@ -1,0 +1,4 @@
+If necessary, you can set the following option:
+
+- GODI_BASE_PCRE_CONF_ARGS: Additional arguments for the
+  configure script.

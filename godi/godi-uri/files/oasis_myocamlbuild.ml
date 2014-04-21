@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 714ab5bfb2bde947b426470b54e81534) *)
+(* DO NOT EDIT (digest: a394fba64ea3bdcbe531680b51f7c532) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -599,26 +599,28 @@ let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
        [
-          ("cohttp", ["cohttp"], []);
-          ("cohttp_lwt", ["lwt"], []);
-          ("cohttp_lwt_unix", ["lwt"], []);
-          ("cohttp_async", ["async"], [])
+          ("uri", ["lib"], []);
+          ("services", ["lib"], []);
+          ("services_full", ["lib"], []);
+          ("uri_top", ["top"], [])
        ];
      lib_c = [];
      flags = [];
-     includes =
-       [
-          ("lwt", ["cohttp"]);
-          ("lib_test", ["async"; "cohttp"; "lwt"]);
-          ("examples/async", ["async"; "cohttp"]);
-          ("bin", ["async"; "cohttp"; "lwt"]);
-          ("async", ["cohttp"])
-       ]
+     includes = [("lib_test", ["lib"])]
   }
   ;;
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 623 "myocamlbuild.ml"
+# 616 "myocamlbuild.ml"
 (* OASIS_STOP *)
-Ocamlbuild_plugin.dispatch dispatch_default;;
+
+let () =
+  let additional_rules = function
+    | After_rules ->
+       pflag ["compile"; "ocaml"] "I" (fun x -> S [A "-I"; A x]);
+    | _ -> ()
+  in
+  Ocamlbuild_plugin.dispatch
+    (MyOCamlbuildBase.dispatch_combine
+       [MyOCamlbuildBase.dispatch_default package_default; additional_rules])
