@@ -1,0 +1,4 @@
+Available options for Lwt:
+
+- GODI_EZJSONM_LWT: Whether to enable lwt support or not.
+  Possible values: yes,no, <blank> = yes.

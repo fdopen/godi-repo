@@ -1,11 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37c
+VERSION=	3.0.37e
 RVERSION=       3.0.37
 PKGREVISION=	0
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
+.if defined(W32PORT) && ${W32PORT} == "mingw"
+DISTFILES+=	bsdtar-0.1.tar.xz
+.endif
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -16,8 +19,6 @@ PKG_PRESERVE=	#defined
 BUILD_DEPENDS+=	godi-ocaml>=3.09:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocamlnet>=2.0:../../godi/godi-ocamlnet
-
-
 
 PATH:=		${LOCALBASE}/sbin:${LOCALBASE}/bin:${PATH}
 MAKE_ENV+=	GODI_TOOLS_STAGE_DIR=${WRKDIR}/stage
@@ -36,6 +37,8 @@ GODI_TOOLS_WITH_POWERWTOOL ?= no
 BUILD_DEPENDS += godi-ocamlnet-ssl>=2.0
 BUILD_DEPENDS += godi-webdav>=1.0
 .endif
+
+
 
 # mk:
 .if defined(SEARCH_CMDS)
@@ -89,6 +92,9 @@ PLIST_SRC=      ${WRKDIR:Q}/.PLIST.godi-tools
 
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
+DEINSTALL_SCRIPT_FILE=	files/deinstall
+INSTALL_SCRIPT_FILE=	files/install
+
 post-extract:
 	cp files/symlink.c files/dummy* ${WRKSRC}/console-src
 	cd ${PKGDIR:Q}/files && ${PAX} -rw -pp gorun ${WRKSRC}
@@ -112,6 +118,11 @@ post-install:
 	@${SETENV} ${MAKE_ENV} bash files/dll.sh ${LOCALBASE:Q}/bin ${WRKDIR:Q}/stage/sbin ${WRKDIR:Q}/stage/sbin/godi_console.exe
 	@${SETENV} ${MAKE_ENV} bash files/winconfig.sh --first-run
 	${RM} -f ${instprefix}/bin/godi_oasis_import ${instprefix}/sbin/godi_console_byte.exe
+.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
+	${INSTALL} -m 0755 ${WRKDIR}/bsdtar/64/bsdtar.exe ${WRKDIR}/bsdtar/64/bsdcpio.exe ${instprefix}/sbin
+.else
+	${INSTALL} -m 0755 ${WRKDIR}/bsdtar/32/bsdtar.exe ${WRKDIR}/bsdtar/32/bsdcpio.exe ${instprefix}/sbin
+.endif
 .endif
 .	for F in LICENSE
 		cp ${WRKSRC}/${F} ${instprefix}/doc/godi-tools

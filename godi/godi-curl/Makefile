@@ -3,7 +3,7 @@
 VERSION=	0.7.0
 FORGENODE=	1382
 PKGNAME=	godi-curl-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocurl-${VERSION}
 DISTFILES=	ocurl-${VERSION}.tar.gz
 CATEGORIES=	godi
@@ -34,21 +34,15 @@ GODI_CURL_LWT?=	yes
 MINGW_AUTOTOOLS_BUILD=yes
 HAS_CONFIGURE=yes
 ALL_TARGET= all doc
+WINGMAKE=	yes
 
+WINGMAKE_HTML_DIR=doc
 
 DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
-BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
+BUILD_DEPENDS+=	godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+=	conf-curl>=3:../../conf/conf-curl
 .if ${GODI_CURL_LWT} == "yes"
-BUILD_DEPENDS+=	godi-lwt>=2.4:../../godi/godi-lwt
+DEPENDS+=	godi-lwt>=2.4:../../godi/godi-lwt
 .endif
-
-MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-USE_GMAKE=	yes
-
-post-install:
-	${MKDIR} ${LOCALBASE}/doc/godi-curl/html
-	${INSTALL} -m 0644 ${WRKSRC}/README ${WRKSRC}/COPYING ${WRKSRC}/CHANGES.txt ${LOCALBASE}/doc/godi-curl
-	${INSTALL} -m 0644 ${WRKSRC}/doc/*.* ${LOCALBASE}/doc/godi-curl/html
 
 .include "../../mk/bsd.pkg.mk"

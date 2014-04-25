@@ -4,7 +4,7 @@ set -e
 
 . "${GODI_PREFIX}/lib/godi/install_helper"
 
-if [ "a${1}" != "a--add-links" ] || [ "a${2}" != "aPOST-INSTALL" ] ; then
+if [ "a${2}" != "aPOST-INSTALL" ] ; then
     exit 0
 fi
 

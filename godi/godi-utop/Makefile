@@ -1,18 +1,19 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.11
+VERSION=        1.12
 MNODE=		1122
 ONAME=		utop
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       utop-1.11
-DISTFILES=      utop-1.11.tar.gz
+DISTNAME=       utop-1.12
+DISTFILES=      utop-1.12.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=       https://github.com/diml/utop
 COMMENT=        improved toplevel for OCaml
 
+DEPENDS+=  godi-react>=1.0.0:../../godi/godi-react
 DEPENDS+=	godi-lwt-*:../../godi/godi-lwt
 DEPENDS+= godi-ocaml>=3.12:../../godi/godi-ocaml
 DEPENDS+= godi-lambda-term>=1.2:../../godi/godi-lambda-term

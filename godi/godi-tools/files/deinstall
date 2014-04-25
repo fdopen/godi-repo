@@ -1,0 +1,19 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+if [ "a${2}" != "aDEINSTALL" ]; then
+    exit 0
+fi
+
+for f in /etc/profile.d/wodi*.sh ; do
+    if [ -n "$f" ] && [ -f "$f" ]; then
+        rm -f "$f" || true
+    fi
+done
+
+if [ -f "${GODI_PREFIX}/lib/godi/env.sh" ]; then
+    rm -f "${GODI_PREFIX}/lib/godi/env.sh"
+fi

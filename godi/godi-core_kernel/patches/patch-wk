@@ -1,0 +1,9 @@
+--- ../../work-ref/core_kernel-111.11.00/lib/int_math_stubs.c	2014-04-21 14:58:20.000000000 +0200
++++ ./lib/int_math_stubs.c	2014-04-25 16:58:37.446400000 +0200
+@@ -1,5 +1,6 @@
+ #include <stdlib.h>
+ #include <stdbool.h>
++#include <stdint.h>
+ #include <caml/alloc.h>
+ #include <caml/mlvalues.h>
+ #include <caml/memory.h>

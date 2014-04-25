@@ -1,0 +1,27 @@
+#!/bin/sh
+
+set -e
+
+if [ "a${1}" != "a--add-links" ] && [ "a${2}" != "aPOST-INSTALL" ] ; then
+    exit 0
+fi
+
+is_cygwin_test=`uname -s 2>/dev/null || echo b`
+case "a${is_cygwin_test}" in
+    aCYGWIN*) ;;
+    *)
+	echo "this script is intended for cygwin only" >&2
+	exit 1
+	;;
+esac    
+for f in /etc/profile.d/wodi*.sh ; do
+    if [ -n "$f" ] && [ -f "$f" ]; then
+        rm -f "$f" || true
+    fi
+done
+
+if [ -f "${GODI_PREFIX}/lib/godi/env.sh" ]; then
+    rm -f "${GODI_PREFIX}/lib/godi/env.sh"
+fi
+
+exec /bin/bash "${GODI_PREFIX}/lib/godi/winconfig.sh" --first-run

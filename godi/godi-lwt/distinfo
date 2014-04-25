@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (lwt-2.4.4.tar.gz) = b524cc7512a54b48bdd90e97c8ed978409df8f6e
-Size (lwt-2.4.4.tar.gz) = 294161 bytes
+SHA1 (lwt-2.4.5.tar.gz) = 863b651a3917880a0a44e09bce153ca4bb31a84d
+Size (lwt-2.4.5.tar.gz) = 298612 bytes
 
 SHA1 (patch-aa) = 9d1858efd3f1463cbea1cd303956edde3c082428
 SHA1 (patch-bb) = c025f115503d260efd6b659de2f2ca081c40d1d4

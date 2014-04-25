@@ -63,17 +63,20 @@ START_MENU_LIST_FILE="${GODI_PREFIX}/etc/start_menu"
 ENVIRONMENT_ADD_FILE="${GODI_PREFIX}/etc/env_add"
 ENVIRONMENT_IGNORE_FILE="${GODI_PREFIX}/etc/env_ignore"
 PROFILE_DAT="/etc/profile.d/wodi${WORDSIZE}.sh"
+PROFILE_DAT_LOCAL="${GODI_PREFIX}/lib/godi/env.sh"
 
 add_to_cygwi(){
     # we might not have the necessary rights to write to ${PROFILE_DAT}"
-    local P1="${GODI_PREFIX}/bin"
-    local P2="${GODI_PREFIX}/sbin"
-    local P3=/usr/x86_64-w64-mingw32/bin
+    if [ ! -f "${PROFILE_DAT_LOCAL}" ]; then
+        if echo '' > "${PROFILE_DAT_LOCAL}" 2>/dev/null ; then
+            local P1="${GODI_PREFIX}/bin"
+            local P2="${GODI_PREFIX}/sbin"
+            local P3=/usr/x86_64-w64-mingw32/bin
 
-    if [ $WORDSIZE -eq 32 ]; then
-        P3=/usr/i686-w64-mingw32/bin
-    fi
-    /usr/bin/cat - > "${PROFILE_DAT}" <<EOF
+            if [ $WORDSIZE -eq 32 ]; then
+                P3=/usr/i686-w64-mingw32/bin
+            fi
+            /usr/bin/cat - > "${PROFILE_DAT_LOCAL}" <<EOF
 portable_remove_from_path() {
     local NPATH remaining dir to_remove do_stop
     to_remove=\$1
@@ -114,15 +117,58 @@ OCAMLFIND_CONF="${GODI_PREFIX_WIN_MIXED}/etc/findlib.conf"
 OCAMLLIB="${GODI_PREFIX_WIN_MIXED}/lib/ocaml/std-lib"
 PATH="${P1}:${P2}:${P3}:\${PATH}"
 export OCAMLLIB OCAMLFIND_CONF PATH
+
+startwodilines=''
+startwodivar=''
+startwodival=''
+startwodiex=''
+
+if [ -f "${GODI_PREFIX}/etc/env_ignore" ]; then
+    startwodilines="\$(/bin/grep -P -v '\s*#' ${GODI_PREFIX}/etc/env_ignore)"
+    while read -r startwodivar startwodiex ; do 
+        if [ -z "\$startwodivar" ] || [ -n "\$startwodiex" ]; then
+            continue
+        fi
+        eval "unset \$startwodivar"
+    done <<TOX
+\$startwodilines
+TOX
+fi
+
+if [ -f "${GODI_PREFIX}/etc/env_add" ]; then
+    startwodilines="\$(/bin/grep -P -v '\s*#' ${GODI_PREFIX}/etc/env_add)"
+
+    while IFS='|' read -r startwodivar startwodival startwodiex ; do 
+        if [ -z "\$startwodivar" ] || [ -z "\$startwodival" ] || [ -n "\$startwodiex" ]; then
+            continue
+        fi
+        eval "\${startwodivar}='\${startwodival}'; export \${startwodivar}"
+    done <<TOX
+\$startwodilines
+TOX
+fi
+
+unset startwodiex
+unset startwodival
+unset startwodivar
+unset startwodilines
 EOF
-    chmod 0755 "${PROFILE_DAT}"
+        chmod 0755 "${PROFILE_DAT_LOCAL}"
+        fi
+    fi
+
+    if [ -f "${PROFILE_DAT_LOCAL}" ] && [ ! -f "${PROFILE_DAT}" ]; then
+        if echo '' > "${PROFILE_DAT}" 2>/dev/null ; then
+            cp "${PROFILE_DAT_LOCAL}" "${PROFILE_DAT}"
+            chmod 0755 "${PROFILE_DAT}"
+        fi
+    fi
 }
 
-if [ ! -f "$PROFILE_DAT" ]; then
-    if echo "" > "${PROFILE_DAT}"; then
-        add_to_cygwi ;
-        FIRST_RUN=1
-    fi
+
+if [ ! -f "$PROFILE_DAT_LOCAL" ] || [ ! -f "$PROFILE_DAT" ]; then
+    add_to_cygwi ;
+    FIRST_RUN=1
 fi
 
 function create_default_environment_list_file(){

@@ -1,17 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.11.1
+VERSION=	0.11.2
 ONAME=		cohttp
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-cohttp-0.11.1
-DISTFILES=	cohttp-0.11.1.tar.gz
+DISTNAME=	ocaml-cohttp-0.11.2
+DISTFILES=	cohttp-0.11.2.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	
 COMMENT=	HTTP library for Lwt, Async and Mirage
-
 
 BUILD_DEPENDS+=  godi-ounit-*:../../godi/godi-ounit
 BUILD_DEPENDS+=	 godi-findlib-*:../../godi/godi-findlib

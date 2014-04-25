@@ -1,17 +1,18 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.06.00
+VERSION=	111.11.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       core_kernel-111.06.00
-DISTFILES=      core_kernel-111.06.00.tar.gz
+DISTNAME=       core_kernel-111.11.00
+DISTFILES=      core_kernel-111.11.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.06.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.11.00/individual/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
 COMMENT=        Part of Jane Street’s Core library
 
-DEPENDS+=  godi-enumerate>=111.03.00:../../godi/godi-enumerate
+DEPENDS+=  godi-pa_test>=111.08.00:../../godi/godi-pa_test
+DEPENDS+=  godi-enumerate>=111.08.00:../../godi/godi-enumerate
 DEPENDS+=  godi-typerep>=111.06.00:../../godi/godi-typerep
 DEPENDS+=  godi-pa_bench<=109.55.02:../../godi/godi-pa_bench
 DEPENDS+=  godi-pa_bench>=109.55.00:../../godi/godi-pa_bench
@@ -22,13 +23,12 @@ DEPENDS+=  godi-variantslib<=109.15.03:../../godi/godi-variantslib
 DEPENDS+=  godi-variantslib>=109.15.00:../../godi/godi-variantslib
 DEPENDS+=  godi-fieldslib<=109.20.03:../../godi/godi-fieldslib
 DEPENDS+=  godi-fieldslib>=109.20.00:../../godi/godi-fieldslib
-DEPENDS+=  godi-res-*:../../godi/godi-res
 DEPENDS+=  godi-herelib<=109.35.02:../../godi/godi-herelib
 DEPENDS+=  godi-herelib>=109.35.00:../../godi/godi-herelib
 DEPENDS+=  godi-pipebang>=110.01.00:../../godi/godi-pipebang
 DEPENDS+=  godi-bin_prot>=111.03.00:../../godi/godi-bin_prot
-DEPENDS+=  godi-sexplib>=111.03.00:../../godi/godi-sexplib
-DEPENDS+=	godi-ocaml>=4.00.1:../../godi/godi-ocaml
+DEPENDS+=  godi-sexplib>=111.11.00:../../godi/godi-sexplib
+DEPENDS+=	godi-ocaml>=4.01.0:../../godi/godi-ocaml
 BUILD_DEPENDS+=	godi-findlib>=1.3.2:../../godi/godi-findlib
 
 WINOASIS=		yes

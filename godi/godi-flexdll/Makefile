@@ -2,7 +2,7 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz
 CATEGORIES=	godi
@@ -75,7 +75,7 @@ post-install:
 	    ${CP} ${WRKSRC}/$$file ${PREFIX}/doc/godi-flexdll/; \
 	done
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-	@${SETENV} ${ADD_ENV} bash files/install --add-links
+	@${SETENV} ${ADD_ENV} bash files/install a POST-INSTALL
 .endif
 
 .include "../../mk/bsd.pkg.mk"

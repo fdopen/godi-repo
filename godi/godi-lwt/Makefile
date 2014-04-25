@@ -1,14 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.4
+VERSION=	2.4.5
 PKGREVISION=	0
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	lwt-${VERSION}
-DISTFILES=	${DISTNAME}.tar.gz  
+DISTNAME=	lwt-2.4.5
+DISTFILES=	lwt-2.4.5.tar.gz
 CATEGORIES=	godi
-#MASTER_SITES=	http://www.ocsigen.org/download/
-MASTER_SITES=	${MASTER_SITES_BACKUP}
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	http://www.ocsigen.org/install/lwt
 COMMENT=	Light-weight threading library
 
@@ -16,7 +15,8 @@ GODI_LWT_SSL?=yes
 GODI_LWT_GLIB?=yes
 GODI_LWT_OCAMLTEXT?=yes
 
-DEPENDS+=		godi-findlib>=0:../../godi/godi-findlib
+DEPENDS+=  godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=		godi-findlib-*:../../godi/godi-findlib
 .if ${GODI_LWT_SSL} != "no"
 DEPENDS+=		godi-ssl>=0.4.6:../../godi/godi-ssl
 CONFIGURE_ARGS+=	--enable-ssl
@@ -31,18 +31,13 @@ CONFIGURE_ARGS+=	--enable-glib
 DEPENDS+=		godi-ocaml-text>=0.5:../../godi/godi-ocaml-text
 CONFIGURE_ARGS+=	--enable-text 
 .endif
-
-DEPENDS+=		godi-react>=0.9.2:../../godi/godi-react
+DEPENDS+=		godi-react>=1.0:../../godi/godi-react
 CONFIGURE_ARGS+=	--enable-react
 
 WINOASIS=		yes
-#WINOASIS_SETUP=		no
 
 post-install:
-	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/unix
-	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/gtk
-	${CP} ${WRKSRC}/examples/unix/* ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/unix/
-	${CP} ${WRKSRC}/examples/gtk/* ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/examples/gtk/
-
+	${MKDIR} ${PREFIX}/doc/${PKGBASE}/examples
+	cd ${WRKSRC}/examples && ${PAX} -rw -pp . ${PREFIX}/doc/${PKGBASE}/examples
 
 .include "../../mk/bsd.pkg.mk"
