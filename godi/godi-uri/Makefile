@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.5.0
+VERSION=        1.6.0
 PKGNAME=        godi-uri-${VERSION}
 PKGREVISION=    0
-DISTNAME=       ocaml-uri-1.5.0
-DISTFILES=      uri-1.5.0.tar.gz
+DISTNAME=       ocaml-uri-1.6.0
+DISTFILES=      uri-1.6.0.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com

@@ -1,12 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.0
+VERSION=	2.1
 PKGREVISION=	0
 PKGNAME=	godi-jsofocaml-${VERSION}
-DISTNAME=	js_of_ocaml-${VERSION}0
-DISTFILES=	${DISTNAME}.tar.gz
+DISTNAME=	js_of_ocaml-${VERSION}
+DISTFILES=	${DISTNAME}.tar.xz
 CATEGORIES=	godi
-MASTER_SITES=	http://www.ocsigen.org/download/
+#MASTER_SITES=	http://www.ocsigen.org/download/
+MASTER_SITES=   ${MASTER_SITES_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.ocsigen.org
 COMMENT=	Js_of_ocaml is a compiler of OCaml bytecode to Javascript

@@ -1,5 +1,6 @@
 $NetBSD$
 
-SHA1 (ocaml-ssl-0.4.6.tar.gz) = e42e9518a982ef559f249a22e1fe37cddc45360f
-Size (ocaml-ssl-0.4.6.tar.gz) = 118798 bytes
+SHA1 (ocaml-ssl-0.4.7.tar.gz) = 3261b53f610e16b44da48828542afcfe4143c8ae
+Size (ocaml-ssl-0.4.7.tar.gz) = 119209 bytes
+
 SHA1 (patch-ab-configure) = fc481f2743b9115fd626db8539fcbab271a87248
