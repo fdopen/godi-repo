@@ -1,0 +1,107 @@
+From 585d571333d92d1de925a480b957664ff27ba171 Mon Sep 17 00:00:00 2001
+From: Alain Frisch <alain@frisch.fr>
+Date: Tue, 18 Feb 2014 09:01:44 +0000
+Subject: [PATCH] #6328: use real temporary file names for ocamlyacc under
+ Windows.
+
+git-svn-id: http://caml.inria.fr/svn/ocaml/trunk@14435 f963ae5c-01c2-4b8c-9fe0-0dff7051ff02
+---
+ yacc/main.c | 30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
+
+diff --git yacc/main.c yacc/main.c
+index f6cac60..d2f3293 100644
+--- yacc/main.c
++++ yacc/main.c
+@@ -32,10 +32,12 @@ char big_endian;
+ 
+ char *file_prefix = 0;
+ char *myname = "yacc";
++char temp_form[] = "yacc.XXXXXXX";
++
+ #ifdef NO_UNIX
+-char temp_form[] = "yacc.X";
++char dirsep = '\\';
+ #else
+-char temp_form[] = "yacc.XXXXXXX";
++char dirsep = '/';
+ #endif
+ 
+ int lineno;
+@@ -102,7 +104,9 @@ char *nullable;
+ #if !defined(HAVE_MKSTEMP)
+ extern char *mktemp(char *);
+ #endif
++#ifndef NO_UNIX
+ extern char *getenv(const char *);
++#endif
+ 
+ 
+ void done(int k)
+@@ -277,16 +281,16 @@ void create_file_names(void)
+     char *tmpdir;
+ 
+ #ifdef NO_UNIX
+-    len = 0;
+-    i = sizeof(temp_form);
++    tmpdir = getenv("TEMP");
++    if (tmpdir == 0) tmpdir = ".";
+ #else
+     tmpdir = getenv("TMPDIR");
+     if (tmpdir == 0) tmpdir = "/tmp";
++#endif
+     len = strlen(tmpdir);
+     i = len + sizeof(temp_form);
+-    if (len && tmpdir[len-1] != '/')
++    if (len && tmpdir[len-1] != dirsep)
+         ++i;
+-#endif
+ 
+     action_file_name = MALLOC(i);
+     if (action_file_name == 0) no_space();
+@@ -297,21 +301,19 @@ void create_file_names(void)
+     union_file_name = MALLOC(i);
+     if (union_file_name == 0) no_space();
+ 
+-#ifndef NO_UNIX
+     strcpy(action_file_name, tmpdir);
+     strcpy(entry_file_name, tmpdir);
+     strcpy(text_file_name, tmpdir);
+     strcpy(union_file_name, tmpdir);
+ 
+-    if (len && tmpdir[len - 1] != '/')
++    if (len && tmpdir[len - 1] != dirsep)
+     {
+-        action_file_name[len] = '/';
+-        entry_file_name[len] = '/';
+-        text_file_name[len] = '/';
+-        union_file_name[len] = '/';
++        action_file_name[len] = dirsep;
++        entry_file_name[len] = dirsep;
++        text_file_name[len] = dirsep;
++        union_file_name[len] = dirsep;
+         ++len;
+     }
+-#endif
+ 
+     strcpy(action_file_name + len, temp_form);
+     strcpy(entry_file_name + len, temp_form);
+@@ -323,7 +325,6 @@ void create_file_names(void)
+     text_file_name[len + 5] = 't';
+     union_file_name[len + 5] = 'u';
+ 
+-#ifndef NO_UNIX
+ #ifdef HAVE_MKSTEMP
+     action_fd = mkstemp(action_file_name);
+     if (action_fd == -1)
+@@ -343,7 +344,6 @@ void create_file_names(void)
+     mktemp(text_file_name);
+     mktemp(union_file_name);
+ #endif
+-#endif
+ 
+     len = strlen(file_prefix);
+ 
+-- 
+1.9.1
+

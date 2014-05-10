@@ -21,7 +21,7 @@ VERSION=	4.01.0
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
 DISTNAME=	ocaml-4.01.0
-PKGREVISION=	0
+PKGREVISION=	3
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -144,10 +144,10 @@ LOCALBASE_NATIVE?=${LOCALBASE}
 .if defined(W32PORT)
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 MAKEFILE_MINGW=${WRKSRC}/config/Makefile.mingw64
-OCAML_BUILD_FLAGS ?= -march=x86-64 -mtune=generic -O2
+OCAML_BUILD_FLAGS ?= -march=x86-64 -mtune=generic -O2 -g
 .else
 MAKEFILE_MINGW=${WRKSRC}/config/Makefile.mingw
-OCAML_BUILD_FLAGS ?= -march=i686 -mtune=generic -O2
+OCAML_BUILD_FLAGS ?= -march=i686 -mtune=generic -O2 -g
 .endif
 .endif
 
@@ -170,11 +170,11 @@ post-configure:
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 	${SED} -re 's|(^OTHERLIBRARIES.*)$$|\1 labltk|' ${WRKSRC}/config/Makefile.tmp \
 		>${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=${LOCALBASE}/lib/libtcl85.a ${LOCALBASE}/lib/libtk85.a -lws2_32" \
+	${ECHO} "TK_LINK=${LOCALBASE}/lib/libtcl86.a ${LOCALBASE}/lib/libtk86.a -lws2_32" \
 		>>${WRKSRC}/config/Makefile.tmp2
 .else
 	${CP} ${WRKSRC}/config/Makefile.tmp ${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=${LOCALBASE}/bin/tk85.dll ${LOCALBASE}/bin/tcl85.dll -lws2_32" \
+	${ECHO} "TK_LINK=${LOCALBASE}/bin/tk86.dll ${LOCALBASE}/bin/tcl86.dll -lws2_32" \
 		>>${WRKSRC}/config/Makefile.tmp2
 .endif
 .else
