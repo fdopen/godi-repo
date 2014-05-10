@@ -2,9 +2,10 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	2
+PKGREVISION=	3
 DISTNAME=	flexdll
-DISTFILES=	flexdll-${VERSION}.tar.gz
+DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
+EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://alain.frisch.fr/flexdll/
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -54,6 +55,10 @@ MAKE_ENV+=      FLEXDIR=${GODI_BOOT_FLEXDLL}/../lib/flexdll
 
 post-extract:
 	cp files/config_reader* ${WRKSRC:Q}
+	@cd ${WRKDIR:Q} && \
+	  ${MKDIR} add && cd add && \
+	  unzip -q ${DISTDIR}/flexdll-bin-${VERSION}.zip
+
 
 pre-configure:
 .if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
@@ -64,15 +69,24 @@ pre-configure:
 .endif
 
 post-install:
-	mkdir -p ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/flexdll
-	mkdir -p ${PREFIX}/doc/godi-flexdll
-	${CP} ${WRKSRC}/flexlink.exe ${PREFIX}/bin
-	${CP} ${WRKSRC}/flexdll.h ${PREFIX}/include
-	for file in flexdll.h flexdll_*.o ; do \
-	    ${CP} ${WRKSRC}/$$file ${PREFIX}/lib/flexdll; \
+	${MKDIR} ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/flexdll
+	${MKDIR} ${PREFIX}/doc/godi-flexdll
+	${INSTALL} -m 0755 ${WRKSRC}/flexlink.exe ${PREFIX}/bin
+	${INSTALL} -m 0644 ${WRKSRC}/flexdll.h ${PREFIX}/include
+	for file in flexdll.h flexdll_*.o *.manifest ; do \
+	   ${INSTALL} -m 0644 ${WRKSRC}/$$file ${PREFIX}/lib/flexdll; \
 	done
-	for file in LICENSE README CHANGES flexdll.c flexdll_initer.c default.manifest default_amd64.manifest; do \
-	    ${CP} ${WRKSRC}/$$file ${PREFIX}/doc/godi-flexdll/; \
+.for  f in flexdll_cygwin.o flexdll_initer_cygwin.o \
+	   flexdll_mingw.o flexdll_initer_mingw.o \
+	   flexdll_mingw64.o flexdll_initer_mingw64.o \
+	   flexdll_msvc.obj flexdll_initer_msvc.obj \
+	   flexdll_msvc64.obj flexdll_initer_msvc64.obj
+	@if [ ! -f ${PREFIX:Q}/lib/flexdll/${f:Q} ]; then \
+	   ${INSTALL} -m 0644 ${WRKDIR:Q}/add/${f:Q} ${PREFIX:Q}/lib/flexdll ; \
+	fi
+.endfor
+	@for file in LICENSE README CHANGES flexdll.c flexdll_initer.c default.manifest default_amd64.manifest; do \
+	    ${INSTALL} -m 0644 ${WRKSRC}/$$file ${PREFIX}/doc/godi-flexdll/; \
 	done
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 	@${SETENV} ${ADD_ENV} bash files/install a POST-INSTALL
