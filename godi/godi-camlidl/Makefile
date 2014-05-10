@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	1.05
-PKGREVISION=	1
+PKGREVISION=	2
 PKGNAME=	godi-camlidl-${VERSION}
 DISTNAME=	camlidl-${VERSION}
 DISTFILES=	camlidl-${VERSION}.tar.gz camlidl-${VERSION}.doc.pdf
@@ -19,6 +19,7 @@ PATH:=		${LOCALBASE}/bin:${PATH}
 
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:
+
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
 USE_GMAKE=	yes
@@ -32,6 +33,8 @@ INSTALL_TARGET=	install
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
 INSTALL_TARGET+= installopt
 .endif
+
+#LDFLAGS+=	-lstdc++
 
 
 CM=${WRKSRC}/config/Makefile
