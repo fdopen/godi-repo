@@ -1,48 +1,49 @@
 .include "../../mk/bsd.prefs.mk"
 
-
 PKG=		base-libiconv
-#1.14 is broken on windows (?)
 VERSION=	1.14
-PKGREVISION=	0
+PKGREVISION=	1
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	libiconv-${VERSION}
 DISTFILES=	libiconv-${VERSION}.tar.gz
 CATEGORIES=	base
 MASTER_SITES=	http://ftp.gnu.org/pub/gnu/libiconv/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://www.gnu.org/software/libiconv/
 COMMENT=	converting character strings from one character encoding to another
 
 MINGW_AUTOTOOLS_BUILD=	yes
 HAS_CONFIGURE=		yes
 
-CONFIGURE_ARGS+=	--prefix="${LOCALBASE}"
-CONFIGURE_ARGS+=	--docdir="${LOCALBASE}/doc/base-libiconv"
-CONFIGURE_ARGS+=	--mandir="${LOCALBASE}/man"
-CONFIGURE_ARGS+=	--disable-nls
+CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+CONFIGURE_ARGS+=	--mandir=${LOCALBASE:Q}/man
+CONFIGURE_ARGS+=	--docdir=${LOCALBASE:Q}/doc/${PKGBASE:Q}
+CONFIGURE_ARGS+=	--htmldir=${LOCALBASE:Q}/doc/${PKGBASE:Q}/html
+
+.if defined(GODI_BASE_LIBICONV_CONF_ARGS)
+CONFIGURE_ARGS+=	${GODI_BASE_LIBICONV_CONF_ARGS}
+.else
+CONFIGURE_ARGS+=	--enable-nls
 CONFIGURE_ARGS+=	--disable-rpath
-CONFIGURE_ARGS+=	--disable-dependency-tracking
 CONFIGURE_ARGS+=	--enable-extra-encodings
-#new:
 CONFIGURE_ARGS+=	--enable-shared
 CONFIGURE_ARGS+=	--disable-static
-#no:
-#CONFIGURE_ARGS+=	--enable-relocatable
-
+CONFIGURE_ARGS+=	--enable-silent-rules
+CONFIGURE_ARGS+=	--enable-relocatable
+#CONFIGURE_ARGS+=	--disable-dependency-tracking
+.endif
 
 USE_GMAKE=	yes
 ALL_TARGET=	all check
 
-IMAGE=          ${WRKDIR}/image
-MAKE_FLAGS+=    DESTDIR=${IMAGE}
+IMAGE=          ${WRKDIR:Q}/image
+MAKE_FLAGS+=    DESTDIR=${IMAGE:Q}
 
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKGNAME}
 
 post-install:
-	cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC}
-	cd ${IMAGE}/${LOCALBASE} && ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-
+	${RM} -f ${IMAGE}/${LOCALBASE}/lib/charset.alias
+	cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC:Q} && \
+	  ${PAX} -rw -pp . ${LOCALBASE:Q}
 
 .include "../../mk/bsd.pkg.mk"
