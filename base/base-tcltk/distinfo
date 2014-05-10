@@ -1,12 +1,9 @@
 $NetBSD$
 
-SHA1 (tcl8.5.15-src.tar.gz) = ff20698d7f77617ea179ec225300f4ea4a905299
-Size (tcl8.5.15-src.tar.gz) = 4536117 bytes
+SHA1 (tcl8.6.1-src.tar.gz) = 5c83d44152cc0496cc0847a2495f659502a30e40
+Size (tcl8.6.1-src.tar.gz) = 8755700 bytes
 
-SHA1 (tk8.5.15-src.tar.gz) = 11c9e4d94719184a62b6beb19d37e3391b376619
-Size (tk8.5.15-src.tar.gz) = 4086650 bytes
+SHA1 (tk8.6.1-src.tar.gz) = ecfcc20833c04d6890b14a7920a04d16f2123a51
+Size (tk8.6.1-src.tar.gz) = 4244010 bytes
 
-SHA1 (patch-cc) = 71b1c16f009cb4d76306b7b17eeea29b05cc7eb1
-SHA1 (patch-dd) = 3babcc1e26f1443047c4c4d5c019798d6725cefd
-SHA1 (patch-Makefile.in-tcl) = 26647e8a4d86921bfbf3cde9538caab2fe38e364
-SHA1 (patch-Makefile.in-tk) = 1bb8824db2cd696fd76121a6da84c7160a547866
+SHA1 (patch-aa) = 2b09feaee3a1caaf9d923a549557e50d69adcfdb
