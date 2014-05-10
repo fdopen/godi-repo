@@ -7,7 +7,7 @@
 
 PKGNAME=	godi-ocaml-${VERSION}
 VERSION=	4.01.0
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml
 DISTFILES=
 CATEGORIES=	godi
@@ -19,7 +19,7 @@ COMMENT=	The core of the OCaml system (compiler, runtime)
 BUILD_DEPENDS+=	godi-ocaml-src==${VERSION}:../../godi/godi-ocaml-src
 
 .if defined(W32PORT) && ${W32PORT} == "mingw" && defined(OCAML_TK)  && ${OCAML_TK} == "yes"
-BUILD_DEPENDS+= base-tcltk>=8.5:../../base/base-tcltk
+BUILD_DEPENDS+= base-tcltk>=8.6:../../base/base-tcltk
 .endif
 
 .if defined(W32PORT)
