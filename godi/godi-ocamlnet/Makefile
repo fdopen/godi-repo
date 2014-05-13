@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.7.3
+VERSION=	3.7.4
 PKGREVISION=	0
 PKGNAME=	godi-ocamlnet-${VERSION}
 DISTNAME=	ocamlnet-${VERSION}
