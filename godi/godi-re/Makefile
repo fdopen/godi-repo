@@ -1,18 +1,18 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.2.1
+VERSION=	1.2.2
 PKG=		godi-re
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	ocaml-re-ocaml-re-${VERSION}
-DISTFILES=	ocaml-re-1.2.1.tar.gz
+PKGREVISION=	0
+DISTNAME=	ocaml-re-ocaml-re-1.2.2
+DISTFILES=	ocaml-re-1.2.2.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://github.com/ocaml/ocaml-re/archive
+MASTER_SITES=	https://github.com/ocaml/ocaml-re/archive/
 HOMEPAGE=	https://github.com/ocaml/ocaml-re
 COMMENT=	Regular expressions
 
-DEPENDS+=	godi-ocaml>=3.08:../../godi/godi-ocaml
-BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
+DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 
 WINOASIS=		yes
