@@ -21,7 +21,7 @@ VERSION=	4.01.0
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
 DISTNAME=	ocaml-4.01.0
-PKGREVISION=	3
+PKGREVISION=	4
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
