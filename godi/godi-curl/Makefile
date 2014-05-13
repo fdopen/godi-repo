@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.7.0
-FORGENODE=	1382
+VERSION=	0.7.1
+FORGENODE=	1400
 PKGNAME=	godi-curl-${VERSION}
-PKGREVISION=	2
+PKGREVISION=	0
 DISTNAME=	ocurl-${VERSION}
 DISTFILES=	ocurl-${VERSION}.tar.gz
 CATEGORIES=	godi
