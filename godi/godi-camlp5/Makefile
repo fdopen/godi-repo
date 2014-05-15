@@ -3,7 +3,7 @@
 VERSION=6.11
 NAME=camlp5
 PKGNAME=godi-${NAME}-${VERSION}
-PKGREVISION=1
+PKGREVISION=2
 DISTNAME=${NAME}-${VERSION}
 DISTFILES=${DISTNAME}.tgz
 CATEGORIES=godi
@@ -29,5 +29,16 @@ ALL_TARGET= world
 .endif
 
 DEPENDS+=godi-ocaml>=3.08:../godi-ocaml
+
+post-install:
+	@for f in ${PREFIX}/bin/camlp5o.opt* ${PREFIX}/bin/camlp5r.opt* ; do \
+	  if [ ! -f "$$f" ] || [ -f "$${f}.exe" ]; then \
+	     continue ; \
+	  fi ; \
+	  case "$$f" in \
+	    *exe) continue ;; \
+	    *) mv "$$f" "$${f}.exe" ;; \
+	  esac \
+	done
 
 .include "../../mk/bsd.pkg.mk"

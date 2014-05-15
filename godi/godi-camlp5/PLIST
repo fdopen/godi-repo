@@ -3,8 +3,8 @@ bin/camlp5
 bin/camlp5o
 bin/camlp5r
 bin/camlp5sch
-@optional bin/camlp5o.opt
-@optional bin/camlp5r.opt
+@optional @glob bin/camlp5o.opt*
+@optional @glob bin/camlp5r.opt*
 bin/mkcamlp5
 @optional bin/mkcamlp5.opt
 bin/ocpp5
