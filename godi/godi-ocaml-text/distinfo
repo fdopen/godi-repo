@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (ocaml-text-0.7.tar.gz) = 76ff00eb5bd5718a4af6f0aa5ade34f963f3630f
-Size (ocaml-text-0.7.tar.gz) = 79990 bytes
+SHA1 (text-0.7.1.tar.gz) = b252ebe0d846a785951c4a432bb121634abb0540
+Size (text-0.7.1.tar.gz) = 80180 bytes
 
 SHA1 (patch-aa-oasis) = cf34c20d2ba6d44fc88b1b5a8752a639f78e7fe2
 SHA1 (patch-win-setup.ml) = d3062e17504e41adb08562b15643c2901f9d38d3
