@@ -1,4 +1,0 @@
-@findlib bisect
-@deepdir doc/godi-bisect
-bin/bisect-report
-@optional bin/bisect-report.opt
