@@ -3,18 +3,18 @@
 ONAME=		optcomp
 #FINODE=		1011
 PKG=		godi-${ONAME}
-VERSION=        1.5
+VERSION=        1.6
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       ${ONAME}-${VERSION}
-DISTFILES=      ${ONAME}-${VERSION}.tar.gz
+PKGREVISION=    0
+DISTNAME=       optcomp-1.6
+DISTFILES=      optcomp-1.6.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	${MASTER_SITES_BACKUP}
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 #http://forge.ocamlcore.org/frs/download.php/${FINODE}/
 HOMEPAGE=       https://github.com/diml/optcomp
 COMMENT=        optional compilation with cpp-like directives
 
-BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
 
