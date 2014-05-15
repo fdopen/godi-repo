@@ -2,10 +2,10 @@
 
 # This date was taken from the CHANGES file.
 VERSION=	20131001
-#VERSION=	2.16.0
+#VERSION=	2.18.0
 PKGNAME=	godi-lablgtk2-${VERSION}
 
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	lablgtk-2.18.0
 DISTFILES=	${DISTNAME}.tar.gz
 

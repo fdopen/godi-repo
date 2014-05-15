@@ -1,0 +1,22 @@
+--- ../../work-ref/lablgtk-2.18.0/src/lablgtk2.in	2013-10-01 10:31:50.000000000 +0200
++++ ./src/lablgtk2.in	2014-05-15 14:05:33.052000000 +0200
+@@ -10,13 +10,16 @@
+ toplevel="ocaml"
+ libraries=""
+ libpath=""
+-lablgtkdir="@INSTALLDIR@"
++godidir="$(cygpath -m "$(dirname "$(godi_confdir)")")"
++lablgtkdir="${godidir}/lib/ocaml/pkg-lib/lablgtk2"
++lablgldir="${godidir}/lib/ocaml/pkg-lib/lablgl"
+ initobjs="@INITOBJS@"
+ thinitobjs="@THINITOBJS@"
+ cmd="$0"
+ 
+-if test -n "@LABLGLDIR@"; then
+-  libpath="-I @LABLGLDIR@"
++if [ -d "$lablgldir" ]; then
++    q_lablgldir="$(printf "%q" "$lablgldir")"
++    libpath="-I ${q_lablgldir}"
+ fi
+ 
+ while test -n "$1"; do
