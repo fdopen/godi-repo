@@ -3,7 +3,7 @@
 
 VERSION=        20140422
 PKGNAME=        godi-menhir-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       menhir-${VERSION}
 DISTFILES=      menhir-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -49,5 +49,14 @@ post-install:
 .	for DOC in manual.pdf menhir.1
 	    if [ -d ${WRKSRC}/${DOC} ]; then cd ${WRKSRC} && ${PAX} -rw -pp ${DOC} ${PREFIX}/doc/${PKG}; else install -m 0644 ${WRKSRC}/${DOC} ${PREFIX}/doc/${PKG}; fi
 .	endfor
+	@for f in ${PREFIX}/bin/menhi* ; do \
+	  if [ ! -f "$$f" ] || [ -f "$${f}.exe" ]; then \
+	     continue ; \
+	  fi ; \
+	  case "$$f" in \
+	    *exe) continue ;; \
+	    *) mv "$$f" "$${f}.exe" ;; \
+	  esac \
+	done
 
 .include "../../mk/bsd.pkg.mk"
