@@ -3,7 +3,7 @@
 
 VERSION=        0.9.3
 PKGNAME=        apps-cppo-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       cppo-0.9.3
 DISTFILES=      cppo-0.9.3.tar.gz
 CATEGORIES=     apps
