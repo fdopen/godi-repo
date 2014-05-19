@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.11.0
+VERSION=        1.12.0
 PKGNAME=        apps-ocamleditor-${VERSION}
 PKGREVISION=    0
 DISTNAME=       ocamleditor-${VERSION}
@@ -11,7 +11,6 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://ocamleditor.forge.ocamlcore.org/
 COMMENT=        ocaml source code editor and build tool
 
-#DEPENDS+=	base-gtk>=0:../../base/base-gtk
 DEPENDS+=	godi-ocaml>=4.00:../../godi/godi-ocaml
 DEPENDS+=	base-gui>=0:../../godi/godi-tools-gui
 BUILD_DEPENDS+= godi-findlib>=1.4:../../godi/godi-findlib
@@ -25,8 +24,10 @@ INSTALL_SCRIPT_FILE=files/install
 DEINSTALL_SCRIPT_FILE=files/deinstall
 ADD_ENV= ${MAKE_ENV} GODI_PREFIX=${LOCALBASE}
 
-#FLEXLINKFLAGS+=	"-subsystem windows"
-#MAKE_ENV+=	FLEXLINKFLAGS='-subsystem windows'
+#FLEXLINKFLAGS+=	-subsystem windows
+#CONFIGURE_ENV+=	FLEXLINKFLAGS=${FLEXLINKFLAGS:Q}
+#MAKE_ENV+=	FLEXLINKFLAGS=${FLEXLINKFLAGS:Q}
+#LDFLAGS+=	-subsystem windows
 
 pre-configure:
 .if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
