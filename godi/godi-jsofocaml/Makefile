@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.1
+VERSION=	2.2
 PKGREVISION=	0
 PKGNAME=	godi-jsofocaml-${VERSION}
 DISTNAME=	js_of_ocaml-${VERSION}
