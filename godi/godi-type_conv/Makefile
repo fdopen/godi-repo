@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	109.60.01
+VERSION=	111.13.00
 ONAME=		type_conv
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       type_conv-109.60.01
-DISTFILES=      type_conv-109.60.01.tar.gz
+DISTNAME=       type_conv-111.13.00
+DISTFILES=      type_conv-111.13.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/109.60.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.13.00/individual/
 HOMEPAGE=       https://github.com/janestreet/type_conv
 COMMENT=        Library factoring out common functionality for type converters.
 
