@@ -4,7 +4,7 @@ VERSION=	111.03.00
 ONAME=		bin_prot
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       bin_prot-111.03.00
 DISTFILES=      bin_prot-111.03.00.tar.gz
 CATEGORIES=     godi
@@ -13,7 +13,6 @@ HOMEPAGE=       https://github.com/janestreet/bin_prot
 COMMENT=        A binary protocol generator
 
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
-DEPENDS+=	godi-type_conv<=109.60.01:../../godi/godi-type_conv
 DEPENDS+=	godi-type_conv>=109.53.00:../../godi/godi-type_conv
 BUILD_DEPENDS+=	godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ounit>=1:../../godi/godi-ounit
