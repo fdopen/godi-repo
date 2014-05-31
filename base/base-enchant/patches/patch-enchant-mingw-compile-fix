@@ -1,0 +1,31 @@
+--- configure.orig	2010-10-14 15:43:23.797457851 +0200
++++ configure	2010-10-14 15:43:37.800328890 +0200
+@@ -17452,7 +17452,7 @@
+   *-*-mingw*)
+     native_win32=yes
+     SOCKET_LIBS='-lws2_32 -ldnsapi'
+-    ENCHANT_WIN32_RESOURCE=enchant-win32res.lo
++    ENCHANT_WIN32_RESOURCE=enchant-win32res.o
+     ;;
+   *)
+     native_win32=no
+--- src/Makefile.in.mingw	2010-04-01 22:56:37.000000000 +0200
++++ src/Makefile.in	2010-10-22 19:22:12.587802857 +0200
+@@ -282,7 +282,7 @@
+ SUBDIRS = . aspell ispell uspell myspell hspell applespell voikko zemberek
+ INCLUDES = -I$(top_srcdir) $(ENCHANT_CFLAGS) $(CC_WARN_CFLAGS) -DENCHANT_GLOBAL_MODULE_DIR=\"$(libdir)/enchant\" -DENCHANT_GLOBAL_ORDERING=\"$(datadir)/enchant\" -D_ENCHANT_BUILD=1 -DENCHANT_VERSION_STRING=\"@ENCHANT_MAJOR_VERSION@.@ENCHANT_MINOR_VERSION@.@ENCHANT_MICRO_VERSION@\"
+ lib_LTLIBRARIES = libenchant.la
+-libenchant_la_LIBADD = $(ENCHANT_LIBS) @ENCHANT_WIN32_RESOURCE@
++libenchant_la_LIBADD = $(ENCHANT_LIBS) -Wl,@ENCHANT_WIN32_RESOURCE@
+ libenchant_la_LDFLAGS = -no-undefined -export-dynamic $(am__append_1) \
+ 	$(am__append_2)
+ libenchant_la_DEPENDENCIES = @ENCHANT_WIN32_RESOURCE@
+@@ -737,7 +737,7 @@
+ 
+ 
+ @OS_WIN32_TRUE@@ENCHANT_WIN32_RESOURCE@ : libenchant.rc
+-@OS_WIN32_TRUE@	$(top_srcdir)/lt-compile-resource libenchant.rc @ENCHANT_WIN32_RESOURCE@
++@OS_WIN32_TRUE@	$(top_srcdir)/compile-resource libenchant.rc @ENCHANT_WIN32_RESOURCE@
+ 
+ # Tell versions [3.59,3.63) of GNU make to not export all variables.
+ # Otherwise a system limit (for SysV at least) may be exceeded.

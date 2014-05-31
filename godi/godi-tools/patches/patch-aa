@@ -1,16 +1,18 @@
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-src/console/cmd.ml
 --- ../godi-tools-3.0.37.orig/console-src/console/cmd.ml	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/console/cmd.ml	2014-04-06 18:17:21.416800000 +0000
-@@ -17,7 +17,7 @@
++++ ./console-src/console/cmd.ml	2014-05-26 19:14:43.412800000 +0000
+@@ -17,7 +17,9 @@
  
  exception Exit_code of int
  
 -
-+let () = Init.init_netdb () 
++let () = Init.init_netdb ()
++(* force reading and saving mount table *)
++let _ = Godi_file.getcwd ()
  
  let usage() =
    prerr_endline ("usage: godi_console [<command> [<options>]]\n" ^
-@@ -27,7 +27,7 @@
+@@ -27,7 +29,7 @@
  		 "  wish - Manipulate the list of user's wishes\n" ^
  		 "  perform - Install or remove packages\n" ^
  		 "  list - List packages by criterion\n" ^
@@ -19,7 +21,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
                   "  dep - Check dependency on installed package\n" ^ 
  		 "  delete - Remove packages (godi_delete backend)\n" ^
  		 "  add - Install binary packages (godi_add backend)\n" ^ 
-@@ -556,7 +556,7 @@
+@@ -556,7 +558,7 @@
  	"-remove", Arg.String (word_by_word add_remove_wish),
  	        "<pkg>                Remove <pkg>";
  	"-add", Arg.String add_package,
@@ -28,7 +30,42 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  	"-option", Arg.String add_option,
  	        "<pkg>:<name>=<val>   Set option <name>=<val> for <pkg>";
  	"-wishes", Arg.Unit add_wishes,
-@@ -1510,7 +1510,7 @@
+@@ -662,13 +664,17 @@
+   let vid = new_var_id() in
+   let src_pkgs' =
+     if mflag then (
++      Godi_file.enable_caching ();
+       List.iter (fun pkg -> 
+ 		   (source_pkg pkg)#rescan_deps con 
+ 		     (Godi_file.slashname tmp_godi_conf) vid)
+ 		src_pkgs;
+-      List.map 
++      let erg =List.map 
+ 	(fun pkg -> `Source_pkg ((source_pkg pkg)#variant vid))
+ 	src_pkgs
++      in
++      Godi_file.disable_caching ();
++      erg
+     )
+     else src_pkgs in
+   Godi_file.release_tmpdir tmp;
+@@ -698,6 +704,7 @@
+   if to_remove = [] && to_build_or_add = [] && not mflag then
+     print_endline "Nothing to do."
+   else (
++    Godi_file.enable_caching ();
+     List.iter
+       (fun pkg ->
+ 	 if pkgtype pkg = `Source then (
+@@ -709,6 +716,7 @@
+ 	 )
+       )
+       to_build_or_add';
++    Godi_file.disable_caching ();
+     List.iter
+       (fun pkg ->
+ 	 if (installed_pkg pkg)#preserve then
+@@ -1510,7 +1518,7 @@
    let parse_selector s =
      if ( Filename.is_implicit s &&
             not(Godi_file_handler.is_url s) &&
@@ -37,7 +74,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
         )
      then
        `Dep(Godi_versions.parse_dependency ~sloppy:true s)
-@@ -1540,7 +1540,7 @@
+@@ -1540,7 +1548,7 @@
        (fun s -> 
  	 package_selectors := 
             !package_selectors @ [parse_selector s])
@@ -46,7 +83,22 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  
    let message = printmsg con in
    let inst_pkgs = get_installed_packages ~verbose:!verbose con in
-@@ -1733,7 +1733,7 @@
+@@ -1637,6 +1645,14 @@
+ 	message "Nothing to do.\n" )
+   else (
+     List.iter
++      (function
++      | `Binary_pkg x->
++        x#require_binary_archive con;
++      | _ -> ();
++      )
++      to_add' ;
++
++    List.iter
+ 	  (fun pkg ->
+ 	     if (installed_pkg pkg)#preserve then
+ 	       message
+@@ -1733,7 +1749,7 @@
  
          "-in-binary",
          Arg.String (fun s -> only_one_input(); input := Some(`Binary s)),
@@ -55,7 +107,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  
  	"-fixup-symlinks",
  	Arg.Set fixup_symlinks,
-@@ -1895,7 +1895,7 @@
+@@ -1895,7 +1911,7 @@
  	"<file>   Set the deinstall script from a file";
  
        ]
@@ -64,7 +116,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
      (helptext "<option>...");
  
    if !input = None then
-@@ -1988,7 +1988,7 @@
+@@ -1988,7 +2004,7 @@
  	       (Godi_file.filename dir)
                 (Godi_query.binary_file_base in_pkg)
  	    )
@@ -73,7 +125,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  	let out_pkg =
  	  Godi_ptool.binary_of_dispersed_package con out_file_name in_pkg in
          let n = Godi_file.slashname (binary_pkg out_pkg)#binary_archive in
-@@ -2295,13 +2295,6 @@
+@@ -2295,13 +2311,6 @@
  
    let makefile = ref None in
  
@@ -87,7 +139,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
    let inc_dirs = ref [ Godi_file.filename "." ] in
    let sys_inc_dirs = ref [] in
    let global_ignore_flag = ref false in
-@@ -2405,6 +2398,30 @@
+@@ -2405,6 +2414,30 @@
  	 Godi_file.chdir (Godi_file.filename d)
    );
  
@@ -98,7 +150,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +     - it's consistent with how gnu make and
 +       freebsd-make locate the Makefile to use
 +     - godi_make's solution was inconsistent anyway
-+       because the new directory wasn't appended to 
++       because the new directory wasn't appended to
 +       the reference makefile
 +   *)
 +  (match !makefile with
@@ -118,7 +170,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
    let ctx =
      Godi_make.create_context
        ~override:!override
-@@ -2874,7 +2891,688 @@
+@@ -2874,7 +2907,685 @@
  	    src_files
    )
  
@@ -141,7 +193,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +    }
 +
 +
-+    let list_find ~f l =
++  let list_find ~f l =
 +    try
 +      Some (List.find f l )
 +    with
@@ -161,7 +213,6 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +      )
 +    in
 +    iter [] li
-+
 +
 +
 +  let rec compare_blddep a = function
@@ -325,7 +376,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +    else
 +      assert ( !elem <> None );
 +    !elem
-+
+ 
 +  let find_newer htl_install_names l =
 +    let elem =ref None in
 +    let f first_run = function
@@ -378,7 +429,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +    else
 +      assert ( !elem <> None );
 +    !elem
- 
++
 +  let upgrade con (binary_pkgs_wr,installed_pkgs_wr,l) =
 +    (*let installed_pkgs_wr = List.map ( fun x -> `Installed_pkg x) installed_pkgs
 +      and binary_pkgs_wr = List.map ( fun x -> `Binary_pkg x ) binary_pkgs in *)
@@ -574,13 +625,11 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
 +          |> Godi_plan.sort_packages |> List.rev
 +        and to_add =
 +          List.filter to_be_added binary_pkgs_wr
-+          |> Godi_plan.sort_packages
++            |> Godi_plan.sort_packages
 +        in
 +        List.iter
 +          (function
-+          | (`Binary_pkg x) as pkg ->
-+            printf "### Fetching %s\n" (pkg_fullname pkg);
-+            flush stdout;
++          | `Binary_pkg x ->
 +            x#require_binary_archive con;
 +          | _ -> assert false;
 +          )
@@ -807,7 +856,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  
  let exec_cmd =
    catch_error
-@@ -2884,6 +3582,7 @@
+@@ -2884,6 +3595,7 @@
         Arg.current := 1;
         match Sys.argv.(1) with
  	   "update"  -> cmd_update()
@@ -817,7 +866,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  	 | "list"    -> cmd_list()
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/Makefile.code ./console-src/console/Makefile.code
 --- ../godi-tools-3.0.37.orig/console-src/console/Makefile.code	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/console/Makefile.code	2014-04-06 18:17:10.028800000 +0000
++++ ./console-src/console/Makefile.code	2014-05-26 19:14:43.412800000 +0000
 @@ -7,9 +7,11 @@
  
  REQUIRES = unix str shell netstring $(WTOOL_REQUIRES)
@@ -865,7 +914,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/Makefile.code ./c
  
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml ./console-src/godi-pax/pax.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax.ml	2014-04-06 18:17:10.044400000 +0000
++++ ./console-src/godi-pax/pax.ml	2014-05-26 19:14:43.428400000 +0000
 @@ -36,6 +36,7 @@
      [ `None
      | `Gzip
@@ -1149,7 +1198,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml ./console
 +  ) x ( fun x -> Sys.remove x.fln ) x
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli ./console-src/godi-pax/pax.mli
 --- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax.mli	2014-04-06 18:17:10.044400000 +0000
++++ ./console-src/godi-pax/pax.mli	2014-05-26 19:14:43.428400000 +0000
 @@ -36,6 +36,7 @@
      [ `None
      | `Gzip
@@ -1174,7 +1223,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli ./consol
 +val filename_quote_shell: ?native:bool -> Godi_file.filename -> string
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml ./console-src/godi-pax/pax_cmd.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax_cmd.ml	2014-04-06 18:17:10.044400000 +0000
++++ ./console-src/godi-pax/pax_cmd.ml	2014-05-26 19:14:43.428400000 +0000
 @@ -207,6 +207,9 @@
        "-j", `Unit(fun () -> compression := `Bzip2),
        "Process bzip2-compressed archives";
@@ -1276,7 +1325,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml ./con
  	  prerr_endline msg;
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml ./console-src/godi-pkg/godi_perform.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_perform.ml	2014-04-06 18:17:10.060000000 +0000
++++ ./console-src/godi-pkg/godi_perform.ml	2014-05-26 19:14:43.444000000 +0000
 @@ -457,12 +457,13 @@
  ;;
  
@@ -1394,7 +1443,25 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml 
      bin_pkg # release_binary_archive();
      onerror := [];
  
-@@ -1163,22 +1183,40 @@
+@@ -1067,15 +1087,14 @@
+               con pkg =
+   if pkgtype pkg <> `Source then
+     failwith "Godi_perform.fetch_pkg: not a source package";
+-  let dir = (source_pkg pkg) # source_directory in
++  let dir = Godi_file.slashname @@ (source_pkg pkg) # source_directory in
+   exec_to_user_error
+     ~pref_user_error
+     (Godi_exec.call_cmd
+-       ~cd:dir
+        ~stdout:con.protocol
+        ~stderr:`Like_stdout
+        ~interactivity:con.interactivity)
+-    ( ("godi_console", [| "make"; "fetch" |] )
++    ( ("godi_console", [| "make"; "-C" ; dir ; "fetch" |] )
+     )
+ ;;
+ 
+@@ -1163,22 +1182,40 @@
  		       let sh_cmd = cmd1 ^ cmd2 in
  		       raise (Restart_recommended sh_cmd)
  		   | `Complete ->
@@ -1425,7 +1492,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml 
 +             ~stdout:con.protocol
 +		         ~stderr:`Like_stdout
 +		         ~interactivity:con.interactivity
-+             ("/bin/bash", [| filename |]  );
++             ("/bin/bash.exe", [| "--norc"; filename |]  );
 +           filename_deleted := true;
 +           Sys.remove filename;
 +           let self_copy = Godi_file.uquote (Godi_file.slashname ( Godi_file.filename (
@@ -1450,7 +1517,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml 
  		 (* In the normal case, run these commands directly: *)
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml ./console-src/godi-pkg/godi_ptool.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_ptool.ml	2014-04-06 18:17:10.060000000 +0000
++++ ./console-src/godi-pkg/godi_ptool.ml	2014-05-26 19:14:43.444000000 +0000
 @@ -531,32 +531,71 @@
      | None ->
  	failwith "Godi_ptool.binary_of_dispersed_package"
@@ -1552,7 +1619,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml ./
  ;;
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./console-src/godi-pkg/godi_query.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_query.ml	2014-04-06 18:17:10.075600000 +0000
++++ ./console-src/godi-pkg/godi_query.ml	2014-05-26 19:14:43.459600000 +0000
 @@ -101,6 +101,8 @@
    lazy (from_godi_conf "GODI_DBDIR")
  ;;
@@ -1562,7 +1629,74 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
  
  let godi_conf() = Lazy.force lazy_godi_conf
  let profile_conf() = Lazy.force lazy_profile_conf
-@@ -601,8 +603,8 @@
+@@ -368,17 +370,23 @@
+ 
+ module VIdMap = Map.Make(VId);;
+ 
+-
++let simpl_time = ref 0.0
+ class source_package_impl ?pref_user_error con (dir:Godi_file.filename) 
+                           : source_package =
+   let confopts = read_confopts dir in
+   let values =
+-    query_makefile
++    let t1 = Unix.gettimeofday () in
++    let erg =query_makefile
+       ?pref_user_error
+       con
+       dir (["PKGNAME"; "COMMENT"; "MAINTAINER"; "DEPENDS"; "BUILD_DEPENDS"; 
+ 	    "CONFLICTS"; "MESSAGE_SRC"; "SELF_UPDATE_PKG";
+-	   ] @ confopts) in
++	   ] @ confopts)
++    in
++    let t2 = Unix.gettimeofday () in
++    simpl_time := !simpl_time +. (t2 -. t1) ;
++    erg
++  in
+ 
+   let (fullname,comment,maintainer,depends,build_depends,conflicts,
+        message_src, self_upd_pkg, confopts_vals) =
+@@ -532,11 +540,20 @@
+    * that have a "Makefile" and a "DESCR" file are considered as
+    * source package.
+    * This is a lousy definition!
++   * To speed up, I excluded some well known directories without source files
+    *)
+   let build = (localbase()) ^ "/build" in
+   (* TODO: Handle errors from list_subdirs: *)
+   let level1 =
+-    list_subdirs (Godi_file.filename build) in
++    let f s =
++      match Godi_file.basename s with
++      | "packages" | "distfiles" | "buildfiles" | "mk"
++      | "profiles" -> false
++      | _ -> true
++    in
++    list_subdirs (Godi_file.filename build) |>
++    List.filter f
++  in
+   let level2 =
+     List.flatten
+       (List.map (fun dirname -> list_subdirs dirname) level1) in
+@@ -565,6 +582,17 @@
+        source_dirs)
+ ;;
+ 
++let really_scan_source_packages con =
++  Godi_file.enable_caching ();
++  try
++    let erg = really_scan_source_packages con in
++    Godi_file.disable_caching ();
++    erg
++  with
++  | x ->
++    Godi_file.disable_caching ();
++    raise x
++
+ 
+ let source_packages = ref None;;
+ 
+@@ -601,8 +629,8 @@
  
  let from_tgz tgz =
    let components = Hashtbl.create 10 in
@@ -1573,7 +1707,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
        let cont = ref true in
        while !cont do
  	match Pax.read_element ar with
-@@ -616,11 +618,11 @@
+@@ -616,11 +644,11 @@
  		  name
  		  (Pax.extract_element_to_memory el)
  	      else
@@ -1588,7 +1722,25 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
    ( object
        method filename = tgz
        method get name =
-@@ -953,9 +955,71 @@
+@@ -922,6 +950,17 @@
+ 	()
+ ;;
+ 
++let update_installed_packages ?verbose con =
++  Godi_file.enable_caching ();
++  try
++    let erg = update_installed_packages ?verbose con in
++    Godi_file.disable_caching ();
++    erg
++  with
++  | x ->
++    Godi_file.disable_caching ();
++    raise x
++
+ 
+ let get_installed_packages ?verbose con =
+   update_installed_packages ?verbose con;
+@@ -953,18 +992,90 @@
  	installed_packages := `Reconcile pl
  ;;
  
@@ -1640,7 +1792,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
  (***********************************************************************)
  (* Binary packages                                                     *)
  (***********************************************************************)
-+let fetch_binary_tgz (tgz:Godi_file.filename) =
++let fetch_binary_tgz ?con (tgz:Godi_file.filename) =
 +  let tgz = match Godi_file.getcwd() with
 +  | None -> user_error("Cannot determine path of working directory")
 +  | Some cwd -> Godi_file.concat cwd tgz
@@ -1654,26 +1806,45 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
 +      | Some dirname ->
 +        let basename = Godi_file.basename tgz in
 +        let fln_server = binpkg_server ^ basename in
-+        local_wget fln_server tgz
++        (match con with
++        | None -> ()
++        | Some c ->
++          printmsg c ("### Fetching " ^ basename) );
++        local_wget fln_server tgz;
++        (match con with
++        | None -> ()
++        | Some c ->
++          printmsg c "\n")
 +  )
 +
  
- let local_binary_package ?pref_user_error (tgz:Godi_file.filename) 
+-let local_binary_package ?pref_user_error (tgz:Godi_file.filename) 
++let local_binary_package ?con ?pref_user_error (tgz:Godi_file.filename)
        : binary_package =
-@@ -964,7 +1028,9 @@
+   let tgz = 
+     match Godi_file.getcwd() with
        | None ->
  	  user_error("Cannot determine path of working directory")
        | Some cwd ->
 -	  Godi_file.concat cwd tgz in
 +      Godi_file.concat cwd tgz
 +  in
-+  let () = try fetch_binary_tgz tgz with | _ -> () in
++  let () = try fetch_binary_tgz ?con tgz with | _ -> () in
    let tgz_obj= from_tgz tgz in
    let tgz_plist =
      parse_CONTENTS_from_tgz ?pref_user_error (* ~no_files:true *) tgz_obj in
+@@ -1124,7 +1235,7 @@
+     let (dir_url, base) = Godi_file_handler.split_name url in
+     let handler = Godi_file_handler.handler_of_directory dir_url in
+     let (tgz, release) = handler # get con base in
+-    let pkg = local_binary_package ?pref_user_error tgz in
++    let pkg = local_binary_package ~con ?pref_user_error tgz in
+     local_tgz := Some tgz;
+     local_pkg := Some pkg;
+     local_rel := release
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli ./console-src/godi-pkg/godi_query.mli
 --- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_query.mli	2014-04-06 18:17:10.091200000 +0000
++++ ./console-src/godi-pkg/godi_query.mli	2014-05-26 19:14:43.475200000 +0000
 @@ -65,6 +65,11 @@
  val godi_binpkg_path : unit -> string list
    (* returns the URLs in GODI_BINPKG (or [] if not set) *)
@@ -1696,24 +1867,125 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli .
 +   Return None in case of success or an error message otherwise
 +*)
 +(* TODO: move to proper location *)
+diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.ml ./console-src/godi-sys-unix/godi_file.ml
+--- ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.ml	2013-04-14 13:03:21.000000000 +0000
++++ ./console-src/godi-sys-unix/godi_file.ml	2014-05-26 19:14:43.475200000 +0000
+@@ -636,3 +636,7 @@
+ 	let s' = if param="" then s else s ^ ": " ^ param in
+ 	raise(Sys_error s')
+ ;;
++
++
++let enable_caching () = () ;;
++let disable_caching () = () ;;
+diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.mli ./console-src/godi-sys-unix/godi_file.mli
+--- ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.mli	2013-04-14 13:03:21.000000000 +0000
++++ ./console-src/godi-sys-unix/godi_file.mli	2014-05-26 19:14:43.475200000 +0000
+@@ -369,3 +369,7 @@
+    *
+    * setx: whether to pass the -x option to the shell. Default: false
+    *)
++
++
++val enable_caching : unit -> unit
++val disable_caching : unit -> unit
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.ml ./console-src/godi-sys-win32/godi_exec.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/godi_exec.ml	2014-04-06 18:17:10.091200000 +0000
-@@ -520,7 +520,7 @@
++++ ./console-src/godi-sys-win32/godi_exec.ml	2014-05-26 20:25:09.936400000 +0000
+@@ -21,7 +21,7 @@
+   | J_finish
+ 
+ 
+-class thread name =
++class thread () =
+ object(self)
+   (* This class implements the thread(s) for collecting stdout and stderr
+      from spawned subprocesses.
+@@ -172,10 +172,10 @@
+ exception Command_discontinued
+ 
+ 
+-let stdout_thread_lz = lazy(new thread "stdout")
+-let stderr_thread_lz = lazy(new thread "stderr")
+-let wait_thread_lz = lazy(new thread "wait")
+-let interactivity_thread_lz = lazy(new thread "interactivity")
++let stdout_thread_lz = lazy(new thread ())
++let stderr_thread_lz = lazy(new thread ())
++let wait_thread_lz = lazy(new thread ())
++let interactivity_thread_lz = lazy(new thread ())
+ 
+ 
+ let collect collector s =
+@@ -227,6 +227,8 @@
+      started by a Cygwin DLL (in some respect), and takes wrong approaches
+      for DLL initialization. Using cmd.exe as intermediate step fixes
+      these problems.
++
++     I disabled cmd.exe now. Let's see, if it is still necessary.
+    *)
+ 
+   let native_cmd =
+@@ -236,11 +238,10 @@
+        else
+ 	 (Godi_file.nativename
+ 	    (Godi_file.filename cmd))) in
+-  let cmd_exe =
++  (*let cmd_exe =
+     try Sys.getenv "COMSPEC"
+-    with Not_found -> "cmd.exe" in
+-  
+-  let all_args = Array.append [| cmd_exe; "/d"; "/c"; native_cmd |] args in
++    with Not_found -> "cmd.exe" in *)
++  let all_args = Array.append [| (* cmd_exe; "/d"; "/c";*) native_cmd |] args in
+ 
+ (*
+ prerr_endline ("EXEC " ^ String.concat " " (Array.to_list all_args));
+@@ -397,9 +398,13 @@
+       e'
+     in
+ 
++(*    let pid =
++      Unix.create_process_env
++	cmd_exe all_args process_env stdin_fd stdout_fd stderr_fd in *)
+     let pid = 
+       Unix.create_process_env
+-	cmd_exe all_args process_env stdin_fd stdout_fd stderr_fd in
++	native_cmd all_args process_env stdin_fd stdout_fd stderr_fd in
++
+     (* most likely that create_process fails, if something fails *)
+ 
+     (* From now on exceptions are catastrophic *)
+@@ -510,17 +515,21 @@
+ (* cmd.exe has unfixable quoting problems. As workaround we write the script
+    as temporary file and execute it - if the command is too complicated,
+    quoting-wise
++
++   cmd.exe is not longer used.
+  *)
+ 
++(*
+ let simple_cmd_re =
+   Str.regexp "^[- a-zA-Z_+/0-9'.,:;]+$"
+-
++*)
+ 
+ let shell ?(setx=false) cmd =
    let simple_switches, switches =
      if setx then "-xc","-x" else "-c","" in
-   if Str.string_match simple_cmd_re cmd 0 then
+-  if Str.string_match simple_cmd_re cmd 0 then
 -    ("/bin/ash", [| simple_switches; cmd |])
-+    ("/bin/bash", [| simple_switches; cmd |])
++    if String.length cmd < 29_000 then
++(*  if Str.string_match simple_cmd_re cmd 0 then *)
++    ("/bin/dash.exe", [| simple_switches; cmd |])
    else (
      let tmpdir = Godi_file.allocate_tmpdir() in
      let tmpdir_path = Godi_file.tmpdir_path tmpdir in
-@@ -528,7 +528,12 @@
+@@ -528,7 +537,12 @@
      let f = Godi_file.open_out `Binary script in
      output_string f cmd;
      close_out f;
 -    ("/bin/ash", [| switches; Godi_file.slashname script |])
-+    ("/bin/bash",
++    ("/bin/dash.exe",
 +     if switches <> "" then
 +       [| switches; Godi_file.slashname script |]
 +     else
@@ -1724,8 +1996,136 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.
  ;;
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.ml ./console-src/godi-sys-win32/godi_file.ml
 --- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/godi_file.ml	2014-04-06 18:17:10.106800000 +0000
-@@ -493,6 +493,15 @@
++++ ./console-src/godi-sys-win32/godi_file.ml	2014-05-26 20:27:05.688400000 +0000
+@@ -12,7 +12,6 @@
+ *)
+ 
+ open Godi_file_helper
+-open Printf
+ 
+ type split_filename =
+   [ `Relative of string list
+@@ -50,7 +49,7 @@
+      let resolve_flag =
+        match !cache with
+ 	 | None -> true
+-	 | Some (c, n) -> c = !chdir_count in
++	 | Some (c, _) -> c = !chdir_count in
+      if resolve_flag then (
+        let (n,_) = 
+ 	 translate_to_win32
+@@ -202,8 +201,8 @@
+ let basename f1 =
+   match f1.splitname with
+     | `POSIX_absolute p1 -> list_basename p1
+-    | `WIN32_drive(letter, p1) -> list_basename p1
+-    | `WIN32_remote(host, p1) -> list_basename p1
++    | `WIN32_drive(_, p1) -> list_basename p1
++    | `WIN32_remote(_, p1) -> list_basename p1
+     | `Relative p1 -> list_basename p1
+     | `Error -> invalid_arg "Godi_file.basename"
+ 
+@@ -389,7 +388,7 @@
+     )
+ ;;
+ 
+-
++(*
+ let subst_symlinks d l =
+   (* If the dir listing l contains symlinks, we have to strip the ".lnk" 
+      suffix off (only shortcut symlinks)
+@@ -409,7 +408,7 @@
+        else n
+     )
+     l
+-
++*)
+ 
+ let read_dir ?(include_dots=false) =
+   (* Sys.readdir does not return ".", and "..", so we do not use it *)
+@@ -428,13 +427,27 @@
+        with
+            End_of_file ->
+              Unix.closedir dh;
+-             subst_symlinks d (List.rev !f)
++             (* subst_symlinks d (List.rev !f) *)
++             List.rev !f
+          | error ->
+              Unix.closedir dh;   (* Cannot read entry *)
+              raise error
+     )
+ ;;
+ 
++let stat_cache_symlink = Hashtbl.create 10
++let stat_cache_no_symlink = Hashtbl.create 10
++let cache_enabled = ref false
++
++let enable_caching () =
++  cache_enabled := true;
++  Godi_file_helper.enable_caching ()
++
++let disable_caching () =
++  cache_enabled := false;
++  Hashtbl.clear stat_cache_symlink;
++  Hashtbl.clear stat_cache_no_symlink;
++  Godi_file_helper.disable_caching ()
+ 
+ let stat ?(symlink=false) =
+   catch_unix_error
+@@ -442,7 +455,19 @@
+     (fun file ->
+        if symlink then (
+ 	 let n = nativename ~resolve_final_symlink:false file in
+-	 ( match read_symlink n with
++         let cached =
++           match !cache_enabled with
++           | false -> None
++           | true ->
++             try
++               Some(Hashtbl.find stat_cache_symlink n)
++             with
++             | Not_found ->  None
++         in
++         match cached with
++         | Some x -> x
++         | None ->
++	   let erg = match read_symlink n with
+ 	     | Some (target,_) ->
+ 		 let st = Unix.LargeFile.stat n in
+ 		 { st with
+@@ -452,11 +477,29 @@
+ 		 }
+ 	     | None ->
+ 		 Unix.LargeFile.stat n
+-	 )
++	   in
++           if !cache_enabled = true then
++             Hashtbl.replace stat_cache_symlink n erg;
++           erg
+        )
+        else (
+ 	 let n = nativename file in
+-	 Unix.LargeFile.stat n
++         let cached =
++           match !cache_enabled with
++           | false -> None
++           | true ->
++             try
++               Some(Hashtbl.find stat_cache_no_symlink n)
++             with
++             | Not_found ->  None
++         in
++         match cached with
++         | Some x -> x
++         | None ->
++	   let erg = Unix.LargeFile.stat n in
++           if !cache_enabled = true then
++             Hashtbl.replace stat_cache_no_symlink n erg;
++           erg
+        )
+     )
+ 
+@@ -493,6 +536,15 @@
      | Some _, _ ->
          not is_regular && not is_dir && not is_symlink
      | None, _ ->
@@ -1741,7 +2141,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.
          not is_regular && not is_dir && not is_existing && not is_symlink
  ;;
  
-@@ -692,6 +701,10 @@
+@@ -692,6 +744,10 @@
  let rec remove ?(recurse = false) =
    let unlink d =
      let n = nativename ~resolve_final_symlink:false d in
@@ -1752,7 +2152,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.
      Unix.chmod n 0o666;
      Unix.unlink n
    in
-@@ -726,10 +739,25 @@
+@@ -726,10 +782,25 @@
  
  
  let remove_dir ?(recurse = false) fn =
@@ -1781,18 +2181,340 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.
  ;;
  
  
-@@ -949,7 +977,7 @@
+@@ -896,7 +967,7 @@
+ ;;
+ 
+ 
+-let copy ?(prefer_link = false) ?remove:(rm = false) origname copyname =
++let copy ?prefer_link ?remove:(rm = false) origname copyname =
+   (* We ignore prefer_link because this is totally unexpected by Windows
+      users
+    *)
+@@ -949,7 +1019,7 @@
      output_string f cmd;
      close_out f;
      let switches = if setx then ["-x"] else [] in
 -    let bin_sh = nativename(filename "/bin/ash") in
-+    let bin_sh = nativename(filename "/bin/bash") in
++    let bin_sh = nativename(filename "/bin/dash.exe") in
      Unix.execv
        cmd_exe 
        (Array.of_list
+diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file_helper.ml ./console-src/godi-sys-win32/godi_file_helper.ml
+--- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file_helper.ml	2013-04-14 13:03:21.000000000 +0000
++++ ./console-src/godi-sys-win32/godi_file_helper.ml	2014-05-26 20:31:25.116400000 +0000
+@@ -11,31 +11,32 @@
+  * file LICENSE.
+ *)
+ 
+-open Godi_win32
+-
+ let symlink_buf = String.create 4096
+   (* impl restriction: symlink shotcuts must fit into 4096 bytes *)
+ 
+ (* Cygwin-1.5 symlinks *)
+-let symlink_magic =
++(* let symlink_magic =
+   "\x4c\x00\x00\x00\
+    \x01\x14\x02\x00\
+    \x00\x00\x00\x00\
+    \xc0\x00\x00\x00\
+-   \x00\x00\x00\x46"
++   \x00\x00\x00\x46" *)
+ 
+ (* Cygwin-1.7 symlinks *)
+ let symlink_magic_17 =
+   "!<symlink>\xff\xfe"
+     (* maybe the FF FE is a BOM *)
+ 
++let symlink_magic_17_len = String.length symlink_magic_17
++
++(*
+ let short s p =
+   if p + 1 >= String.length s then raise Not_found;
+   (Char.code s.[p]) lor ((Char.code s.[p+1]) lsl 8)
++*)
+ 
+-
+-let lnk_re = Str.regexp ".*\\.[lL][nN][kK]$"
+-
++(* let lnk_re = Str.regexp ".*\\.[lL][nN][kK]$" *)
++(*
+ let read_shortcut_symlink path =
+   (* Return [Some target] when [path] is a Cygwin symlink, or [None] otherwise.
+      [path] must be a Win32 path.
+@@ -107,6 +108,40 @@
+     | Sys_error _
+     | Not_found ->
+ 	None
++*)
++let really_read fd len =
++  let rec iter fd str ~pos ~len =
++    try
++      let erg = Unix.read fd str pos len in
++      if erg < 1 then
++        String.sub str 0 pos
++      else if erg >= len then
++        str
++      else
++        iter fd str ~pos:(pos+erg) ~len:(len-erg)
++    with
++    | Unix.Unix_error((Unix.EAGAIN|Unix.EINTR) ,_,_) ->
++        iter fd str ~pos ~len
++  in
++  if len < 1 then
++    ""
++  else
++    let s = String.create len in
++    iter fd s ~pos:0 ~len
++
++let is_symlink path =
++  try
++    let fd = Unix.openfile path [ Unix.O_RDONLY ] 0o644 in
++    let erg =
++      try
++        symlink_magic_17 = really_read fd symlink_magic_17_len
++      with
++      | _ -> false
++    in
++    Unix.close fd;
++    erg
++  with
++  | _ -> false
+ 
+ 
+ let read_cyg17_symlink path =
+@@ -183,16 +218,19 @@
+ 	raise error
+ 
+ 
+-
+ let read_symlink path =
+   match read_cyg17_symlink path with
++  | None -> None
++  | Some p -> Some(p,path)
++(*
++  match read_cyg17_symlink path with
+     | None -> 
+         ( match read_shortcut_symlink (path ^ ".lnk") with
+            | None -> None
+            | Some p -> Some(p, path ^ ".lnk")
+         )
+     | Some p -> Some(p, path)
+-        
++*)
+ 
+ type mount_flags =
+     { (* mount_symlink : bool;   (* 0x0001 *) *)
+@@ -235,7 +273,9 @@
+       (* See also comment for get_mount_table *)
+ 
+       mt_cygdrive_prefix : string;
+-      mt_cygdrive_flags : mount_flags
++      mt_cygdrive_flags : mount_flags;
++      mt_posix_root_win32: string;
++      mt_posix_root_me_flags: mount_flags;
+     }
+ 
+ 
+@@ -419,6 +459,7 @@
+       close_in f;
+       read_mounts2 data
+     with
++      | Sys_error _
+       | Not_found ->
+           (* Run "mount" and save the result *)
+           let b = Buffer.create 128 in
+@@ -439,12 +480,21 @@
+                 mount_data := Some data;
+                 entries
+   in
++
++  let tmp = List.find ( fun x -> x.me_posix = [] ) entries in
++  let mt_posix_root_win32 =
++    match tmp.me_win32 with
++    | Some t -> t
++    | None -> failwith "illegal root path in cygwin mount table"
++  and mt_posix_root_me_flags = tmp.me_flags in
+   { mt_entries = entries;
+     mt_cygdrive_prefix = "/cygdrive";
+-    mt_cygdrive_flags = decode_flags ""
++    mt_cygdrive_flags = decode_flags "";
++    mt_posix_root_win32;
++    mt_posix_root_me_flags;
+   }
+ 
+-
++(*
+ let get_drives() =
+   (* Return list with drive letters in lowercase *)
+   let drives = get_logical_drives() in
+@@ -454,7 +504,7 @@
+       l := (String.make 1 (Char.chr (97+k))) :: !l
+   done;
+   !l
+-
++*)
+ 
+ 
+ (* -- For Cygwin-1.5 mount tables -- *)
+@@ -601,10 +651,10 @@
+ let rec after_prefix p1 p2 =
+   match p1 with
+     | [] -> p2
+-    | n1 :: p1' ->
++    | _ :: p1' ->
+ 	( match p2 with
+ 	    | [] -> invalid_arg "after_prefix"
+-	    | n2 :: p2' -> 
++	    | _ :: p2' -> 
+ 		(* if n1 <> n2 then  invalid_arg "after_prefix"; *)
+ 		after_prefix p1' p2'
+ 	)
+@@ -638,9 +688,9 @@
+     | Some win32 ->
+ 	let me_splitname = get_splitname(slashify win32) in
+ 	( match (me_splitname, splitname) with
+-	    | `WIN32_drive(d1,p1), `WIN32_drive(d2,p2) ->
++	    | `WIN32_drive(_,p1), `WIN32_drive(_,p2) ->
+ 		after_prefix p1 p2
+-	    | `WIN32_remote(h1,p1), `WIN32_remote(h2,p2) ->
++	    | `WIN32_remote(_,p1), `WIN32_remote(_,p2) ->
+ 		after_prefix p1 p2
+ 	    | _ ->
+ 		[]
+@@ -651,7 +701,7 @@
+ 
+ 
+ 
+-let rec translate_to_posix (mtable : mount_table)
++let translate_to_posix (mtable : mount_table)
+                            (splitname : split_filename) =
+   (* Translate splitname to a POSIX path, or return None if this is not
+      possible (i.e. the name points to outside the mounted POSIX tree).
+@@ -685,6 +735,33 @@
+     p1 ^ "/" ^ p2
+ 	
+ 
++(*
++   Scanning source directories is very slow. Therefore I cheat.
++   - I assume the file hierarchy doesn't change during this time, so I can cache the results
++   - I skip certain checks and try to generate win32 path in a more direct way.
++*)
++let htl_absolute_posix = Hashtbl.create 100
++let htl_win_drive = Hashtbl.create 10
++let cache_enabled = ref false
++
++let enable_caching () =
++  cache_enabled := true
++
++let disable_caching () =
++  Hashtbl.clear htl_absolute_posix;
++  Hashtbl.clear htl_win_drive;
++  cache_enabled := false
++
++let rec get_abs_key accu = function
++| [] -> String.concat "/" (List.rev accu)
++| "."::tl -> get_abs_key accu tl
++| (".." as hd)::tl ->
++  (match accu with
++  | [] -> get_abs_key (hd::accu) tl
++  | _::ac -> get_abs_key ac tl)
++| hd::tl ->
++  get_abs_key (hd::accu) tl
++
+ 
+ let translate_to_win32 (mtable : mount_table)
+                        (splitname : split_filename)
+@@ -811,8 +888,24 @@
+ 		  )
+ 	  )
+ 
++  and walk_posix_absolute_fast p =
++    if
++      false = !cache_enabled ||
++      List.exists
++        (fun me -> me.me_posix <> [] && is_prefix me.me_posix p)
++	mtable.mt_entries
++    then
++      walk_posix_absolute p
++    else
++      let short = String.concat "/" (mtable.mt_posix_root_win32::p) in
++      if Sys.file_exists short = false then
++        walk_posix_absolute p
++      else
++        if is_symlink short then
++          walk_posix_absolute p
++        else
++          short,Some mtable.mt_posix_root_me_flags
+   and walk_posix_absolute p =
+-    (* Look into the mount table: *)
+     let me =
+       try
+ 	List.find 
+@@ -820,7 +913,8 @@
+ 	  mtable.mt_entries
+       with Not_found ->
+ 	raise(Sys_error("Not found in mount table: /" ^ 
+-			  String.concat "/" p)) in
++			  String.concat "/" p))
++    in
+     let w32dir =
+       match me.me_win32 with
+ 	| Some p -> p
+@@ -858,14 +952,35 @@
+     let w32path = "//" ^ host ^ "/" in
+     walk None w32path None p
+   in
+-
+   match splitname with
+     | `WIN32_drive(drive,p) ->
++      if !cache_enabled = false then
+ 	walk_win32_drive drive p
++      else
++        let htl_key = drive ^ (get_abs_key [] p) in
++        (try
++           Hashtbl.find htl_win_drive htl_key
++         with
++         | Not_found ->
++           let erg = walk_win32_drive drive p in
++           Hashtbl.replace htl_win_drive htl_key erg;
++           erg
++        )
+     | `WIN32_remote(host,p) ->
+ 	walk_win32_remote host p
+     | `POSIX_absolute p ->
++      if !cache_enabled = false then
+ 	walk_posix_absolute p
++      else
++        let htl_key = get_abs_key [] p in
++        (try
++           Hashtbl.find htl_absolute_posix htl_key
++         with
++         | Not_found ->
++           let erg = walk_posix_absolute_fast p in
++           Hashtbl.replace htl_absolute_posix htl_key erg;
++           erg
++        )
+     | `Relative p ->
+ 	(* The Win32 working directory is
+            translated to a POSIX path using the mount table
+diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/Makefile.code ./console-src/godi-sys-win32/Makefile.code
+--- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/Makefile.code	2013-04-14 13:03:21.000000000 +0000
++++ ./console-src/godi-sys-win32/Makefile.code	2014-05-26 20:20:21.414400000 +0000
+@@ -58,8 +58,8 @@
+ # general rules:
+ 
+ OPTIONS   =
+-OCAMLC    = ocamlfind ocamlc -package netstring -g  -thread  $(OPTIONS)
+-OCAMLOPT  = ocamlfind ocamlopt -package netstring -thread $(OPT_OPTIONS) $(OPTIONS)
++OCAMLC    = ocamlfind ocamlc -w A -annot -package netstring -g  -thread  $(OPTIONS)
++OCAMLOPT  = ocamlfind ocamlopt -w A -annot -package netstring -thread $(OPT_OPTIONS) $(OPTIONS)
+ OCAMLDEP  = ocamldep $(OPTIONS)
+ 
+ depend: *.ml *.mli 
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp ./console-src/godi-util/godi_conf.mlp
 --- ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/godi-util/godi_conf.mlp	2014-04-06 18:17:10.106800000 +0000
++++ ./console-src/godi-util/godi_conf.mlp	2014-05-26 19:14:43.522000000 +0000
 @@ -24,3 +24,173 @@
  
  let cmd_bzip2 = "@CMD_BZIP2@";;
@@ -1852,7 +2574,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp .
 +let cmd_cpio = add_exe "/bin/cpio" ;;
 +let cmd_bsdtar = add_exe (sbindir ^ "/bsdtar") ;;
 +let cmd_bsdcpio = add_exe (sbindir ^ "/bsdcpio") ;;
-+let cmd_shell = add_exe "/bin/bash" ;;
++let cmd_shell = add_exe "/bin/dash" ;;
 +let cmd_rm = add_exe "/bin/rm" ;;
 +
 +let self_copy_script = match Sys.os_type with
@@ -1969,7 +2691,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp .
 +"
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/Makefile ./console-src/Makefile
 --- ../godi-tools-3.0.37.orig/console-src/Makefile	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/Makefile	2014-04-06 18:17:10.122400000 +0000
++++ ./console-src/Makefile	2014-05-26 19:14:43.522000000 +0000
 @@ -10,17 +10,23 @@
  	cd godi-ui && $(MAKE) all
  	cd console && $(MAKE) all
@@ -2037,7 +2759,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/Makefile ./console-src/Ma
  	done
 diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/symlink ./console-src/symlink
 --- ../godi-tools-3.0.37.orig/console-src/symlink	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/symlink	2014-04-06 18:17:10.122400000 +0000
++++ ./console-src/symlink	2014-05-26 19:14:43.522000000 +0000
 @@ -1,51 +1,39 @@
  #! /bin/sh
  
@@ -2118,7 +2840,7 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/symlink ./console-src/sym
 +cp "$exefile" "$2"
 diff -r -b -B -u ../godi-tools-3.0.37.orig/mk/configure ./mk/configure
 --- ../godi-tools-3.0.37.orig/mk/configure	2013-04-14 13:03:20.000000000 +0000
-+++ ./mk/configure	2014-04-06 18:17:10.138000000 +0000
++++ ./mk/configure	2014-05-26 19:14:43.537600000 +0000
 @@ -14,6 +14,7 @@
  outsystype="build/mk/systype.mk"
  path_mode="append"

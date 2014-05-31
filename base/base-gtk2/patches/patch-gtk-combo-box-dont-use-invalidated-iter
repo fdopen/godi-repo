@@ -1,0 +1,15 @@
+--- gtk/gtkcombobox.c.org  2013-03-12 22:25:23.000000000 +0200
++++ gtk/gtkcombobox.c      2013-07-20 23:38:34.248516146 +0300
+@@ -4152,11 +4152,11 @@
+   if (!ret)
+     return TRUE; /* clicked outside window? */
+ 
++  gtk_combo_box_popdown (combo_box);
++
+   gtk_tree_model_get_iter (priv->model, &iter, path);
+   gtk_tree_path_free (path);
+ 
+-  gtk_combo_box_popdown (combo_box);
+-
+   if (tree_column_row_is_sensitive (combo_box, &iter))
+     gtk_combo_box_set_active_iter (combo_box, &iter);

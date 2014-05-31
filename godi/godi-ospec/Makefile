@@ -15,6 +15,7 @@ COMMENT=	Behavior-Driven Development tool for OCaml
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=		yes
 WINOASIS_USE_BASH= 	yes

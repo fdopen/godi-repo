@@ -1,4 +1,4 @@
-SOURCES   = json.mll
+SOURCES   = json
 RESULT    = json
 LIBINSTALL_FILES = \
   json.cmi json.mli json.cma \

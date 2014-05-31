@@ -3,10 +3,10 @@
 VERSION=	24.3
 XPMVERSION=	3.5.8
 MNODE=          1304	
-PKGREVISION=	2
+PKGREVISION=	3
 PKG=		apps-emacs
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	emacs
+DISTNAME=	opt
 DISTFILES=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz emacs-${VERSION}-bin-i386.zip emacs-${VERSION}.tar.xz libxpm-${XPMVERSION}-w32-src.zip v1.3.1.tar.gz
 EXTRACT_ONLY=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz v1.3.1.tar.gz
 CATEGORIES=	apps
@@ -18,7 +18,6 @@ COMMENT=	emacs for windows
 
 BUILD_DEPENDS+= godi-ocaml-src>=3.12:../../godi-ocaml-src
 
-PATH:=		${LOCALBASE}/bin:${PATH}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 INSTALL_SCRIPT_FILE=files/install
@@ -34,13 +33,15 @@ pre-configure:
 .endif
 
 pre-extract:
-	@${MKDIR} ${WRKDIR:Q}/emacs
+	@${MKDIR} -p ${WRKDIR:Q}/opt
 
 post-extract:
 	@${CP} files/* ${WRKDIR:Q}
 	@${CHMOD} 755 ${WRKDIR:Q}/install.sh
-	@${RMDIR} ${WRKDIR:Q}/emacs
-	@cd ${WRKDIR:Q} && unzip -q ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && ${MV} emacs-* emacs 
+	@cd ${WRKDIR:Q} && \
+	  cd opt && \
+	  unzip -q ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && \
+	  ${MV} emacs-* emacs 
 	@cd ${WRKDIR:Q} && tar -xf "${LOCALBASE}/lib/godi/saved-src/ocaml.txz"
 
 BUILD_SCRIPT= ${WRKDIR:Q}/install.sh

@@ -1,0 +1,22 @@
+--- ../../work-ref/atk-2.13.2/atk/Makefile.am	2014-05-26 19:20:40.000000000 +0200
++++ ./atk/Makefile.am	2014-05-27 20:26:21.369613742 +0200
+@@ -191,7 +191,7 @@
+ # ---------- Win32 stuff ----------
+ 
+ if OS_WIN32
+-libatk_1_0_la_LDFLAGS += -export-symbols atk.def -no-undefined -Wl,atk-win32-res.o
++libatk_1_0_la_LDFLAGS += -no-undefined -Wl,atk-win32-res.o
+ libatk_1_0_la_DEPENDENCIES = atk-win32-res.o
+ endif
+ 
+--- ../../work-ref/atk-2.13.2/atk/Makefile.in	2014-05-26 19:36:58.000000000 +0200
++++ ./atk/Makefile.in	2014-05-27 20:26:00.168942974 +0200
+@@ -84,7 +84,7 @@
+ @HAVE_INTROSPECTION_TRUE@am__append_2 = $(gir_DATA) $(typelibs_DATA)
+ 
+ # ---------- Win32 stuff ----------
+-@OS_WIN32_TRUE@am__append_3 = -export-symbols atk.def -no-undefined -Wl,atk-win32-res.o
++@OS_WIN32_TRUE@am__append_3 = -no-undefined -Wl,atk-win32-res.o
+ @OS_WIN32_FALSE@libatk_1_0_la_DEPENDENCIES = $(am__DEPENDENCIES_1) \
+ @OS_WIN32_FALSE@	$(am__DEPENDENCIES_1)
+ subdir = atk

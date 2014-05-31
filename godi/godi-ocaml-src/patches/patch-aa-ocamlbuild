@@ -1,0 +1,708 @@
+--- ../../work-ref/ocaml-4.02/ocamlbuild/command.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/command.ml	2014-05-30 13:34:51.102000000 +0200
+@@ -25,6 +25,7 @@
+ type t =
+ | Seq of t list
+ | Cmd of spec
++| Cmd_stdout of string * spec
+ | Echo of string list * pathname
+ | Nop
+ and spec =
+@@ -93,7 +94,7 @@
+ let env_path = lazy begin
+   let path_var = Sys.getenv "PATH" in
+   let parse_path =
+-    if Sys.os_type = "Win32" then
++    if Sys.win32 then
+       Lexers.parse_environment_path_w
+     else
+       Lexers.parse_environment_path
+@@ -128,20 +129,33 @@
+ 
+ (* On Windows, we need to also check for the ".exe" version of the file. *)
+ let file_or_exe_exists file =
+-  sys_file_exists file || (Sys.os_type = "Win32" && sys_file_exists (file ^ ".exe"))
++  sys_file_exists file || (Sys.win32 && sys_file_exists (file ^ ".exe"))
+ 
+ let search_in_path cmd =
++  let fln_suffix = ref "" in
++  let f_exists = 
++    if Sys.win32 = false || Filename.check_suffix cmd ".exe" then
++      sys_file_exists
++    else
++      fun p ->
++        if sys_file_exists p then
++          true
++        else if sys_file_exists (p ^".exe") then (
++          fln_suffix := ".exe";
++          true
++        )
++        else
++          false
++  in
+   (* Try to find [cmd] in path [path]. *)
+   let try_path path =
+     (* Don't know why we're trying to be subtle here... *)
+-    if path = Filename.current_dir_name then file_or_exe_exists cmd
+-    else file_or_exe_exists (filename_concat path cmd)
++    if path = Filename.current_dir_name then f_exists cmd
++    else f_exists (filename_concat path cmd)
+   in
+-  if Filename.is_implicit cmd then
++  if Filename.is_implicit cmd && Filename.basename cmd = cmd then
+     let path = List.find try_path !*env_path in
+-    (* We're not trying to append ".exe" here because all windows shells are
+-     * capable of understanding the command without the ".exe" suffix. *)
+-    filename_concat path cmd
++    filename_concat path ( cmd ^ !fln_suffix)
+   else
+     cmd
+ 
+@@ -151,8 +165,8 @@
+   let b = Buffer.create 256 in
+   (* The best way to prevent bash from switching to its windows-style
+    * quote-handling is to prepend an empty string before the command name. *)
+-  if Sys.os_type = "Win32" then
+-    Buffer.add_string b "''";
++  (* if Sys.os_type = "Win32" then
++    Buffer.add_string b "''"; *)
+   let first = ref true in
+   let put_space () =
+     if !first then
+@@ -167,8 +181,16 @@
+     | N -> ()
+     | A u -> put_space (); put_filename u
+     | Sh u -> put_space (); Buffer.add_string b u
+-    | P p -> put_space (); put_filename p
+-    | Px u -> put_space (); put_filename u; call_with_target u
++    | P p -> 
++      put_space ();
++      (* unix shells don't understand backslashes *)
++      let p' = if Sys.win32 then fln_unix_slash p else p in
++      put_filename p'
++    | Px u -> 
++      put_space (); 
++      let u' = if Sys.win32 then fln_unix_slash u else u in
++      put_filename u'; 
++      call_with_target u
+     | V v -> if resolve_virtuals then do_spec (virtual_solver v)
+              else (put_space (); Printf.bprintf b "<virtual %s>" (Shell.quote_filename_if_needed v))
+     | S l -> List.iter do_spec l
+@@ -180,24 +202,126 @@
+ 
+ let string_of_command_spec x = string_of_command_spec_with_calls ignore ignore false x
+ 
++let rec command_t_of_command_spec_with_calls with_cmdline call_with_tags call_with_target resolve_virtuals spec =
++  let rec f ac = function
++  | N -> ac
++  | A x
++  | P x -> 
++    let x' = if Sys.win32 then fln_unix_slash x else x in
++    x'::ac
++  | Px u ->
++    let u' = if Sys.win32 then fln_unix_slash u else u in
++    call_with_target u;
++    u'::ac
++  | S l -> List.fold_left f ac l
++  | Sh _ -> raise Not_found (* Sys.command enforced *)
++  | V v ->
++    if resolve_virtuals then
++      f ac (virtual_solver v)
++    else
++      raise Not_found
++  | T t ->
++    call_with_tags t;
++    f ac (!tag_handler t)
++  | Quote s ->
++    if ac = [] then
++      raise Not_found
++    else
++      let ns = string_of_command_spec_with_calls call_with_tags call_with_target resolve_virtuals s in
++      ns::ac
++  in
++  if with_cmdline || Sys.win32 = false then
++    Signatures.Cmdline(string_of_command_spec_with_calls call_with_tags call_with_target resolve_virtuals spec)
++  else
++    try
++      match f [] spec |> List.rev with
++      | [] -> Signatures.Cmdline ""
++      | cmd::tl ->
++        (* We can't execute scripts with CreateProcess. Only
++           executables are supported. If the user wants to call a
++           script that has an '.exe' suffix, he will get what he
++           deserves :) If he wants to call a regular executable
++           without exe suffix, this case will be handled by the
++           shell *)
++        let cmd = search_in_path cmd in
++        if Filename.check_suffix cmd ".exe" then
++          let ar = Array.of_list (cmd::tl) in
++          Signatures.Argv(ar,None)
++        else
++          raise Not_found
++    with
++    | Not_found ->
++      Signatures.Cmdline(string_of_command_spec_with_calls call_with_tags call_with_target resolve_virtuals spec)
++
++let command_t_of_command_spec x = command_t_of_command_spec_with_calls false ignore ignore false x
++
++let command_t_to_str = function
++| Signatures.Cmdline s -> s
++| Signatures.Argv(argv,fln) ->
++  let b = Buffer.create 256 in
++  let first = ref true in
++  let f el =
++    let el =
++      if !first then (
++        first:= false;
++        (* it doesn't matter, if we call CreateProcess.
++           But cygwin shells only support forward slashes.
++        *)
++        fln_unix_slash el
++      )
++      else (
++        Buffer.add_char b ' ';
++        el
++      )
++    in
++    Shell.quote_filename_if_needed el |> Buffer.add_string b
++  in
++  Array.iter f argv;
++  (match fln with
++  | None -> ()
++  | Some x ->
++    Buffer.add_string b " > ";
++    Shell.quote_filename_if_needed x |> Buffer.add_string b);
++  Buffer.contents b
++
++let command_t_target_and_tags_of_command_spec spec =
++  let rtags = ref Tags.empty in
++  let rtarget = ref "" in
++  let union_rtags tags = rtags := Tags.union !rtags tags in
++  let s = command_t_of_command_spec_with_calls false union_rtags ((:=) rtarget) true spec in
++  let str = command_t_to_str s in
++  let target = if !rtarget = "" then str else !rtarget in
++  s, str, target, !rtags
++
+ let string_target_and_tags_of_command_spec spec =
+   let rtags = ref Tags.empty in
+   let rtarget = ref "" in
+   let union_rtags tags = rtags := Tags.union !rtags tags in
+-  let s = string_of_command_spec_with_calls union_rtags ((:=) rtarget) true spec in
+-  let target = if !rtarget = "" then s else !rtarget in
+-  s, target, !rtags
+-
+-let string_print_of_command_spec spec quiet pretend =
+-  let s, target, tags = string_target_and_tags_of_command_spec spec in
+-  fun () -> if not quiet then Log.event ~pretend s target tags; s
++  let s = command_t_of_command_spec_with_calls true union_rtags ((:=) rtarget) true spec in
++  let str = command_t_to_str s in
++  let target = if !rtarget = "" then str else !rtarget in
++  str, target, !rtags
++
++let command_t_print_of_command_spec spec quiet pretend =
++  let s, str, target, tags = command_t_target_and_tags_of_command_spec spec in
++  fun () ->
++    if not quiet then begin
++      Log.event ~pretend str target tags;
++    end;
++    s
+ (* ***)
+ 
+ let print_escaped_string f = Format.fprintf f "%S"
+ 
++let add_stdout_to_cmd ~fln ~cmd =
++  cmd ^ " > " ^ Shell.quote_filename_if_needed fln
++
+ let rec print f =
+   function
+   | Cmd spec -> Format.pp_print_string f (string_of_command_spec spec)
++  | Cmd_stdout(fln,spec) ->
++    let s = add_stdout_to_cmd ~fln ~cmd:(string_of_command_spec spec) in
++    Format.pp_print_string f s
+   | Seq seq -> List.print print f seq
+   | Nop -> Format.pp_print_string f "nop"
+   | Echo(texts, dest_path) ->
+@@ -242,7 +366,7 @@
+     with_output_file dest_path begin fun oc ->
+       List.iter (output_string oc) texts
+     end
+-  let echo x y () = (* no print here yet *) do_echo x y; ""
++  let echo x y () = (* no print here yet *) do_echo x y; Signatures.Cmdline ""
+ end
+ 
+ let rec list_rev_iter f =
+@@ -255,14 +379,22 @@
+     function
+     | [] -> acc
+     | Nop :: xs -> loop acc xs
+-    | Cmd spec :: xs -> loop (string_print_of_command_spec spec quiet pretend :: acc) xs
++    | Cmd spec :: xs -> loop (command_t_print_of_command_spec spec quiet pretend :: acc) xs
++    | Cmd_stdout(fln,spec) :: xs ->
++      let f () =
++        match command_t_print_of_command_spec spec quiet pretend () with
++        | Signatures.Cmdline cmd -> Signatures.Cmdline(add_stdout_to_cmd ~fln ~cmd)
++        | Signatures.Argv(argv,None) -> Signatures.Argv(argv,Some fln)
++        | Signatures.Argv(_,Some _) -> failwith "duplicate captured stdout"
++      in
++      loop (f :: acc) xs
+     | Echo(texts, dest_path) :: xs -> loop (Primitives.echo texts dest_path :: acc) xs
+     | Seq l :: xs -> loop (loop acc l) xs
+   in List.rev (loop [] [cmd])
+ 
+ let execute_many ?(quiet=false) ?(pretend=false) cmds =
+   add_parallel_stat (List.length cmds);
+-  let degraded = !*My_unix.is_degraded || Sys.os_type = "Win32" in
++  let degraded = !*My_unix.is_degraded || Sys.win32 in
+   let jobs = !jobs in
+   if jobs < 0 then invalid_arg "jobs < 0";
+   let max_jobs = if jobs = 0 then None else Some jobs in
+@@ -295,7 +427,7 @@
+                         if rc <> 0 then begin
+                           if not quiet then
+                             eprintf "Exit code %d while executing this \
+-                                    command:@\n%s" rc cmd;
++                                    command:@\n%s" rc (command_t_to_str cmd);
+                           raise (Exit_with_code rc)
+                         end
+                       end cmds;
+@@ -308,7 +440,15 @@
+             | Some(exn) -> Some(List.rev res, exn)
+             | None -> None
+           else
+-            My_unix.execute_many ~ticker ?max_jobs ~display konts
++            let x = List.map ( fun x ->
++              List.map ( fun f ->
++                fun () ->
++                  match f () with
++                  | Signatures.Cmdline x -> x
++                  | Signatures.Argv _ -> assert false ) x )
++              konts
++            in
++            My_unix.execute_many ~ticker ?max_jobs ~display x
+         end
+     end
+ ;;
+@@ -328,6 +468,7 @@
+   let rec cmd x =
+     match x with
+     | Nop | Echo _ -> ()
++    | Cmd_stdout(_,s)
+     | Cmd(s) -> spec s
+     | Seq(s) -> List.iter cmd s in
+   cmd x
+@@ -342,6 +483,10 @@
+     | Nop -> fun acc -> acc
+     | Echo(_, p) -> f p
+     | Cmd(s) -> spec s
++    | Cmd_stdout(fln,s) ->
++      fun acc ->
++        let acc = f fln acc in
++        spec s acc
+     | Seq(s) -> List.fold_right cmd s in
+   cmd x
+ 
+@@ -364,6 +509,10 @@
+   let rec cmd =
+     function
+     | Cmd spec -> fun acc -> string_of_command_spec spec :: acc
++    | Cmd_stdout(fln,spec) ->
++      fun acc ->
++        let s = add_stdout_to_cmd ~fln ~cmd:(string_of_command_spec spec) in
++        s :: acc
+     | Seq seq -> list cmd seq
+     | Nop -> fun acc -> acc
+     | Echo(texts, dest_path) -> list text (dest_path :: texts)
+--- ../../work-ref/ocaml-4.02/ocamlbuild/main.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/main.ml	2014-05-30 13:34:51.102000000 +0200
+@@ -214,7 +214,7 @@
+ 
+     Shell.chdir Pathname.pwd;
+ 
+-    let call spec = sys_command (Command.string_of_command_spec spec) in
++    let call spec = sys_command (Command.command_t_of_command_spec spec) in
+ 
+     let cmds =
+       List.fold_right begin fun (target, ext) acc ->
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/my_std.ml	2014-05-30 13:35:20.835600000 +0200
+@@ -253,13 +253,115 @@
+       try Array.iter (fun x -> if x = basename then raise Exit) a; false
+       with Exit -> true
+ 
+-let sys_command =
+-  match Sys.os_type with
+-  | "Win32" -> fun cmd ->
+-      if cmd = "" then 0 else
+-      let cmd = "bash --norc -c "^Filename.quote cmd in
+-      Sys.command cmd
+-  | _ -> fun cmd -> if cmd = "" then 0 else Sys.command cmd
++let fln_unix_slash fln =
++  let bfln = String.length fln |> Bytes.create in
++  for i = 0 to String.length fln - 1 do
++    match fln.[i] with
++    | '\\' -> Bytes.set bfln i '/' 
++    | x -> Bytes.set bfln i x 
++  done;
++  Bytes.to_string bfln
++
++
++let command_plain ofln = function
++| [| |] -> 0
++| argv ->
++  let rec waitpid a b =
++    let erg =
++      try
++        Some(Unix.waitpid a b)
++      with
++      | Unix.Unix_error(Unix.EINTR,_,_) -> None
++    in
++    match erg with
++    | None -> waitpid a b
++    | Some x -> x
++  in
++  let fd_closed = ref false in
++  let stdout =
++    match ofln with
++    | None ->
++      fd_closed:= true;
++      Unix.stdout
++    | Some s ->
++      Unix.openfile s
++        [ Unix.O_CREAT ; Unix.O_WRONLY ; Unix.O_SHARE_DELETE ]
++        0o644
++  in
++  try
++    let pid = Unix.create_process argv.(0) argv Unix.stdin stdout Unix.stderr in
++    if stdout != Unix.stdout then (
++      fd_closed:= true;
++      Unix.close stdout
++    );
++    let pid', process_status = waitpid [] pid in
++    assert (pid = pid');
++    match process_status with
++    | Unix.WEXITED n -> n
++    | Unix.WSIGNALED _ -> 2 (* like OCaml's uncaught exceptions *)
++    | Unix.WSTOPPED _ -> 127
++  with
++  | x when !fd_closed = false ->
++    (try Unix.close stdout with _ -> ());
++    raise x
++
++(*
++let log s =
++  let ch = open_out_gen [ Open_append; Open_creat ; Open_binary ] 0o600 "C:/cygwin/tmp/ocamlbuild.log" in
++  let ch_closed = ref false in
++  try
++    output_string ch (s^"\n");
++    ch_closed := true;
++    close_out ch
++  with
++  | exn when !ch_closed = false ->
++    close_out_noerr ch;
++    raise exn
++*)
++
++let sys_command = function
++| Signatures.Argv( [| |], _)
++| Signatures.Cmdline "" -> 0
++| Signatures.Argv(a,fln)->
++  (*let x = match fln with
++  | None -> "argv"
++  | Some x -> "argv2" ^ x
++  in
++  String.concat "||" (x::(Array.to_list a)) |> log ; *)
++  command_plain fln a
++| Signatures.Cmdline cmd ->
++  (* log cmd; *)
++  if not Sys.win32 then
++    Sys.command cmd
++  else if String.length cmd < 29_000 then
++    command_plain None [| "dash.exe" ; "-c" ; cmd |]
++  else begin
++    let fln,ch = 
++      Filename.open_temp_file
++        ~mode:[Open_binary]
++        "ocamlbuildtmp"
++        ".sh"
++    in
++    let ch_closed = ref false in
++    let file_deleted = ref false in
++    try
++      let fln_fslash = fln_unix_slash fln in
++      output_string ch cmd;
++      ch_closed:= true;
++      close_out ch;
++      let ret = command_plain None [| "dash.exe" ; fln_fslash |] in
++      file_deleted:= true;
++      Sys.remove fln;
++      ret
++    with
++    | x ->
++      if !ch_closed = false then
++        close_out_noerr ch;
++      if !file_deleted = false then
++        (try Sys.remove fln with _ -> () );
++      raise x
++  end
++
+ 
+ (* FIXME warning fix and use Filename.concat *)
+ let filename_concat x y =
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.mli	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/my_std.mli	2014-05-30 13:34:51.102000000 +0200
+@@ -56,9 +56,11 @@
+ val reset_filesys_cache : unit -> unit
+ val reset_filesys_cache_for_file : string -> unit
+ val sys_file_exists : string -> bool
+-val sys_command : string -> int
++
++val sys_command : Signatures.command_t -> int
+ val filename_concat : string -> string -> string
+ 
++val fln_unix_slash : string -> string
+ val invalid_arg' : ('a, Format.formatter, unit, 'b) format4 -> 'a
+ 
+ include Signatures.MISC
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_unix.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/my_unix.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -61,7 +61,7 @@
+ let run_and_open s kont =
+   with_temp_file "ocamlbuild" "out" begin fun tmp ->
+     let s = Printf.sprintf "%s > '%s'" s tmp in
+-    let st = sys_command s in
++    let st = sys_command (Signatures.Cmdline s) in
+     if st <> 0 then failwith (Printf.sprintf "Error while running: %s" s);
+     with_input_file tmp kont
+   end
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_tools.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/ocaml_tools.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -27,9 +27,9 @@
+ 
+ let menhir_ocamldep_command' tags ~menhir_spec out =
+   let menhir = if !Options.ocamlyacc = N then V"MENHIR" else !Options.ocamlyacc in
+-  Cmd(S[menhir; T tags; A"--raw-depend";
++  Cmd_stdout(out,S[menhir; T tags; A"--raw-depend";
+         A"--ocamldep"; Quote (ocamldep_command' Tags.empty);
+-        menhir_spec ; Sh ">"; Px out])
++        menhir_spec])
+ 
+ let menhir_ocamldep_command arg out env _build =
+   let arg = env arg and out = env out in
+@@ -78,7 +78,7 @@
+ let ocamldep_command arg out env _build =
+   let arg = env arg and out = env out in
+   let tags = tags_of_pathname arg in
+-  Cmd(S[ocamldep_command' tags; P arg; Sh ">"; Px out])
++  Cmd_stdout(out,S[ocamldep_command' tags; P arg])
+ 
+ let ocamlyacc mly env _build =
+   let mly = env mly in
+@@ -93,9 +93,9 @@
+   let ml = env ml and mli = env mli in
+   let tags = tags_of_pathname ml++"ocaml" in
+   Ocaml_compiler.prepare_compile build ml;
+-  Cmd(S[!Options.ocamlc; ocaml_ppflags tags; ocaml_include_flags ml; A"-i";
++  Cmd_stdout(mli,S[!Options.ocamlc; ocaml_ppflags tags; ocaml_include_flags ml; A"-i";
+         (if Tags.mem "thread" tags then A"-thread" else N);
+-        T(tags++"infer_interface"); P ml; Sh">"; Px mli])
++        T(tags++"infer_interface"); P ml])
+ 
+ let menhir mly env build =
+   let mly = env mly in
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_utils.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/ocaml_utils.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -31,7 +31,7 @@
+ 
+ let stdlib_dir = lazy begin
+   let ocamlc_where = !Options.build_dir / (Pathname.mk "ocamlc.where") in
+-  let () = Command.execute ~quiet:true (Cmd(S[!Options.ocamlc; A"-where"; Sh">"; P ocamlc_where])) in
++  let () = Command.execute ~quiet:true (Cmd_stdout(ocamlc_where,S[!Options.ocamlc; A"-where"])) in
+   String.chomp (read_file ocamlc_where)
+ end
+ 
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocamlbuild_plugin.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/ocamlbuild_plugin.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -24,7 +24,7 @@
+ module Rule = Ocamlbuild_pack.Rule
+ module Options = Ocamlbuild_pack.Options
+ module Findlib = Ocamlbuild_pack.Findlib
+-type command = Command.t = Seq of command list | Cmd of spec | Echo of string list * string | Nop
++type command = Command.t = Seq of command list | Cmd of spec | Cmd_stdout of string * spec | Echo of string list * string | Nop
+ and spec = Command.spec =
+   | N | S of spec list | A of string | P of string | Px of string
+   | Sh of string | T of Tags.t | V of string | Quote of spec
+--- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/options.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -54,8 +54,23 @@
+     let long_opt = long ^ ".opt" in
+       (* This defines how the command will be found *)
+     let choices =
+-      [(fun () -> if file_or_exe_exists long_opt then Some long_opt else None);
+-       (fun () -> if file_or_exe_exists long then Some long else None)] in
++      [(fun () -> 
++        let exe = long_opt ^ ".exe" in
++        if Sys.win32 && sys_file_exists exe then
++          Some exe
++        else if sys_file_exists long_opt then 
++          Some long_opt 
++        else 
++          None
++       );
++       (fun () -> 
++         let exe = long ^ ".exe" in
++         if Sys.win32 && sys_file_exists exe then
++           Some exe
++         else if sys_file_exists long then 
++           Some long 
++         else 
++           None)] in
+       (* For non core tool the preference is too look at PATH first *)
+     let choices' =
+       [fun () ->
+@@ -286,8 +301,7 @@
+ 
+   if !use_ocamlfind then begin
+     ocamlfind_cmd := A "ocamlfind";
+-    let cmd = Command.string_of_command_spec !ocamlfind_cmd in
+-    begin try ignore(Command.search_in_path cmd)
++    begin try ignore(Command.search_in_path "ocamlfind")
+     with Not_found -> failwith "ocamlfind not found on path, but -no-ocamlfind not used" end;
+     (* TODO: warning message when using an option such as -ocamlc *)
+     (* Note that plugins can still modify these variables After_options.
+--- ../../work-ref/ocaml-4.02/ocamlbuild/plugin.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/plugin.ml	2014-05-30 13:34:51.117600000 +0200
+@@ -245,7 +245,7 @@
+           let spec = S[runner; P(!Options.build_dir/plugin^(!Options.exe));
+                        A"-no-plugin"; atomize passed_argv] in
+           Log.finish ();
+-          let rc = sys_command (Command.string_of_command_spec spec) in
++          let rc = sys_command (Command.command_t_of_command_spec spec) in
+           raise (Exit_silently_with_code rc);
+         end
+       else if not (sys_file_exists plugin_file) && !Options.plugin_tags <> [] then
+--- ../../work-ref/ocaml-4.02/ocamlbuild/shell.ml	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/shell.ml	2014-05-30 13:34:51.133200000 +0200
+@@ -23,12 +23,30 @@
+     | 'a'..'z' | 'A'..'Z' | '0'..'9' | '.' | '-' | '/' | '_' | ':' | '@' | '+' | ',' -> loop (pos + 1)
+     | _ -> false in
+   loop 0
++
++(* generic quote and unixquote are copied from the ocaml source, because they are not exported*)
++let generic_quote quotequote s =
++  let l = String.length s in
++  let b = Buffer.create (l + 20) in
++  Buffer.add_char b '\'';
++  for i = 0 to l - 1 do
++    if s.[i] = '\'' then
++      Buffer.add_string b quotequote
++    else
++      Buffer.add_char b  s.[i]
++  done;
++  Buffer.add_char b '\'';
++  Buffer.contents b
++
++let unixquote = generic_quote "'\\''"
++
+ let quote_filename_if_needed s =
+   if is_simple_filename s then s
+   (* We should probably be using [Filename.unix_quote] except that function
+    * isn't exported. Users on Windows will have to live with not being able to
+    * install OCaml into c:\o'caml. Too bad. *)
+-  else if Sys.os_type = "Win32" then Printf.sprintf "'%s'" s
++  (* else if Sys.os_type = "Win32" then Printf.sprintf "'%s'" s *)
++  else if Sys.win32 then unixquote s
+   else Filename.quote s
+ let chdir dir =
+   reset_filesys_cache ();
+@@ -36,10 +54,10 @@
+ let run args target =
+   reset_readdir_cache ();
+   let cmd = String.concat " " (List.map quote_filename_if_needed args) in
+-  if !*My_unix.is_degraded || Sys.os_type = "Win32" then
++  if !*My_unix.is_degraded || Sys.win32 then
+     begin
+       Log.event cmd target Tags.empty;
+-      let st = sys_command cmd in
++      let st = sys_command (Signatures.Argv (Array.of_list args,None)) in
+       if st <> 0 then
+         failwith (Printf.sprintf "Error during command `%s'.\nExit code %d.\n" cmd st)
+       else
+@@ -50,13 +68,17 @@
+     | None -> ()
+     | Some(_, x) ->
+       failwith (Printf.sprintf "Error during command %S: %s" cmd (Printexc.to_string x))
++let add_exe s = if Sys.win32 then s ^ ".exe" else s
+ let rm = sys_remove
+ let rm_f x =
+   if sys_file_exists x then rm x
+ let mkdir dir =
+   reset_filesys_cache_for_file dir;
+   (*Sys.mkdir dir (* MISSING in ocaml *) *)
+-  run ["mkdir"; dir] dir
++  (* run [add_exe "mkdir"; dir] dir *)
++  reset_readdir_cache ();
++  Unix.mkdir dir 0o755
++
+ let try_mkdir dir = if not (sys_file_exists dir) then mkdir dir
+ let rec mkdir_p dir =
+   if sys_file_exists dir then ()
+@@ -64,7 +86,7 @@
+ 
+ let cp_pf src dest =
+   reset_filesys_cache_for_file dest;
+-  run["cp";"-pf";src;dest] dest
++  run[add_exe "cp";"-pf";src;dest] dest
+ 
+ (* L'Arrete du 2007-03-07 prend en consideration
+    differement les archives. Pour les autres fichiers
+@@ -80,9 +102,9 @@
+ let is_link = My_unix.is_link
+ let rm_rf x =
+   reset_filesys_cache ();
+-  run["rm";"-Rf";x] x
++  run[add_exe "rm";"-Rf";x] x
+ let mv src dest =
+   reset_filesys_cache_for_file src;
+   reset_filesys_cache_for_file dest;
+-  run["mv"; src; dest] dest
++  run[add_exe "mv"; src; dest] dest
+   (*Sys.rename src dest*)
+--- ../../work-ref/ocaml-4.02/ocamlbuild/signatures.mli	2014-05-25 20:50:44.000000000 +0200
++++ ./ocamlbuild/signatures.mli	2014-05-30 13:34:51.133200000 +0200
+@@ -159,6 +159,10 @@
+   end
+ end
+ 
++type command_t =
++| Argv of string array * string option
++| Cmdline of string
++
+ (** Provides an abstract type for easily building complex shell
+     commands without making quotation mistakes.  *)
+ module type COMMAND = sig
+@@ -170,6 +174,8 @@
+   type t =
+     | Seq of t list (** A sequence of commands (like the `;' in shell) *)
+     | Cmd of spec   (** A command is made of command specifications ([spec]) *)
++    | Cmd_stdout of string * spec (** like above, but stdout of spec is
++                                      written to file *)
+     | Echo of string list * pathname
+     (** Write the given strings (w/ any formatting) to the given file *)
+     | Nop           (** The command that does nothing *)
+@@ -243,6 +249,8 @@
+   (** Build a string representation of a command that can be passed to the
+       system calls. *)
+   val string_of_command_spec : spec -> string
++
++  val command_t_of_command_spec : spec -> command_t
+ end
+ 
+ (** A self-contained module implementing extended shell glob patterns who have an expressive power
+@@ -539,6 +547,7 @@
+   type command = Command.t =
+     | Seq of command list
+     | Cmd of spec
++    | Cmd_stdout of string * spec
+     | Echo of string list * Pathname.t
+     | Nop
+ 

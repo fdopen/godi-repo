@@ -1,0 +1,10 @@
+--- main.ml.orig	2012-02-04 01:24:21.000000000 +0000
++++ main.ml	2014-03-25 18:50:59.156400000 +0000
+@@ -513,6 +513,7 @@
+ 			     (`Stdin,
+ 			      "" :: hardcoded_script_args)
+ 			 | script_name :: l -> 
++                             let script_name = CygwinPath.to_native script_name in
+ 			     Opt.set "source" Opt.from (`File script_name);
+ 			     (`File (absolute script_name), 
+ 			      script_name :: (hardcoded_script_args @ l)))

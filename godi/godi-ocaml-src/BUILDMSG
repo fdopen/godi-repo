@@ -17,10 +17,6 @@ Available options for godi.conf:
    - /ocaml/version/3.11     latest update of this release
    - /ocaml/release/3.11.1   exactly this release
 
-- OCAML_TK: If you want to build the tk library, set this
-   variable to "yes" (mingw only). This requires the build of 
-   base-tcltk before godi-ocaml.
-
 - OCAML_BUILD_FLAGS: Optimisation flags you want to pass to the compiler 
                      instead of -O (mingw only)
    

@@ -16,6 +16,7 @@ COMMENT=        typerep is a library for runtime types
 BUILD_DEPENDS+= godi-findlib>=1.3.2:../../godi/godi-findlib
 
 DEPENDS+= godi-ocaml>=4.00.1:../../godi/godi-ocaml
+DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 DEPENDS+= godi-type_conv>=109.53.00:../../godi/godi-type_conv
 DEPENDS+= godi-bin_prot>=109.53.00:../../godi/godi-bin_prot
 DEPENDS+= godi-sexplib>=109.55.00:../../godi/godi-sexplib

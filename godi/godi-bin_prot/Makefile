@@ -13,6 +13,7 @@ HOMEPAGE=       https://github.com/janestreet/bin_prot
 COMMENT=        A binary protocol generator
 
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 DEPENDS+=	godi-type_conv>=109.53.00:../../godi/godi-type_conv
 BUILD_DEPENDS+=	godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ounit>=1:../../godi/godi-ounit

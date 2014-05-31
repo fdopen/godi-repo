@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: e3b1479862c120a6239551181f18916d) *)
+(* DO NOT EDIT (digest: 283431e026fca4146347c60cda1b3f2f) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -259,6 +259,31 @@ module MyOCamlbuildFindlib = struct
     Ocamlbuild_pack.Lexers.blank_sep_strings
 
 
+  let exec_from_conf exec =
+    let exec =
+      let env_filename = Pathname.basename BaseEnvLight.default_filename in
+      let env = BaseEnvLight.load ~filename:env_filename ~allow_empty:true () in
+      try
+        BaseEnvLight.var_get exec env
+      with Not_found ->
+        Printf.eprintf "W: Cannot get variable %s\n" exec;
+        exec
+    in
+    let fix_win32 str =
+      if Sys.os_type = "Win32" then begin
+        let buff = Buffer.create (String.length str) in
+        (* Adapt for windowsi, ocamlbuild + win32 has a hard time to handle '\\'.
+         *)
+        String.iter
+          (fun c -> Buffer.add_char buff (if c = '\\' then '/' else c))
+          str;
+        Buffer.contents buff
+      end else begin
+        str
+      end
+    in
+      fix_win32 exec
+
   let split s ch =
     let buf = Buffer.create 13 in
     let x = ref [] in
@@ -286,27 +311,7 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x =
-    let ocamlfind_prog =
-      let env_filename = Pathname.basename BaseEnvLight.default_filename in
-      let env = BaseEnvLight.load ~filename:env_filename ~allow_empty:true () in
-      try
-        let x = BaseEnvLight.var_get "ocamlfind" env in
-        if Sys.os_type = "Win32" then
-          begin
-            (* backslashes are not supported, even if quoted *)
-            for i = 0 to String.length x - 1 do
-              match x.[i] with
-                |  '\\' -> x.[i] <- '/'
-                |  _ -> ()
-            done;
-          end;
-        Ocamlbuild_pack.Shell.quote_filename_if_needed x
-      with Not_found ->
-        Printf.eprintf "W: Cannot get variable ocamlfind\n";
-        "ocamlfind"
-    in
-      S[Sh ocamlfind_prog; x]
+  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
@@ -586,7 +591,7 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 589 "myocamlbuild.ml"
+# 594 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
@@ -600,6 +605,6 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 604 "myocamlbuild.ml"
+# 609 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;

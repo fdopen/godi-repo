@@ -8,7 +8,7 @@ DISTNAME=	cmdliner-${VERSION}
 DISTFILES=	${DISTNAME}.tbz  
 CATEGORIES=	godi  
 MASTER_SITES= 	http://erratique.ch/software/cmdliner/releases/ 
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://erratique.ch/software/cmdliner 
 COMMENT=	library for declarative definition of command line interfaces
 

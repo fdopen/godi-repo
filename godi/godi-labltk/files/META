@@ -1,0 +1,6 @@
+requires = ""
+description = "The Tk windowing toolkit"
+directory = "+labltk"
+archive(byte) = "labltk.cma"
+archive(native) = "labltk.cmxa"
+linkopts = ""

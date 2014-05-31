@@ -6,7 +6,7 @@ PKGNAME=	conf-zlib-${VERSION}
 DISTNAME=	pseudo
 DISTFILES=
 CATEGORIES=	conf
-MAINTAINER=	Alain.Frisch@ens.fr
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	n/a
 COMMENT=	Configures which zlib library to use
 

@@ -1,9 +1,0 @@
-The original reference manual and the tutorial for Camlp4. This refers 
-to the Camlp4 version shipped until O'Caml 3.09 (which is still 
-separately available as "Camlp5"). The Camlp4 version in 3.10 was 
-rewritten from scratch. However, many of the interfaces and concepts 
-described in this manual are still applicable.
-
-An "appendix" to this manual is available in godi-gallium-docs, which is 
-a copy of the wiki at http://brion.inria.fr/gallium, and these docs 
-somehow describe the changes in the rewritten Camlp4.

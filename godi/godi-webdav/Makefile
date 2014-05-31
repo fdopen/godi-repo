@@ -1,7 +1,5 @@
 .include "../../mk/bsd.prefs.mk"
 
-.include "../../mk/godi.pkg.mk"
-
 VERSION=	1.1
 PKGNAME=	godi-webdav-${VERSION}
 PKGREVISION=	3
@@ -19,8 +17,7 @@ DEPENDS+=	godi-ocamlnet-pcre>=3.6:../../godi/godi-ocamlnet-pcre
 DEPENDS+=	godi-pxp>=1.2:../../godi/godi-pxp
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-omake>=0:../../godi/godi-omake
-
-PATH:=		${LOCALBASE}/bin:${PATH}
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:

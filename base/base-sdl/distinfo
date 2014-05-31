@@ -1,4 +1,10 @@
-SHA1 (base-sdl-1.2.14.4.248_32.tar.xz) = 613de73f1bd6254474caf94e4714e2e3b5ae1cd7
-Size (base-sdl-1.2.14.4.248_32.tar.xz) = 218136 bytes 
-SHA1 (base-sdl-1.2.14.3.212_64.tar.xz) = acaaed3011b57bcfd211ca1f15ea3ce527b80715
-Size (base-sdl-1.2.14.3.212_64.tar.xz) = 221236 bytes 
+$NetBSD$
+
+SHA1 (SDL-1.2.15.tar.gz) = 0c5f193ced810b0d7ce3ab06d808cbb5eef03a2c
+Size (SDL-1.2.15.tar.gz) = 3920622 bytes
+
+SHA1 (base-sdl-1.2.15_0_64.txz) = 4b64465e91095fe5060aa5edcfdbcdf83404c5f9
+Size (base-sdl-1.2.15_0_64.txz) = 251108 bytes
+
+SHA1 (base-sdl-1.2.15_0_32.txz) = 8b9e057ce0cbc6471f9d6ced6922dd19c257c20b
+Size (base-sdl-1.2.15_0_32.txz) = 247408 bytes

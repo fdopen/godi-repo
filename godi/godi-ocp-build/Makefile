@@ -15,13 +15,12 @@ COMMENT=	Project manager for OCaml
 
 DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 INSTALL_SCRIPT_FILE=files/install
 DEINSTALL_SCRIPT_FILE=files/deinstall
 
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-
-USE_GMAKE=	yes
 
 HAS_CONFIGURE=yes
 

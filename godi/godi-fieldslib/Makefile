@@ -14,6 +14,7 @@ COMMENT=        OCaml record fields as first class values
 
 DEPENDS+=	godi-type_conv>=109.20.00:../../godi/godi-type_conv
 DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 BUILD_DEPENDS+= godi-findlib>=1.3.2:../../godi/godi-findlib
 

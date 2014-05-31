@@ -1,0 +1,72 @@
+--- ../../work-ref/labltk-4.02-beta1/browser/Makefile.nt	2014-05-22 16:15:52.000000000 +0200
++++ ./browser/Makefile.nt	2014-05-23 17:33:51.818000000 +0200
+@@ -25,7 +25,8 @@
+ endif
+ 
+ XTRAOBJ=winmain.$(O)
+-XTRALIBS=threads.cma -custom $(WINDOWS_APP)
++XTRALIBS=-I +threads threads.cma -custom $(WINDOWS_APP)
++XTRASWITCH= -thread
+ 
+ include Makefile.shared
+ 
+--- ../../work-ref/labltk-4.02-beta1/browser/Makefile.shared	2014-05-22 16:15:52.000000000 +0200
++++ ./browser/Makefile.shared	2014-05-23 17:33:51.833600000 +0200
+@@ -32,7 +32,7 @@
+ .SUFFIXES: .ml .mli .cmo .cmi .cmx .c .$(O)
+ 
+ .ml.cmo:
+-	$(CAMLCOMP) $(INCLUDES) $<
++	$(CAMLCOMP) $(XTRASWITCH) $(INCLUDES) $<
+ 
+ .mli.cmi:
+ 	$(CAMLCOMP) $(INCLUDES) $<
+--- ../../work-ref/labltk-4.02-beta1/browser/winmain.c	2014-05-22 16:15:52.000000000 +0200
++++ ./browser/winmain.c	2014-05-23 17:33:51.833600000 +0200
+@@ -17,7 +17,8 @@
+ #include <windows.h>
+ #include <mlvalues.h>
+ #include <callback.h>
+-#include <sys.h>
++/* #include <sys.h> */
++CAMLextern value caml_sys_exit (value);
+ 
+ /*CAMLextern int __argc; */
+ /* CAMLextern char **__argv; */
+@@ -35,6 +36,6 @@
+   argv[0] = exe_name;
+   argv[1] = NULL;
+   caml_main(argv);
+-  sys_exit(Val_int(0));
++  caml_sys_exit(Val_int(0));
+   return 0;
+ }
+--- ../../work-ref/labltk-4.02-beta1/INSTALL	2014-05-22 16:15:52.000000000 +0200
++++ ./INSTALL	2014-05-23 17:40:41.676800000 +0200
+@@ -66,4 +66,8 @@
+ 1- In the config subdirectory, overwrite Makefile with the file
+ corresponding to your system
+ 
+-2- Continue from step 2 above
++2- Continue similar to step 2 above
++
++        make -f Makefile.nt all
++        make -f Makefile.nt opt
++        make -f Makefile.nt install
+--- ../../work-ref/labltk-4.02-beta1/Makefile.nt	2014-05-22 16:15:52.000000000 +0200
++++ ./Makefile.nt	2014-05-23 17:33:51.849200000 +0200
+@@ -44,7 +44,13 @@
+ 	cd jpf ; $(MAKEREC) opt
+ 	cd frx ; $(MAKEREC) opt
+ 
+-.PHONY: examples_labltk examples_camltk
++byte: all
++opt: allopt
++
++.PHONY: all allopt byte opt
++.PHONY: labltk examples examples_labltk examples_camltk
++.PHONY: install installopt partialclean clean
++
+ 
+ examples: examples_labltk examples_camltk
+ 

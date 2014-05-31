@@ -1,0 +1,30 @@
+--- gtk/gtkstatusicon.c	2009-01-01 19:41:45.000000000 +0000
++++ gtk/gtkstatusicon.c	2009-01-23 19:03:37.000000000 +0000
+@@ -707,11 +707,13 @@
+ 	  button = 3;
+ 	  goto buttondown0;
+ 
++#ifdef WM_XBUTTONDOWN
+ 	case WM_XBUTTONDOWN:
+ 	  if (HIWORD (wparam) == XBUTTON1)
+ 	    button = 4;
+ 	  else
+ 	    button = 5;
++#endif
+ 
+ 	buttondown0:
+ 	  bc = g_new (ButtonCallbackData, 1);
+@@ -733,11 +735,13 @@
+ 	  button = 3;
+ 	  goto buttonup0;
+ 
++#ifdef WM_XBUTTONUP
+ 	case WM_XBUTTONUP:
+ 	  if (HIWORD (wparam) == XBUTTON1)
+ 	    button = 4;
+ 	  else
+ 	    button = 5;
++#endif
+ 
+ 	buttonup0:
+ 	  bc = g_new (ButtonCallbackData, 1);

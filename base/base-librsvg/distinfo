@@ -1,0 +1,12 @@
+$NetBSD$
+
+SHA1 (librsvg-2.40.2.tar.xz) = 6a6b4d8071934550aaf19251a1fdb3fa865beff5
+Size (librsvg-2.40.2.tar.xz) = 506048 bytes
+
+SHA1 (base-librsvg-2.40.2_0_64.txz) = 25b46308747607aac9963673d6e08c0762606273
+Size (base-librsvg-2.40.2_0_64.txz) = 223928 bytes
+
+SHA1 (base-librsvg-2.40.2_0_32.txz) = 0fa6784d819781b9c941373abfe2e33161e065a7
+Size (base-librsvg-2.40.2_0_32.txz) = 219800 bytes
+
+SHA1 (patch-aa) = 2fb0a7bfc7ec114ee18e0160f0b14a4e72a2b964

@@ -14,6 +14,7 @@ COMMENT=        syntax extension to derive comparison functions from type repres
 
 DEPENDS+=	godi-type_conv>=109.60.00:../../godi/godi-type_conv
 DEPENDS+= godi-ocaml>=4.00:../../godi/godi-ocaml
+DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 

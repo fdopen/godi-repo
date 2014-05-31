@@ -1,0 +1,24 @@
+$NetBSD$
+
+SHA1 (tiff-4.0.3.tar.gz) = 652e97b78f1444237a82cbcfe014310e776eb6f0
+Size (tiff-4.0.3.tar.gz) = 2051630 bytes
+
+SHA1 (base-libtiff-4.0.3_0_64.txz) = ddecaa4a322fee60cb8496bbe8954bf06b6ac07c
+Size (base-libtiff-4.0.3_0_64.txz) = 203932 bytes
+
+SHA1 (base-libtiff-4.0.3_0_32.txz) = d316a34267677c777179d03a97c942f9a17b170f
+Size (base-libtiff-4.0.3_0_32.txz) = 202376 bytes
+
+SHA1 (patch-aa-am-version) = 22509c9bdead1ff88c1f714b86730d275e9171af
+SHA1 (patch-ab-CVE-2012-4447) = 866a67e5ece65377a66399ff6088fe1a1188f21c
+SHA1 (patch-ee-CVE-2012-4564) = 478a0595bf2ac6e864a120559baae50bcef85094
+SHA1 (patch-ee-CVE-2013-1960) = 779948009592f4217a952a531777531d46f1a4c2
+SHA1 (patch-ee-CVE-2013-1961) = ccea4ef0d5a461eaf4374385328b76d3e5deb1e9
+SHA1 (patch-ee-CVE-2013-4231) = 20091cbcf01c328d9db8b752ad7d0ed51dae0983
+SHA1 (patch-ee-CVE-2013-4232) = db59602fa43fff10a460f28d00b978d54163a578
+SHA1 (patch-ee-CVE-2013-4244) = a5b998ecea8bbec4155e5a7f70f49af3a2aa7d56
+SHA1 (patch-ee-jpeg-test) = a91468c72309424332f6e2e30702be49608315fa
+SHA1 (patch-ee-make-check) = d194d0d5460e739a3f6e5ad4434a681c000a318d
+SHA1 (patch-ee-manpage-update) = b9950211e1136798effd93f727c2bb24df080456
+SHA1 (patch-ee-printdir-width) = 21049262c9a93d9fbdfa22f760130ba74ed087a6
+SHA1 (patch-gg-CVE-2013-4243) = 10bb889f95e6d978ddf1820092fda8d57b0392c3

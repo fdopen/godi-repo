@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2
+VERSION=	0.3
 PKGREVISION=	0
 PKGNAME=	base-gui-${VERSION}
 DISTNAME=	gtk
@@ -11,18 +11,23 @@ HOMEPAGE=	http://www.gtk.org
 COMMENT=	basic gtk runtime
 
 
-BUILD_DEPENDS+=	base-gtk>=0:../../base/base-gtk
+BUILD_DEPENDS+=	base-gtk2>=0:../../base/base-gtk2
 BUILD_DEPENDS+=	base-curl>=0:../../base/base-curl
-BUILD_SCRIPT= ${WRKDIR}/gtkinstall.sh ${WRKSRC:Q}
+BUILD_DEPENDS+=	base-libgnomecanvas>=0:../../base/base-libgnomecanvas
+BUILD_DEPENDS+=	base-gtksourceview2>=0:../../base/base-gtksourceview2
+BUILD_DEPENDS+=	base-libglade>=0:../../base/base-libglade
+
+
+BUILD_SCRIPT= ${WRKDIR}/gtkinstall.sh ${WRKSRC:QQ}
 
 PLIST_SRC= ${WRKDIR}/.PLIST.${PKGBASE}
 
 do-extract:
-	@${MKDIR} ${WRKSRC:Q}
-	@${INSTALL} -m 0755 files/gtkinstall.sh ${WRKDIR:Q}
+	@${MKDIR} ${WRKSRC:QQ}
+	@${INSTALL} -m 0755 files/gtkinstall.sh ${WRKDIR:QQ}
 
 do-install:
-	@cd ${WRKSRC:Q} && ${FIND} * ! -type d  > ${PLIST_SRC:Q} 
-	@cd ${WRKSRC:Q} && ${PAX} -rw -pp . ${LOCALBASE:Q}
+	@cd ${WRKSRC:QQ} && ${FIND} * ! -type d  > ${PLIST_SRC:Q} 
+	@cd ${WRKSRC:QQ} && ${PAX} -rw -pp . ${LOCALBASE:Q}
 
 .include "../../mk/bsd.pkg.mk"

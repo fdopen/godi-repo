@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (c-ares-1.10.0.tar.gz) = e44e6575d5af99cb3a38461486e1ee8b49810eb5
+Size (c-ares-1.10.0.tar.gz) = 809073 bytes
+
+SHA1 (base-c-ares-1.10.0_0_64.txz) = 3400d7323de2f17ee1dcd4c887cdd9dc048392a6
+Size (base-c-ares-1.10.0_0_64.txz) = 77300 bytes
+
+SHA1 (base-c-ares-1.10.0_0_32.txz) = 36cd4b64023eaff2bedde1b6fc98948ec311b7d2
+Size (base-c-ares-1.10.0_0_32.txz) = 75280 bytes

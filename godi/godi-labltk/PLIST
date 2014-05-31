@@ -1,0 +1,7 @@
+@comment $GODI$
+bin/labltk.bat
+bin/ocamlbrowser.exe
+@deepdir lib/ocaml/std-lib/labltk
+@deepdir lib/ocaml/pkg-lib/labltk
+lib/ocaml/std-lib/stublibs/dlllabltk.dll
+@deepdir doc/godi-labltk

@@ -1,0 +1,16 @@
+(* https://gmplib.org/list-archives/gmp-bugs/2013-March/003004.html *)
+diff -r e0f795b7e0e8 tests/misc/t-scanf.c
+--- tests/misc/t-scanf.c	Sun Mar 10 20:14:53 2013 +0100
++++ tests/misc/t-scanf.c	Mon Mar 11 21:36:56 2013 +0100
+@@ -1492,9 +1492,9 @@
+   {
+     char buf[128];
+     ret = gmp_sscanf ("   ", "%s", buf);
+-    ASSERT_ALWAYS (ret == EOF);
++    ASSERT_ALWAYS (ret == sscanf ("   ", "%s", buf));
+     ret = fromstring_gmp_fscanf ("   ", "%s", buf);
+-    ASSERT_ALWAYS (ret == EOF);
++    ASSERT_ALWAYS (ret == sscanf ("   ", "%s", buf));
+     if (option_libc_scanf)
+       {
+         ret = sscanf ("   ", "%s", buf);

@@ -1,0 +1,161 @@
+===> Building for godi-findlib-1.4.1
+make[5]: Entering directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1'
+for p in findlib; do ( cd src/$p; /bin/make all ); done
+make[6]: Entering directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1/src/findlib'
+Makefile:148: depend: No such file or directory
+ocamllex fl_meta.mll
+22 states, 392 transitions, table size 1700 bytes
+ocamldep *.ml *.mli >depend
+USE_CYGPATH="1"; \
+export USE_CYGPATH; \
+cat findlib_config.mlp | \
+	../../tools/patch '@CONFIGFILE@' '/opt/godi/etc/findlib.conf' | \
+	../../tools/patch '@STDLIB@' '/opt/godi/lib/ocaml/std-lib' | \
+	../../tools/patch '@EXEC_SUFFIX@' '.exe' | \
+	sed -e 's;@AUTOLINK@;true;g' \
+	    -e 's;@SYSTEM@;mingw64;g' \
+	     >findlib_config.ml
+ocamlc -I +compiler-libs -g -c findlib_config.ml
+ocamlc -I +compiler-libs -g -c fl_split.ml
+File "fl_split.ml", line 118, characters 43-62:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 119, characters 37-56:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 123, characters 34-47:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 124, characters 34-47:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 126, characters 26-39:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 127, characters 45-64:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 128, characters 38-57:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 136, characters 13-26:
+Warning 3: deprecated feature: String.create
+File "fl_split.ml", line 140, characters 1-19:
+Warning 3: deprecated feature: String.set
+ocamlc -I +compiler-libs -g -c fl_metatoken.ml
+ocamlc -I +compiler-libs -g -c fl_meta.ml
+File "fl_meta.mll", line 57, characters 13-26:
+Warning 3: deprecated feature: String.create
+File "fl_meta.mll", line 61, characters 11-29:
+Warning 3: deprecated feature: String.set
+File "fl_meta.mll", line 62, characters 11-22:
+Warning 3: deprecated feature: String.set
+ocamlc -I +compiler-libs -c fl_metascanner.mli
+ocamlc -I +compiler-libs -g -c fl_metascanner.ml
+ocamlc -I +compiler-libs -c fl_topo.mli
+ocamlc -I +compiler-libs -g -c fl_topo.ml
+File "fl_topo.ml", line 283, characters 10-22:
+Warning 26: unused variable in_direction.
+File "fl_topo.ml", line 219, characters 36-37:
+Warning 3: deprecated feature: operator (&); you should use (&&) instead
+ocamlc -I +compiler-libs -c fl_package_base.mli
+ocamlc -I +compiler-libs -g -c fl_package_base.ml
+ocamlc -I +compiler-libs -c findlib.mli
+ocamlc -I +compiler-libs -g -c findlib.ml
+ocamlc -I +compiler-libs -g -c fl_args.ml
+ocamlc -I +compiler-libs -a -o findlib.cma findlib_config.cmo fl_split.cmo fl_metatoken.cmo fl_meta.cmo fl_metascanner.cmo fl_topo.cmo fl_package_base.cmo findlib.cmo fl_args.cmo
+ocamlc -I +compiler-libs -g -c ocaml_args.ml
+ocamlc -I +compiler-libs -g -c frontend.ml
+File "frontend.ml", line 30, characters 24-36:
+Warning 3: deprecated feature: String.set
+File "frontend.ml", line 1553, characters 16-29:
+Warning 3: deprecated feature: String.create
+ocamlc -I +compiler-libs -custom -o ocamlfind.exe -g findlib.cma unix.cma \
+           ocaml_args.cmo frontend.cmo
+ocamlc -I +compiler-libs -c topfind.mli
+ocamlc -I +compiler-libs -g -c topfind.ml
+File "topfind.ml", line 54, characters 10-19:
+Warning 26: unused variable stdlibdir.
+File "topfind.ml", line 97, characters 11-12:
+Warning 26: unused variable d.
+ocamlc -I +compiler-libs -a -o findlib_top.cma topfind.cmo
+USE_CYGPATH="1"; \
+export USE_CYGPATH; \
+cat topfind_rd1.p | \
+	../../tools/patch '@SITELIB@' '/opt/godi/lib/ocaml/pkg-lib' \
+    	    >topfind
+ocamlc -I +compiler-libs -c num_top_printers.mli
+ocamlc -I +compiler-libs -g -c num_top_printers.ml
+ocamlc -I +compiler-libs -c num_top.mli
+ocamlc -I +compiler-libs -g -c num_top.ml
+ocamlc -I +compiler-libs -a -o num_top.cma num_top_printers.cmo num_top.cmo
+make[6]: Leaving directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1/src/findlib'
+/bin/make all-config
+make[6]: Entering directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1'
+USE_CYGPATH="1"; \
+export USE_CYGPATH; \
+cat findlib.conf.in | \
+	tools/patch '@SITELIB@' '/opt/godi/lib/ocaml/pkg-lib' >findlib.conf
+if ocamlc.opt.exe >/dev/null 2>&1; then \
+	echo 'ocamlc="ocamlc.opt.exe"' >>findlib.conf; \
+fi
+if ocamlopt.opt.exe >/dev/null 2>&1; then \
+	echo 'ocamlopt="ocamlopt.opt.exe"' >>findlib.conf; \
+fi
+if ocamldep.opt.exe >/dev/null 2>&1; then \
+	echo 'ocamldep="ocamldep.opt.exe"' >>findlib.conf; \
+fi
+if ocamldoc.opt.exe >/dev/null 2>&1; then \
+	echo 'ocamldoc="ocamldoc.opt.exe"' >>findlib.conf; \
+fi
+make[6]: Leaving directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1'
+for p in findlib; do ( cd src/$p; /bin/make opt ); done
+make[6]: Entering directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1/src/findlib'
+ocamldep *.ml *.mli >depend
+ocamlopt -I +compiler-libs -c findlib_config.ml
+ocamlopt -I +compiler-libs -c fl_split.ml
+File "fl_split.ml", line 118, characters 43-62:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 119, characters 37-56:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 123, characters 34-47:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 124, characters 34-47:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 126, characters 26-39:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 127, characters 45-64:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 128, characters 38-57:
+Warning 3: deprecated feature: String.set
+File "fl_split.ml", line 136, characters 13-26:
+Warning 3: deprecated feature: String.create
+File "fl_split.ml", line 140, characters 1-19:
+Warning 3: deprecated feature: String.set
+ocamlopt -I +compiler-libs -c fl_metatoken.ml
+ocamlopt -I +compiler-libs -c fl_meta.ml
+File "fl_meta.mll", line 57, characters 13-26:
+Warning 3: deprecated feature: String.create
+File "fl_meta.mll", line 61, characters 11-29:
+Warning 3: deprecated feature: String.set
+File "fl_meta.mll", line 62, characters 11-22:
+Warning 3: deprecated feature: String.set
+ocamlopt -I +compiler-libs -c fl_metascanner.ml
+ocamlopt -I +compiler-libs -c fl_topo.ml
+File "fl_topo.ml", line 283, characters 10-22:
+Warning 26: unused variable in_direction.
+File "fl_topo.ml", line 219, characters 36-37:
+Warning 3: deprecated feature: operator (&); you should use (&&) instead
+ocamlopt -I +compiler-libs -c fl_package_base.ml
+ocamlopt -I +compiler-libs -c findlib.ml
+ocamlopt -I +compiler-libs -c fl_args.ml
+ocamlopt -I +compiler-libs -a -o findlib.cmxa findlib_config.cmx fl_split.cmx fl_metatoken.cmx fl_meta.cmx fl_metascanner.cmx fl_topo.cmx fl_package_base.cmx findlib.cmx fl_args.cmx
+ocamlopt -I +compiler-libs -c ocaml_args.ml
+ocamlopt -I +compiler-libs -c frontend.ml
+File "frontend.ml", line 30, characters 24-36:
+Warning 3: deprecated feature: String.set
+File "frontend.ml", line 1553, characters 16-29:
+Warning 3: deprecated feature: String.create
+ocamlopt -I +compiler-libs -o ocamlfind_opt.exe findlib.cmxa unix.cmxa \
+	   ocaml_args.cmx frontend.cmx
+make[6]: Leaving directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1/src/findlib'
+make[5]: Leaving directory '/opt/godi/build/godi/godi-findlib/work/findlib-1.4.1'
+echo "destdir=\"C:/cygwin/opt/godi/lib/ocaml/site-lib\""  >work/findlib-1.4.1/findlib.conf
+echo "path=\"C:/cygwin/opt/godi/lib/ocaml/pkg-lib;C:/cygwin/opt/godi/lib/ocaml/site-lib\""  >>work/findlib-1.4.1/findlib.conf
+echo "ocamlc=\"ocamlc.opt.exe\""  >>work/findlib-1.4.1/findlib.conf
+echo "ocamlopt=\"ocamlopt.opt.exe\""  >>work/findlib-1.4.1/findlib.conf
+echo "ocamldep=\"ocamldep.opt.exe\""  >>work/findlib-1.4.1/findlib.conf
+echo "ocamldoc=\"ocamldoc.opt.exe\""  >>work/findlib-1.4.1/findlib.conf

@@ -1,0 +1,40 @@
+--- ../../work-ref/camlzip-1.05/Makefile	2012-10-12 05:36:07.000000000 +0200
++++ ./Makefile	2014-05-26 17:41:41.802400000 +0200
+@@ -4,10 +4,10 @@
+ ZLIB_LIB=-lz
+ 
+ # The directory containing the Zlib library (libz.a or libz.so)
+-ZLIB_LIBDIR=/usr/local/lib
++ZLIB_LIBDIR?=/usr/local/lib
+ 
+ # The directory containing the Zlib header file (zlib.h)
+-ZLIB_INCLUDE=/usr/local/include
++ZLIB_INCLUDE?=/usr/local/include
+ 
+ # Where to install the library.  By default: sub-directory 'zip' of
+ # OCaml's standard library directory.
+@@ -23,6 +23,11 @@
+ OBJS=zlib.cmo zip.cmo gzip.cmo
+ C_OBJS=zlibstubs.o
+ 
++CC?= gcc
++
++DLL=$(shell ocamlfind ocamlc -config | grep '^ext_dll: ' | awk '{print $$2}')
++
++
+ all: libcamlzip.a zip.cma
+ 
+ allopt: libcamlzip.a zip.cmxa
+@@ -69,10 +74,10 @@
+ 	cp zip.cmxa zip.a zip.cmx gzip.cmx $(INSTALLDIR)
+ 
+ install-findlib:
+-	ocamlfind install zip META *.mli *.a *.cmi *.cma $(wildcard *.cmxa) $(wildcard *.so)
++	ocamlfind install zip META *.mli *.a *.cmi *.cma $(wildcard *.cmxa) $(wildcard *$(DLL))
+ 
+ depend:
+-	gcc -MM -I$(ZLIB_INCLUDE) *.c > .depend
++	$(CC) -MM -I$(ZLIB_INCLUDE) *.c > .depend
+ 	ocamldep *.mli *.ml >> .depend
+ 
+ include .depend

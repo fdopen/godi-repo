@@ -7,7 +7,7 @@ DISTNAME=       cfg-${VERSION}
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://bitbucket.org/mmottl/cfg/downloads/
-MAINTAINER=     andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://bitbucket.org/mmottl/cfg
 COMMENT=        OCaml library for manipulating context-free grammars
 

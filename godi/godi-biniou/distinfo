@@ -2,3 +2,5 @@ $NetBSD$
 
 SHA1 (biniou-1.0.9.tar.gz) = 39f4f3ed7e5669aff6f11c37c9d47d22ee0a2577
 Size (biniou-1.0.9.tar.gz) = 23963 bytes
+
+SHA1 (patch-aa-makefile) = 9dec98e6a9ff4ea09ce87f77c725e0b3f76a335e

@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: a394fba64ea3bdcbe531680b51f7c532) *)
+(* DO NOT EDIT (digest: c39db2bf6f1bf566fd98cc82637ceaab) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -311,9 +311,7 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x = S[Sh (
-    Ocamlbuild_pack.Shell.quote_filename_if_needed
-      (exec_from_conf "ocamlfind") ); x]
+  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
@@ -593,7 +591,7 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 596 "myocamlbuild.ml"
+# 594 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
@@ -612,7 +610,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 616 "myocamlbuild.ml"
+# 614 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let () =

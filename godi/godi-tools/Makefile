@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37e
+VERSION=	3.0.37f
 RVERSION=       3.0.37
 PKGREVISION=	0
 PKGNAME=	godi-tools-${VERSION}
@@ -27,8 +27,6 @@ MAKE_ENV+=	GODI_TOOLS_STAGE_DIR=${WRKDIR}/stage
 # Use the build time configuration file:
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
-USE_GMAKE=	yes
-
 HAS_CONFIGURE=	yes
 
 GODI_TOOLS_WITH_POWERWTOOL ?= no
@@ -53,7 +51,7 @@ CONFIGURE_ARGS+=-w32port ${W32PORT}
 CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
 .if ${W32PORT} == "mingw"
-BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+BUILD_DEPENDS+=	base-zlib>=0:../../base/base-zlib
 BUILD_DEPENDS+=	godi-ocamlmakefile>=0:../../godi/godi-ocamlmakefile
 .endif
 .endif
@@ -98,6 +96,8 @@ INSTALL_SCRIPT_FILE=	files/install
 post-extract:
 	cp files/symlink.c files/dummy* ${WRKSRC}/console-src
 	cd ${PKGDIR:Q}/files && ${PAX} -rw -pp gorun ${WRKSRC}
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/mingw.pkg.mk ${WRKSRC:Q}/mk/build/mk
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/godi_file_helper.mli ${WRKSRC:Q}/console-src/godi-sys-win32
 
 pre-build:
 	@${SETENV} ${MAKE_ENV} ocaml files/marshal.ml ${LOCALBASE_NATIVE}/share/godi-ocamlnet work/${DISTNAME}/console-src/console/init.ml
@@ -106,6 +106,7 @@ pre-build:
 .endif
 
 post-install:
+	${TOUCH} ${LOCALBASE:Q}/sbin/.keep ${LOCALBASE:Q}/bin/.keep # never delete these directories
 	mkdir -p ${instprefix}/lib/godi
 	echo "GODI_TOOLS_HAS_ADD=1" >${instprefix}/lib/godi/godi-tools.sh
 	echo "GODI_TOOLS_HAS_DELETE=1" >>${instprefix}/lib/godi/godi-tools.sh
@@ -159,9 +160,7 @@ prepare-self-registration: build
 	elif ${CC} -V 2>&1 | ${GREP} -q '^cc'; then \
 	  ${ECHO} "CC_VERSION=`${CC} -V 2>&1 | ${GREP} '^cc'`" >> ${BUILD_INFO_FILE:Q}; \
         fi
-.  ifdef USE_GMAKE
 	@${ECHO} "GMAKE=`${GMAKE} --version | ${GREP} Make`" >> ${BUILD_INFO_FILE:Q}
-.  endif
 #--- Fill BUILD_VERSION with API checksums etc.
 .  script
 .    import ${ESSENTIAL_PROGRAMS}

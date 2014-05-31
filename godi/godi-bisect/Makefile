@@ -11,6 +11,7 @@ HOMEPAGE=	http://bisect.x9c.fr/index.html
 COMMENT=	A code coverage tool.
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 WINGMAKE=	yes
@@ -27,10 +28,10 @@ CONFIGURE_ARGS += -no-native-dynlink
 
 # not supported yet.
 # cleaner solution, if it becomes official.
-post-extract:
-	rm -rf ${WRKSRC}/tests/ppx-*
+#post-extract:
+#	rm -rf ${WRKSRC}/tests/ppx-*
 
-WINGMAKE_HTML_DIR= ocamldoc
+DOCUMENT_DIRS+= ocamldoc
 
 post-install:
 	${CP} ${WRKSRC}/doc/bisect.* ${PREFIX}/doc/${PKGBASE:Q}

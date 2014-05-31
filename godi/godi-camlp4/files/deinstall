@@ -1,0 +1,27 @@
+#! /bin/sh
+
+set -e
+
+. "${GODI_PREFIX}/lib/godi/install_helper"
+
+ENVDAT="${GODI_PREFIX}/etc/env_add"
+
+
+godi_env_remove(){
+    local ENVNAME ENVVALUE ENVDAT tmpfln
+    if [ "a${2}" = "aDEINSTALL" ] ;then
+        ENVDAT="${GODI_PREFIX}/etc/env_add" 
+        if [ -f "${ENVDAT}" ]; then
+            ENVNAME=$3
+            ENVVALUE=$4
+            tmpfln="$(mktemp)"
+            trap "rm -f \"${tmpfln}\"" EXIT
+            grep -v "$ENVNAME" "$ENVDAT" > "$tmpfln"
+            grep -v '^$' "$tmpfln" > "$ENVDAT"
+        fi
+    fi
+}
+
+godi_env_remove "$1" "$2" "CAMLP4LIB" "${GODI_PREFIX_WIN}/lib/ocaml/std-lib/camlp4"
+
+exit 0

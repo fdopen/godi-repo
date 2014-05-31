@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (libgnomecanvas-2.30.3.tar.bz2) = a5b07f33c44c460434dd0dad457d2fffb8a1baf9
+Size (libgnomecanvas-2.30.3.tar.bz2) = 574139 bytes
+
+SHA1 (base-libgnomecanvas-2.30.3_0_64.txz) = c11c30f9722039bf1a11f5b3c92d9f3a759fe665
+Size (base-libgnomecanvas-2.30.3_0_64.txz) = 227140 bytes
+
+SHA1 (base-libgnomecanvas-2.30.3_0_32.txz) = cbc16da60be740900ef2d9b48bd29907a1ef86d5
+Size (base-libgnomecanvas-2.30.3_0_32.txz) = 224360 bytes

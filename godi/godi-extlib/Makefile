@@ -12,8 +12,8 @@ COMMENT=        User-supported Extended Standard Library
 
 DEPENDS+=       godi-ocaml>=3.08:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1.0.4:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
-PATH:=          ${LOCALBASE}/bin:${PATH}
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
 
@@ -32,13 +32,8 @@ ALL_TARGET+=   minimal=1
 INSTALL_TARGET+= minimal=1
 .endif
 
-USE_GMAKE=yes
+WINGMAKE=yes
+DOCUMENT_DIRS+=	doc
 
-
-post-install:
-	${MKDIR} ${LOCALBASE}/doc/${PKG}
-	${CP} ${WRKSRC}/LICENSE ${WRKSRC}/README.txt ${LOCALBASE}/doc/${PKG}
-	${MV} ${WRKSRC}/doc ${WRKSRC}/html
-	cd ${WRKSRC} && ${PAX} -rw -pp html ${LOCALBASE}/doc/${PKG}
 
 .include "../../mk/bsd.pkg.mk"

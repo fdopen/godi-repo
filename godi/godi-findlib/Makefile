@@ -18,8 +18,6 @@ DEPENDS+=       godi-ocaml>=3.07:../../godi/godi-ocaml
 # Adjust PATH such that version of godi is prepended. This has
 # only an effect on commands where PATH is explicitly passed (e.g.
 # configure).
-PATH:=		${LOCALBASE}/bin:${PATH}
-
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	-bindir ${LOCALBASE}/bin \
 		-mandir ${LOCALBASE}/man \
@@ -33,8 +31,6 @@ EXEC_SUFFIX=
 CONFIGURE_SCRIPT=ash configure
 EXEC_SUFFIX=.exe
 .endif
-
-USE_GMAKE=	yes
 
 GODI_FINDLIB_TOOLBOX?=no
 

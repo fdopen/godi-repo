@@ -1,0 +1,12 @@
+--- ../../work-ref/mirage-orm-2f3d980/lib/Makefile.orm	2012-10-01 19:55:47.000000000 +0200
++++ ./lib/Makefile.orm	2014-03-21 19:23:54.836600000 +0100
+@@ -6,7 +6,8 @@
+ PACKS = sqlite3 dyntype.syntax
+ LIB_PACK_NAME = orm
+ 
+-LIBINSTALL_FILES = orm.cmx orm.cmxa orm.cma orm.cmi orm.a dllorm_stubs.so liborm_stubs.a syntax/pa_orm.cma 
++EXTDLL=$(shell ocamlfind ocamlc -config | grep '^ext_dll: ' | awk '{print $$2}')
++LIBINSTALL_FILES = orm.cmx orm.cmxa orm.cma orm.cmi orm.a dllorm_stubs$(EXTDLL) liborm_stubs.a syntax/pa_orm.cma 
+ 
+ .PHONY: all
+ all: ncl dcl

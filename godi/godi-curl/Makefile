@@ -36,10 +36,11 @@ HAS_CONFIGURE=yes
 ALL_TARGET= all doc
 WINGMAKE=	yes
 
-WINGMAKE_HTML_DIR=doc
+DOCUMENT_DIRS+=doc
 
 DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 BUILD_DEPENDS+=	godi-findlib>=0.8.1:../../godi/godi-findlib
+BUILD_DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+=	conf-curl>=3:../../conf/conf-curl
 .if ${GODI_CURL_LWT} == "yes"
 DEPENDS+=	godi-lwt>=2.4:../../godi/godi-lwt

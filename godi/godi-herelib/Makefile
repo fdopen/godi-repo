@@ -13,6 +13,7 @@ HOMEPAGE=       https://github.com/janestreet/herelib
 COMMENT=        Part of Jane Street’s Core library
 
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4-*:../../godi/godi-camlp4
 BUILD_DEPENDS+=	godi-findlib>=1.3.2:../../godi/godi-findlib
 
 WINOASIS=	yes

@@ -19,6 +19,7 @@ GODI_OCAMLNET_NO_PCRE ?= yes
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
 DEPENDS+=       godi-cryptgps>=0.2.1:../../godi/godi-cryptgps
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 .if ${GODI_OCAMLNET_NO_PCRE} != "yes"
 DEPENDS+=	godi-pcre>=5:../../godi/godi-pcre
@@ -37,8 +38,6 @@ CONFLICTS=	godi-equeue<2.2
 CONFLICTS+=	godi-netclient<2.2
 CONFLICTS+=	godi-rpc<2.2
 .endif
-
-PATH:=		${LOCALBASE}/bin:${PATH}
 
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS+=-bindir "${LOCALBASE}/bin"

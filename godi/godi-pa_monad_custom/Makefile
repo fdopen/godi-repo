@@ -8,11 +8,12 @@ DISTNAME=	camlspotter-pa_monad_custom-4c555d5133ce
 DISTFILES=	v${VERSION}.tar.bz2  
 CATEGORIES=	godi  
 MASTER_SITES= 	https://bitbucket.org/camlspotter/pa_monad_custom/get/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://bitbucket.org/camlspotter/pa_monad_custom
 COMMENT=	Syntactic Sugar for Monads
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 HAS_CONFIGURE = yes

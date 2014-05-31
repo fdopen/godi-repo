@@ -14,6 +14,7 @@ COMMENT=	An extension for deriving functions from type declarations.
 CONF_DERIVING_OCSIGEN_TYPE_CONV?= yes
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 .if ${CONF_DERIVING_OCSIGEN_TYPE_CONV} == "yes"
 DEPENDS+=	godi-type_conv>=3:../../godi-type_conv

@@ -1,0 +1,51 @@
+--- ../../work-ref/ocamltopwin-0.1/ocamltop.ml	2013-08-29 01:33:59.000000000 +0200
++++ ./ocamltop.ml	2014-05-23 19:31:31.832000000 +0200
+@@ -92,15 +92,23 @@
+ 
+     method handle_structure_item pos i =
+       match i.pstr_desc with
+-        Pstr_type l ->
++(*        Pstr_type l ->
+           List.map
+             (fun (s,_) -> ({ ele_name = s.Location.txt; ele_kind = Type }, pos) )
+-            l
+-      | Pstr_value (_, pat_exp_list) ->
+-          List.flatten (List.map (fun (p,_) -> self#handle_pattern pos p) pat_exp_list)
+-      | Pstr_exception (s,_)
++            l *)
++        Pstr_type tdl ->
++          List.map
++            (fun td -> ({ ele_name = td.ptype_name.Location.txt; ele_kind = Type }, pos) )
++            tdl
++(*      | Pstr_value (_, pat_exp_list) ->
++          List.flatten (List.map (fun (p,_) -> self#handle_pattern pos p) pat_exp_list) *)
++      | Pstr_value (_, vbl) ->
++          List.flatten (List.map (fun vb -> self#handle_pattern pos vb.pvb_pat) vbl)
++(*      | Pstr_exception (s,_)
+       | Pstr_exn_rebind (s,_) ->
+-          [ { ele_name = s.Location.txt; ele_kind = Exception }, pos ]
++          [ { ele_name = s.Location.txt; ele_kind = Exception }, pos ] *)
++      | Pstr_exception ec ->
++          [ { ele_name = ec.pext_name.Location.txt; ele_kind = Exception }, pos ]
+       | Pstr_class l ->
+           List.map
+             (fun pci -> { ele_name = pci.pci_name.Location.txt; ele_kind = Class}, pos)
+@@ -109,10 +117,14 @@
+           List.map
+             (fun pci -> { ele_name = pci.pci_name.Location.txt; ele_kind = Class_type}, pos)
+             l
+-      | Pstr_module (s,_) ->
+-          [ { ele_name = s.Location.txt; ele_kind = Module}, pos ]
+-      | Pstr_modtype (s,_) ->
+-          [ { ele_name = s.Location.txt; ele_kind = Module_type}, pos ]
++(*      | Pstr_module (s,_) ->
++          [ { ele_name = s.Location.txt; ele_kind = Module}, pos ] *)
++      | Pstr_module mb ->
++          [ { ele_name = mb.pmb_name.Location.txt; ele_kind = Module}, pos ]
++(*      | Pstr_modtype (s,_) ->
++          [ { ele_name = s.Location.txt; ele_kind = Module_type}, pos ] *)
++      | Pstr_modtype mtd ->
++          [ { ele_name = mtd.pmtd_name.Location.txt; ele_kind = Module_type}, pos ]
+       |  _ ->
+           []
+ 

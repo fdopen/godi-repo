@@ -1,47 +1,26 @@
 .include "../../mk/bsd.prefs.mk"
 
-PKG=		base-sqlite3
-PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
-DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
-CATEGORIES=	base
-MASTER_SITES=
-MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://www.sqlite.org/
-COMMENT=	a self-contained, embeddable, zero-configuration SQL database engine
+VERSION=	 3.8.4.3
+PKGREVISION= 0
+PKG=         sqlite3
+CATEGORIES=	 base
+PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
+DISTNAME=	 sqlite-autoconf-${SVERSION}
+SVERSION=	 ${VERSION:C/[.]/0/g}
+DISTFILES=	 ${DISTNAME}.tar.gz
+MASTER_SITES=https://www.sqlite.org/2014/
+HOMEPAGE=	 https://www.sqlite.org/
+COMMENT=	 Embeddable SQL Database
 
-#libgcc
-DEPENDS+= base-windows>=0:../../base/base-windows
+DEF_CONFIGURE_ARGS+=	--enable-shared
+DEF_CONFIGURE_ARGS+=	--disable-static
 
+DEF_CONFIGURE_ARGS+=	--enable-threadsafe
+DEF_CONFIGURE_ARGS+=	--disable-readline
 
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
+MINGW_CFLAGS+= -fexceptions -DSQLITE_ENABLE_COLUMN_METADATA=1 -DSQLITE_DISABLE_DIRSYNC=1 -DSQLITE_ENABLE_FTS3=3 -DSQLITE_ENABLE_RTREE=1 -fno-strict-aliasing
 
-
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+MAKE_FLAGS+=		bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS=
 
 
-.if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
-pre-configure:
-	@echo "**********************************************"
-	@echo "*** ${PKG} is only intended for Windows ***"
-	@echo "**********************************************"
-	@false
-.endif
-
-do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-
-do-install:
-	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
-	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-
-.include "../../mk/bsd.pkg.mk"
+.include "../../mk/mingw.pkg.mk"

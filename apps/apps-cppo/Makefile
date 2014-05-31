@@ -8,7 +8,7 @@ DISTNAME=       cppo-0.9.3
 DISTFILES=      cppo-0.9.3.tar.gz
 CATEGORIES=     apps
 MASTER_SITES=   http://mjambon.com/releases/cppo/
-MAINTAINER=     Martin Jambon <martin@mjambon.com>
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://mjambon.com/cppo.html
 COMMENT=        cpp for OCaml
 
@@ -21,8 +21,6 @@ MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDI
 DEPENDS+= godi-ocaml>=3.09:../../godi/godi-ocaml
 
 # HAS_CONFIGURE = yes
-
-USE_GMAKE = yes
 
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 

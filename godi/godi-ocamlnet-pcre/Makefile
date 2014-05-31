@@ -16,8 +16,7 @@ DEPENDS+=	godi-pcre>=0:../../godi/godi-pcre
 DEPENDS+=	godi-ocamlnet==${VERSION}:../../godi/godi-ocamlnet
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
-
-PATH:=		${LOCALBASE}/bin:${PATH}
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:
@@ -38,7 +37,6 @@ ALL_TARGET+=	opt
 .endif
 
 MAKE_FLAGS+="INC_NETSYS=-package netsys"
-USE_GMAKE=yes
 
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"

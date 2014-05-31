@@ -1,51 +1,35 @@
 .include "../../mk/bsd.prefs.mk"
 
-PKG=		curl
-VERSION=	7.35.0
-PKGNAME=	base-${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	${PKG}-${VERSION}
-DISTFILES=	${PKG}-${VERSION}.tar.lzma
-CATEGORIES=	base
-MASTER_SITES=   http://curl.haxx.se/download/
-MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://curl.haxx.se
-COMMENT=	multiprotocol file transfer library
+VERSION=	7.37.0
+PKGREVISION=	0
+PKG=	curl
+CATEGORIES=	 base
+PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
+DISTNAME=	 ${PKG}-${VERSION}
+DISTFILES=	 ${PKG}-${VERSION}.tar.gz
+SVERSION=	 ${VERSION:C/.[^.]*$//}
+MASTER_SITES=http://curl.haxx.se/download/
+HOMEPAGE=	 http://curl.haxx.se
+COMMENT=	 easy-to-use client-side URL transfer library
 
-#zlib
-DEPENDS+=	base-windows>=0:../../base/base-windows
+DEPENDS+=	base-c-ares>=0:../../base/base-c-ares
+DEPENDS+=	base-zlib>=0:../../base/base-zlib
 
-USE_GMAKE=		yes
-MINGW_AUTOTOOLS_BUILD=	yes
-HAS_CONFIGURE=		yes
+DEF_CONFIGURE_ARGS+=	--enable-shared
+DEF_CONFIGURE_ARGS+=	--disable-static
+DEF_CONFIGURE_ARGS+=	--with-winssl
+DEF_CONFIGURE_ARGS+=	--with-winidn
+DEF_CONFIGURE_ARGS+=	--enable-ipv6
+DEF_CONFIGURE_ARGS+=	--without-ca-bundle
+DEF_CONFIGURE_ARGS+=	--with-zlib
+DEF_CONFIGURE_ARGS+=	--enable-ares
+DEF_CONFIGURE_ARGS+=	--enable-optimize
+DEF_CONFIGURE_ARGS+=	--enable-sspi
+DEF_CONFIGURE_ARGS+=	--without-gnutls
+DEF_CONFIGURE_ARGS+=	--without-random
 
-CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+MAKE_FLAGS+=		bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS=
 
-.if !defined(GODI_BASE_CURL_CONF_ARGS)
-CONFIGURE_ARGS+=	--enable-shared 
-CONFIGURE_ARGS+=	--disable-static
-CONFIGURE_ARGS+=	--with-winssl
-CONFIGURE_ARGS+=	--with-winidn
-CONFIGURE_ARGS+=	--enable-ipv6
-CONFIGURE_ARGS+=	--without-ca-bundle
-CONFIGURE_ARGS+=	--with-zlib=${LOCALBASE:Q}
-.else
-CONFIGURE_ARGS+=	${GODI_BASE_CURL_CONF_ARGS}
-.endif
+REPLACE_FILES+=	bin/curl-config
 
-ALL_TARGET=		all
-IMAGE=          	${WRKDIR}/image
-INSTALL_ENV=		DESTDIR=${IMAGE:Q}
-PLIST_SRC=      	${WRKDIR:Q}/.PLIST.${PKG}
-
-post-install:
-	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
-.	for F in CHANGES COPYING README RELEASE-NOTES
-	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
-.	endfor
-	${RM} -rf ${IMAGE}/${LOCALBASE}/share
-	${RM} -f ${IMAGE}/${LOCALBASE}/bin/curl.exe
-	@cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC} && \
-	  ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-.include "../../mk/bsd.pkg.mk"
+.include "../../mk/mingw.pkg.mk"

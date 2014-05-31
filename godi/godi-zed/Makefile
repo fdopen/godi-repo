@@ -10,7 +10,7 @@ DISTFILES=      zed-1.3.tar.gz
 CATEGORIES=     godi
 FINODE=		944
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-MAINTAINER=     andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://github.com/diml/zed
 COMMENT=        abstract engine for text edition
 

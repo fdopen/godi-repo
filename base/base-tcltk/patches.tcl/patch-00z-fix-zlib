@@ -1,0 +1,13 @@
+--- win/configure.in~	2014-05-09 20:27:14.322560727 +0200
++++ win/configure.in	2014-05-09 20:30:15.919868478 +0200
+@@ -118,8 +118,9 @@
+ ], [
+   tcl_ok=yes
+ ])
++zlibflags=`pkg-config --libs zlib`
+ AS_IF([test "$tcl_ok" = "yes"], [
+-    AC_SUBST(ZLIB_LIBS,[-lz])
++    AC_SUBST(ZLIB_LIBS,[$zlibflags])
+ ], [
+   AC_SUBST(ZLIB_OBJS,[\${ZLIB_OBJS}])
+ ])

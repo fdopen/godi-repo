@@ -1,0 +1,82 @@
+--- configure.ac.orig	2012-05-17 22:22:21.648736737 +0200
++++ configure.ac	2012-05-18 00:52:16.411099722 +0200
+@@ -316,6 +316,31 @@
+ fi
+ 
+ #
++# Checks for delay-loaded fontconfig/freetype runtime dependencies
++#
++AC_ARG_ENABLE(delay-load,
++              [AC_HELP_STRING([--enable-delay-load],
++                              [makes the pangoft2 backend and the fontconfig/freetype dependencies optional at runtime (win32 only)])],,
++              [enable_delay_load=no])
++
++AC_MSG_CHECKING([whether to enable the use of delay-loaded fontconfig/freetype dependencies])
++if test $have_win32 = false; then
++  enable_delay_load=false
++fi
++AM_CONDITIONAL(ENABLE_DELAY_LOAD, test x"$enable_delay_load" = x"yes")
++AC_MSG_RESULT([$enable_delay_load])
++
++if test x"$enable_delay_load" = x"yes" ; then 
++  AC_CHECK_TOOL([GENDEF], [gendef])
++
++  AC_MSG_CHECKING([whether gendef was found])
++  if test x"$GENDEF" = x"" ; then
++    AC_MSG_ERROR([The gendef tool (required for delay loading the pangoft2 backend and the fontconfig/freetype dependencies) couldn't be detected])
++  fi
++  AC_MSG_RESULT([yes])
++fi
++
++#
+ # Checks for CoreText
+ #
+ 
+--- pango/Makefile.am.orig	2012-05-17 21:58:54.398720821 +0200
++++ pango/Makefile.am	2012-05-18 00:55:05.403187480 +0200
+@@ -380,8 +380,35 @@
+ endif
+ 
+ if HAVE_CAIRO_FREETYPE
++if ENABLE_DELAY_LOAD
++# Create delay-loaded import libraries for pangoft2, fontconfig and freetype
++libpangoft2-delay-loaded-$(PANGO_API_VERSION).dll.a: libpangoft2-$(PANGO_API_VERSION).la
++	$(DLLTOOL) --def $(srcdir)/pangoft2.def --kill-at --output-delaylib libpangoft2-delay-loaded-$(PANGO_API_VERSION).dll.a
++
++libfontconfig-delay-loaded.dll.a:
++	DLL=$(bindir)/libfontconfig-1.dll; \
++	if test ! -f "$$DLL" ; then \
++	  echo "*** File $$DLL could not be found, unable to create delay-loaded import library"; \
++	  exit 1; \
++	fi; \
++	$(GENDEF) - "$$DLL" > fontconfig_delay_load.def; \
++	$(DLLTOOL) --def fontconfig_delay_load.def --kill-at --output-delaylib libfontconfig-delay-loaded.dll.a
++
++libfreetype-delay-loaded.dll.a:
++	DLL=$(bindir)/libfreetype-6.dll; \
++	if test ! -f "$$DLL" ; then \
++	  echo "*** File $$DLL could not be found, unable to create delay-loaded import library"; \
++	  exit 1; \
++	fi; \
++        $(GENDEF) - "$$DLL" > freetype_delay_load.def; \
++        $(DLLTOOL) --def freetype_delay_load.def --kill-at --output-delaylib libfreetype-delay-loaded.dll.a
++
++libpangocairo_1_0_la_LDFLAGS += -Wl,libpangoft2-delay-loaded-$(PANGO_API_VERSION).dll.a -Wl,libfontconfig-delay-loaded.dll.a -Wl,libfreetype-delay-loaded.dll.a
++libpangocairo_1_0_la_DEPENDENCIES += libpangoft2-delay-loaded-$(PANGO_API_VERSION).dll.a libfontconfig-delay-loaded.dll.a libfreetype-delay-loaded.dll.a libpangoft2-$(PANGO_API_VERSION).la
++else
+ libpangocairo_1_0_la_LIBADD +=  libpangoft2-$(PANGO_API_VERSION).la $(FREETYPE_LIBS)
+ libpangocairo_1_0_la_DEPENDENCIES += libpangoft2-$(PANGO_API_VERSION).la 
++endif
+ PANGOCAIRO_FONT_BACKEND_GI_MODULE = PangoFT2-1.0.gir
+ 
+ libpangocairo_1_0_la_SOURCES += \
+@@ -644,6 +671,9 @@
+ 	s-enum-types-h		\
+ 	pango-enum-types.c	\
+ 	s-enum-types-c      \
++	libpangoft2-delay-loaded-$(PANGO_API_VERSION).dll.a pangoft2.def \
++	libfontconfig-delay-loaded.dll.a fontconfig_delay_load.def \
++	libfreetype-delay-loaded.dll.a freetype_delay_load.def \
+     $(INTROSPECTION_GIRS) \
+     $(INTROSPECTION_GIRS:.gir=.typelib)
+ 

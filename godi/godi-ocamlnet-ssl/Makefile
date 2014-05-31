@@ -16,8 +16,7 @@ DEPENDS+=	godi-ssl>=0:../../godi/godi-ssl
 DEPENDS+=	godi-ocamlnet==${VERSION}:../../godi/godi-ocamlnet
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
-
-PATH:=		${LOCALBASE}/bin:${PATH}
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:
@@ -48,14 +47,6 @@ CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+= base-ssl>=0:../../base/base-ssl
-USE_GMAKE=yes
-
-# .if defined(C_INCLUDE_PATH)
-# MAKE_ENV+= C_INCLUDE_PATH=${LOCALBASE}/include:${C_INCLUDE_PATH}
-# .else
-# MAKE_ENV+= C_INCLUDE_PATH=${LOCALBASE}/include
-# .endif
-
 pre-clean:
 	${RM} -f patches/patch-win*
 

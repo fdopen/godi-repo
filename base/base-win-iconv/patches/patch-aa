@@ -1,0 +1,10 @@
+--- ../../work-ref/win-iconv-0.0.6/iconv.h	2012-09-19 15:00:04.000000000 +0200
++++ ./iconv.h	2014-05-18 10:58:00.992355782 +0200
+@@ -11,4 +11,4 @@
+ #ifdef __cplusplus
+ }
+ #endif
+-#endif//_LIBICONV_H
+\ Kein Zeilenumbruch am Dateiende.
++#endif /* _LIBICONV_H */
+\ Kein Zeilenumbruch am Dateiende.

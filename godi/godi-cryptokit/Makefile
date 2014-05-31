@@ -23,10 +23,10 @@ WINOASIS_SETUP=	yes
 CONFIGURE_ARGS+= --enable-zlib
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-DEPENDS+=	base-windows>=0:../../base/base-windows
+DEPENDS+=	base-zlib>=0:../../base/base-zlib
 post-extract:
 	@${CP} ${WRKSRC}/_oasis ${WRKSRC}/_oasis.tmp
-	@${SED} "s|CCLib: -lz|CCLib: -lz -L${LOCALBASE}/lib|" ${WRKSRC}/_oasis.tmp > ${WRKSRC}/_oasis
+	@${SED} "s|CCLib: -lz|CCLib: -L${LOCALBASE}/lib -lz|" ${WRKSRC}/_oasis.tmp > ${WRKSRC}/_oasis
 .endif
 
 #post-build:

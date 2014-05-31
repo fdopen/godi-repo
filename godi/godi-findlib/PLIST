@@ -12,7 +12,7 @@ man/man5/META.5
 man/man5/site-lib.5
 @findlib findlib
 @flatdir lib/ocaml/pkg-lib/bigarray
-@flatdir lib/ocaml/pkg-lib/camlp4
+@comment @flatdir lib/ocaml/pkg-lib/camlp4
 @flatdir lib/ocaml/pkg-lib/compiler-libs
 @flatdir lib/ocaml/pkg-lib/dynlink
 @flatdir lib/ocaml/pkg-lib/graphics

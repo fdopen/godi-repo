@@ -8,7 +8,6 @@ DISTNAME=       menhir-${VERSION}
 DISTFILES=      menhir-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://gallium.inria.fr/~fpottier/menhir/
-MAINTAINER=     François Pottier <Francois.Pottier@inria.fr>
 HOMEPAGE=       http://gallium.inria.fr/~fpottier/menhir/
 COMMENT=        A LR(1) parser generator for Objective Caml.
 
@@ -26,9 +25,6 @@ DEPENDS+= godi-ocaml>=3.09:../../godi/godi-ocaml
 
 
 # HAS_CONFIGURE = yes
-
-USE_GMAKE = yes
-
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
 

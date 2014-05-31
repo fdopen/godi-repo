@@ -1,0 +1,11 @@
+--- ../../work-ref/nettle-2.7.1/testsuite/Makefile.in	2013-05-28 16:21:54.000000000 +0200
++++ ./testsuite/Makefile.in	2014-05-15 13:00:59.817893458 +0200
+@@ -47,7 +47,7 @@
+ TS_C = $(TS_NETTLE) @IF_HOGWEED@ $(TS_HOGWEED)
+ TS_CXX = @IF_CXX@ $(CXX_SOURCES:.cxx=$(EXEEXT))
+ TARGETS = $(TS_C) $(TS_CXX)
+-TS_SH = sexp-conv-test pkcs1-conv-test symbols-test
++TS_SH = sexp-conv-test pkcs1-conv-test # symbols-test
+ TS_ALL = $(TARGETS) $(TS_SH)
+ EXTRA_SOURCES = sha1-huge-test.c
+ EXTRA_TARGETS = $(EXTRA_SOURCES:.c=$(EXEEXT))

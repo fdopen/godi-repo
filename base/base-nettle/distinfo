@@ -1,0 +1,13 @@
+$NetBSD$
+
+SHA1 (nettle-2.7.1.tar.gz) = e7477df5f66e650c4c4738ec8e01c2efdb5d1211
+Size (nettle-2.7.1.tar.gz) = 1558863 bytes
+
+SHA1 (base-nettle-2.7.1_0_64.txz) = 98ad0d6b977712bb137a8f245fc577c0b5214338
+Size (base-nettle-2.7.1_0_64.txz) = 722680 bytes
+
+SHA1 (base-nettle-2.7.1_0_32.txz) = e50a9579a7785b2bff584a44413d978dd8160b19
+Size (base-nettle-2.7.1_0_32.txz) = 727948 bytes
+
+SHA1 (patch-aa) = 40ee7042a279e52e5811b9dddcfb2b800b7a1b06
+SHA1 (patch-ab) = 6c349c7dcbe0efd53bbc27a63c76d8ccd799ce39

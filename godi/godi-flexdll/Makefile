@@ -14,8 +14,6 @@ COMMENT=	flexdll emulates Unix-style dynamic linking on Win32
 
 BUILD_DEPENDS+=	godi-ocaml>=0:../../godi/godi-ocaml
 
-USE_GMAKE=	yes
-
 ALL_TARGET=	support flexlink.exe
 
 # don't install via "make install"
@@ -23,9 +21,6 @@ INSTALL_DIRS=
 
 # to get the right environment variables ....
 MINGW_AUTOTOOLS_BUILD=yes
-
-# now add by "../../mk/bsd.pkg.mk"
-#PATH:=  ${BACKUPDIR}/bin:${PATH}
 
 .if defined(W32PORT) 
 

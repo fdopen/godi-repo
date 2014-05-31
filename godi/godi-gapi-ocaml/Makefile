@@ -22,6 +22,7 @@ DEPENDS+=	godi-ocaml>=3.12.0:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-pa_monad_custom-*:../../godi/godi-pa_monad_custom
 BUILD_DEPENDS+= godi-ounit-*:../../godi/godi-ounit
+BUILD_DEPENDS+= godi-camlp4-*:../../godi/godi-camlp4
 
 WINOASIS=		yes
 

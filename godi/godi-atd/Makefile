@@ -24,6 +24,6 @@ ALL_TARGET+=	opt
 .endif
 ALL_TARGET+=	odoc/index.html test 
 
-WINGMAKE_HTML_DIR= odoc
+DOCUMENT_DIRS+= odoc
 
 .include "../../mk/bsd.pkg.mk"

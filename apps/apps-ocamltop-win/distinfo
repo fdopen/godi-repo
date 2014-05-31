@@ -2,3 +2,5 @@ $NetBSD$
 
 SHA1 (ocamltopwin-0.1.tar.xz) = 331992313d58a1a25eff15e375a31aef6b5de4dc
 Size (ocamltopwin-0.1.tar.xz) = 19812 bytes
+
+SHA1 (patch-aa) = c516829db2c4cca109f8f07c87d0266bc4151c1e

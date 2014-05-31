@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (zlib-1.2.8.tar.gz) = a4d316c404ff54ca545ea71a27af7dbc29817088
+Size (zlib-1.2.8.tar.gz) = 571091 bytes
+
+SHA1 (base-zlib-1.2.8_0_64.txz) = fe70fe2145d7acaf34bc1dff6236c48ea983f1dd
+Size (base-zlib-1.2.8_0_64.txz) = 109096 bytes
+
+SHA1 (base-zlib-1.2.8_0_32.txz) = 4e969a3169912aacfab9daa7122d1f391bc3575c
+Size (base-zlib-1.2.8_0_32.txz) = 105784 bytes

@@ -15,15 +15,18 @@ GODI_LWT_SSL?=yes
 GODI_LWT_GLIB?=yes
 GODI_LWT_OCAMLTEXT?=yes
 
-DEPENDS+=  godi-ocaml-*:../../godi/godi-ocaml
-DEPENDS+=		godi-findlib-*:../../godi/godi-findlib
+DEPENDS+=  godi-ocaml>=4:../../godi/godi-ocaml
+DEPENDS+=  godi-camlp4>0:../../godi/godi-camlp4
+BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+
+BUILD_DEPENDS+=		godi-findlib-*:../../godi/godi-findlib
 .if ${GODI_LWT_SSL} != "no"
 DEPENDS+=		godi-ssl>=0.4.6:../../godi/godi-ssl
 CONFIGURE_ARGS+=	--enable-ssl
 .endif
 .if ${GODI_LWT_GLIB} != "no"
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-BUILD_DEPENDS+=		base-windows>=0:../../base/base-windows
+BUILD_DEPENDS+=		base-glib2>=0:../../base/base-glib2
 .endif
 CONFIGURE_ARGS+=	--enable-glib
 .endif
@@ -33,6 +36,7 @@ CONFIGURE_ARGS+=	--enable-text
 .endif
 DEPENDS+=		godi-react>=1.0:../../godi/godi-react
 CONFIGURE_ARGS+=	--enable-react
+CONFIGURE_ARGS+=	--disable-toplevel
 
 WINOASIS=		yes
 

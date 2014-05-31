@@ -1,0 +1,29 @@
+--- ../../work-ref/godi-tools-3.0.37/console-src/godi-pkg/godi_query.ml	2014-05-27 01:39:29.220400000 +0200
++++ ./console-src/godi-pkg/godi_query.ml	2014-05-27 01:37:47.570800000 +0200
+@@ -994,25 +994,7 @@
+ 
+ 
+ let local_wget url out_file =
+-  let wtool = Wtool.wtool_factory() in
+-  let tmpdir = Godi_file.allocate_tmpdir() in
+-  try
+-    let dir, base = Godi_file_handler.split_name url in
+-    let wlocation = wtool # open_location dir in
+-    let file_r = wlocation # get tmpdir ["/" ^ base] in
+-    let file =
+-      match file_r with
+-      | [ `Ok file ] -> file
+-      | [ `Timeout ] -> failwith "Timeout"
+-      | [ `Error msg ] -> failwith msg
+-      | _ -> assert false
+-    in
+-    Godi_file.copy file out_file;
+-    Godi_file.release_tmpdir tmpdir;
+-  with
+-  | exn ->
+-    Godi_file.release_tmpdir tmpdir;
+-    raise exn
++  failwith "local_wget not supported in gui mode"
+ 
+ 
+ let get_binpkg_server () =

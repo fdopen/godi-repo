@@ -2,23 +2,17 @@
 
 PKG=		base-windows
 PKGNAME=	${PKG}-${VERSION}
+VERSION=	0.0.1
 PKGREVISION=	0
 DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+DISTFILES=	
 CATEGORIES=	base
 MASTER_SITES=
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://www.zlib.net/
+HOMEPAGE=	n/a
 COMMENT=	essential windows libraries and tools
 
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
-BUILD_DEPENDS+=		godi-ocaml>=4.00:../../godi/godi-ocaml
+DEPENDS+=	base-pkg-config>=0:../../base/base-pkg-config
 
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
@@ -32,20 +26,25 @@ pre-configure:
 	@false
 .endif
 
-do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-	@${MV} ${WRKSRC}/bin/pkg-config.exe ${WRKSRC}/bin/pkg-config_real.exe
-	@${SETENV} ${MAKE_ENV} ocamlopt -o ./pkg-config.exe unix.cmxa files/pkg.ml
-	@${MV} ./pkg-config.exe ${WRKSRC}/bin
+do-extract:
+	${MKDIR} ${WRKSRC:Q}
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/* ${WRKSRC:Q}
 
+do-build:
+	@cd ${WRKSRC:Q} && \
+	 ${SETENV} ${MAKE_ENV} ocamlfind ocamlopt -package unix -linkpkg pkg.ml -o pkg-config.exe
+	@${SETENV} ${MAKE_ENV} ${MINGW_TOOL_PREFIX:Q}strip --strip-unneeded ${WRKSRC:Q}/pkg-config.exe
+	@echo bin/pkg-config.exe > ${PLIST_SRC:Q}
+.if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
+	${CP} -p ${WRKSRC:Q}/pkg-config.exe ${WRKSRC:Q}/${MINGW_TOOL_PREFIX:Q}pkg-config.exe
+	@echo bin/${MINGW_TOOL_PREFIX:Q}pkg-config.exe >> ${PLIST_SRC:Q}
+.endif
 
 do-install:
-	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
-	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-pre-clean:
-	@rm -f files/pkg.c* files/pkg.o
+	${INSTALL} -m 0755 ${WRKSRC:Q}/pkg-config.exe ${LOCALBASE:Q}/bin
+.if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
+	${INSTALL} -m 0755 ${WRKSRC:Q}/${MINGW_TOOL_PREFIX:Q}pkg-config.exe ${LOCALBASE:Q}/bin
+.endif
 
 
 .include "../../mk/bsd.pkg.mk"

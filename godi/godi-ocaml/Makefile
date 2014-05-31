@@ -6,8 +6,8 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKGNAME=	godi-ocaml-${VERSION}
-VERSION=	4.01.0
-PKGREVISION=	2
+VERSION=	4.02.0beta
+PKGREVISION=	0
 DISTNAME=	ocaml
 DISTFILES=
 CATEGORIES=	godi
@@ -17,10 +17,6 @@ HOMEPAGE=	http://caml.inria.fr
 COMMENT=	The core of the OCaml system (compiler, runtime)
 
 BUILD_DEPENDS+=	godi-ocaml-src==${VERSION}:../../godi/godi-ocaml-src
-
-.if defined(W32PORT) && ${W32PORT} == "mingw" && defined(OCAML_TK)  && ${OCAML_TK} == "yes"
-BUILD_DEPENDS+= base-tcltk>=8.6:../../base/base-tcltk
-.endif
 
 .if defined(W32PORT)
 MAKEFILE=	Makefile.nt
@@ -43,7 +39,7 @@ OCAML_SRC_FILE=ocaml.tar.gz
 .endif
 
 
-.if defined(OCAML_BOOTSTRAP) || defined(W32PORT)
+.if defined(OCAML_BOOTSTRAP) #|| defined(W32PORT)
 # be conservative
 ALL_TARGET=	world bootstrap
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
@@ -78,10 +74,9 @@ INSTALL_TARGET=	install \
 		LIBDIR="${STAGEDIR}/lib/ocaml/std-lib" \
 		MANDIR="${STAGEDIR}/man" \
 		PREFIX="${STAGEDIR}" \
-		DISTRIB="${STAGEDIR}/doc/godi-ocaml"
+		DISTRIB="${STAGEDIR}/doc/godi-ocaml" \
+		INSTALL_DISTRIB="${STAGEDIR}/doc/godi-ocaml"
 # Note: DISTRIB is only meaningful for the mingw port
-
-USE_GMAKE=	yes
 
 # Set up variables for PLIST:
 
@@ -168,6 +163,9 @@ post-install:
 	${TOUCH} "${STAGEDIR}/lib/ocaml/pkg-lib/stublibs/.exists"
 	@# doc:
 	${MKDIR} "${STAGEDIR}/doc/godi-ocaml"
+	@if [ -f ${STAGEDIR:Q}/bin/ocamlbuild.byte.exe ] && [ -f ${STAGEDIR:Q}/bin/ocamlbuild.exe ] && [ -f ${STAGEDIR:Q}/bin/ocamlbuild.native.exe ]; then \
+	  ${RM} ${STAGEDIR:Q}/bin/ocamlbuild.native.exe ; \
+	fi
 .	for file in README README.win32 Changes LICENSE
 	    ${CP} "${WRKSRC}/${file}" "${STAGEDIR}/doc/godi-ocaml"
 .	endfor
@@ -178,7 +176,7 @@ post-install:
 	) >${WRKDIR}/.PLIST.ocaml
 	@# Copy ${STAGEDIR} to ${PREFIX}:
 	${RM} -f ${LOCALBASE}/etc/ld.conf
-	cd "${STAGEDIR}" && ${PAX} -rw -pp . ${LOCALBASE:Q}
+	cd ${STAGEDIR:Q} && ${PAX} -rw -pp . ${LOCALBASE:Q}
 # .if defined(W32PORT) && ${W32PORT} == "mingw"
 # 	@${SETENV} ${ADD_ENV} bash files/install --add-links
 # .endif

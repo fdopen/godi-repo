@@ -1,0 +1,11 @@
+--- main.ml~	2013-03-30 07:21:36.000000000 +0000
++++ main.ml	2014-03-25 13:35:06.498000000 +0000
+@@ -11,6 +11,8 @@
+ let stdout_file = ref None
+ let remix       = ref false
+ 
++let open_out = open_out_bin
++
+ let usage_msg = "\
+ General rules:
+ Text between ## and ## is considered as a block of code.

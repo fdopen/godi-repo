@@ -18,11 +18,9 @@ DEPENDS+=	godi-ocaml>=3.05:../../godi/godi-ocaml
 DEPENDS+= 	base-freeglut>=0:../../base/base-freeglut
 #DEPENDS+=	base-tcltk>=0:../../base/base-tcltk
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi-camlp4
 
-PATH:=		${LOCALBASE}/bin:${PATH}
-
-MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q} 
-USE_GMAKE = yes
+MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
 CFLAGS +=-DWIN32
 

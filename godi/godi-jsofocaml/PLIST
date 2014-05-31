@@ -1,5 +1,0 @@
-@comment $GODI$
-bin/js_of_ocaml
-bin/jsoo_minify
-@dllfindlib js_of_ocaml
-@deepdir doc/godi-jsofocaml

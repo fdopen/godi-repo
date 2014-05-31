@@ -1,4 +1,0 @@
-This package provides the camlp5 pre-processor and pretty-printer. camlp5 is
-compatible with the camlp4 implementation that was built in ocaml versions
-prior 3.10, so that it is possible to use it to compile apps that rely on the
-old behavior of camlp4

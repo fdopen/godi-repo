@@ -1,0 +1,11 @@
+--- _oasis.orig	2014-03-12 18:48:03.867800000 +0000
++++ _oasis	2014-03-12 18:48:59.513000000 +0000
+@@ -38,7 +38,7 @@
+   CompiledObject: native
+   MainIs: run_tests.ml
+   Build$: flag(tests)
+-  BuildDepends: gen,oUnit,qtest
++  BuildDepends: gen,oUnit,QTest2Lib
+ 
+ Executable bench_persistent
+   Path: bench/

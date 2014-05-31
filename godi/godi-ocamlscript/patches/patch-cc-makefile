@@ -1,0 +1,40 @@
+--- Makefile.orig	2012-02-04 01:24:21.000000000 +0000
++++ Makefile	2014-03-25 18:48:37.009200000 +0000
+@@ -15,7 +15,7 @@
+ endif
+ export BINDIR
+ 
+-PACKS = unix str
++PACKS = unix str cygwinpath
+ PP = camlp4o -I . -parser pa_tryfinally.cmo -parser pa_opt.cmo
+ export PP
+ 
+@@ -23,6 +23,14 @@
+ OCAMLFLAGS = -dtypes
+ 
+ 
++
++ifeq ($(OS),Windows_NT)
++EXE := .exe
++else
++EXE :=
++endif
++
++
+ .PHONY: init default common bytelib optlib optexe bytelib optlib \
+         install uninstall test tests examples ocamldoc version meta archive
+ 
+@@ -45,11 +53,11 @@
+ 		cp pa_tryfinally310.cmi pa_tryfinally.cmi
+ 
+ byteexe: bytelib
+-	ocamlfind ocamlc -o ocamlscript.byte -pp '$(PP)' \
++	ocamlfind ocamlc -o ocamlscript.byte$(EXE) -pp '$(PP)' \
+ 	  -package '$(PACKS)' -linkpkg $(OCAMLFLAGS) \
+ 	  ocamlscript.cmo main.ml
+ optexe: optlib
+-	ocamlfind ocamlopt -o ocamlscript -pp '$(PP)' \
++	ocamlfind ocamlopt -o ocamlscript$(EXE) -pp '$(PP)' \
+ 	  -package '$(PACKS)' -linkpkg $(OCAMLFLAGS) \
+ 	  ocamlscript.cmx main.ml
+ bytelib: pabc

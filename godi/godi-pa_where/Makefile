@@ -12,6 +12,7 @@ HOMEPAGE=	https://bitbucket.org/cakeplus/pa_where/
 COMMENT=	Backward declaration syntax
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+= 	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 

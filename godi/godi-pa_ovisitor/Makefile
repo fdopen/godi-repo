@@ -12,6 +12,7 @@ COMMENT=	auto-generate visitor, folder, mapper from type definitions
 
 DEPENDS+=  godi-type_conv-*:../../godi/godi-type_conv
 DEPENDS+=	godi-ocaml>=4.0.1:../../godi/godi-ocaml
+DEPENDS+= 	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-omake-*:../../godi/godi-omake
 

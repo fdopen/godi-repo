@@ -1,4 +1,10 @@
 $NetBSD$
 
-SHA1 (curl-7.35.0.tar.lzma) = ba7b8866308e3dc1264aac42342a2094cac3cace
-Size (curl-7.35.0.tar.lzma) = 2271674 bytes
+SHA1 (curl-7.37.0.tar.gz) = cdbffccb3652ecc1b045bd31399f3934d80d0714
+Size (curl-7.37.0.tar.gz) = 3663565 bytes
+
+SHA1 (base-curl-7.37.0_0_64.txz) = e77f57e2c146c450a9ef1659062b14f8ee06d2d8
+Size (base-curl-7.37.0_0_64.txz) = 233740 bytes
+
+SHA1 (base-curl-7.37.0_0_32.txz) = 768e9bd458302971a44e49c0a1a252bf63b27206
+Size (base-curl-7.37.0_0_32.txz) = 232352 bytes

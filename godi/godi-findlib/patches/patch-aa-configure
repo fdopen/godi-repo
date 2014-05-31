@@ -1,0 +1,22 @@
+--- configure~	2014-03-02 18:05:45.000000000 +0000
++++ configure	2014-05-23 14:09:36.092000000 +0000
+@@ -450,8 +450,8 @@
+     fi
+     lcamlp4="camlp4"
+     rm -rf "site-lib-src/camlp4"
+-    mkdir "site-lib-src/camlp4"
+-    cp "site-lib-src/camlp4.$camlp4style/META.in" "site-lib-src/camlp4/"
++    #mkdir "site-lib-src/camlp4"
++    #cp "site-lib-src/camlp4.$camlp4style/META.in" "site-lib-src/camlp4/"
+     echo "camlp4: using $camlp4_cmd, style $camlp4style"
+ else
+     lcamlp4=''
+@@ -480,7 +480,7 @@
+ 
+ # Generate the META files now.
+ 
+-l="$ldbm dynlink graphics num num-top str threads unix stdlib bigarray $llabltk $lcamlp4 $lobuild $lcomplibs"
++l="$ldbm dynlink graphics num num-top str threads unix stdlib bigarray $lobuild $lcomplibs"
+ 
+ for dir in site-lib-src/*; do
+     # We do not really know if $dir is a directory.

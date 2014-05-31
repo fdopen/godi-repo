@@ -1,0 +1,32 @@
+--- ../../work-ref/camlp4-trunk/myocamlbuild.ml	2014-05-09 15:26:35.000000000 +0200
++++ ./myocamlbuild.ml	2014-05-25 14:00:42.642800000 +0200
+@@ -80,7 +80,19 @@
+         else
+           ".byte"
+     in
+-
++    let hot_camlp4boot_p =
++      if not windows then
++        hot_camlp4boot
++      else
++        let buf = Buffer.create (String.length hot_camlp4boot + 5) in
++        for i = 0 to String.length hot_camlp4boot -1 do
++          match hot_camlp4boot.[i] with
++          | '/' ->
++            Buffer.add_string buf "\\";
++          | x -> Buffer.add_char buf x;
++        done;
++        Buffer.contents buf
++    in
+     flag ["ocaml"; "ocamlyacc"] (A"-v");
+ 
+     flag ["ocaml"; "compile"; "strict_sequence"] (A"-strict-sequence");
+@@ -95,7 +107,7 @@
+ 
+     if not use_external_camlp4boot then
+       dep ["camlp4boot"] [hot_camlp4boot];
+-    flag ["ocaml"; "pp"; "camlp4boot"] (P hot_camlp4boot);
++    flag ["ocaml"; "pp"; "camlp4boot"] (Sh hot_camlp4boot_p);
+     flag ["ocaml"; "pp"; "camlp4boot"; "native"] (S[A"-D"; A"OPT"]);
+     flag ["ocaml"; "pp"; "camlp4boot"; "pp:dep"] (S[A"-D"; A"OPT"]);
+     flag ["ocaml"; "pp"; "camlp4boot"; "pp:doc"] (S[A"-printer"; A"o"]);

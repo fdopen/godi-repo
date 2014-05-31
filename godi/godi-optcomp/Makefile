@@ -17,6 +17,7 @@ COMMENT=        optional compilation with cpp-like directives
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=	yes
 

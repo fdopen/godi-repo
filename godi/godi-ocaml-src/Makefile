@@ -14,14 +14,14 @@ OCAML_SVN_PATH?=	/ocaml/trunk
 
 
 # This is the official version string
-OVERSION= 	4.01.0
+OVERSION= 	4.02beta
 
 # This is the GODI version string, sometimes slightly modified
-VERSION=	4.01.0
+VERSION=	4.02.0beta
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
-DISTNAME=	ocaml-4.01.0
-PKGREVISION=	4
+DISTNAME=	ocaml-4.02
+PKGREVISION=	0
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -40,7 +40,8 @@ DISTFILES=
 .endif
 
 CATEGORIES=	godi
-MASTER_SITES=   http://caml.inria.fr/distrib/ocaml-4.01/
+#MASTER_SITES=   http://caml.inria.fr/distrib/ocaml-4.01/
+MASTER_SITES=	http://caml.inria.fr/pub/distrib/ocaml-4.02/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://caml.inria.fr
 COMMENT=	OCaml sources (required for GODI builds)
@@ -72,8 +73,6 @@ CONFIGURE_ARGS+=${OCAML_CONF_ARGS}
 
 MAKEFILE=	Makefile.godi
 ALL_TARGET=	repack
-USE_GMAKE=	yes
-MAKE_FLAGS+=	GNUMAKE=${GMAKE:Q}
 
 # lib is included into the search path, so there can be
 # special versions of standard libraries for godi
@@ -102,7 +101,13 @@ post-extract:
 	cd ${WRKDIR} && \
 	svn checkout ${OCAML_SVN_ARGS} \
                http://caml.inria.fr/svn${OCAML_SVN_PATH} ocaml
+# .elif ${OVERSION} != ${VERSION}
+# 	cd ${WRKDIR} && \
+# 	${RM} -rf ocaml-${VERSION} && \
+# 	${MV} ocaml-${OVERSION} ocaml-${VERSION}
 .endif
+
+
 # .if defined(W32PORT) && ${W32PORT} == "mingw"
 # 	${CP} files/patch-win* patches
 
@@ -162,29 +167,9 @@ post-configure:
 	       -e 's|^DISTRIB=.*$$|DISTRIB=\$$(PREFIX)/doc/godi-ocaml|' \
 	       -e 's|^MANDIR=.*$$|MANDIR=\$$(PREFIX)/man/man1|' \
 	       -e 's|^FLEXDIR=.*$$|FLEXDIR=\$$(shell \$$(FLEXLINK) -where)/../lib/flexdll|' \
-	       -e 's|^TK_ROOT=.*$$||' -e 's|^TK_DEFS=.*$$||' -e 's|^TK_LINK.*$$||' \
 	       -e 's|-O |${OCAML_BUILD_FLAGS} |' \
 	       ${MAKEFILE_MINGW} >${WRKSRC}/config/Makefile.tmp
-.if defined(OCAML_TK) && ${OCAML_TK} == "yes" 
-	${ECHO} "TK_DEFS=-I${LOCALBASE}/include" >>${WRKSRC}/config/Makefile.tmp
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
-	${SED} -re 's|(^OTHERLIBRARIES.*)$$|\1 labltk|' ${WRKSRC}/config/Makefile.tmp \
-		>${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=${LOCALBASE}/lib/libtcl86.a ${LOCALBASE}/lib/libtk86.a -lws2_32" \
-		>>${WRKSRC}/config/Makefile.tmp2
-.else
-	${CP} ${WRKSRC}/config/Makefile.tmp ${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=${LOCALBASE}/bin/tk86.dll ${LOCALBASE}/bin/tcl86.dll -lws2_32" \
-		>>${WRKSRC}/config/Makefile.tmp2
-.endif
-.else
-	${SED} -e '/^OTHERLIBRARIES=/ s: labltk: :' ${WRKSRC}/config/Makefile.tmp \
-		>${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_DEFS=" >>${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=" >>${WRKSRC}/config/Makefile.tmp2
-.endif
-	${MV} ${WRKSRC}/config/Makefile.tmp2 ${WRKSRC}/config/Makefile
-	${RM} -f ${WRKSRC}/config/Makefile.tmp
+	${MV} ${WRKSRC}/config/Makefile.tmp ${WRKSRC}/config/Makefile
 #.if defined(GODI_BOOT_FLEXDLL)
 #	${ECHO} "FLEXDIR=${GODI_BOOT_FLEXDLL}" >>${WRKSRC}/config/Makefile
 #.else

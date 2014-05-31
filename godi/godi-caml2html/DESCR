@@ -1,0 +1,4 @@
+Caml2html colorizes a set of OCaml source files (.ml, .mli, .mll,
+.mly, ...).  Type annotations will be shown when the mouse pointer
+passes over an expression if the corresponding .annot file is
+available.

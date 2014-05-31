@@ -1,0 +1,12 @@
+$NetBSD$
+
+SHA1 (gnutls-3.3.2.tar.xz) = 52cfd47856e1f49f157448eb0ddc341eb65a50c7
+Size (gnutls-3.3.2.tar.xz) = 5317220 bytes
+
+SHA1 (base-gnutls-3.3.2_0_64.txz) = ced845db3c412db840b8b07d6dfd6c858390fd52
+Size (base-gnutls-3.3.2_0_64.txz) = 696016 bytes
+
+SHA1 (base-gnutls-3.3.2_0_32.txz) = 98972bef2442651231f96fb3529563df00316e76
+Size (base-gnutls-3.3.2_0_32.txz) = 633744 bytes
+
+SHA1 (patch-gnutls-3.1.11-nosrp) = 214f6bbd5df17f112c610b0eaa0a5047eff2626b

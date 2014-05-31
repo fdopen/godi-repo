@@ -8,7 +8,7 @@ DISTNAME=	ocaml-magic-${VERSION}
 DISTFILES=	ocaml-magic-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES= 	http://downloads.sourceforge.net/project/ocaml-magic/ocaml-magic/0.7/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://sourceforge.net/projects/ocaml-magic/
 COMMENT=	binding for libmagic
 
@@ -23,8 +23,7 @@ CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 
-USE_GMAKE=	yes
-INSTALL_TARGET= install
+WINGMAKE=	yes
 ALL_TARGET=	byte
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
 ALL_TARGET+=	opt
@@ -32,7 +31,6 @@ ALL_TARGET+=	opt
 ALL_TARGET+=	doc
 
 MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
-
 
 .if !defined(W32PORT) || ${W32PORT} == "cygwin" 
 
@@ -53,17 +51,10 @@ LDFLAGS+=-Wl,${ELF_RPATH_FLAG}${CONF_MAGIC_NEED_RPATH}
 .endif
 
 .else
-BUILD_DEPENDS+= base-magic>=0:../../base/base-magic
-
+BUILD_DEPENDS+= base-file>=0:../../base/base-file
 .endif
 
+DOCUMENT_DIRS+= doc/html
 
-
-post-install:
-	${MKDIR} ${LOCALBASE}/doc/${PKG}
-.	for DOC in LICENSE ChangeLog README
-	    install -m 0644 ${WRKSRC}/${DOC} ${PREFIX}/doc/${PKG}/${DOC}
-.	endfor
-	cd ${WRKSRC:Q}/doc && ${PAX} -rw -pp html ${PREFIX}/doc/${PKG}
 
 .include "../../mk/bsd.pkg.mk"

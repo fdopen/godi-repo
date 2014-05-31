@@ -8,7 +8,7 @@ DISTNAME=       pcre-ocaml-${VERSION}
 DISTFILES=      pcre-ocaml-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://bitbucket.org/mmottl/pcre-ocaml/downloads/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://bitbucket.org/mmottl/pcre-ocaml
 COMMENT=        Perl Compatibility Regular Expressions
 

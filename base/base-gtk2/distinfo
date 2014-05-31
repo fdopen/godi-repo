@@ -1,0 +1,19 @@
+$NetBSD$
+
+SHA1 (gtk+-2.24.23.tar.xz) = 0aa5a1d93f740cc1bbd9c6342dd54f082ee2eca3
+Size (gtk+-2.24.23.tar.xz) = 13316276 bytes
+
+SHA1 (base-gtk2-2.24.23_0_64.txz) = 79d9fbbe162cf1553612bb4623c7213c0f2c0e80
+Size (base-gtk2-2.24.23_0_64.txz) = 5577724 bytes
+
+SHA1 (base-gtk2-2.24.23_0_32.txz) = 03ed47b46d8609e8dad32376481fc723e475d3ba
+Size (base-gtk2-2.24.23_0_32.txz) = 5503848 bytes
+
+SHA1 (patch-0012-embed-manifest.all) = 4d40afd53501082bc35b2513413091895550f2ca
+SHA1 (patch-gtk-combo-box-dont-use-invalidated-iter) = 877e36154ffe3f3471d7a12a872c5867dad3c6dd
+SHA1 (patch-gtk-fix-out-of-source-build) = cf1dc88b10e33f93a6c5c3367b02a69cfba24882
+SHA1 (patch-icon-padding) = ac9c5d2ec30cf983c248f7a812417119e9ed2a8a
+SHA1 (patch-mingw32-gtk2-2.15.0-xbuttons) = 8f9e389375c6a91f957b859a87a253174f658962
+SHA1 (patch-mingw32-gtk2-enable_static_build) = 12e598ee5077538c5b1fd81820c520d414691016
+SHA1 (patch-tooltip-positioning) = 7da8b2a7b75daecfe85299d980157b55dd8233be
+SHA1 (patch-window-dragging) = 01294795ea1c65a9b0b6e009d726efa657c7deb7

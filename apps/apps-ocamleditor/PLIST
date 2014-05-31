@@ -1,6 +1,0 @@
-@comment $GODI$
-@deepdir doc/apps-ocamleditor
-@deepdir gui/share/ocamleditor
-gui/bin/ocamleditor.exe  
-gui/bin/oebuild.opt.exe  
-gui/bin/oeproc.opt.exe

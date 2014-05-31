@@ -16,7 +16,6 @@ PKG=            apps-alt-ergo
 
 DEPENDS+=       godi-ocaml>=3.08:../../godi/godi-ocaml
 DEPENDS+=       godi-ocamlgraph>=0.95:../../godi/godi-ocamlgraph
-USE_GMAKE=      yes
 
 GNU_CONFIGURE=   yes
 

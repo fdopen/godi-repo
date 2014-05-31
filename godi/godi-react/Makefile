@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	1.0.1
+VERSION= 	1.1.0
 ONAME=		react
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-react-${VERSION}
@@ -9,12 +9,13 @@ DISTNAME=	react-${VERSION}
 DISTFILES=	${DISTNAME}.tbz
 CATEGORIES=	godi
 MASTER_SITES= 	http://erratique.ch/software/react/releases/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://erratique.ch/software/react
 COMMENT=	A module for functional reactive programming (FRP).
 
 DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4-[0-9]*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
 
 PLIST_SRC=	${WRKDIR:Q}/.PLIST.${PKG:Q}

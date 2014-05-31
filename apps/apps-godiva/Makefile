@@ -8,7 +8,7 @@ DISTNAME=       godiva-0.9.7
 DISTFILES=      godiva-0.9.7.tar.gz
 CATEGORIES=     apps
 MASTER_SITES=   http://projects.phauna.org/godiva/release/
-MAINTAINER=     Owen Gunden <ogunden@phauna.org>
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://projects.phauna.org/godiva/
 COMMENT=        High-level tool for simplifying the creation of GODI packages.
 
@@ -23,8 +23,6 @@ BUILD_DEPENDS+= godi-ocamlmakefile-[0-9]*:../../godi/godi-ocamlmakefile
 BUILD_DEPENDS+= godi-xstrp4>=1.4:../../godi/godi-xstrp4
 
 # HAS_CONFIGURE = yes
-
-USE_GMAKE = yes
 
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 

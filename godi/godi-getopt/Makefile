@@ -8,7 +8,7 @@ DISTNAME=	ocaml-getopt
 DISTFILES=	ocaml-getopt-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/896/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://forge.ocamlcore.org/projects/ocaml-getopt/
 COMMENT=	Parsing of command line arguments
 

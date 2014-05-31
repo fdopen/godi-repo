@@ -1,0 +1,29 @@
+$NetBSD$
+
+SHA1 (jasper-1.900.1.zip) = 9c5735f773922e580bf98c7c7dfda9bbed4c5191
+Size (jasper-1.900.1.zip) = 1415752 bytes
+
+SHA1 (base-jasper-1.900.1_0_64.txz) = 6b6e1d5cfa232985fd9379fbce4059d3cd36ce03
+Size (base-jasper-1.900.1_0_64.txz) = 147516 bytes
+
+SHA1 (base-jasper-1.900.1_0_32.txz) = 07d0e51fb068b08dabaa31f77837e8849701b465
+Size (base-jasper-1.900.1_0_32.txz) = 140364 bytes
+
+SHA1 (patch-aa-1.701.0-GL) = 792a1f0a159584f74ae23f748b58842e9cc1f7a6
+SHA1 (patch-ab-1.701.0-GL-ac) = eb484ad835513115932832b75115edd033c36dab
+SHA1 (patch-ac-stepsizes-overflow) = 2d76c8d29a9c31e4c0b04c4c346103c337c039c4
+SHA1 (patch-ad-jpc_dec.c) = 3bd26f2b52bd64a6d92438b46d073d443bd9ca42
+SHA1 (patch-de-CVE-2008-3520) = 0ab99bf5dc48d2cfb29f0e764b5b1e8d433c1007
+SHA1 (patch-df-CVE-2008-3522) = 54cc948ebeb58cd893711509da69189a03106e4f
+SHA1 (patch-dg-pkgconfig) = 17277aa94cd8402db8f22dd34c1de103aa24db47
+SHA1 (patch-dh-CVE-2011-4516-CVE-2011-4517-CERT-VU-887409) = 262b954a37dd788439f4a85638c69d01c8fdeb63
+SHA1 (patch-ea-enable-shared) = 07a1259d2b5dd57b3a48f625c9744b0cd77a201d
+SHA1 (patch-ec-sleep) = 1f01648cc72910bb28bd161f73babaabcbbda62c
+SHA1 (patch-ee-mingw32) = af3f64657b6691a9ccdd826a21c62b5d23fc18f7
+SHA1 (patch-zz-Coverity-BAD_SIZEOF) = de713f1f4fd2772f8505e22e634afa1410a4eb22
+SHA1 (patch-zz-Coverity-CHECKED_RETURN) = 8babd4e4ae5bb7794aa3cdabb746e9bcaa133e99
+SHA1 (patch-zz-Coverity-FORWARD_NULL) = 5473932d3af754f6eaa60aab17ff2d15917af80d
+SHA1 (patch-zz-Coverity-NULL_RETURNS) = 312108bd4f1cca2a5bbf460128d787f77ae37b37
+SHA1 (patch-zz-Coverity-RESOURCE_LEAK) = c010282dd5b8797fe7b0a631d6a4ab46d620b05b
+SHA1 (patch-zz-Coverity-UNREACHABLE) = 4cca06c338078c64c04c3c150c3a859813c97cf0
+SHA1 (patch-zz-Coverity-UNUSED_VALUE) = 1b5da22537a66d6744bf560be9ff0b76b1cf4016

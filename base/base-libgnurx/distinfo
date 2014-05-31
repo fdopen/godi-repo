@@ -1,0 +1,12 @@
+$NetBSD$
+
+SHA1 (mingw-libgnurx-2.5.1-src.tar.gz) = f1e4af2541645dac82362b618aaa849658cd4988
+Size (mingw-libgnurx-2.5.1-src.tar.gz) = 125941 bytes
+
+SHA1 (base-libgnurx-2.5.1_0_64.txz) = 1d41c177395cde9cb234278b8d30c1f35e138c6f
+Size (base-libgnurx-2.5.1_0_64.txz) = 50560 bytes
+
+SHA1 (base-libgnurx-2.5.1_0_32.txz) = 7fd4a6519dddd143be3983cc38a654d2683be3d5
+Size (base-libgnurx-2.5.1_0_32.txz) = 48268 bytes
+
+SHA1 (patch-mingw-w64-libgnurx-honor-destdir) = 7372f52ceb74f5ff9a6a2933afd4d567c80243ee

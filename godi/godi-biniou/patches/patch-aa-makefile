@@ -1,0 +1,11 @@
+--- Makefile.orig	2014-01-19 08:18:17.000000000 +0000
++++ Makefile	2014-03-25 13:00:57.999600000 +0000
+@@ -9,7 +9,7 @@
+ EXE=
+ endif
+ 
+-NATDYNLINK := $(shell if [ -f `ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
++NATDYNLINK := $(shell if [ -f `ocamlc -where | tr -d '\r'`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
+ 
+ ifeq "${NATDYNLINK}" "YES"
+ CMXS=biniou.cmxs

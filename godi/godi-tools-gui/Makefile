@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.8
+VERSION=	0.2.9
 GVERSION=	3.0.37
 PKGREVISION=	0
 PKGNAME=	godi-tools-gui-${VERSION}
@@ -18,18 +18,15 @@ BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocamlnet>=3.6:../../godi/godi-ocamlnet
 BUILD_DEPENDS+= godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
 BUILD_DEPENDS+= godi-sexplib>=0:../../godi-sexplib
+BUILD_DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 .if defined(W32PORT) && ${W32PORT} == "mingw" 
 DEPENDS+=	base-gui>=0:../../base/base-gui
 BUILD_DEPENDS+= godi-curl>=0.5.3:../../godi/godi-curl
 .endif
 
-
-PATH:=		${LOCALBASE}/bin:${PATH}
-
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
-USE_GMAKE=	yes
 HAS_CONFIGURE=	yes
 
 # mk:
@@ -44,8 +41,8 @@ CONFIGURE_ARGS+=-w32port ${W32PORT}
 .if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
 CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
-.if ${W32PORT} == "mingw"
-BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+.if defined(W32PORT) && ${W32PORT} == "mingw" 
+BUILD_DEPENDS+=	base-zlib>=0:../../base/base-zlib
 .endif
 .endif
 

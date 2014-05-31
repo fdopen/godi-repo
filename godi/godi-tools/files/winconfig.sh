@@ -71,11 +71,6 @@ add_to_cygwi(){
         if echo '' > "${PROFILE_DAT_LOCAL}" 2>/dev/null ; then
             local P1="${GODI_PREFIX}/bin"
             local P2="${GODI_PREFIX}/sbin"
-            local P3=/usr/x86_64-w64-mingw32/bin
-
-            if [ $WORDSIZE -eq 32 ]; then
-                P3=/usr/i686-w64-mingw32/bin
-            fi
             /usr/bin/cat - > "${PROFILE_DAT_LOCAL}" <<EOF
 portable_remove_from_path() {
     local NPATH remaining dir to_remove do_stop
@@ -111,11 +106,10 @@ portable_remove_from_path() {
 }
 portable_remove_from_path "${P1}"
 portable_remove_from_path "${P2}"
-portable_remove_from_path "${P3}"
 unset -f portable_remove_from_path
 OCAMLFIND_CONF="${GODI_PREFIX_WIN_MIXED}/etc/findlib.conf"
 OCAMLLIB="${GODI_PREFIX_WIN_MIXED}/lib/ocaml/std-lib"
-PATH="${P1}:${P2}:${P3}:\${PATH}"
+PATH="${P1}:${P2}:\${PATH}"
 export OCAMLLIB OCAMLFIND_CONF PATH
 
 startwodilines=''

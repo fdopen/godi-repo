@@ -15,14 +15,8 @@ COMMENT=	Stub generator
 DEPENDS+=	godi-ocaml>=3.08:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 
-PATH:=		${LOCALBASE}/bin:${PATH}
-
-# ocamlfind must install into the pkg-lib directory, not into site-lib.
-# Use the build time configuration file:
 
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-
-USE_GMAKE=	yes
 
 ALL_TARGET=	all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
@@ -42,7 +36,7 @@ CM=${WRKSRC}/config/Makefile
 post-configure:
 	echo "OSTYPE=win32" >${CM}
 	echo "CPP?=${CC} -x c -E" >>${CM}
-	echo "RANLIB=${RANLIB}" >>${CM}
+	echo "RANLIB?=${MINGW_TOOL_PREFIX}ranlib" >>${CM}
 	echo "OCAMLLIB=${LOCALBASE_NATIVE}/lib/ocaml/std-lib" >>${CM}
 	echo "BINDIR=${LOCALBASE_NATIVE}/bin" >>${CM}
 	echo "OCAMLC=ocamlc -g" >>${CM}

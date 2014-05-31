@@ -19,6 +19,7 @@ DEPENDS+= godi-zed>=1.2:../../godi/godi-zed
 DEPENDS+= godi-lwt>=2.4.0:../../godi/godi-lwt
 
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=		yes
 #WINOASIS_USE_BASH=	yes

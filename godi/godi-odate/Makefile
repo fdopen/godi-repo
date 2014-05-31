@@ -15,6 +15,7 @@ BUILD_DEPENDS+=  godi-menhir-*:../../godi/godi-menhir
 BUILD_DEPENDS+=  apps-oasis-*:../../apps/apps-oasis
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4-*:../../godi/godi-camlp4
 
 WINOASIS=		yes
 WINOASIS_SETUP=		yes

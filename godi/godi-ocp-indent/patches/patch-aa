@@ -1,0 +1,8 @@
+--- ../../work-ref/ocp-indent-1.4.1/src/ocp-indent.ocp	2014-01-15 14:38:48.000000000 +0100
++++ ./src/ocp-indent.ocp	2014-05-22 23:12:21.501600000 +0200
+@@ -1,4 +1,4 @@
+-comp += [ "-g" "-w" "+A-4-9-44" "-warn-error" "+1..45" ]
++comp += [ "-g" ]
+ 
+ begin library "ocp-indent.lexer"
+   files = [

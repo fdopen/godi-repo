@@ -3,4 +3,4 @@ $NetBSD$
 SHA1 (camlzip-1.05.tar.gz) = 0c32485958dd1a9c18f6f0abe1d2bf8e62caef74
 Size (camlzip-1.05.tar.gz) = 25817 bytes
 
-SHA1 (patch-aa-makefile) = e29f9daa6e31e2bfd4a9ccb63992a8a52c0eed68
+SHA1 (patch-aa) = 68c14bd00a06db98a2d7f832f1e377efe7528780

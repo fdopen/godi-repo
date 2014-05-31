@@ -17,6 +17,7 @@ DEPENDS+=	godi-type_conv>=111.13.00:../../godi/godi-type_conv
 BUILD_DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
 
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=		yes
 WINOASIS_DISABLE_DOCS=	yes

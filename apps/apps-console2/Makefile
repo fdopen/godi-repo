@@ -2,7 +2,7 @@
 
 RVERSION=	1.10.0
 VERSION=	2.00z${RVERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 PKG=		apps-console2
 PKGNAME=	${PKG}-${VERSION}
 DISTFILES=	ConsoleZ.x86.${RVERSION}-bin.tar.xz ConsoleZ.x86.${RVERSION}.tar.xz
@@ -13,11 +13,10 @@ MASTER_SITES=	${MASTER_SITES_BACKUP}
 
 
 
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://sourceforge.net/projects/console/
 COMMENT=	Windows Command Prompt
 
-PATH:=		${LOCALBASE}/bin:${PATH}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 INSTALL_SCRIPT_FILE=files/install
@@ -34,7 +33,8 @@ pre-configure:
 
 do-build:
 	@${MKDIR} -p ${WRKDIR:Q}/opt/Console2
-	@cd ${WRKSRC:Q} && ${MV} * ${WRKDIR:Q}/opt/Console2 && ${RMDIR} ${WRKSRC:Q}
+	@cd ${WRKSRC:Q} && ${MV} * ${WRKDIR:Q}/opt/Console2
+	@${RMDIR} ${WRKSRC:Q}
 	@${MKDIR} -p ${WRKDIR:Q}/doc/${PKGBASE:Q}
 	@cd ${WRKDIR:Q}/console-${RVERSION} && \
 	  for f in *.[Tt][Xx][Tt] *.[Mm][Dd] ; do \

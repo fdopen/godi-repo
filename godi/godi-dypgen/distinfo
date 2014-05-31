@@ -3,5 +3,4 @@ $NetBSD$
 SHA1 (dypgen-20120619-1.tar.bz2) = 5afa8e236b6bf5a503b16d5a3a7838f3c80c6e2f
 Size (dypgen-20120619-1.tar.bz2) = 437981 bytes
 
-SHA1 (patch-aa) = 0930be911aef2069746d58821bd9b615d3cf7d2e
-SHA1 (patch-bb) = 23c2f42c0f873e1be2895f68dadd509c270b6a8d
+SHA1 (patch-aa) = dc80bbd817f48669cbca806f4385b397941a1301

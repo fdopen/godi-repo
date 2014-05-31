@@ -12,6 +12,7 @@ HOMEPAGE=	http://forge.ocamlcore.org/projects/integration1d/
 COMMENT=	Integration of functions of one variable
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4-*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 

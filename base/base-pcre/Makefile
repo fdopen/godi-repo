@@ -1,58 +1,30 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	8.35
-PKG=		pcre
-PKGNAME=	${CATEGORIES}-${PKG}-${VERSION}
-PKGREVISION=	0
-DISTNAME=	pcre-8.35
-DISTFILES=	${DISTNAME}.tar.bz2
-CATEGORIES=	base
-MASTER_SITES=	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
-MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://www.pcre.org
-COMMENT=	regular expression pattern matching
+VERSION=	 8.35
+PKGREVISION= 0
+PKG=         pcre
+CATEGORIES=	 base
+PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
+DISTNAME=	 ${PKG}-${VERSION}
+DISTFILES=	 ${PKG}-${VERSION}.tar.bz2
+MASTER_SITES=ftp://ftp.csx.cam.ac.uk/pub/software/programming/${PKG}/
+HOMEPAGE=	 http://www.pcre.org
+COMMENT=	 Perl 5 Compatible Regular Expression Library
 
-USE_GMAKE=		yes
-MINGW_AUTOTOOLS_BUILD=	yes
-NO_MINGW_TOOLS_PREFIX=	yes
-HAS_CONFIGURE=		yes
+DEF_CONFIGURE_ARGS+=	--enable-shared
+DEF_CONFIGURE_ARGS+=	--disable-static
+DEF_CONFIGURE_ARGS+=	--enable-pcre16
+DEF_CONFIGURE_ARGS+=	--enable-utf
+DEF_CONFIGURE_ARGS+=	--enable-unicode-properties
+DEF_CONFIGURE_ARGS+=	--disable-cpp
+DEF_CONFIGURE_ARGS+=	--disable-pcregrep-libz
+DEF_CONFIGURE_ARGS+=	--disable-pcregrep-libbz2
+DEF_CONFIGURE_ARGS+=	--disable-pcretest-libreadline
 
-CONFIGURE_ARGS+=	--prefix=${LOCALBASE}
-CONFIGURE_ARGS+=	--mandir=${LOCALBASE}/man
-CONFIGURE_ARGS+=	--docdir=${LOCALBASE}/doc/${PKGBASE}
-CONFIGURE_ARGS+=	--htmldir=${LOCALBASE}/doc/${PKGBASE}/html
+MAKE_FLAGS+=		bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS=
 
-.if defined(GODI_BASE_PCRE_CONF_ARGS)
-CONFIGURE_ARGS+=	${GODI_BASE_PCRE_CONF_ARGS}
-.else
-CONFIGURE_ARGS+=	--enable-shared 
-CONFIGURE_ARGS+=	--disable-static
-CONFIGURE_ARGS+=	--enable-utf 
-CONFIGURE_ARGS+=	--enable-pcre8 
-CONFIGURE_ARGS+=	--enable-pcre16 
-CONFIGURE_ARGS+=	--enable-pcre32
-CONFIGURE_ARGS+=	--enable-unicode-properties
-#CONFIGURE_ARGS+=	--disable-cpp 
-CONFIGURE_ARGS+=	--with-gnu-ld
-.endif
+REMOVE_FILES+=		doc/${PKGBASE}/makevp*.txt
 
-ALL_TARGET=	all
-IMAGE=          ${WRKDIR}/image
-INSTALL_ENV=	DESTDIR=${IMAGE:Q}
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+REPLACE_FILES+=		bin/pcre-config
 
-
-post-install:
-	${MKDIR} -p ${IMAGE}${LOCALBASE}/doc/${PKGBASE:Q}
-.	for F in AUTHORS ChangeLog COPYING HACKING INSTALL LICENCE NEWS README
-	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}${LOCALBASE}/doc/${PKGBASE:Q}
-.	endfor
-	${RM} -f ${IMAGE}${LOCALBASE}/bin/pcregrep
-	${RM} -f ${IMAGE}${LOCALBASE}/bin/pcretest
-	${RM} -f ${IMAGE}${LOCALBASE}/man/man1/pcregrep.1
-	${RM} -f ${IMAGE}${LOCALBASE}/man/man1/pcretest.1
-	cd ${IMAGE}${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC} && \
-	 ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-
-.include "../../mk/bsd.pkg.mk"
+.include "../../mk/mingw.pkg.mk"

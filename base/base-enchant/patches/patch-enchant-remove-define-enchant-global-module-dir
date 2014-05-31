@@ -1,0 +1,21 @@
+--- src/Makefile.am.orig	2012-08-13 22:14:57.757223969 +0200
++++ src/Makefile.am	2012-08-13 22:15:16.094406421 +0200
+@@ -1,6 +1,6 @@
+ SUBDIRS=. aspell ispell uspell myspell hspell applespell voikko zemberek
+ 
+-INCLUDES=-I$(top_srcdir) $(ENCHANT_CFLAGS) $(CC_WARN_CFLAGS) -DENCHANT_GLOBAL_MODULE_DIR=\"$(libdir)/enchant\" -DENCHANT_GLOBAL_ORDERING=\"$(datadir)/enchant\" -D_ENCHANT_BUILD=1 -DENCHANT_VERSION_STRING=\"@ENCHANT_MAJOR_VERSION@.@ENCHANT_MINOR_VERSION@.@ENCHANT_MICRO_VERSION@\"
++INCLUDES=-I$(top_srcdir) $(ENCHANT_CFLAGS) $(CC_WARN_CFLAGS) -DENCHANT_GLOBAL_ORDERING=\"$(datadir)/enchant\" -D_ENCHANT_BUILD=1 -DENCHANT_VERSION_STRING=\"@ENCHANT_MAJOR_VERSION@.@ENCHANT_MINOR_VERSION@.@ENCHANT_MICRO_VERSION@\"
+ 
+ lib_LTLIBRARIES = libenchant.la
+ 
+--- src/Makefile.in.orig	2012-08-13 22:21:31.509660624 +0200
++++ src/Makefile.in	2012-08-13 22:21:57.138516866 +0200
+@@ -280,7 +280,7 @@
+ top_builddir = @top_builddir@
+ top_srcdir = @top_srcdir@
+ SUBDIRS = . aspell ispell uspell myspell hspell applespell voikko zemberek
+-INCLUDES = -I$(top_srcdir) $(ENCHANT_CFLAGS) $(CC_WARN_CFLAGS) -DENCHANT_GLOBAL_MODULE_DIR=\"$(libdir)/enchant\" -DENCHANT_GLOBAL_ORDERING=\"$(datadir)/enchant\" -D_ENCHANT_BUILD=1 -DENCHANT_VERSION_STRING=\"@ENCHANT_MAJOR_VERSION@.@ENCHANT_MINOR_VERSION@.@ENCHANT_MICRO_VERSION@\"
++INCLUDES = -I$(top_srcdir) $(ENCHANT_CFLAGS) $(CC_WARN_CFLAGS) -DENCHANT_GLOBAL_ORDERING=\"$(datadir)/enchant\" -D_ENCHANT_BUILD=1 -DENCHANT_VERSION_STRING=\"@ENCHANT_MAJOR_VERSION@.@ENCHANT_MINOR_VERSION@.@ENCHANT_MICRO_VERSION@\"
+ lib_LTLIBRARIES = libenchant.la
+ libenchant_la_LIBADD = $(ENCHANT_LIBS) -Wl,@ENCHANT_WIN32_RESOURCE@
+ libenchant_la_LDFLAGS = -no-undefined -export-dynamic $(am__append_1) \

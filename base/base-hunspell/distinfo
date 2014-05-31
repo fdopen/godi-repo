@@ -1,0 +1,12 @@
+$NetBSD$
+
+SHA1 (hunspell-1.3.2.tar.gz) = 902c76d2b55a22610e2227abc4fd26cbe606a51c
+Size (hunspell-1.3.2.tar.gz) = 975917 bytes
+
+SHA1 (base-hunspell-1.3.2_0_64.txz) = f5082bbcfea595681ac529e9042a25fecb77680e
+Size (base-hunspell-1.3.2_0_64.txz) = 303132 bytes
+
+SHA1 (base-hunspell-1.3.2_0_32.txz) = e16802c9745d50075d956501696c66b7a85d3e55
+Size (base-hunspell-1.3.2_0_32.txz) = 298820 bytes
+
+SHA1 (patch-hunspell-1.3.2-canonicalhost) = b0e79d2a7820f8f30242ef8872e7d58778b06429

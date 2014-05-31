@@ -15,6 +15,7 @@ GODI_CSTRUCT_LWT?=	yes
 
 BUILD_DEPENDS+=  godi-ounit-*:../../godi/godi-ounit
 DEPENDS+= 	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+= 	godi-camlp4-*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocplib-endian-*:../../godi/godi-ocplib-endian
 
@@ -22,32 +23,26 @@ BUILD_DEPENDS+= godi-ocplib-endian-*:../../godi/godi-ocplib-endian
 DEPENDS+=	godi-lwt>=0:../../godi/godi-lwt
 CONFIGURE_ARGS+=	--enable-lwt
 .endif
+CONFIGURE_ARGS+=	--enable-unix
 
-
-WINOASIS=		yes
-#WINOASIS_DISABLE_DOCS=  yes
-
-
-.if !defined(CYGWIN_ROOT)
-CYGWIN_ROOT=${:! cygpath -m "/" !}
-.endif
+WINOASIS=		 yes
 
 CAML_LD_LIBRARY_PATH_TEST=${CYGWIN_ROOT}${WRKSRC}/_build/lib
 .if defined(CAML_LD_LIBRARY_PATH) && ${CAML_LD_LIBRARY_PATH} != ""
-MAKE_ENV+=	CAML_LD_LIBRARY_PATH=${CAML_LD_LIBRARY_PATH_TEST}:${CAML_LD_LIBRARY_PATH}
+TO_ADD=	${CAML_LD_LIBRARY_PATH_TEST}:${CAML_LD_LIBRARY_PATH}
 .else
-MAKE_ENV+=	CAML_LD_LIBRARY_PATH=${CAML_LD_LIBRARY_PATH_TEST}
+TO_ADD=	${CAML_LD_LIBRARY_PATH_TEST}
 .endif
+MAKE_ENV+=	CAML_LD_LIBRARY_PATH=${TO_ADD:Q}
 
-CONFIGURE_ARGS+=	--enable-unix
+
+DOCUMENT_DIRS+=	_build/doc/api.docdir
+xtest:
+	@echo ${MAKE_ENV}
 
 post-build:
 	${_PKG_SILENT}${_PKG_DEBUG}${_ULIMIT_CMD}cd ${WRKSRC:Q} && \
 		${SETENV} ${MAKE_ENV} bash test.sh
-
-#post-install:
-#	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/html
-#	${CP} ${WRKSRC}/doc/* ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/html
 
 
 .include "../../mk/bsd.pkg.mk"

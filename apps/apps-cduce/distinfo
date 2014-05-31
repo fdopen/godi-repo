@@ -1,8 +1,0 @@
-$NetBSD$
-
-SHA1 (cduce-0.6.0.tar.gz) = 616d65be298a29fb3ecedcfb177662c5ea5f8221
-Size (cduce-0.6.0.tar.gz) = 815440 bytes
-
-SHA1 (patch-aa-makefile) = 1aff963d90abd728d3012ea32ef01a13e0fb2949
-SHA1 (patch-bb-configure) = fc04d56f9c1368abfd38fd4c80c20ed0acbbec7f
-SHA1 (patch-cc-ocamlifacemakefile) = 54d8478ca4a41b021430cfb2208da932ec17265d

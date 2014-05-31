@@ -14,6 +14,7 @@ HOMEPAGE=       http://forge.ocamlcore.org/projects/odn
 COMMENT=        Store data using OCaml notation
 
 DEPENDS+=	godi-ocaml>=3.10.2:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 DEPENDS+=	godi-type_conv>=108.07.01:../../godi/godi-type-conv
 BUILD_DEPENDS+= godi-findlib>=1.2.6:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-tools>=3.0.37b:../../godi-tools

@@ -18,6 +18,7 @@ DEPENDS+=  godi-herelib<=109.35.02:../../godi/godi-herelib
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 #DEPENDS+= godi-type_conv<=109.60.01:../../godi/godi-type_conv
 
 

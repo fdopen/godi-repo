@@ -1045,20 +1045,6 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.
      (* Arguments for the first command: *)
      let first_args = ["install"; findlib_name; meta] in
      (* Arguments for remaining commands: *)
-diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml
---- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 11:37:07.000000000 +0100
-@@ -93,7 +93,9 @@
-   with Not_found -> s
- 
- (* ocamlfind command *)
--let ocamlfind x = S[Sh (exec_from_conf "ocamlfind"); x]
-+let ocamlfind x = S[Sh (
-+  Ocamlbuild_pack.Shell.quote_filename_if_needed
-+    (exec_from_conf "ocamlfind") ); x]
- 
- (* This lists all supported packages. *)
- let find_packages () =
 Nur in ./src/plugins/ocamlbuild: MyOCamlbuildFindlib.ml.orig.
 diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml ./src/plugins/ocamlbuild/OCamlbuildCommon.ml
 --- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-26 02:14:11.000000000 +0100

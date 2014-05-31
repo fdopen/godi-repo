@@ -1,0 +1,19 @@
+--- ../../work-ref/bitv-1.1/Makefile.in	2013-04-11 08:38:53.000000000 +0200
++++ ./Makefile.in	2014-05-26 18:19:59.510800000 +0200
+@@ -53,12 +53,12 @@
+ DESTDIR=-destdir $(LIBDIR:/bitv=)
+ 
+ install-byte:
+-	$(OCAMLFIND) remove $(DESTDIR) bitv
+-	$(OCAMLFIND) install $(DESTDIR) bitv META $(BYTEFILES)
++	$(OCAMLFIND) remove bitv
++	$(OCAMLFIND) install bitv META $(BYTEFILES)
+ 
+ install-opt:
+-	$(OCAMLFIND) remove $(DESTDIR) bitv
+-	$(OCAMLFIND) install $(DESTDIR) bitv META $(BYTEFILES) $(OPTFILES)
++	$(OCAMLFIND) remove bitv
++	$(OCAMLFIND) install bitv META $(BYTEFILES) $(OPTFILES)
+ 
+ endif
+ 

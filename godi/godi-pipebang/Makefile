@@ -15,6 +15,7 @@ COMMENT=        Syntax extension to transform x |! f into f x
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 
 DEPENDS+= godi-ocaml>=4.00.1:../../godi/godi-ocaml
+DEPENDS+= godi-camlp4-*:../../godi/godi-camlp4
 
 WINOASIS=	yes
 

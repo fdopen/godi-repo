@@ -12,7 +12,8 @@ MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.13.00/individual/
 HOMEPAGE=       https://github.com/janestreet/type_conv
 COMMENT=        Library factoring out common functionality for type converters.
 
-DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.01:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 BUILD_DEPENDS+=	godi-findlib>=1.3.2:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-tools>=3.0.37b:../../godi-tools
 

@@ -1,4 +1,0 @@
-If necessary, you can set the following options:
-
-- GODI_BASE_LIBPQ_CONF_ARGS: Additional arguments for the
-  configure script.

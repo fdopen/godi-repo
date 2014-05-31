@@ -16,6 +16,7 @@ BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 DEPENDS+=	godi-type_conv>=109.15.00:../../godi/godi-type_conv
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=	yes
 

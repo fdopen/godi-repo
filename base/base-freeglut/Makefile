@@ -1,52 +1,24 @@
 .include "../../mk/bsd.prefs.mk"
 
-PKG=		base-freeglut
-PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
-DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
-CATEGORIES=	base
-MASTER_SITES=
-MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://freeglut.sourceforge.net/
-COMMENT=	open source alternative to the OpenGL Utility Toolkit
+VERSION=	 2.8.1
+PKGREVISION= 0
+PKG=         freeglut
+CATEGORIES=	 base
+PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
+DISTNAME=	 ${PKG}-${VERSION}
+DISTFILES=	 ${PKG}-${VERSION}.tar.gz
+MASTER_SITES=http://downloads.sourceforge.net/project/freeglut/freeglut/${VERSION}/
+HOMEPAGE=	 http://freeglut.sourceforge.net/
+COMMENT=	 open source alternative to the OpenGL Utility
+
+DEF_CONFIGURE_ARGS+=	--enable-shared
+DEF_CONFIGURE_ARGS+=	--disable-static
+
+DEF_CONFIGURE_ARGS+=	--enable-replace-glut
+DEF_CONFIGURE_ARGS+=	--disable-debug
+DEF_CONFIGURE_ARGS+=	--without-x
+
+MAKE_FLAGS+=		bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=
 
 
-#libgcc
-DEPENDS+= base-windows>=0:../../base/base-windows
-
-
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
-
-
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
-
-
-.if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
-pre-configure:
-	@echo "**********************************************"
-	@echo "*** ${PKG} is only intended for Windows ***"
-	@echo "**********************************************"
-	@false
-.endif
-
-
-do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-
-#@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-
-
-
-do-install:
-	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
-	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
-
-
-.include "../../mk/bsd.pkg.mk"
+.include "../../mk/mingw.pkg.mk"

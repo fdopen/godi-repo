@@ -1,0 +1,32 @@
+--- ../../work-ref/nettle-2.7.1/examples/setup-env	2013-05-28 16:21:54.000000000 +0200
++++ ./examples/setup-env	2014-05-09 18:02:24.443526689 +0200
+@@ -5,10 +5,10 @@
+ # Workaround, it seems difficult to convince wine to put ../lib into PATH.
+ case "$EMULATOR" in
+     wine*)
+-	for f in ../.lib/*.dll ; do
+-	  ln -sf "$f" .
+-	done
+-	;;
++        for f in ../.lib/*.dll ; do
++          cp "$f" .
++        done
++        ;;
+ esac
+ 
+ if [ -x rsa-keygen$EXEEXT ] ; then
+--- ../../work-ref/nettle-2.7.1/testsuite/setup-env	2013-05-28 16:21:54.000000000 +0200
++++ ./testsuite/setup-env	2014-05-09 18:02:40.335958261 +0200
+@@ -5,8 +5,8 @@
+ # Workaround, it seems difficult to convince wine to put ../lib into PATH.
+ case "$EMULATOR" in
+     wine*)
+-	for f in ../.lib/*.dll ; do
+-	  ln -sf "$f" .
+-	done
+-	;;
++        for f in ../.lib/*.dll ; do
++          cp "$f" .
++        done
++        ;;
+ esac

@@ -14,7 +14,9 @@ COMMENT=	syntax extension which makes OCaml types and values easier to manipulat
 
 DEPENDS+=	godi-type_conv>=108.07.00:../../godi/godi-type_conv
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=	godi-camlp4-*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-ounit-*:../../godi/godi-ounit
 
 
 WINGMAKE=yes

@@ -16,6 +16,7 @@ COMMENT=        Architecture for building OCaml libraries and applications
 DEPENDS+=	godi-ocaml>=3.11.0:../../godi/godi-ocaml
 DEPENDS+=	godi-ocaml-data-notation>=0.0.2:../../godi/godi-ocaml-data-notation
 BUILD_DEPENDS+= godi-findlib>=0:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 .if !defined(W32PORT) || ${W32PORT} != "mingw"
 BUILD_DEPENDS+= godi-ounit>=0:../../godi/godi-ounit
 BUILD_DEPENDS+= godi-ocaml-expect>=0:../../godi/godi-ocaml-expect
@@ -46,7 +47,6 @@ WINOASIS_DISABLE_DOCS=	no
 
 # CONFIGURE_ENV+= ${BUILD_OCAMLFIND_ENV}
 
-# USE_GMAKE = yes
 
 # MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}
 # CONFIGURE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}

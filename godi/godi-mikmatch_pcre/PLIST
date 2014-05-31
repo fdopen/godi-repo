@@ -1,4 +1,0 @@
-@comment $GODI$
-
-@findlib mikmatch_pcre
-@deepdir doc/godi-mikmatch_pcre

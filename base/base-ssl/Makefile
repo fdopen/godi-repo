@@ -1,61 +1,58 @@
 .include "../../mk/bsd.prefs.mk"
 
-PKG=		base-ssl
-PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
-VERSION=	1.0.1f
-DISTNAME=	openssl-${VERSION}
-DISTFILES=	${DISTNAME}.tar.gz
-CATEGORIES=	base
-MASTER_SITES=	https://www.openssl.org/source/
-MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://www.openssl.org
-COMMENT=	open-source implementation of the SSL and TLS protocols
+VERSION=	 1.0.1g
+PKGREVISION= 0
+PKG=         ssl
+CATEGORIES=	 base
+PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
+DISTNAME=	 open${PKG}-${VERSION}
+DISTFILES=	 open${PKG}-${VERSION}.tar.gz
+SVERSION=	 ${VERSION:C/.[^.]*$//}
+MASTER_SITES=https://www.openssl.org/source/
+HOMEPAGE=	 http://www.openssl.org
+COMMENT=	 Secure Sockets Layer library
 
+DEPENDS+=	base-zlib>=0:../../base/base-zlib
 
-DEPENDS+=	base-windows>=0:../../base/base-windows
-
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
-
-#post-extract:	
-#	${INSTALL} -m 0755 files/myconfigure ${WRKSRC:Q}
-
-HAS_CONFIGURE=		yes
-
-CC=			gcc
-CONFIGURE_SCRIPT=	${WRKSRC:Q}/Configure
-CONFIGURE_ENV+=		CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q} 
+CONFIGURE_ENV+=	CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q}
 
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == 64 
-CONFIGURE_ARGS+=	mingw64 
+PTARGET=	mingw64 
 .else
-CONFIGURE_ARGS+=	mingw
+PTARGET=	mingw
 .endif
 
-CONFIGURE_ARGS+=	shared 
-CONFIGURE_ARGS+=	zlib-dynamic
-CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
+.if defined(MINGW_BASE_BUILD)
+do-configure:
+	cd ${WRKSRC:Q} && ${SETENV} ${CONFIGURE_ENV} \
+	 ./Configure shared --prefix=${MINGW_PREFIX:Q} \
+	   no-rc5 no-srp no-ec2m \
+	   enable-camellia enable-idea \
+	   no-hw no-capieng \
+	   zlib-dynamic \
+	   ${PTARGET}
 
-NO_MINGW_TOOLS_PREFIX=  yes
+#no-ec no-ec2m no-ecdh no-ecdsa 
 
-USE_GMAKE=	yes
+SSLENV=		CPPFLAGS=${MINGW_CPPFLAGS:Q} CFLAGS=${MINGW_CFLAGS:Q} CXXFLAGS=${MINGW_CXXFLAGS:Q}
 
-IMAGE=          ${WRKDIR}/image
-MAKE_FLAGS+=    INSTALL_PREFIX=${IMAGE} 
+SSLMAKE_FLAGS+=	CC=${MINGW_TOOL_PREFIX:Q}gcc 
+SSLMAKE_FLAGS+=	RANLIB=${MINGW_TOOL_PREFIX:Q}ranlib
+SSLMAKE_FLAGS+=	AR=${MINGW_TOOL_PREFIX}ar\ rcu
+SSLMAKE_FLAGS+=	CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q}
+SSLMAKE_FLAGS+=	INSTALL_PREFIX=${IMAGE_DIR:Q}
 
-PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+ALL_TARGET= build_libs openssl.pc libssl.pc libcrypto.pc
 
-ALL_TARGET=	all # test
+do-build:
+	${SETENV} ${SSLENV} ${GMAKE} -C ${WRKSRC:Q} ${SSLMAKE_FLAGS}
 
+MAKE_FLAGS+=    ${SSLMAKE_FLAGS}
 INSTALL_TARGET=	install_sw
 
-post-install:
-	${MKDIR} -p ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
-.	for F in ACKNOWLEDGMENTS CHANGES CHANGES.SSLeay FAQ LICENSE PROBLEMS NEWS README README.ASN1 README.ENGINE
-	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${IMAGE}/${LOCALBASE}/doc/${PKGBASE:Q}
-.	endfor
-	cd ${IMAGE}/${LOCALBASE} && ${FIND} * ! -type d >${PLIST_SRC}
-	cd ${IMAGE}/${LOCALBASE} && ${PAX} -rw -pp . ${LOCALBASE:Q}
+REMOVE_FILES+=	bin/c_rehash bin/*exe
+.endif
 
+REPLACE_FILES+=        include/openssl/opensslconf.h
 
-.include "../../mk/bsd.pkg.mk"
+.include "../../mk/mingw.pkg.mk"

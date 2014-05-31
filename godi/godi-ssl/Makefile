@@ -27,7 +27,7 @@ HAS_CONFIGURE=  yes
 # OCamlMakefile doesn't work. (Gerd Stolpmann <gerd@gerd-stolpmann.de>)
 MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
 
-WINGMAKE_HTML_DIR= doc/html
+DOCUMENT_DIRS+= doc/html
 
 
 .include "../../mk/bsd.pkg.mk"

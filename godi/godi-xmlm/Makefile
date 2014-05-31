@@ -8,7 +8,7 @@ DISTNAME=       xmlm-${VERSION}
 DISTFILES=      xmlm-${VERSION}.tbz
 CATEGORIES=     godi
 MASTER_SITES=   http://erratique.ch/software/xmlm/releases/
-MAINTAINER=	andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://erratique.ch/software/xmlm
 COMMENT=        Streaming XML IO for OCaml
 

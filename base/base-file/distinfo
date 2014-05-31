@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (file-5.18.tar.gz) = 8753e72097f2cc935608e3b1c57c4c4e31bd8d21
+Size (file-5.18.tar.gz) = 715461 bytes
+
+SHA1 (base-file-5.18_0_64.txz) = e113379506d9755dfaea1b18c26d29b89f650d22
+Size (base-file-5.18_0_64.txz) = 194916 bytes
+
+SHA1 (base-file-5.18_0_32.txz) = 781b95edcea39617e6d41a76c897ac39375513d3
+Size (base-file-5.18_0_32.txz) = 195908 bytes

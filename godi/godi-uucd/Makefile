@@ -9,7 +9,7 @@ DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tbz
 CATEGORIES=     godi
 MASTER_SITES=   http://erratique.ch/software/${ONAME}/releases/
-MAINTAINER=     andreas@ml.ignorelist.com
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://erratique.ch/software/${ONAME}
 COMMENT=        Unicode character database decoder for OCaml
 

@@ -3,17 +3,11 @@ $NetBSD$
 SHA1 (godi-tools-3.0.37.tar.gz) = 07354c2c3d0f669078d3c4cfa88a80e90dcd78f0
 Size (godi-tools-3.0.37.tar.gz) = 568998 bytes
 
-SHA1 (godi-gui-0.2.8.tar.xz) = 8a834dfa0c358a8f10869ef9a5573441311d0f63
-Size (godi-gui-0.2.8.tar.xz) = 107696 bytes
+SHA1 (godi-gui-0.2.9.tar.xz) = 81e72805c766b919cc41562d7e9d2aa0ee1d8e1d
+Size (godi-gui-0.2.9.tar.xz) = 101188 bytes
 
-SHA1 (patch-aa-all) = 4a650249d6e120a56ff5699204c78cd490493481
-SHA1 (patch-bb-makefile) = 6e5a74a62552da39bee753b3d4849f71bac00ec0
-SHA1 (patch-cc-query) = 684a5dcc3e026921bf38b45406649515ead09c9f
-SHA1 (patch-cc-querymli) = cfdbd4e133cc59130d2600c3aee292f6819a10bd
-SHA1 (patch-dd-ptool) = a91c5d48f73bf6166e9f838727c3a4952ce790b4
-SHA1 (patch-ee-bsdpkg) = 4f0e4192704d1300d813109faacae9b89cda2ce7
-SHA1 (patch-ff-godiperform) = 57464c95a4171e51381653eb87fc81265d306a01
-SHA1 (patch-gg-confmlp) = 9834a24b5fe27d5d50710a9b1d468f415e9dffdd
+SHA1 (patch-aa) = 3db9f4c72aed5a177b5d24ddd86a7374d0b41086
+SHA1 (patch-zz) = 514a5cb599e44d7ee521804797840ec211d46bbd
 SHA1 (patch-zz-pkgmakefile) = b88d0c21c341be557e099b9f58102fb84d22d465
 SHA1 (patch-zz-versionml) = 83b7f67ce8d8f6d3fc911ce69a357a227b5cc154
 SHA1 (patch-zz-versionmli) = 372959a39d4c6cafd2ab770968b15d60ef008c8d

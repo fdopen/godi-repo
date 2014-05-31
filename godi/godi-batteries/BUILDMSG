@@ -8,11 +8,5 @@ GODI_BATTERIES_BROWSER_COMMAND:
     with the URL.
 GODI_BATTERIES_RUN_TESTS:
     if yes, then tests after build. Requires OUnit and Ruby.
-GODI_BATTERIES_VCS_CHECKOUT:
-    if yes, then check out batteries from Git
-GODI_BATTERIES_GIT_REPO:
-    the Git repository from which to clone Batteries.
-GODI_BATTERIES_GIT_BRANCH:
-    the branch in the git repository that is desired.
 GODI_BATTERIES_BUILD_DOCS:
     if 'yes', build and install documentation

@@ -31,12 +31,11 @@ CONFIGURE_ENV+= ${BUILD_OCAMLFIND_ENV}
 
 CONFIGURE_ARGS+= --prefix=${PREFIX}
 
-USE_GMAKE = yes
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV}
 
 INSTALL_TARGET = install-findlib
 
-ALL_TARGET = all doc test check
+ALL_TARGET = all test check #doc
 .if	${GODI_OCAMLGRAPH_VIEWER} == "yes"
 .         if exists(${LOCALBASE}/lib/godi/godi-lablgtk2.mk)
 .           include "${LOCALBASE}/lib/godi/godi-lablgtk2.mk"
@@ -57,11 +56,11 @@ pre-configure:
 .endif
 
 post-install:
-	${MKDIR} ${PREFIX}/doc/${PKGBASE}/html
+	${MKDIR} ${PREFIX}/doc/${PKGBASE:Q} #/html
 .	for DOC in CHANGES COPYING CREDITS FAQ LICENSE README
 	    ${INSTALL} -m 0644 ${WRKSRC}/${DOC} ${PREFIX}/doc/${PKGBASE}
 .	endfor
-	cd ${WRKSRC}/doc && ${PAX} -rw -pp . ${PREFIX}/doc/${PKGBASE}/html
+#cd ${WRKSRC}/doc && ${PAX} -rw -pp . ${PREFIX}/doc/${PKGBASE}/html
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 .if ${GODI_OCAMLGRAPH_VIEWER} == "yes"
 	${MKDIR} ${PREFIX}/gui/bin

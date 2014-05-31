@@ -1,4 +1,7 @@
-SHA1 (base-windows-0.18.1.1.13.356_32.tar.xz) = b7a64a4119969b86f8095e43a5c0b4f776573e6c
-Size (base-windows-0.18.1.1.13.356_32.tar.xz) = 2312032 bytes 
+$NetBSD$
+
 SHA1 (base-windows-0.18.1.1.11.292_64.tar.xz) = af94dec90a50560fa0d6d74de3e9616c2c89f8f4
-Size (base-windows-0.18.1.1.11.292_64.tar.xz) = 2352824 bytes 
+Size (base-windows-0.18.1.1.11.292_64.tar.xz) = 2352824 bytes
+
+SHA1 (pkg-config.tar.xz) = 2e8b2a7660f204e53f3e34e1c080dae34f6c3593
+Size (pkg-config.tar.xz) = 276596 bytes
