@@ -1,16 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.6.0
+VERSION=        1.7.0
 PKGNAME=        godi-uri-${VERSION}
-PKGREVISION=    1
-DISTNAME=       ocaml-uri-1.6.0
-DISTFILES=      uri-1.6.0.tar.gz
+PKGREVISION=    0
+DISTNAME=       ocaml-uri-1.7.0
+DISTFILES=      uri-1.7.0.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://github.com/mirage/ocaml-uri/
 COMMENT=        RFC3968 URI parsing library
 
+DEPENDS+=  godi-type_conv-*:../../godi/godi-type_conv
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 DEPENDS+=	godi-re-*:../../godi/godi-re
 DEPENDS+=	godi-sexplib>=109.53.00:../../godi/godi-sexplib
