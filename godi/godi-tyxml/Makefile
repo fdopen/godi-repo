@@ -1,17 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	3.0.0
+VERSION= 	3.1.1
 PKGNAME= 	godi-tyxml-${VERSION}
 PKGREVISION= 	0
-DISTNAME=	tyxml-${VERSION} 
-DISTFILES=	${DISTNAME}.tar.gz
+DISTNAME=	tyxml-3.1.1
+DISTFILES=	tyxml-3.1.1.tar.gz
 CATEGORIES=	godi  
-MASTER_SITES=	http://www.ocsigen.org/download/
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://www.ocsigen.org/eliom/install/
 COMMENT=	A parser and printer for xml.
 
-DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 WINOASIS=	yes
