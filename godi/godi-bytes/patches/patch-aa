@@ -1,0 +1,12 @@
+--- ../../work-ref/ocaml-bytes-ocaml-bytes.1.1/Makefile.in	2014-05-23 14:24:31.000000000 +0200
++++ ./Makefile.in	2014-06-24 16:25:31.738400000 +0200
+@@ -1,7 +1,8 @@
+ DESTDIR=
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-LIBDIR=$(DESTDIR)@libdir@/bytes
++LIBDIR=$(shell ocamlfind printconf destdir)/bytes
++#$(DESTDIR)@libdir@/bytes
+ HAS_BYTES=@HAS_BYTES@
+ 
+ OCAMLC   = @OCAMLC@
