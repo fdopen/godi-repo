@@ -3,7 +3,7 @@
 PKG=		base-ssl
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-VERSION=	1.0.1f
+VERSION=	1.0.1h
 DISTNAME=	openssl-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	base
@@ -31,13 +31,17 @@ CONFIGURE_ARGS+=	mingw64
 .else
 CONFIGURE_ARGS+=	mingw
 .endif
-
-CONFIGURE_ARGS+=	shared 
-CONFIGURE_ARGS+=	zlib-dynamic
 CONFIGURE_ARGS+=	--prefix=${LOCALBASE:Q}
 
-NO_MINGW_TOOLS_PREFIX=  yes
+.if defined(GODI_BASE_SSL_CONF_ARGS)
+CONFIGURE_ARGS+= ${GODI_BASE_SSL_CONF_ARGS}
+.else
+CONFIGURE_ARGS+=	shared 
+CONFIGURE_ARGS+=	zlib-dynamic
+.endif
 
+
+NO_MINGW_TOOLS_PREFIX=  yes
 USE_GMAKE=	yes
 
 IMAGE=          ${WRKDIR}/image

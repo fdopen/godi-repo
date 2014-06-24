@@ -1,0 +1,4 @@
+If necessary, you can set the following options:
+
+- GODI_BASE_SSL_CONF_ARGS: Additional arguments for the
+  configure script. For example, set it to
