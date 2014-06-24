@@ -1,11 +1,11 @@
 $NetBSD$
 
-SHA1 (core_kernel-111.13.00.tar.gz) = a852f59422166aea0a109459386c344fc5e32822
-Size (core_kernel-111.13.00.tar.gz) = 433767 bytes
+SHA1 (core_kernel-111.17.00.tar.gz) = 980b865e913db68da73efcbbd820a8f1f2086286
+Size (core_kernel-111.17.00.tar.gz) = 437997 bytes
 
 SHA1 (patch-dd) = c4ef445681965793abd5e5e79928d27c98ddd352
 SHA1 (patch-ee) = 880a1b3cd08e14616c7c1d096f9d540323ea0cab
 SHA1 (patch-ee-printf) = 5b5fabdeccb376bc0b74fd250038115e22669d11
 SHA1 (patch-wj) = b4a482af975a1c8ec30e732ec0ec8fcb9b5bd7ac
 SHA1 (patch-wk) = 1a16fc4de63007615d6528a70dd4f9cb196b67eb
-SHA1 (patch-windows-aa) = e7268ccd89b3f68389891eb39c3e58e6e7dea579
+SHA1 (patch-windows-aa) = 8242689f8b9bec4c0c3a02b808440fa1d66b6c91
