@@ -2,7 +2,7 @@
 
 PKG=		base-libiconv
 VERSION=	1.14
-PKGREVISION=	1
+PKGREVISION=	2
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	libiconv-${VERSION}
 DISTFILES=	libiconv-${VERSION}.tar.gz
@@ -31,6 +31,10 @@ CONFIGURE_ARGS+=	--disable-static
 CONFIGURE_ARGS+=	--enable-silent-rules
 CONFIGURE_ARGS+=	--enable-relocatable
 #CONFIGURE_ARGS+=	--disable-dependency-tracking
+.endif
+
+.if defined(MINGW_BIN_PATH) && ${MINGW_BIN_PATH} != ""
+PATH:=	${MINGW_BIN_PATH}:${PATH}
 .endif
 
 USE_GMAKE=	yes
