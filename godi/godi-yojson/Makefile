@@ -3,7 +3,7 @@
 
 VERSION=        1.1.8
 PKGNAME=        godi-yojson-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       yojson-${VERSION}
 DISTFILES=      yojson-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -21,7 +21,7 @@ MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDI
 DEPENDS+= godi-ocaml-[0-9]*:../../godi/godi-ocaml
 DEPENDS+= godi-easy-format-[0-9]*:../../godi/godi-easy-format
 DEPENDS+= godi-biniou>=1.0.0:../../godi/godi-biniou
-DEPENDS+= apps-cppo-[0-9]*:../../apps/apps-cppo
+BUILD_DEPENDS+= apps-cppo-[0-9]*:../../apps/apps-cppo
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 # HAS_CONFIGURE = yes
