@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        7.0.4
+VERSION=        7.1.0
 PKG=		godi-pcre
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
@@ -15,7 +15,8 @@ COMMENT=        Perl Compatibility Regular Expressions
 DEPENDS+=godi-ocaml>=3.12:../../godi/godi-ocaml
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+= base-pcre>=0:../../base/base-pcre
-#CONFIGURE_ARGS+=--with-pcre-config 'sh pcre-config'
+CONF_HELP=sh.exe pcre-config
+CONFIGURE_ENV+= WITH_PCRE_CONFIG=${CONF_HELP:QQ}
 .endif
 
 BUILD_DEPENDS+=godi-findlib>=0.8.1:../../godi/godi-findlib
