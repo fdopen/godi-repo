@@ -1,10 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-
 PKG=		base-libpq
 #1.14 is broken on windows (?)
 VERSION=	9.3.3
-PKGREVISION=	0
+PKGREVISION=	1
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	postgresql-${VERSION}
 DISTFILES=	${DISTNAME}.tar.bz2
@@ -12,7 +11,7 @@ CATEGORIES=	base
 MASTER_SITES=	http://ftp.postgresql.org/pub/source/v${VERSION}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://www.postgresql.org
-COMMENT=	programmer\'s interface to PostgreSQL
+COMMENT=	programmer's interface to PostgreSQL
 
 MINGW_AUTOTOOLS_BUILD=	yes
 HAS_CONFIGURE=		yes
