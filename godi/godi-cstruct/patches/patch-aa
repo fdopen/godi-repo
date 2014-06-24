@@ -1,25 +1,40 @@
---- ../../work-ref/ocaml-cstruct-0.8.1/test.sh	2013-11-07 20:20:51.000000000 +0100
-+++ ./test.sh	2013-12-01 22:07:03.216400000 +0100
-@@ -1,6 +1,6 @@
+--- ../../work-ref/ocaml-cstruct-1.2.0/_oasis	2014-06-08 16:35:58.000000000 +0200
++++ ./_oasis	2014-06-24 15:49:25.428800000 +0200
+@@ -69,7 +69,7 @@
+   MainIs:       bounds.ml
+ 
+ Test test_bounds
+-  Command:      ./bounds.byte
++  Command:      ./_build/lib_test/bounds.byte
+   Run:          true
+ 
+ Document api
+--- ../../work-ref/ocaml-cstruct-1.2.0/test.sh	2014-06-08 16:35:58.000000000 +0200
++++ ./test.sh	2014-06-24 15:51:51.741200000 +0200
+@@ -1,8 +1,8 @@
  #!/bin/sh -ex
  
 -endian=`ocamlfind query ocplib-endian.bigstring -format "-I %d %a" -predicates native,archive`
-+endian=$(ocamlfind query ocplib-endian.bigstring -format "-I %d %a" -predicates native,archive | tr -d '\r' | tr '\\' '/')
+-sexplib=`ocamlfind query -r sexplib -format "-I %d %a" -predicates native,archive`
+-sexplibi=`ocamlfind query -r sexplib -format "-I %d" -predicates native`
++endian="$(ocamlfind query ocplib-endian.bigstring -format "-I %d %a" -predicates native,archive | tr -d '\r' | tr '\\' '/')"
++sexplib="$(ocamlfind query -r sexplib -format "-I %d %a" -predicates native,archive | tr -d '\r' | tr '\\' '/' )"
++sexplibi="$(ocamlfind query -r sexplib -format "-I %d" -predicates native | tr -d '\r' | tr '\\' '/' )"
  
  test() {
  echo $1
-@@ -14,8 +14,8 @@
+@@ -16,8 +16,8 @@
  cd _build/lib_test
- ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -I ../unix -c $1.mli
- ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -I ../unix -c $1.ml
--ocamlopt -I ../lib -I ../unix $endian unix.cmxa bigarray.cmxa cstruct.cmxa unix_cstruct.cmxa $1.cmx -o $1.opt
+ ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -I ../unix $sexplibi -c $1.mli
+ ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -I ../unix $sexplibi -c $1.ml
+-ocamlopt -I ../lib -I ../unix $endian $sexplib cstruct.cmxa unix_cstruct.cmxa $1.cmx -o $1.opt
 -time ./$1.opt
-+ocamlopt -I ../lib -I ../unix $endian unix.cmxa bigarray.cmxa cstruct.cmxa unix_cstruct.cmxa $1.cmx -o $1.opt.exe
++ocamlopt -I ../lib -I ../unix $endian $sexplib cstruct.cmxa unix_cstruct.cmxa $1.cmx -o $1.opt.exe
 +time ./$1.opt.exe
  #cp $1.gen.mli $1.mli
  #ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -c $1.mli
  #ocamlopt -pp 'camlp4orf ../syntax/cstruct-syntax.cma' -I ../lib -c $1.ml
-@@ -27,5 +27,5 @@
+@@ -29,5 +29,5 @@
  test basic
  test enum
  mkdir -p _build/lib_test

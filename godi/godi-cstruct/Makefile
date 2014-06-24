@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.1.0
+VERSION=        1.2.0
 PKGNAME=        godi-cstruct-${VERSION}
-DISTNAME=       ocaml-cstruct-1.1.0
-DISTFILES=      cstruct-1.1.0.tar.gz
+DISTNAME=       ocaml-cstruct-1.2.0
+DISTFILES=      cstruct-1.2.0.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
