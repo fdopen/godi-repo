@@ -1,5 +1,5 @@
-external (^$) : ('a -> 'b) -> 'a -> 'b = "%apply"
-external (|>) : 'a -> ('a -> 'b) -> 'b = "%revapply"
+(* external (^$) : ('a -> 'b) -> 'a -> 'b = "%apply"
+external (|>) : 'a -> ('a -> 'b) -> 'b = "%revapply" *)
 
 let environment_with_removed_values names =
   let names = Array.of_list names in
@@ -56,13 +56,13 @@ let remove_spaces_begin_end str =
   let rec iter_end str i =
     if i < 0 then
       0
-    else if is_space ^$ String.unsafe_get str i then
+    else if is_space @@ String.unsafe_get str i then
       iter_end str (pred i)
     else
       succ i
   in
   let rec iter_start str i = (* be careful, don't call me on strings that only contains space *)
-    if is_space ^$ String.get str i then
+    if is_space @@ String.get str i then
       iter_start str (succ i)
     else
       i
@@ -111,7 +111,7 @@ let split_rev str chr =
       last::!ret
 
 
-let split str chr = List.rev ^$ split_rev str chr
+let split str chr = List.rev @@ split_rev str chr
 
 
 
@@ -124,14 +124,14 @@ let rec add_unique htl acc = function
       add_unique htl acc tl
 
 let list_unique l =
-  let h = Hashtbl.create ^$ List.length l in
+  let h = Hashtbl.create @@ List.length l in
   add_unique h [] l
 
 let (/) = Filename.concat
 
 
-let godi_root = Filename.dirname ^$ Filename.dirname Sys.executable_name
-let cygwin_root = Filename.dirname ^$ Filename.dirname godi_root
+let godi_root = Filename.dirname @@ Filename.dirname Sys.executable_name
+let cygwin_root = Filename.dirname @@ Filename.dirname godi_root
 
 let env_file_add = godi_root / "etc" / "env_add"
 let env_file_ignore = godi_root / "etc" / "env_ignore"
@@ -162,7 +162,8 @@ let default_dir () =
     | Not_found ->
       Sys.getcwd  ()
 
-
+(*
+(* temporary disabled due of sh.exe bug *)
 let default_home () =
   let win =
     try
@@ -192,7 +193,7 @@ let default_home () =
     done;
   );
   win
-
+*)
 
 let read_special f file =
   if Sys.file_exists file then  (
@@ -303,7 +304,7 @@ let get_env exe add_paths add_cygwin =
       read_special f env_file_ignore;
       htl
     and f k _v a = k::a in
-    Hashtbl.fold f htl_add [ "PATH" ; "Path" ; "HOME" ] |>
+    Hashtbl.fold f htl_add [ "PATH" ; "Path" (*; "HOME" *) ] |>
         Hashtbl.fold f htl_ignore |> list_unique
   and new_path =
     let append_to_path =
@@ -326,11 +327,12 @@ let get_env exe add_paths add_cygwin =
     let f k v a = (k ^ "=" ^ v)::a in
     Hashtbl.fold f htl_add [ "PATH=" ^ new_path ]
   and env = environment_with_removed_values ignore_keys in
-  let to_add = match default_home () with
+  List.sort compare @@ to_add @ (Array.to_list env)
+(*  let to_add = match default_home () with
   | None ->  to_add
   | Some x -> ( "HOME=" ^ x )::to_add
   in
-  to_add @ ( Array.to_list env )
+  to_add @ ( Array.to_list env ) *)
 
 
 

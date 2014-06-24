@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37e
+VERSION=	3.0.37h
 RVERSION=       3.0.37
-PKGREVISION=	0
+PKGREVISION=	1
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
@@ -26,8 +26,6 @@ MAKE_ENV+=	GODI_TOOLS_STAGE_DIR=${WRKDIR}/stage
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-
-USE_GMAKE=	yes
 
 HAS_CONFIGURE=	yes
 
@@ -89,7 +87,7 @@ NO_PKG_REGISTER=yes
 .endif
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.godi-tools
-
+USE_GMAKE=	yes
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEINSTALL_SCRIPT_FILE=	files/deinstall
@@ -98,6 +96,8 @@ INSTALL_SCRIPT_FILE=	files/install
 post-extract:
 	cp files/symlink.c files/dummy* ${WRKSRC}/console-src
 	cd ${PKGDIR:Q}/files && ${PAX} -rw -pp gorun ${WRKSRC}
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/mingw.pkg.mk ${WRKSRC:Q}/mk/build/mk
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/godi_file_helper.mli ${WRKSRC:Q}/console-src/godi-sys-win32
 
 pre-build:
 	@${SETENV} ${MAKE_ENV} ocaml files/marshal.ml ${LOCALBASE_NATIVE}/share/godi-ocamlnet work/${DISTNAME}/console-src/console/init.ml
@@ -106,6 +106,7 @@ pre-build:
 .endif
 
 post-install:
+	${TOUCH} ${LOCALBASE:Q}/sbin/.keep ${LOCALBASE:Q}/bin/.keep # never delete these directories
 	mkdir -p ${instprefix}/lib/godi
 	echo "GODI_TOOLS_HAS_ADD=1" >${instprefix}/lib/godi/godi-tools.sh
 	echo "GODI_TOOLS_HAS_DELETE=1" >>${instprefix}/lib/godi/godi-tools.sh
@@ -117,7 +118,7 @@ post-install:
 	${INSTALL} -m 755 ${WRKSRC}/gorun/inform.exe files/winconfig.sh files/uninstall.sh files/replacesymlinks.sh ${instprefix}/lib/godi
 	@${SETENV} ${MAKE_ENV} bash files/dll.sh ${LOCALBASE:Q}/bin ${WRKDIR:Q}/stage/sbin ${WRKDIR:Q}/stage/sbin/godi_console.exe
 	@${SETENV} ${MAKE_ENV} bash files/winconfig.sh --first-run
-	${RM} -f ${instprefix}/bin/godi_oasis_import ${instprefix}/sbin/godi_console_byte.exe
+	${RM} -f ${instprefix}/bin/godi_oasis_import #${instprefix}/sbin/godi_console_byte.exe
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 	${INSTALL} -m 0755 ${WRKDIR}/bsdtar/64/bsdtar.exe ${WRKDIR}/bsdtar/64/bsdcpio.exe ${instprefix}/sbin
 .else
@@ -159,9 +160,7 @@ prepare-self-registration: build
 	elif ${CC} -V 2>&1 | ${GREP} -q '^cc'; then \
 	  ${ECHO} "CC_VERSION=`${CC} -V 2>&1 | ${GREP} '^cc'`" >> ${BUILD_INFO_FILE:Q}; \
         fi
-.  ifdef USE_GMAKE
 	@${ECHO} "GMAKE=`${GMAKE} --version | ${GREP} Make`" >> ${BUILD_INFO_FILE:Q}
-.  endif
 #--- Fill BUILD_VERSION with API checksums etc.
 .  script
 .    import ${ESSENTIAL_PROGRAMS}
