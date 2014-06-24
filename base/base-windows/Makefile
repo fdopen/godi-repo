@@ -2,9 +2,9 @@
 
 PKG=		base-windows
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+DISTFILES=	base-windows-${VERSION}_${MINGW_WORDSIZE}.tar.xz base-windows-0.tar.bz2
 CATEGORIES=	base
 MASTER_SITES=
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -18,9 +18,7 @@ VERSION=${VERSION64}
 .include "Makefile.32"
 VERSION=${VERSION32}
 .endif
-BUILD_DEPENDS+=		godi-ocaml>=4.00:../../godi/godi-ocaml
-
-
+#BUILD_DEPENDS+=		godi-ocaml>=4.00:../../godi/godi-ocaml
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 
@@ -36,9 +34,11 @@ do-build:
 	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
 	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
 	@${MV} ${WRKSRC}/bin/pkg-config.exe ${WRKSRC}/bin/pkg-config_real.exe
-	@${SETENV} ${MAKE_ENV} ocamlopt -o ./pkg-config.exe unix.cmxa files/pkg.ml
-	@${MV} ./pkg-config.exe ${WRKSRC}/bin
-
+.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
+	@${INSTALL} -m 0755 ${WRKDIR}/base-windows/pkg-config.exe.64 ${WRKSRC}/bin/pkg-config.exe
+.else
+	@${INSTALL} -m 0755 ${WRKDIR}/base-windows/pkg-config.exe.32 ${WRKSRC}/bin/pkg-config.exe
+.endif
 
 do-install:
 	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
