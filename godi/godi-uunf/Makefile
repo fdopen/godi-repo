@@ -2,7 +2,7 @@
 
 ONAME=		uunf
 PKG=		godi-${ONAME}
-VERSION=        0.9.2
+VERSION=        0.9.3
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
 DISTNAME=       ${ONAME}-${VERSION}
