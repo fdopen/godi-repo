@@ -2,24 +2,23 @@
 
 PKG = godi-pgocaml
 PKGNAME = ${PKG}-${VERSION}
-VERSION = 1.7.1
-PKGREVISION = 1
+VERSION = 2.1
+PKGREVISION = 0
 MAINTAINER = andreas@ml.ignorelist.com
 CATEGORIES = godi
 FORGE_NODE =	1096
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
+MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/1413/
 HOMEPAGE = http://pgocaml.forge.ocamlcore.org/
 COMMENT = type-safe interface to PostgreSQL
-DISTNAME = pgocaml-${VERSION}
-DISTFILES = ${DISTNAME}.tgz
+DISTNAME = pgocaml-2.1
+DISTFILES = pgocaml-2.1.tgz
 
-DEPENDS+= godi-ocaml>=3.11:../../godi/godi-ocaml
-DEPENDS+= godi-csv>=1.1.0:../../godi/godi-csv
-DEPENDS+= godi-calendar>=2.03:../../godi/godi-calendar
-DEPENDS+= godi-pcre>=6.1.0:../../godi/godi-pcre
-DEPENDS+= godi-batteries>=2.0:../../godi/godi-batteries
+DEPENDS+= godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+= godi-csv-*:../../godi/godi-csv
+DEPENDS+= godi-calendar-*:../../godi/godi-calendar
+DEPENDS+= godi-pcre-*:../../godi/godi-pcre
 
-BUILD_DEPENDS+= godi-findlib>=1.2.5:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 
 WINOASIS=	yes
