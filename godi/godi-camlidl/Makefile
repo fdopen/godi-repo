@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	1.05
-PKGREVISION=	2
+PKGREVISION=	3
 PKGNAME=	godi-camlidl-${VERSION}
 DISTNAME=	camlidl-${VERSION}
 DISTFILES=	camlidl-${VERSION}.tar.gz camlidl-${VERSION}.doc.pdf
@@ -42,7 +42,7 @@ CM=${WRKSRC}/config/Makefile
 post-configure:
 	echo "OSTYPE=win32" >${CM}
 	echo "CPP?=${CC} -x c -E" >>${CM}
-	echo "RANLIB=${RANLIB}" >>${CM}
+	echo "RANLIB=${MINGW_TOOL_PREFIX}ranlib" >>${CM}
 	echo "OCAMLLIB=${LOCALBASE_NATIVE}/lib/ocaml/std-lib" >>${CM}
 	echo "BINDIR=${LOCALBASE_NATIVE}/bin" >>${CM}
 	echo "OCAMLC=ocamlc -g" >>${CM}
