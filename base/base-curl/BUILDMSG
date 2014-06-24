@@ -7,3 +7,6 @@ If necessary, you can set the following options:
   Or disable support for ssl:
     --without-ssl
 
+- GODI_BASE_CURL_USE_C_ARES: whether or not to build with c-ares
+   support.
+   Possible values: 'yes' or 'no'. Default: 'yes'

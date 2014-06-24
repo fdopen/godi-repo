@@ -1,4 +1,0 @@
-#! /bin/sh
-
-unset INSTALL_SCRIPT
-./configure "$@"
