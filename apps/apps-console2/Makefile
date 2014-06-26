@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-RVERSION=	1.10.0
+RVERSION=	1.11.0
 VERSION=	2.00z${RVERSION}
 PKGREVISION=	0
 PKG=		apps-console2
@@ -34,7 +34,8 @@ pre-configure:
 
 do-build:
 	@${MKDIR} -p ${WRKDIR:Q}/opt/Console2
-	@cd ${WRKSRC:Q} && ${MV} * ${WRKDIR:Q}/opt/Console2 && ${RMDIR} ${WRKSRC:Q}
+	@cd ${WRKSRC:Q} && ${MV} * ${WRKDIR:Q}/opt/Console2
+	@${RMDIR} ${WRKSRC:Q}
 	@${MKDIR} -p ${WRKDIR:Q}/doc/${PKGBASE:Q}
 	@cd ${WRKDIR:Q}/console-${RVERSION} && \
 	  for f in *.[Tt][Xx][Tt] *.[Mm][Dd] ; do \
