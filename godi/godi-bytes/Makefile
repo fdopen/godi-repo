@@ -1,11 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-
 VERSION=	1.1
 ONAME=		bytes
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml-bytes-ocaml-bytes.${VERSION}
 DISTFILES=	ocaml-bytes.${VERSION}.tar.xz
 CATEGORIES=	godi
@@ -17,6 +16,10 @@ BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 HAS_CONFIGURE=yes
 WINGMAKE=yes
-ALL_TARGET=all
+
+post-install:
+	${MKDIR} -p ${PREFIX:Q}/lib/ocaml/std-lib/bytes
+	${MV} ${PREFIX:Q}/lib/ocaml/pkg-lib/bytes/bytes.* ${PREFIX:Q}/lib/ocaml/std-lib/bytes
+	echo directory=\"+bytes\" >>${PREFIX:Q}/lib/ocaml/pkg-lib/bytes/META
 
 .include "../../mk/bsd.pkg.mk"
