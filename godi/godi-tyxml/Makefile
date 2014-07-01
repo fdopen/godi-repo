@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	3.1.1
+VERSION= 	3.2.0
 PKGNAME= 	godi-tyxml-${VERSION}
 PKGREVISION= 	0
-DISTNAME=	tyxml-3.1.1
-DISTFILES=	tyxml-3.1.1.tar.gz
+DISTNAME=	tyxml-3.2.0
+DISTFILES=	tyxml-3.2.0.tar.xz
 CATEGORIES=	godi  
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com

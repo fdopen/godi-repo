@@ -21,7 +21,7 @@
 *)
 
 (* OASIS_START *)
-(* DO NOT EDIT (digest: d5d919c037afb6e5eb7a178c8f725e58) *)
+(* DO NOT EDIT (digest: 06f9827a69fdd90873c6b60284a71322) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -624,14 +624,7 @@ let package_default =
           ("tyxml", ["lib"], []);
           ("tyxml_f",
             ["lib"],
-            [
-               "Xml_sigs";
-               "Xhtml_sigs";
-               "Xhtml_types";
-               "Svg_sigs";
-               "Svg_types";
-               "Html5_sigs";
-               "Html5_types"
+            ["Xml_sigs"; "Svg_sigs"; "Svg_types"; "Html5_sigs"; "Html5_types"
             ]);
           ("pa_tyxml", ["syntax"], []);
           ("tymlx_p", ["syntax"], [])
@@ -644,7 +637,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 626 "myocamlbuild.ml"
+# 619 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 open Ocamlbuild_plugin
