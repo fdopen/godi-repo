@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.2.0
+VERSION=        1.3.0
 PKGNAME=        godi-cstruct-${VERSION}
-DISTNAME=       ocaml-cstruct-1.2.0
-DISTFILES=      cstruct-1.2.0.tar.gz
+DISTNAME=       ocaml-cstruct-1.3.0
+DISTFILES=      cstruct-1.3.0.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -12,11 +12,13 @@ COMMENT=        access C structures via a camlp4 extension
 
 GODI_CSTRUCT_LWT?=	yes
 
+DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=	godi-ocplib-endian-*:../../godi/godi-ocplib-endian
+DEPENDS+=	godi-sexplib-*:../../godi/godi-sexplib
 
-BUILD_DEPENDS+=  godi-ounit-*:../../godi/godi-ounit
-DEPENDS+= 	godi-ocaml-*:../../godi/godi-ocaml
-BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ocplib-endian-*:../../godi/godi-ocplib-endian
+BUILD_DEPENDS+=	godi-ounit-*:../../godi/godi-ounit
+BUILD_DEPENDS+=	godi-findlib-*:../../godi/godi-findlib
+
 
 .if ${GODI_CSTRUCT_LWT} != "no" && ${GODI_CSTRUCT_LWT} != "NO"
 DEPENDS+=	godi-lwt>=0:../../godi/godi-lwt
