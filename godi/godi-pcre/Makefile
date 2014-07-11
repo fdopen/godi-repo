@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        7.1.0
+VERSION=        7.1.1
 PKG=		godi-pcre
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pcre-ocaml-${VERSION}
-DISTFILES=      pcre-ocaml-${VERSION}.tar.gz
+DISTNAME=       pcre-ocaml-7.1.1
+DISTFILES=      pcre-ocaml-7.1.1.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://bitbucket.org/mmottl/pcre-ocaml/downloads/
+MASTER_SITES=   https://github.com/mmottl/pcre-ocaml/releases/download/v7.1.1/
 MAINTAINER=	andreas@ml.ignorelist.com
-HOMEPAGE=       https://bitbucket.org/mmottl/pcre-ocaml
+HOMEPAGE=       https://github.com/mmottl/pcre-ocaml
 COMMENT=        Perl Compatibility Regular Expressions
 
 DEPENDS+=godi-ocaml>=3.12:../../godi/godi-ocaml
@@ -20,16 +20,7 @@ CONFIGURE_ENV+= WITH_PCRE_CONFIG=${CONF_HELP:QQ}
 .endif
 
 BUILD_DEPENDS+=godi-findlib>=0.8.1:../../godi/godi-findlib
-# BUILD_DEPENDS+= conf-pcre>=1:../../conf/conf-pcre
-
-# .if exists(${LOCALBASE}/lib/godi/conf-pcre.mk)
-# .include "${LOCALBASE}/lib/godi/conf-pcre.mk"
-# .ifdef CONF_PCRE_PCRE_CONFIG
-# CONFIGURE_ARGS+=--with-pcre-config=${CONF_PCRE_PCRE_CONFIG}
-# .endif
-# .endif
 
 WINOASIS=	 yes
-
 
 .include "../../mk/bsd.pkg.mk"

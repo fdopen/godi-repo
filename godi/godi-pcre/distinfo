@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (pcre-ocaml-7.1.0.tar.gz) = 73c5fc64d02251c5aa84e0b4d4f9447561a3e86c
-Size (pcre-ocaml-7.1.0.tar.gz) = 86485 bytes
-
-SHA1 (patch-setup-ml) = 4a560b608e0008c6209527127216c787a47ca942
+SHA1 (pcre-ocaml-7.1.1.tar.gz) = daf8b469f80bf6c391229ccf8fcf2336d5b59cd0
+Size (pcre-ocaml-7.1.1.tar.gz) = 86796 bytes
