@@ -1,7 +1,7 @@
---- myocamlbuild.ml~	2013-12-16 21:25:06.000000000 +0000
-+++ myocamlbuild.ml	2014-01-08 20:03:21.701600000 +0000
-@@ -608,6 +608,23 @@
- # 609 "myocamlbuild.ml"
+--- ../../work-ref/sqlite3-ocaml-2.0.6/myocamlbuild.ml	2014-07-06 19:29:14.000000000 +0200
++++ ./myocamlbuild.ml	2014-07-10 13:12:28.300400000 +0200
+@@ -652,6 +652,23 @@
+ # 653 "myocamlbuild.ml"
  (* OASIS_STOP *)
  
 +
