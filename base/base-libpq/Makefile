@@ -2,7 +2,7 @@
 
 PKG=		base-libpq
 #1.14 is broken on windows (?)
-VERSION=	9.3.3
+VERSION=	9.3.4
 PKGREVISION=	1
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	postgresql-${VERSION}
