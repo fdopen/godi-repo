@@ -1,0 +1,11 @@
+--- ../../work-ref/sequence-0.5/Makefile	2014-07-07 18:29:17.000000000 +0200
++++ ./Makefile	2014-07-09 19:50:12.618800000 +0200
+@@ -41,7 +41,7 @@
+ # OASIS_STOP
+ 
+ run-tests:
+-	./run_tests.native
++	./_build/tests/run_tests.native
+ 
+ examples:
+ 	ocamlbuild examples/test_sexpr.native
