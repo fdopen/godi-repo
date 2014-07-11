@@ -1,27 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-GODI_PLIST=	yes
-
-.include "../../mk/godi.pkg.mk"
-
-VERSION=        6.37.0
+VERSION=        6.38.0
 PKGNAME=        godi-ocamlmakefile-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    0
 DISTNAME=       ocaml-makefile-${VERSION}
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     godi
-MASTER_SITES =  http://bitbucket.org/mmottl/ocaml-makefile/downloads/
+MASTER_SITES =  https://github.com/mmottl/ocaml-makefile/releases/download/v${VERSION}
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=       https://bitbucket.org/mmottl/ocaml-makefile
+HOMEPAGE=       https://github.com/mmottl/ocaml-makefile
 COMMENT=        Generic Makefile to build OCaml projects
-
-PATH:=${LOCALBASE}/bin:${PATH}
-
-# ocamlfind must install into the pkg-lib directory, not into site-lib.
-# Use the build time configuration file:
-MAKE_ENV+=${BUILD_OCAMLFIND_ENV}
-
-#USE_GMAKE=yes
 
 BUILD_DIRS=${.CURDIR}/files
 INSTALL_DIRS=${.CURDIR}/files
@@ -39,5 +27,6 @@ post-install:
 	    cd ${WRKSRC} && \
 	    ${PAX} -rw -ppm ${F} ${PREFIX}/doc/godi-ocamlmakefile/examples
 .	endfor
+
 
 .include "../../mk/bsd.pkg.mk"
