@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.17.00
+VERSION=	111.21.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       core_kernel-111.17.00
-DISTFILES=      core_kernel-111.17.00.tar.gz
+DISTNAME=       core_kernel-111.21.00
+DISTFILES=      core_kernel-111.21.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.17.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.21.00/individual/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
 COMMENT=        Part of Jane Street’s Core library
 
