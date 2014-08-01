@@ -2,12 +2,12 @@
 
 VERSION=	3.0.37h
 RVERSION=       3.0.37
-PKGREVISION=	1
+PKGREVISION=	5
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-DISTFILES+=	bsdtar-0.1.tar.xz
+DISTFILES+=	bsdtar-0.2.tar.xz
 .endif
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/

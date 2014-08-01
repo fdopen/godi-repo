@@ -1,5 +1,5 @@
 --- mk/build/mk/bsd.pkg.mk.orig	2013-04-14 13:03:20.000000000 +0000
-+++ mk/build/mk/bsd.pkg.mk	2014-05-27 16:06:16.625000000 +0000
++++ mk/build/mk/bsd.pkg.mk	2014-07-27 10:16:10.322800000 +0000
 @@ -34,6 +34,15 @@
  # PACKAGE FIXUP
  ######################################################################
@@ -198,6 +198,15 @@
  # Passed to most of script invocations
  SCRIPTS_ENV+= CURDIR=${.CURDIR:Q} DISTDIR=${DISTDIR:Q} \
  	PATH=${LOCALBASE:Q}/bin:${PATH:Q} \
+@@ -351,7 +470,7 @@
+ BUILD_DEFS+=	CPPFLAGS CFLAGS LDFLAGS
+ BUILD_DEFS+=	CONFIGURE_ENV CONFIGURE_ARGS
+ 
+-LOCALBASE_DIRS = bin doc etc lib libexec man sbin share var include
++LOCALBASE_DIRS = bin doc etc gui lib libexec man sbin share var include
+ 
+ ######################################################################
+ # CONFIGURE STAGE
 @@ -390,7 +509,14 @@
  GODI_SCRIPT ?= ${LOCALBASE}/bin/godi_script
  
@@ -214,7 +223,7 @@
  BUILD_DEPENDS += godi-core-script-*
  .else
  .  if defined(CONF_SCRIPT_TEXT)
-@@ -406,13 +532,90 @@
+@@ -406,13 +532,248 @@
  CONFIGURE_SCRIPT:=${GODI_SCRIPT} -c ${CONF_SCRIPT_FULL_TEXT:Q}
  BUILD_DEPENDS += godi-core-script>=3.0.18
  .  else
@@ -303,10 +312,168 @@
 +.endif
 +### END WINGMAKE ###
 +
++### START WINPKG ###
++.if defined(WINPKG) && ${WINPKG} == "yes"
++BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
++BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
++
++MAINTAINER?=		pkg@ml.ignorelist.com
++IMAGE_DIR=		${WRKDIR}/image
++
++AUTOGENERATE_PLIST=	yes
++AUTOGENERATE_IMAGE=	${CYGWIN_ROOT}${IMAGE_DIR}${LOCALBASE}
++
++CONFIGURE_ENV+=		${BUILD_OCAMLFIND_ENV}
++MAKE_ENV+=		${BUILD_OCAMLFIND_ENV}
++
++CONFIGURE_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++MAKE_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++INSTALL_ENV+=		OCAMLFIND_DESTDIR=${AUTOGENERATE_IMAGE:Q}/lib/ocaml/pkg-lib
++
++CONFIGURE_SCRIPT?=	${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} winpkg-configure
++
++.if defined(HAS_CONFIGURE) && ${HAS_CONFIGURE} == "yes"
++WINPKG_CONFIGURE?=	${WRKSRC}/configure
++.else
++WINPKG_CONFIGURE?=	no
++HAS_CONFIGURE=		yes
++.endif
++
++winpkg-configure:
++.script
++.  import LOCALBASE WRKSRC PKGDIR CHMOD
++.  import WINPKG_CONFIGURE CONFIGURE_ARGS PAX
++.  expand
++	${_PKG_SILENT}${_PKG_DEBUG}
++.  noexpand
++set -e
++unset DEBUG PROFILE TEST TESTS
++if [ -d "${PKGDIR}/files" ]; then
++  files_found=0
++  cd "${PKGDIR}/files"
++  for f in * .* ; do
++    if [ -e "$f" ]; then
++      files_found=1;
++      break;
++    fi
++  done
++  if [ $files_found -eq 1 ]; then
++    ${PAX} -rw -pp . "${WRKSRC}"
++  fi
++fi
++cd "$WRKSRC"
++if [ "$WINPKG_CONFIGURE" != "no" ]; then
++  case "${WINPKG_CONFIGURE}" in
++    "${WRKSRC}"*)
++	if [ -f "${WINPKG_CONFIGURE}" ]; then
++          ${CHMOD} 0755 "${WINPKG_CONFIGURE}"
++	fi
++	;;
++  esac
++
++  if [ -z "$CONFIGURE_ARGS" ]; then
++	${WINPKG_CONFIGURE}
++  else
++	${WINPKG_CONFIGURE} ${CONFIGURE_ARGS}
++  fi
++fi
++.endscript
++
++
++WINPKG_BUILD_SCRIPT?=	${CYGWIN_ROOT:Q}${WRKSRC:Q}/pkg/build.ml
++
++BUILD_SCRIPT=	${LOCALBASE:Q}/bin/ocaml.exe ${WINPKG_BUILD_SCRIPT}
++
++.if !defined(${GODI_WINPKG_NO_OPT}) && ${GODI_HAVE_OCAMLOPT} == "yes"
++BUILD_SCRIPT+=  native=true
++.if !defined(${GODI_WINPKG_NO_NATIVE_DYNLINK})
++BUILD_SCRIPT+=  native-dynlink=true
++.endif
++.endif
++
++
++WINPKG_INSTALL_FILE?=	${CYGWIN_ROOT:Q}${WRKSRC:Q}/${PKGBASE:C/^[^-]*-//}.install
++
++INSTALL_SCRIPT?= ${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} destdir-copy-docs && \
++	${SETENV} ${INSTALL_ENV} ${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} winpkg-install
++
++winpkg-install:
++.script
++.  import FIND LOCALBASE RM WRKSRC MV
++.  import WINPKG_INSTALL_FILE
++.  import AUTOGENERATE_IMAGE
++.  import MKDIR FILE_CMD BASENAME
++.  import PKGBASE
++.  expand
++	${_PKG_SILENT}${_PKG_DEBUG}
++.  noexpand
++set -e
++
++cd "${WRKSRC}"
++"${LOCALBASE}/sbin/opam-installer.exe" --prefix="${AUTOGENERATE_IMAGE}" "${WINPKG_INSTALL_FILE}"
++cd "$(cygpath "${AUTOGENERATE_IMAGE}")"
++${FIND} . -type d -empty -delete
++${MKDIR} -p lib/ocaml/pkg-lib
++${MKDIR} -p doc
++
++if [ -d "bin" ]; then
++    cd bin
++    for f in * ; do
++        [ ! -f "$f" ] && continue
++        case "$f" in
++            *.*)
++                continue ;;
++            *)
++		type="$(${FILE_CMD} -b "$f")"
++		case "$type" in
++		  *text*) continue;;
++		  *script*) continue ;;
++		  *executable*)
++                    mv "$f" "${f}.exe" ;;
++                esac
++        esac
++    done
++    cd ..
++fi
++cd lib
++for f in * ; do
++    [ ! -d "$f" ] && continue
++    if [ "$f" != "ocaml" ]; then
++       mv "$f" ocaml/pkg-lib
++    fi
++done
++cd ..
++${FIND} . -type d -empty -delete
++if [ -d doc ]; then
++  cd doc
++  for d in * ; do
++    [ ! -d "$d" ] && continue
++    cd "$d"
++    if [ "$d" = "$PKGBASE" ]; then
++      basename="$($BASENAME "${WINPKG_INSTALL_FILE}")"
++      if [ -n "$basename" ] && [ -f "$basename" ]; then
++        ${RM} -f "$basename"
++      fi
++    else
++      ${MV} -f ./* "../${PKGBASE}"
++    fi
++    cd ..
++  done
++  cd ..
++fi
++${FIND} . -type d -empty -delete
++.endscript
++
++
++.endif
++### END WINPKG ###
++
++
++
  
  # --- OASIS ---
  
-@@ -442,6 +645,104 @@
+@@ -442,6 +803,104 @@
  AUTOGENERATE_IMAGE=	${WRKDIR}/image/${LOCALBASE}
  .endif
  
@@ -411,7 +578,7 @@
  
  # --- other ---
  
-@@ -623,10 +924,12 @@
+@@ -623,10 +1082,12 @@
  			${DEPENDS:D-set-dependencies ${DEPENDS:QQ}} \
  			${BUILD_DEPENDS:D-set-build-dependencies ${BUILD_DEPENDS:QQ}} \
  			${CONFLICTS:D-set-conflicts ${CONFLICTS:QQ}} \
@@ -425,7 +592,7 @@
  			${SRC_FPRINT:D-set-src-fingerprint ${SRC_FPRINT:QQ}}
  
  ######################################################################
-@@ -637,15 +940,23 @@
+@@ -637,15 +1098,23 @@
  INSTALL_TARGET?=	install
  
  CONFIGURE_SCRIPT?=	./configure
@@ -451,7 +618,7 @@
  
  ALLFILES?=	${DISTFILES}
  CKSUMFILES?=	${ALLFILES}
-@@ -934,6 +1245,7 @@
+@@ -934,6 +1403,7 @@
  	    return 1
  	fi
  	source=`cat "$PKGDIR"/.source 2>/dev/null || true`
@@ -459,7 +626,7 @@
          for site in $sites; do
  	    right_source=0
  	    case "$site" in
-@@ -1118,7 +1430,7 @@
+@@ -1118,7 +1588,7 @@
  
  _EXTRACT_SUFFICES=	.tar.gz .tgz .tar.bz2 .tbz .tar.Z .tar
  _EXTRACT_SUFFICES+=	.shar.gz .shar.bz2 .shar.Z .shar
@@ -468,7 +635,7 @@
  
  ## GODI: We do not support zip, lha, zoo
  
-@@ -1126,6 +1438,10 @@
+@@ -1126,6 +1596,10 @@
  DECOMPRESS_CMD.tgz=		${DECOMPRESS_CMD.tar.gz}
  DECOMPRESS_CMD.tar.bz2=	 	${BZCAT}
  DECOMPRESS_CMD.tbz=		${DECOMPRESS_CMD.tar.bz2}
@@ -479,7 +646,7 @@
  DECOMPRESS_CMD.tar.Z=		${GZCAT}
  DECOMPRESS_CMD.tar=		${CAT}
  
-@@ -1137,6 +1453,8 @@
+@@ -1137,6 +1611,8 @@
  DECOMPRESS_CMD.Z=		${GZCAT}
  DECOMPRESS_CMD.bz2=		${BZCAT}
  DECOMPRESS_CMD.gz=		${GZCAT}
@@ -488,7 +655,7 @@
  
  .undef EXTRACT_CMD.tar.gz
  .undef EXTRACT_CMD.tgz
-@@ -1157,6 +1475,8 @@
+@@ -1157,6 +1633,8 @@
  
  DOWNLOADED_DISTFILE=	$${extract_file}
  
@@ -497,7 +664,7 @@
  .for __suffix__ in .gz .bz2 .Z
  EXTRACT_CMD${__suffix__}=	${DECOMPRESS_CMD${__suffix__}} "$${extract_file}" > `${BASENAME} "$${extract_file}" ${__suffix__}`
  .endfor
-@@ -1181,6 +1501,28 @@
+@@ -1181,6 +1659,28 @@
  .  endif
  .endfor
  
@@ -526,7 +693,7 @@
  # _SHELL_EXTRACT is a "subroutine" for extracting an archive.  It extracts
  # the contents of archive named by the shell variable "extract_file" based
  # on the file extension of the archive.
-@@ -1201,6 +1543,9 @@
+@@ -1201,6 +1701,9 @@
  	${_PKG_SILENT}${_PKG_DEBUG}					\
  	extract_file=${DISTDIR:Q}/${__file__:Q}; export extract_file;	\
  	cd ${WRKDIR:Q}; ${EXTRACT_CMD}
@@ -536,7 +703,7 @@
  .  endfor
  .  if defined(DISTNAME) && !empty(DISTNAME)
  	${MKDIR} ${WRKSRC}
-@@ -1378,7 +1723,8 @@
+@@ -1378,7 +1881,8 @@
  INCR_PATCH_FN=
  .text
  incr_patch() {
@@ -546,7 +713,7 @@
  (* --- ocaml script --- *)
  let p = Sys.argv.(1);;
  let c1 =
-@@ -1405,10 +1751,262 @@
+@@ -1405,10 +1909,263 @@
  print_endline q;;
  (* --- END ocaml script '` --- *)
  EOF
@@ -739,6 +906,7 @@
 +        ABOUT-NLS) continue ;;
 +        Doxyfile) continue ;;
 +        META) continue ;;
++	[Oo][Pp][Aa][Mm] ) continue ;;
 +        Jam*) continue ;;
 +        [Bb][Oo][Oo][Tt][Ss][Tt][Rr][Aa][Pp]*) continue ;;
 +        [Cc][Oo][Nn][Ff][Ii][Gg]*) continue ;;
@@ -809,7 +977,7 @@
  
  PATCHREF=	${BUILD_DIR}/work-ref
  
-@@ -1500,7 +2098,7 @@
+@@ -1500,7 +2257,7 @@
  	     $SED -e 's/^file-//')"
  	if expr "x$f" '>' "x$p" >/dev/null; then p="$f"; fi
          # Increase p by 1
@@ -818,7 +986,7 @@
          # Save patch
  	$MKDIR "$patchdir"
  	if [ -s "$PATCHREF/diff" ]; then
-@@ -1565,11 +2163,17 @@
+@@ -1565,11 +2322,17 @@
  .PHONY: do-configure
  .if !target(do-configure)
  do-configure:
@@ -837,7 +1005,7 @@
  .    endfor
  .  endif
  .endif
-@@ -1823,7 +2427,7 @@
+@@ -1823,7 +2586,7 @@
  ${FLIST}:
  	${_PKG_SILENT}${_PKG_DEBUG}\
  	${MAKE} -C ${.CURDIR:Q} ${MAKEFLAGS} file-list-pkg > ${FLIST}
@@ -846,7 +1014,7 @@
  
  .PHONY: file-list-pkg
  .if !target(file-list-pkg)
-@@ -1903,6 +2507,11 @@
+@@ -1903,6 +2666,11 @@
  	     echo "exists ($file)" ;;
  	 esac
         done
@@ -858,7 +1026,7 @@
       } < $FLIST > $BUILD_VERSION_FILE
  .  endscript
  
-@@ -1975,7 +2584,7 @@
+@@ -1975,7 +2743,7 @@
  	    exit 1
  	  fi
  	fi
@@ -867,7 +1035,7 @@
  	if [ -n "$out_name" ]; then
  		base_out_name=`basename "$out_name"`
  		make_package_links "$base_out_name" || exit
-@@ -2474,7 +3083,7 @@
+@@ -2474,7 +3242,7 @@
  CP_REG_FILE=${LOCALBASE}/build/files_registered
  CP_ACT_FILE=${LOCALBASE}/build/files_actual  
  
@@ -876,7 +1044,7 @@
  
  .PHONY: checkpoint
  checkpoint:
-@@ -2497,7 +3106,7 @@
+@@ -2497,7 +3265,7 @@
          find ${CHECKPOINT_DIRS} -type f -o -type l 2>/dev/null | \
              LC_ALL=C sort | uniq >${CP_ACT_FILE}
  	${_PKG_SILENT}${_PKG_DEBUG}                                    \
@@ -885,7 +1053,7 @@
              echo "### PLIST incorrect: ${PKGNAME}"; \
              echo "### Unregistered files:"; \
  	    if comm --version >/dev/null 2>/dev/null; then \
-@@ -2610,7 +3219,7 @@
+@@ -2610,7 +3378,7 @@
  	test -f Makefile
  	test -f DESCR
  	test -f distinfo
@@ -894,7 +1062,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
-@@ -2659,7 +3268,7 @@
+@@ -2659,7 +3427,7 @@
  .script
  .expand
  	${_PKG_SILENT}${_PKG_DEBUG}
@@ -903,7 +1071,7 @@
  	${PKG_TOOLS_BIN}/godi_console rprofile \
  		-site "${EXPORT_PROFILES}" \
  		-put "${EXPORT_PROFILE_NAME}"
-@@ -2674,7 +3283,7 @@
+@@ -2674,7 +3442,7 @@
  	${_PKG_SILENT}${_PKG_DEBUG}
  	${MKDIR} "${EXPORT_PACKAGES}"
  	out_name=`${PKG_PTOOL} -in-installed ${PKGNAME} \

@@ -249,6 +249,31 @@ let is_prefix ~pref str =
     iter pref str (pred len_pref)
 
 
+
+let check_files = [ 
+  "ocaml.exe";
+  "ocamlc.exe";
+  "ocamlopt.exe";
+  "ocamlc.opt.exe";
+  "ocamlopt.opt.exe";
+  "ocamlbuild.exe";
+  "ocamlfind.exe";
+  "camlp4.exe";
+  "cygpath.exe";
+  "dash.exe"; 
+  "godi_pax.exe";
+  "godi_make.exe";
+  "godi_install.exe";
+  "godi_digest.exe";
+  "godi_console.exe";
+  "godi_add.exe" ]
+
+let file_exists f =
+  try
+    Sys.file_exists f
+  with
+  | _ -> false
+
 let rec remove_other_installations accu = function
 | [] -> List.rev accu
 | hd::tl ->
@@ -257,21 +282,11 @@ let rec remove_other_installations accu = function
     remove_other_installations (hd::accu) tl
   else
     (* now remove concurrent installations of cygwin/ocaml *)
-    let ocaml = Filename.concat hd "ocaml.exe"
-    and ocamlc = Filename.concat hd "ocamlc.exe"
-    and cygpath = Filename.concat hd "cygpath.exe"
-    and dash = Filename.concat hd "dash.exe"
-    and ocamlfind = Filename.concat hd "ocamlfind.exe" in
-    try
-      if Sys.file_exists ocaml || Sys.file_exists ocamlc ||
-        Sys.file_exists cygpath || Sys.file_exists ocamlfind ||
-        Sys.file_exists dash
-      then
-        remove_other_installations accu tl
-      else
-        remove_other_installations (hd::accu) tl
-    with
-    | Sys_error _ -> remove_other_installations (hd::accu) tl
+    let files = List.map (Filename.concat hd) check_files in
+    if List.exists file_exists files then
+      remove_other_installations accu tl
+    else
+      remove_other_installations (hd::accu) tl
 
 
 let get_env exe add_paths add_cygwin =
