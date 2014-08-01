@@ -2,13 +2,13 @@
 
 ONAME=		sexplib
 PKG=		godi-${ONAME}
-VERSION=	111.17.00
+VERSION=	111.25.00
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       sexplib-111.17.00
-DISTFILES=      sexplib-111.17.00.tar.gz
+DISTNAME=       sexplib-111.25.00
+DISTFILES=      sexplib-111.25.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.17.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.25.00/individual/
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Automated S-expression conversion
 
