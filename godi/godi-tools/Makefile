@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37f
+VERSION=	3.0.37h
 RVERSION=       3.0.37
-PKGREVISION=	0
+PKGREVISION=	5
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-DISTFILES+=	bsdtar-0.1.tar.xz
+DISTFILES+=	bsdtar-0.2.tar.xz
 .endif
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
@@ -51,7 +51,7 @@ CONFIGURE_ARGS+=-w32port ${W32PORT}
 CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
 .if ${W32PORT} == "mingw"
-BUILD_DEPENDS+=	base-zlib>=0:../../base/base-zlib
+BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
 BUILD_DEPENDS+=	godi-ocamlmakefile>=0:../../godi/godi-ocamlmakefile
 .endif
 .endif
@@ -87,7 +87,7 @@ NO_PKG_REGISTER=yes
 .endif
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.godi-tools
-
+USE_GMAKE=	yes
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEINSTALL_SCRIPT_FILE=	files/deinstall
@@ -118,7 +118,7 @@ post-install:
 	${INSTALL} -m 755 ${WRKSRC}/gorun/inform.exe files/winconfig.sh files/uninstall.sh files/replacesymlinks.sh ${instprefix}/lib/godi
 	@${SETENV} ${MAKE_ENV} bash files/dll.sh ${LOCALBASE:Q}/bin ${WRKDIR:Q}/stage/sbin ${WRKDIR:Q}/stage/sbin/godi_console.exe
 	@${SETENV} ${MAKE_ENV} bash files/winconfig.sh --first-run
-	${RM} -f ${instprefix}/bin/godi_oasis_import ${instprefix}/sbin/godi_console_byte.exe
+	${RM} -f ${instprefix}/bin/godi_oasis_import #${instprefix}/sbin/godi_console_byte.exe
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 	${INSTALL} -m 0755 ${WRKDIR}/bsdtar/64/bsdtar.exe ${WRKDIR}/bsdtar/64/bsdcpio.exe ${instprefix}/sbin
 .else

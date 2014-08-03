@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 0.18.3.2
-PKGREVISION= 0
+VERSION=	 0.19.2
+PKGREVISION= 1
 PKG=		 gettext
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

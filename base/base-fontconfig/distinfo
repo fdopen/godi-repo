@@ -3,11 +3,14 @@ $NetBSD$
 SHA1 (fontconfig-2.11.1.tar.bz2) = 08565feea5a4e6375f9d8a7435dac04e52620ff2
 Size (fontconfig-2.11.1.tar.bz2) = 1516095 bytes
 
-SHA1 (base-fontconfig-2.11.1_0_64.txz) = 872a7f5c66b035e7cf6e400778de158de1ba8885
-Size (base-fontconfig-2.11.1_0_64.txz) = 304544 bytes
+SHA1 (base-fontconfig-2.11.1_2_64.txz) = 02999f8d0b68e9dbc472537118d0601fe602d90f
+Size (base-fontconfig-2.11.1_2_64.txz) = 304668 bytes
 
-SHA1 (base-fontconfig-2.11.1_0_32.txz) = c16205d7c4225354d2f58a6fd081f76e17f21a3c
-Size (base-fontconfig-2.11.1_0_32.txz) = 289588 bytes
+SHA1 (base-fontconfig-2.11.1_2_32.txz) = 99df07c94f987d4f7488ff728f1893060da63d8c
+Size (base-fontconfig-2.11.1_2_32.txz) = 289552 bytes
 
 SHA1 (patch-fontconfig-2.11.0-symlinks-fix) = 4f9e7143c95795029e53b5572ec99fb2dbda7a83
 SHA1 (patch-fontconfig-2.11.0-symlinks-fix2) = 53ba29c579700e497e7a2ece34a843fdc7752b3a
+SHA1 (patch-fontconfig-fix-broken-cache) = 6e34b14a4a0bd32cb68fcd74e1db7155bf45cfe4
+SHA1 (patch-fontconfig-fix-fccache-fail) = eac55653fb179dd091ef68b498fab589e1144612
+SHA1 (patch-fontconfig-sleep-less) = d6b9ecc995d385e33bb5e51eefb03c71e1bc0478

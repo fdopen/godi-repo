@@ -1,0 +1,11 @@
+--- ../../work-ref/ocamltopwin-0.1/OMakefile	2013-08-31 10:17:21.000000000 +0200
++++ ./OMakefile	2014-05-31 15:59:27.896400000 +0200
+@@ -73,7 +73,7 @@
+ 	FILES[]= ocamltop
+ 	OCAML_LIBS[]= $(PACKAGE)
+ 	if $(equal $(OSTYPE), Win32)
+-		OCAML_LINK_FLAGS+= $(LOGOOBJ) $(mapprefix -cclib,-subsystem windows)
++		OCAML_LINK_FLAGS+= -linkall $(LOGOOBJ) $(mapprefix -cclib,-subsystem windows)
+ 		export
+ 	else
+ 		OCAML_BYTE_LINK_FLAGS= # no -custom

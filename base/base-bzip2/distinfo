@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (bzip2-1.0.6.tar.gz) = 3f89f861209ce81a6bab1fd1998c0ef311712002
 Size (bzip2-1.0.6.tar.gz) = 782025 bytes
 
-SHA1 (base-bzip2-1.0.6_0_64.txz) = b759385b8468371d17b67fd7275c7805bcc12411
-Size (base-bzip2-1.0.6_0_64.txz) = 251124 bytes
+SHA1 (base-bzip2-1.0.6_1_64.txz) = 0763be5f1d3e22b57fb722b92688931022cac757
+Size (base-bzip2-1.0.6_1_64.txz) = 251128 bytes
 
-SHA1 (base-bzip2-1.0.6_0_32.txz) = 64fbd7c8747b34f079acf222686bdf27ce4617a6
-Size (base-bzip2-1.0.6_0_32.txz) = 249148 bytes
+SHA1 (base-bzip2-1.0.6_1_32.txz) = 1f099481c8cd034c01a1336b9dc0f6da748cbf7b
+Size (base-bzip2-1.0.6_1_32.txz) = 249120 bytes
 
 SHA1 (patch-bzgrep-debian-1.0.5-6.all) = ca05322bb0a2a0fce02877f02135477f6b15e768
 SHA1 (patch-bzip2-1.0.4-bzip2recover) = 9122cf244af3a6372bd2610ea3dcfee89b98f8ab

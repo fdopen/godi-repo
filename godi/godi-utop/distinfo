@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (utop-1.12.tar.gz) = 2cfe597bd68b192cb2f714c37a35c30355d9e054
-Size (utop-1.12.tar.gz) = 103879 bytes
-
-SHA1 (patch-aa) = c730d37361ed8878285e6e9f82d916eebe74160b
+SHA1 (utop-1.14.tar.xz) = b53caea9a3126867b64818f0fe703cb5ac74c0cd
+Size (utop-1.14.tar.xz) = 87776 bytes

@@ -1,0 +1,10 @@
+$NetBSD$
+
+SHA1 (postgresql-9.3.5.tar.bz2) = e011da16cb8a99c5ce6204898ddb898a8b3fbca4
+Size (postgresql-9.3.5.tar.bz2) = 16727725 bytes
+
+SHA1 (base-libpq-9.3.5_0_64.txz) = 02b442fb80c8e07c17d698364ecf563c843e13d6
+Size (base-libpq-9.3.5_0_64.txz) = 114100 bytes
+
+SHA1 (base-libpq-9.3.5_0_32.txz) = 0c31c4cfbad0aa6543d63ddd6336892cc7557e3f
+Size (base-libpq-9.3.5_0_32.txz) = 109880 bytes

@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.0.6
-PKGREVISION= 0
+PKGREVISION= 1
 PKG=         bzip2
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-bzip2-${VERSION}

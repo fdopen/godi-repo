@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.3.1
-PKGREVISION= 0
+PKGREVISION= 1
 PKG=         libjpeg-turbo
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 2.24.23
-PKGREVISION= 0
+VERSION=	 2.24.24
+PKGREVISION= 2
 PKG=         gtk2
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -42,7 +42,10 @@ DEF_CONFIGURE_ARGS+=	--without-x
 .if defined(MINGW_BASE_BUILD)
 post-extract:
 	cd ${WRKDIR} && rm -rf gtk-${VERSION} && mv gtk+-${VERSION} gtk-${VERSION}
-	${RM} ${WRKSRC}/gtk/gtk.def
+	${RM} ${WRKSRC:Q}/gtk/gtk.def
+
+post-configure:
+	cd ${WRKSRC:Q}/gtk && ${SED} -i 's|^gtk_update_icon_cache_program.*|gtk_update_icon_cache_program = wine ./gtk-update-icon-cache.exe|' Makefile
 
 .if defined(OPSYS) && ${OPSYS} == "CYGWIN"
 pre-configure:

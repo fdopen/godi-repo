@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (freeglut-2.8.1.tar.gz) = 7330b622481e2226c0c9f6d2e72febe96b03f9c4
 Size (freeglut-2.8.1.tar.gz) = 1005343 bytes
 
-SHA1 (base-freeglut-2.8.1_0_64.txz) = 417061370b97191d505cb40c0f3a42a420defcf0
-Size (base-freeglut-2.8.1_0_64.txz) = 128016 bytes
+SHA1 (base-freeglut-2.8.1_1_64.txz) = 32f4453cdc563ab894c54ba3f0d3e6b5fa708f22
+Size (base-freeglut-2.8.1_1_64.txz) = 127984 bytes
 
-SHA1 (base-freeglut-2.8.1_0_32.txz) = 9b152540fc113949cb9d92759eb6e0256b1f3412
-Size (base-freeglut-2.8.1_0_32.txz) = 124568 bytes
+SHA1 (base-freeglut-2.8.1_1_32.txz) = 04e3f5d393eadda192284521a1f66a32f1078ebf
+Size (base-freeglut-2.8.1_1_32.txz) = 124676 bytes

@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-RVERSION=	1.10.0
+RVERSION=	1.11.0
 VERSION=	2.00z${RVERSION}
-PKGREVISION=	1
+PKGREVISION=	0
 PKG=		apps-console2
 PKGNAME=	${PKG}-${VERSION}
 DISTFILES=	ConsoleZ.x86.${RVERSION}-bin.tar.xz ConsoleZ.x86.${RVERSION}.tar.xz
@@ -13,10 +13,11 @@ MASTER_SITES=	${MASTER_SITES_BACKUP}
 
 
 
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=	http://sourceforge.net/projects/console/
 COMMENT=	Windows Command Prompt
 
+PATH:=		${LOCALBASE}/bin:${PATH}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 INSTALL_SCRIPT_FILE=files/install

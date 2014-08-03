@@ -1,12 +1,12 @@
 $NetBSD$
 
-SHA1 (libpng-1.6.10.tar.gz) = cf81cf7df631bbfa649600b9a45d966b6bccac25
-Size (libpng-1.6.10.tar.gz) = 1355498 bytes
+SHA1 (libpng-1.6.12.tar.gz) = 6bcd6efa7f20ccee51e70453426d7f4aea7cf4bb
+Size (libpng-1.6.12.tar.gz) = 1354223 bytes
 
-SHA1 (base-libpng-1.6.10_0_64.txz) = 28c2b0732dbf09802ad8f945839c339aeba6e399
-Size (base-libpng-1.6.10_0_64.txz) = 275124 bytes
+SHA1 (base-libpng-1.6.12_1_64.txz) = 775c47bd829cb7b7b565143890c29bcd48a2ec39
+Size (base-libpng-1.6.12_1_64.txz) = 273852 bytes
 
-SHA1 (base-libpng-1.6.10_0_32.txz) = 8b5d4d4550366b299ff0d0917e6891fa08ea9591
-Size (base-libpng-1.6.10_0_32.txz) = 272784 bytes
+SHA1 (base-libpng-1.6.12_1_32.txz) = 4dd6fda565e0bbf7f6e69bd309fe912a58719d67
+Size (base-libpng-1.6.12_1_32.txz) = 271268 bytes
 
-SHA1 (patch-libpng-1.6.10-apng) = 885929f7fa7f27c4c6575a5072eb369c746b5782
+SHA1 (patch-libpng-1.6.12-apng) = 2717aff08806fb3453137baeed73d7ed75484638

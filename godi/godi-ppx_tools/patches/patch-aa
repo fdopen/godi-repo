@@ -1,0 +1,11 @@
+--- ../../work-ref/ppx_tools-ppx_tools_0.99/Makefile	2014-07-17 18:11:51.000000000 +0200
++++ ./Makefile	2014-07-24 14:53:58.830800000 +0200
+@@ -2,7 +2,7 @@
+ #  under the terms of the MIT license (see LICENSE file).
+ #  Copyright 2013  Alain Frisch and LexiFi
+ 
+-include $(shell ocamlc -where)/Makefile.config
++include $(shell ocamlc -where | tr -d '\r')/Makefile.config
+ 
+ PACKAGE = ppx_tools
+ VERSION = 0.99

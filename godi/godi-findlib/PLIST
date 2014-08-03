@@ -1,6 +1,5 @@
 @comment $GODI$
 bin/ocamlfind
-bin/safe_camlp4
 etc/findlib.conf
 etc/findlib-BUILD.conf
 lib/ocaml/std-lib/topfind
@@ -12,11 +11,10 @@ man/man5/META.5
 man/man5/site-lib.5
 @findlib findlib
 @flatdir lib/ocaml/pkg-lib/bigarray
-@comment @flatdir lib/ocaml/pkg-lib/camlp4
+@flatdir lib/ocaml/pkg-lib/bytes
 @flatdir lib/ocaml/pkg-lib/compiler-libs
 @flatdir lib/ocaml/pkg-lib/dynlink
 @flatdir lib/ocaml/pkg-lib/graphics
-@optional @flatdir lib/ocaml/pkg-lib/labltk
 @flatdir lib/ocaml/pkg-lib/num
 @flatdir lib/ocaml/pkg-lib/num-top
 @flatdir lib/ocaml/pkg-lib/ocamlbuild

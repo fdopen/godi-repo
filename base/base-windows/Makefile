@@ -3,7 +3,7 @@
 PKG=		base-windows
 PKGNAME=	${PKG}-${VERSION}
 VERSION=	0.0.1
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	mingw
 DISTFILES=	
 CATEGORIES=	base
@@ -13,6 +13,7 @@ HOMEPAGE=	n/a
 COMMENT=	essential windows libraries and tools
 
 DEPENDS+=	base-pkg-config>=0:../../base/base-pkg-config
+BUILD_DEPENDS+= godi-findlib>=1:../../godi/godi-findlib
 
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}

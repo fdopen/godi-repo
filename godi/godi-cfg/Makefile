@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        2.0.3
+VERSION=        2.0.4
 PKGNAME=        godi-cfg-${VERSION}
 PKGREVISION=    0
-DISTNAME=       cfg-${VERSION}
-DISTFILES=      ${DISTNAME}.tar.gz
+DISTNAME=       cfg-2.0.4
+DISTFILES=      cfg-2.0.4.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   http://bitbucket.org/mmottl/cfg/downloads/
-MAINTAINER=	wodi@ml.ignorelist.com
+MASTER_SITES=   https://github.com/mmottl/cfg/releases/download/v2.0.4/
+MAINTAINER=     andreas@ml.ignorelist.com
 HOMEPAGE=       https://bitbucket.org/mmottl/cfg
 COMMENT=        OCaml library for manipulating context-free grammars
 

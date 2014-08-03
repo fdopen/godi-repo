@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (sqlite-autoconf-3080403.tar.gz) = 70f3b100fa22e5bfebfe1b0a2102612e3c6c53fb
-Size (sqlite-autoconf-3080403.tar.gz) = 1937379 bytes
+SHA1 (sqlite-autoconf-3080500.tar.gz) = 7f667e10ccebc26ab2086b8a30cb0a600ca0acae
+Size (sqlite-autoconf-3080500.tar.gz) = 1957050 bytes
 
-SHA1 (base-sqlite3-3.8.4.3_0_64.txz) = b3670318aa0749bd5e1d777a9858ce9795e8f3dd
-Size (base-sqlite3-3.8.4.3_0_64.txz) = 416112 bytes
+SHA1 (base-sqlite3-3.8.5.0_1_64.txz) = 291bea4077eeae21ed58c8c922e7d1e5782bdfdd
+Size (base-sqlite3-3.8.5.0_1_64.txz) = 422448 bytes
 
-SHA1 (base-sqlite3-3.8.4.3_0_32.txz) = 8190827486673002dd2689d773e36b519089d3bc
-Size (base-sqlite3-3.8.4.3_0_32.txz) = 405360 bytes
+SHA1 (base-sqlite3-3.8.5.0_1_32.txz) = 3633966885e90b6940783830c8fcf716a2611357
+Size (base-sqlite3-3.8.5.0_1_32.txz) = 411228 bytes

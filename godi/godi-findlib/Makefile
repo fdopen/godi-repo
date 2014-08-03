@@ -2,7 +2,7 @@
 
 GODI_FINDLIB_TOOLBOX?=  no
 
-VERSION=	1.4.1
+VERSION=	1.5.2
 PKGNAME=	godi-findlib-${VERSION}
 PKGREVISION=	0
 DISTNAME=	findlib-${VERSION}
@@ -12,25 +12,29 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://projects.camlcity.org/projects/findlib.html
 COMMENT=	The findlib/ocamlfind package manager
 
-BUILD_DEPENDS+= godi-ocaml-src-*:../../godi/godi-ocaml-src
+#BUILD_DEPENDS+= godi-ocaml-src-*:../../godi/godi-ocaml-src
 DEPENDS+=       godi-ocaml>=3.07:../../godi/godi-ocaml
 
 # Adjust PATH such that version of godi is prepended. This has
 # only an effect on commands where PATH is explicitly passed (e.g.
 # configure).
+PATH:=		${LOCALBASE}/bin:${PATH}
+
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS=	-bindir ${LOCALBASE}/bin \
-		-mandir ${LOCALBASE}/man \
-		-sitelib ${LOCALBASE}/lib/ocaml/pkg-lib \
-		-config ${LOCALBASE}/etc/findlib.conf
+CONFIGURE_ARGS=	-bindir ${LOCALBASE_NATIVE}/bin \
+		-mandir ${LOCALBASE_NATIVE}/man \
+		-sitelib ${LOCALBASE_NATIVE}/lib/ocaml/pkg-lib \
+		-config ${LOCALBASE_NATIVE}/etc/findlib.conf
 
 EXEC_SUFFIX=
 
 # bash has problems with CRLF, but ash does it as intended:
 .ifdef W32PORT
-CONFIGURE_SCRIPT=ash configure
+CONFIGURE_SCRIPT=dash configure
 EXEC_SUFFIX=.exe
 .endif
+
+USE_GMAKE=	yes
 
 GODI_FINDLIB_TOOLBOX?=no
 
@@ -58,11 +62,11 @@ post-extract:
 post-configure:
 	@# Delete META files of packages not to install
 .if !defined(W32PORT) && ${W32PORT} != "mingw"
-	rm -f ${WRKSRC}/site-lib-src/graphics/META
-	rm -f ${WRKSRC}/site-lib-src/labltk/META
+	rm -f ${WRKSRC:Q}/site-lib-src/graphics/META
+	rm -f ${WRKSRC:Q}/site-lib-src/labltk/META
 .endif
-	rm -f ${WRKSRC}/site-lib-src/dbm/META
-
+	rm -f ${WRKSRC:Q}/site-lib-src/dbm/META
+#	${SED} -i 's|\(^PARTS.*\)bytes\(.*\)$$|\1\2|' ${WRKSRC:Q}/Makefile.config
 SEP=	:
 .if ${OPSYS:MCYGWIN*} != ""
 SEP=	;

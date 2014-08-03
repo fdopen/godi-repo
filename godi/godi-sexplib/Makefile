@@ -2,22 +2,22 @@
 
 ONAME=		sexplib
 PKG=		godi-${ONAME}
-VERSION=	111.13.00
+VERSION=	111.25.00
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       sexplib-111.13.00
-DISTFILES=      sexplib-111.13.00.tar.gz
+DISTNAME=       sexplib-111.25.00
+DISTFILES=      sexplib-111.25.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.13.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.25.00/individual/
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Automated S-expression conversion
 
+DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 DEPENDS+=	godi-type_conv>=111.13.00:../../godi/godi-type_conv
 BUILD_DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
 
 DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
-DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 WINOASIS=		yes
 WINOASIS_DISABLE_DOCS=	yes

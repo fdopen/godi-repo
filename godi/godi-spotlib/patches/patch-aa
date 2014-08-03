@@ -1,0 +1,1243 @@
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/_oasis ./_oasis
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/_oasis	2014-03-20 04:17:55.000000000 +0000
++++ ./_oasis	2014-08-02 21:23:06.000000000 +0000
+@@ -1,6 +1,6 @@
+ OASISFormat: 0.2
+ Name:        spotlib
+-Version:     2.4.0
++Version:     2.4.1
+ Synopsis:    Useful functions for OCaml programming used by @camlspotter
+ Authors:     Jun FURUSE
+ License:     LGPL-2.0 with OCaml linking exception
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/Changes.txt ./Changes.txt
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/Changes.txt	2014-03-20 04:17:55.000000000 +0000
++++ ./Changes.txt	2014-08-02 21:23:22.000000000 +0000
+@@ -1,4 +1,20 @@
+-2.4.0 (not yet)
++To 2.4.1 or 2.4.2?
++---------------
++
++- Added String.split1
++- Added Filename.is_root
++- Added Base.(+=) and Base.(-=)
++- Added Base.find_by_iter and Base.find_in_tree
++* Type change from exn to `Exn of exn at Exn.catch and the other exn result error types 
++- Added Option.to_result
++
++2.4.1
++---------------
++
++- Added Levenshtein for Levenshtein distance for arrays
++- String.Levenshtein.distance is rewritten using an imperative algorithm.
++
++2.4.0
+ ---------------
+ 
+ - Added Option.iter
+@@ -18,6 +34,7 @@
+ - Added Sys.with_chdir
+ - Added Result.at_Error
+ - Added Option.(//) which works like Option.default
++- Added Base.flipf and Base.filp
+ * Largely rewritten Xunix's command/shell execution.
+ * Added Shell for the shell command like functions
+ * Added labels to At functions.
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/base.ml ./lib/base.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/base.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/base.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -63,4 +63,31 @@
+ 
+ let (|-) res f = f res; res
+ 
++let flip f x y = f y x
+ let (~~) g ~f = g f
++let flipf = (~~)
++
++let (+=) r v = r := !r + v
++let (-=) r v = r := !r - v
++
++let find_by_iter iter p col =
++  let result = ref None in
++  try
++    iter (fun e ->
++      if p e then begin
++        result := Some e;
++        raise Exit
++      end) col;
++    None
++  with
++  | Exit -> !result
++
++let find_in_tree visit p col =
++  let rec loop = function
++    | [] -> None
++    | x::xs ->
++        match p x with
++        | Some v -> Some v
++        | None -> loop (visit x @ xs)
++  in
++  loop [col]
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/base.mli ./lib/base.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/base.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/base.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -36,7 +36,11 @@
+ val (|-) : 'a -> ('a -> 'b) -> 'a
+ (** "tee". [v |-- f] is [v] but [f v] is run before [v] is returned *)
+ 
++val flip : ('a -> 'b -> 'c) -> 'b -> 'a -> 'c
++(** [flip] of Haskell *)
++
+ val (~~) : ('a -> 'b) -> f:'a -> 'b
++val flipf : ('a -> 'b) -> f:'a -> 'b
+ (** Super [flip] of Haskell. The first argument is labeled and becomes commutative. *)
+ 
+ (** {6 Imperative operations } *)
+@@ -87,3 +91,13 @@
+ val time : ('a -> 'b) -> 'a -> 'b * float
+ (** simple profiling *)
+ 
++val (+=) : int ref -> int -> unit
++val (-=) : int ref -> int -> unit
++
++
++val find_by_iter : (('a -> unit) -> 'collection -> unit) -> ('a -> bool) -> 'collection -> 'a option
++(** find the first element where [predicate] holds by iteration [find_by_iter iterator predicate colleciton] *)
++
++val find_in_tree : ('a -> 'a list) -> ('a -> 'res option) -> 'a -> 'res option
++(** [find_in_tree get_subs p a] visits [a] and finds the first sub node 
++    in which [p] holds. [get_subs] returns the sub nodes of a node. *)
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/comopt.ml ./lib/comopt.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/comopt.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/comopt.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -10,12 +10,46 @@
+   include Xlist
+ end
+ 
+-type 'a opt = { 
++type ('a, 'err) result = 
++  [ `Ok of 'a
++  | `Error of 'err 
++  ]
++    
++type ('a, 'err) opt = { 
+   short : char option;
+   long : string option;
+-  arg : [ `Nullary of 'a | `Unary of (string -> 'a) ]
++  arg : [ `Nullary of 'a 
++        | `Unary of (string -> ('a, 'err) result) ]
+ }
+ 
++(*
++let opt_to_string opt =
++  match opt.short, opt.long with
++  | None, None -> assert false
++  (* nullary *)
++  | Some short, None ->      "  -%c                         %s"
++  | Some short, Some long -> "  -%c, --%s                   %s"
++  | None, Some long ->       "       --%s                   %s"
++  | Some short, None ->      "  -%c XXX                     %s"
++  | Some short, Some long -> "  -%c, --%s=XXX               %s"
++  | None, Some long ->       "       --%s=XXX               %s"
++*)
++
++module Error = struct
++  type t = 
++    [ `Ambiguous of string * string * string
++    | `Requires_argument of string
++    | `Nullary_takes_argument of string
++    | `Unknown of string 
++    ]
++
++  let to_string = function
++    | `Ambiguous (sw, k1, k2) -> !% "Switch --%s is ambigous: it may be --%s or --%s" sw k1 k2
++    | `Requires_argument sw -> !% "Switch %s requires an argument" sw
++    | `Nullary_takes_argument sw -> !% "Switch %s does not take an argument" sw
++    | `Unknown sw -> !% "Unknown switch %s" sw
++end
++
+ let nullary short long arg = 
+   match short, long with
+   | None, None -> assert false
+@@ -26,9 +60,9 @@
+   | None, None -> assert false
+   |_ -> { short; long; arg = `Unary arg }
+ 
+-type 'a t = {
+-  shorts : (char  , 'a opt) Hashtbl.t;
+-  longs  : (string * 'a opt) list;
++type ('a, 'err) t = {
++  shorts : (char,    ('a, 'err) opt) Hashtbl.t;
++  longs  : (string * ('a, 'err) opt) list;
+ }
+ 
+ let make opts =
+@@ -53,9 +87,9 @@
+   { shorts; longs }
+     
+ 
+-  let string_tail s from = String.sub s from (String.length s - from)
++let string_tail s from = String.sub s from (String.length s - from)
+     
+-  let rec parse t st = function
++let rec parse t st = function
+     | [] -> `Ok (List.rev st)
+     | arg::args -> 
+         match arg with
+@@ -68,7 +102,7 @@
+             | '-', _ -> parse_short_switch t st (string_tail arg 1) args
+             | _ -> parse t (`Anon arg :: st) args
+       
+-  and parse_short_switch t st sw args =
++and parse_short_switch t st sw args =
+     let len = String.length sw in
+     let rec parse_sw st char_pos =
+       if len <= char_pos then parse t st args
+@@ -79,45 +113,122 @@
+           match switch.arg with
+           | `Unary f when len = char_pos + 1 ->
+               get_parameter t st f (!% "-%c" sw_char) args
+-          | `Unary _ -> assert false
++        | `Unary _ -> `Error (`Requires_argument (!% "-%c" sw_char))
+           | `Nullary v -> parse_sw (v :: st) (char_pos+1)
+         with
+-        | Not_found -> `Error (!% "unknown option -%c" sw_char)
++      | Not_found -> `Error (`Unknown (!% "-%c" sw_char))
+     in
+     parse_sw st 0
+       
+-  and parse_long_switch t st sw args =
++and get_parameter t st f name = function
++  | [] -> `Error (`Requires_argument name)
++  | arg::args -> 
++      match f arg with
++      | `Ok v -> parse t (v :: st) args
++      | `Error e -> `Error e
++
++and parse_long_switch t st sw args =
+     let sw, param =
+       try
+         let pos = String.index sw '=' in
+-        String.sub sw 0 (pos - 1), Some (string_tail sw (pos + 1))
++      String.sub sw 0 pos, Some (string_tail sw (pos + 1))
+       with
+       | Not_found -> sw, None
+     in
+-    let rec find found = function
+-      | [] ->
+-          begin match found with
+-          | None -> `Error (Printf.sprintf "unknown option --%s" sw)
+-          | Some switch ->
++  let do_found = function
++    | None -> `Error (`Unknown ("--" ^ sw))
++    | Some (`Match switch | `Partial (_, switch)) ->
+               match switch.arg, param with
+-              | `Unary f, Some param -> parse t (f param :: st) args
+-              | `Nullary v, None -> parse t (v :: st) args
+-              | _ -> assert false
++        | `Unary f, Some param -> 
++            begin match f param with
++            | `Ok v -> parse t (v :: st) args
++            | `Error e -> `Error e
+           end
++        | `Nullary v, None -> parse t (v :: st) args
++        | `Nullary _, Some _ -> `Error (`Nullary_takes_argument ("--" ^ sw))
++        | `Unary _,   None -> `Error (`Requires_argument ("--" ^ sw))
++  in
++  let rec find found = function
++    | [] -> do_found found
+       | (k,switch) :: kss ->
+-          match
+-            try Some (String.sub k 0 (String.length sw)) with _ -> None
+-          with
+-          | Some k' when k = k' ->
+-              if found = None then find (Some switch) kss
+-              else `Error (Printf.sprintf "ambiguous option --%s" sw)
+-          | Some _ | None -> find found kss
++        let match_ = 
++          if sw = k then `Match
++          else 
++            try 
++              if sw = String.sub k 0 (String.length sw) then `Partial else `No_match
++            with _ -> `No_match
++        in
++        match match_, found with
++        | `Match, _ -> do_found (Some (`Match switch))
++        | `Partial, None -> find (Some (`Partial (k, switch))) kss
++        | `Partial, (Some (`Match _)) -> find found kss
++        | `Partial, (Some (`Partial (k', _))) -> `Error (`Ambiguous (sw, k, k'))
++        | `No_match, _ -> find found kss
+     in
+     find None t.longs
+ 
+-  and get_parameter t st f name = function
+-    | [] -> `Error (!% "option %s requires an argument" name)
+-    | arg::args -> parse t (f arg :: st) args
++let parse opts args = parse (make opts) [] args
++
++TEST_UNIT "comopt_long_amb_nullary" =
++  let long1 = nullary None (Some "long") `Long in
++  let long2 = nullary None (Some "lo")   `Lo in
++  match parse [ long1; long2 ] [ "--long"; "--lon"; "--lo" ] with
++  | `Ok [ `Long; `Long; `Lo ] -> ()
++  | `Ok _ -> assert false
++  | `Error _ -> assert false
++
++TEST_UNIT "comopt_long_amb_unary" =
++  let long1 = unary None (Some "long") (fun x -> `Ok (`Long x)) in
++  let long2 = unary None (Some "lo")   (fun x -> `Ok (`Lo x)) in
++  match parse [ long1; long2 ] [ "--long=x"; "--lon=x"; "--lo=x" ] with
++  | `Ok [ `Long "x"; `Long "x"; `Lo "x" ] -> ()
++  | `Ok _ -> assert false
++  | `Error _ -> assert false
++
++TEST_UNIT "comopt_long_unary_without_arg" =
++  let long = unary None (Some "long") (fun x -> `Ok (`Long x)) in
++  match parse [ long ] [ "--long" ] with
++  | `Error (`Requires_argument "--long") -> ()
++  | _ -> assert false
++
++TEST_UNIT "comopt_long_nullary_with_arg" =
++  let long = nullary None (Some "long") `Long in
++  match parse [ long ] [ "--long=x" ] with
++  | `Error (`Nullary_takes_argument "--long") -> ()
++  | _ -> assert false
++
++TEST_UNIT "comopt_long_amb_unary_error" =
++  let long1 = unary None (Some "long") (fun x -> `Ok (`Long x)) in
++  let long2 = unary None (Some "lo")   (fun x -> `Ok (`Lo x)) in
++  match parse [ long1; long2 ] [ "--l=x" ] with
++  | `Error (`Ambiguous ("l", _, _)) -> ()
++  | _ -> assert false
++
++TEST_UNIT "comopt_long_amb_nullary_error" =
++  let long1 = nullary None (Some "long") `Long in
++  let long2 = nullary None (Some "lo")   `Lo in
++  match parse [ long1; long2 ] [ "--l" ] with
++  | `Error (`Ambiguous ("l", _, _)) -> ()
++  | _ -> assert false
++
++TEST_UNIT "comopt_short_unary_without_arg" =
++  let short1 = unary (Some 'x') None (fun x -> `Ok (`X x)) in
++  match parse [ short1 ] [ "-x" ] with
++  | `Error (`Requires_argument "-x") -> ()
++  | _ -> assert false
+ 
+-  let parse opts args = parse (make opts) [] args
++TEST_UNIT "comopt_short_unary_without_arg2" =
++  let short1 = unary (Some 'x') None (fun x -> `Ok (`X x)) in
++  let short2 = unary (Some 'z') None (fun x -> `Ok (`Z x)) in
++  match parse [ short1; short2 ] [ "-xz"; "hello" ] with
++  | `Error (`Requires_argument "-x") -> ()
++  | _ -> assert false
++
++TEST_UNIT "comopt_short_nullary_many" =
++  let short_a = nullary (Some 'a') None `a in
++  let short_b = nullary (Some 'b') None `b in
++  let short_c = nullary (Some 'c') None `c in
++  match parse [ short_a; short_b; short_c ] [ "-abcba"; "hello" ] with
++  | `Ok [ `a; `b; `c; `b; `a; `Anon "hello" ] -> ()
++  | _ -> assert false
+ 
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/comopt.mli ./lib/comopt.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/comopt.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/comopt.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -1,12 +1,38 @@
+-type 'a opt
++(*
+ 
+-val nullary : char option -> string option -> 'a -> 'a opt
++  Short name. ex. -x. Always one char.
+ 
+-val unary : char option -> string option -> (string -> 'a) -> 'a opt
++  Long name. ex. --baa. Always two -s.
+ 
+-type 'a t
++  Arity. Null or Unary.
+ 
+-val parse : 
+-  ([> `Anon of string ] as 'a) opt list 
++  Anonymous args
++ 
++*)
++
++type ('a, 'err) result = [ `Ok of 'a | `Error of 'err ]
++
++type ('a, 'err) opt
++
++module Error : sig
++  type t =
++    [ `Ambiguous              of string * string * string
++    | `Nullary_takes_argument of string
++    | `Requires_argument      of string
++    | `Unknown                of string 
++    ]
++
++  val to_string : t -> string
++end
++
++val nullary : char option -> string option -> 'a -> ('a, 'err) opt
++
++val unary : char option -> string option -> (string -> ('a, 'err) result) -> ('a, 'err) opt
++
++val parse : ([> `Anon of string ] as 'a,
++             [> `Ambiguous of string * string * string
++             |  `Requires_argument of string
++             |  `Nullary_takes_argument of string
++             |  `Unknown of string ] as 'err) opt list 
+   -> string list 
+-  -> [> `Error of string | `Ok of 'a list ]
++          -> ('a list, 'err) result
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.ml ./lib/exn.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/exn.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -23,7 +23,7 @@
+   in
+   res, finally v
+ 
+-let catch f v = try `Ok (f v) with e -> `Error e
++let catch f v = try `Ok (f v) with e -> `Error (`Exn e)
+ 
+ let try_ignore f v = try f v with _ -> ()
+ 
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.ml~ ./lib/exn.ml~
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.ml~	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/exn.ml~	2014-08-02 21:23:06.000000000 +0000
+@@ -2,10 +2,9 @@
+ let invalid_argf fmt = Printf.kprintf invalid_arg fmt
+ 
+ exception Finally of exn * exn
+-;;
+ 
+ (* CR jfuruse: looks lousy... *)
+-let protect ~f v ~(finally : 'a -> unit) =
++let protect f v ~(finally : 'a -> unit) =
+   let res =
+     try f v
+     with exn ->
+@@ -14,30 +13,39 @@
+   in
+   finally v;
+   res
+-;;
+ 
+-let catch ~f v = try `Ok (f v) with e -> `Error e;;
+-let try_ignore ~f v = try f v with _ -> ();;
+-let try_default ~default ~f v = try f v with _ -> default v;;
+-let try_bool ~f v = try ignore (f v); true with _ -> false
+-
+-let protect' f ~(finally : unit -> unit) =
++let protect_with f v ~finally =
+   let res =
+-    try f ()
++    try f v
+     with exn ->
+-      (try finally () with final_exn -> raise (Finally (exn, final_exn)));
++      (try finally v with final_exn -> raise (Finally (exn, final_exn)));
+       raise exn
+   in
+-  finally ();
+-  res
+-;;
++  res, finally v
++
++let catch f v = try `Ok (f v) with e -> `Error e
++
++let try_ignore f v = try f v with _ -> ()
++
++let try_or f g v = try f v with _ -> g v
++
++let try_bool f v = try f v; true with _ -> false
++
++let protect_ f = protect f ()
++let protect_with_ f = protect_with f ()
++let catch_ f = catch f ()
++let try_ignore_ f = try_ignore f ()
++let try_or_ f g = try_or f g ()
++let try_bool_ f = try_bool f ()
++
++let tee f v ~handler = try f v with e -> handler e; raise e
++
++(* Printexc 
+ 
+-let catch' f = try `Ok (f ()) with e -> `Error e
+-let try_ignore' f = try f () with _ -> ()
+-let try_default' ~default f = try f () with _ -> default ();;
+-let try_bool' f = try ignore (f ()); true with _ -> false
+-
+-let with_final v f final =
+-  match try `Ok (f v) with e -> `Error e with
+-  | `Ok res -> final v; res
+-  | `Error e -> try_ignore ~f:final v; raise e
++   Printexc has a very bad name. Printexc for exn ?
++*)
++let to_string        = Printexc.to_string
++let format ppf t     = Format.pp_print_string ppf (Printexc.to_string t)
++let print_backtrace  = Printexc.print_backtrace
++let get_backtrace    = Printexc.get_backtrace
++let register_printer = Printexc.register_printer
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.mli ./lib/exn.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/exn.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -14,7 +14,7 @@
+ val protect_with : ('a -> 'b) -> 'a -> finally: ('a -> 'c) -> 'b * 'c
+ (** It raises an exception [Finally (org, final)] when [finally] cannot recover the error. *)
+  
+-val catch       : ('a -> 'b) -> 'a -> [> ('b, exn) Result.t ]
++val catch       : ('a -> 'b) -> 'a -> [> ('b, [> `Exn of exn]) Result.t ]
+ val try_ignore  : ('a -> unit) -> 'a -> unit
+ val try_or      : ('a -> 'b) -> ('a -> 'b) -> 'a -> 'b
+ val try_bool    : ('a -> 'b) -> 'a -> bool
+@@ -22,7 +22,7 @@
+ 
+ val protect_      : (unit -> 'b) -> finally: (unit -> unit) -> 'b
+ val protect_with_ : (unit -> 'b) -> finally: (unit -> 'c) -> 'b * 'c
+-val catch_        : (unit -> 'b) -> [> ('b, exn) Result.t ]
++val catch_        : (unit -> 'b) -> [> ('b, [> `Exn of exn]) Result.t ]
+ val try_ignore_   : (unit -> unit) -> unit
+ val try_or_       : (unit -> 'b) -> (unit -> 'b) -> 'b
+ val try_bool_     : (unit -> 'b) -> bool
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.mli~ ./lib/exn.mli~
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/exn.mli~	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/exn.mli~	2014-08-02 21:23:06.000000000 +0000
+@@ -7,9 +8,35 @@
+ 
+ exception Finally of exn * exn
+ 
+-val protect'     : (unit -> 'a) -> finally: (unit -> unit) -> 'a
+-val catch'       : (unit -> 'a) -> [> ('a, exn) result ]
+-val try_ignore'  : (unit -> unit) -> unit
+-val try_default' : default: (unit -> 'a) -> (unit -> 'a) -> 'a
+-val try_bool'    : (unit -> unit) -> bool (* success/fail *)
++val protect     : ('a -> 'b) -> 'a -> finally: ('a -> unit) -> 'b
++(** It raises an exception [Finally (org, final)] when [finally] cannot recover the error. *)
++ 
++val protect_with : ('a -> 'b) -> 'a -> finally: ('a -> 'c) -> 'b * 'c
++(** It raises an exception [Finally (org, final)] when [finally] cannot recover the error. *)
++ 
++val catch       : ('a -> 'b) -> 'a -> [> ('b, exn) Result.t ]
++val try_ignore  : ('a -> unit) -> 'a -> unit
++val try_or      : ('a -> 'b) -> ('a -> 'b) -> 'a -> 'b
++val try_bool    : ('a -> 'b) -> 'a -> bool
+ (** [true] at success *)
++
++val protect_      : (unit -> 'b) -> finally: (unit -> unit) -> 'b
++val protect_with_ : (unit -> 'b) -> finally: (unit -> 'c) -> 'b * 'c
++val catch_        : (unit -> 'b) -> [> ('b, exn) Result.t ]
++val try_ignore_   : (unit -> unit) -> unit
++val try_or_       : (unit -> 'b) -> (unit -> 'b) -> 'b
++val try_bool_     : (unit -> 'b) -> bool
++
++
++val tee : ('a -> 'b) -> 'a -> handler:(exn -> unit) -> 'b
++(** [tee f v ~handler]. If [f v] raises an exception [e], 
++    [handler e] is executed, then [e] is reraised.
++*)
++
++(* Printexc + alpha *)
++
++val to_string : exn -> string
++val format : Format.formatter -> exn -> unit
++val print_backtrace : out_channel -> unit
++val get_backtrace : unit -> string
++val register_printer : (exn -> string option) -> unit
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/file.mli ./lib/file.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/file.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/file.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -8,13 +8,13 @@
+ val iter_lines_exn : string -> (string -> 'a) -> unit
+ (** [iter_lines_exn filename f] iters [f] over lines of contets of [filename] *)
+ 
+-val iter_lines : string -> (string -> unit) -> (unit, exn) result
++val iter_lines : string -> (string -> unit) -> (unit, [> `Exn of exn]) result
+ (** [iter_lines filename f] iters [f] over lines of contets of [filename] *)
+ 
+-val to_lines : string -> (string list, exn) result
++val to_lines : string -> (string list, [> `Exn of exn]) result
+ (** [iter_lines filename f] iters [f] over lines of contets of [filename] *)
+ 
+-val to_string : string -> (string, exn) result
++val to_string : string -> (string, [> `Exn of exn]) result
+ (** [to_string filename] returns the contens of the file *)
+ 
+ val open_out : string -> (out_channel -> 'a) -> 'a
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/levenshtein.ml ./lib/levenshtein.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/levenshtein.ml	1970-01-01 00:00:00.000000000 +0000
++++ ./lib/levenshtein.ml	2014-08-02 21:23:22.000000000 +0000
+@@ -0,0 +1,223 @@
++(**
++
++   Levenshtein distance algorithm for general array.
++   
++   Author: jun.furuse@gmail.com
++   License: public domain
++
++*)
++
++(** Minimum of three integers *)
++let min3 (x:int) y z =
++  let m' (a:int) b = if a < b then a else b in
++  m' (m' x y) z
++
++(* Matrix initialization. 
++
++    ------- 2 ----------
++   | 0123456789...    m
++   | 1
++   1 2          0
++   | .              
++   | n
++*)
++let init_matrix n m =
++  let init_col = Array.init (m+1) in
++  Array.init (n+1) (function
++    | 0 -> init_col (function j -> j)
++    | i -> init_col (function 0 -> i | _ -> 0))
++
++module type S = sig
++  type t
++  val distance : ?upper_bound: int -> t -> t -> int
++  (** Calculate Levenshtein distance of 2 t's *)
++end
++
++module Make(A : sig 
++  type t
++  type elem
++  val compare : elem -> elem -> int
++  val get : t -> int -> elem
++  val size : t -> int
++end) = struct
++
++  type t = A.t
++
++  (* It is simply slow but nearest to the math *)
++  let slow_but_simple xs ys =
++    let rec d i j =
++      match i, j with
++      | 0, _ -> j
++      | _, 0 -> i
++      | _ -> 
++          let i' = i - 1 in
++          let j' = j - 1 in
++          min3 
++            (d i' j + 1)
++            (d i j' + 1)
++            (d i' j' + abs (A.compare (A.get xs i') (A.get ys j')))
++    in
++    d (A.size xs) (A.size ys)
++
++  (* slow_but_simple + memoization *)      
++  let memoized xs ys =
++    let cache = Array.init (A.size xs+1) (fun _ -> Array.create (A.size ys+1) (-1)) in
++    let rec d i j =
++      match i, j with
++      | 0, _ -> j
++      | _, 0 -> i
++      | _ -> 
++          let cache_i = Array.unsafe_get cache i in
++          match Array.unsafe_get cache_i j with
++          | -1 ->
++              let res = 
++                let i' = i - 1 in
++                let j' = j - 1 in
++                min3 
++                  (d i' j + 1)
++                  (d i j' + 1)
++                  (d i' j' + abs (A.compare (A.get xs i') (A.get ys j')))
++              in
++              Array.unsafe_set cache_i j res;
++              res
++          | res -> res
++    in
++    d (A.size xs) (A.size ys)
++
++  (* slow_but_simple + memoization + upperbound 
++
++     There is a property: d(i-1)(j-1) <= d(i)(j)
++     so if d(i-1)(j-1) >= upper_bound then we can immediately say
++     d(i)(j) >= upper_bound, and skip the calculation of d(i-1)(j) and d(i)(j-1)
++  *)
++  let distance ?(upper_bound=max_int) xs ys =
++    let size_xs = A.size xs 
++    and size_ys = A.size ys in
++    (* cache: d i j is stored at cache.(i-1).(j-1) *)
++    let cache = Array.init size_xs (fun _ -> Array.create size_ys (-1)) in
++    let rec d i j =
++      match i, j with
++      | 0, _ -> j
++      | _, 0 -> i
++      | _ -> 
++          let i' = i - 1 in
++          let cache_i = Array.unsafe_get cache i' in
++          let j' = j - 1 in
++          match Array.unsafe_get cache_i j' with
++          | -1 ->
++              let res = 
++                let upleft = d i' j' in
++                if upleft >= upper_bound then upper_bound
++                else 
++                  let cost = abs (A.compare (A.get xs i') (A.get ys j')) in
++                  let upleft' = upleft + cost in
++                  if upleft' >= upper_bound then upper_bound
++                  else
++                    (* This is not tail recursive *)
++                    min3 (d i' j + 1)
++                         (d i j' + 1)
++                         upleft'
++              in
++              Array.unsafe_set cache_i j' res;
++              res
++          | res -> res
++    in
++    min (d size_xs size_ys) upper_bound
++
++  (** http://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Levenshtein_distance *)
++  let wikibook xs ys =
++    let get = Array.unsafe_get in
++    match A.size xs, A.size ys with
++    | 0, n -> n
++    | m, 0 -> m
++    | m, n ->
++        let matrix = init_matrix m n in
++        (* d(0)(j) = j
++           d(i)(0) = i
++           d(i)(j) = min of d(i-1)(j  ) + 1
++                            d(i)  (j-1) + 1
++                            d(i-1)(j-1) + if x.[i-1] = y.[j-1] then 0 else 1
++        *)
++        for i = 1 to m do
++          let s = get matrix i and t = get matrix (i - 1) in
++          for j = 1 to n do
++            let cost = abs (A.compare (A.get xs (i - 1)) (A.get ys (j - 1))) in
++            Array.unsafe_set s j (min3 (get t j + 1) (get s (j - 1) + 1) (get t (j - 1) + cost))
++          done
++        done;
++        get (get matrix m) n
++end
++
++module String = struct
++
++  open Bytes
++
++  include Make(struct
++    type t = string
++    type elem = char
++    let compare (c1 : char) c2 = Pervasives.compare c1 c2
++    let get = unsafe_get
++    let size = length
++  end)
++
++  TEST "Levenshtein.String slow_but_simple" =
++    slow_but_simple "xx" "xaaax" = 3
++
++  TEST "Levenshtein.String.distance" =
++    distance "xx" "xaaax" = 3
++
++  let random_char = 
++    let offset = Char.code 'A' in
++    let length = Char.code 'Z' - offset + 1 in
++    fun () -> Char.chr (Random.int length + offset)
++
++  let random len =
++    let s = create len in
++    for i = 0 to len - 1 do
++      unsafe_set s i (random_char ())
++    done;
++    s
++
++  let test ?(upper_bound=max_int) loop len dist dist' =
++    for i = 0 to loop do
++      if i mod (loop / 10) = 0 then Printf.eprintf "%d\n%!" i;
++      let l1 = Random.int len in
++      let l2 = Random.int len in
++      let s1 = random l1 in
++      let s2 = random l2 in
++      let d = dist s1 s2 in
++      let d' = dist' s1 s2 in
++      if d < upper_bound && d' < upper_bound && d <> d' then begin
++        Printf.eprintf "%s %s : %d %d\n" s1 s2 d d';
++        assert false
++      end
++    done
++
++  TEST_UNIT "wikibook correctness" =  
++    test 1000 10 slow_but_simple wikibook
++
++  TEST_UNIT "memoized and wikibook" =  
++    test 10000 20 memoized wikibook
++
++  TEST_UNIT "distance and wikibook" =  
++    test ~upper_bound:20 100000 30 (distance ~upper_bound:20) wikibook
++
++  TEST_UNIT "distance and wikibook performance check (it takes long time)" =  
++    let sample_size = 100000 in
++    for _i = 1 to 10 do
++      let samples = Array.init sample_size (fun _ -> random 30, random 30) in
++      let time name f v =
++        let () = Gc.full_major () in
++        let start = Unix.gettimeofday () in
++        f v;
++        let end_ = Unix.gettimeofday () in
++        Printf.eprintf "%s : %f\n%!" name (end_ -. start)
++      in
++      let bench d =
++        Array.iter (fun (s1,s2) -> ignore (d s1 s2)) samples
++      in
++      time "wikibook" bench wikibook;
++      time "distance ~upper_bound:20" bench (distance ~upper_bound:20)
++    done
++        
++end
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/levenshtein.mli ./lib/levenshtein.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/levenshtein.mli	1970-01-01 00:00:00.000000000 +0000
++++ ./lib/levenshtein.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -0,0 +1,36 @@
++(**
++
++   Levenshtein distance algorithm for general array.
++
++   Author: jun.furuse@gmail.com
++   License: public domain
++
++*)
++
++module type S = sig
++  type t
++  val distance : ?upper_bound: int -> t -> t -> int
++  (** Calculate Levenshtein distance of 2 t's.
++      
++      If we are only interested in the distance if it is smaller than 
++      a threshold, specifying [upper_bound] greatly improves the performance
++      of [distance]. In that case, the distances over [upper_bound] is 
++      culled to [upper_bound].
++  *)
++end
++
++module Make(A : sig
++  type t
++  (** Type of arrays *)
++
++  type elem 
++  (** Type of the elements of arrays *)
++
++  val compare : elem -> elem -> int
++  val get : t -> int -> elem
++  val size : t -> int
++
++end) : S with type t = A.t
++
++module String : S with type t = string
++
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/META ./lib/META
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/META	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/META	2014-08-02 21:23:06.000000000 +0000
+@@ -1,5 +1,5 @@
+ name="spotlib"
+-version="2.4.0"
++version="2.4.1"
+ description="Spotter's garbages"
+ requires="unix,str,pa_ounit"
+ archive(byte)="spotlib.cmo"
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/OMakefile ./lib/OMakefile
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/OMakefile	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/OMakefile	2014-08-02 21:23:06.000000000 +0000
+@@ -20,11 +20,13 @@
+    xlist
+    xarray
+    xhashtbl
++   levenshtein
+    xstring
+    xlazy
+    xformat
+    xfilename
+    xunix
++   xobj
+    xprintf
+    xsys
+    xset
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/option.ml ./lib/option.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/option.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/option.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -23,6 +23,10 @@
+   let fail () = raise Error.Error in
+   try Some (f ~fail) with Error.Error -> None
+ 
++let to_result = function
++  | Some v -> `Ok v
++  | None -> `Error `None
++
+ let catch_exn f = catch (fun ~fail -> try f () with _ -> fail ())
+ 
+ let format f ppf = function
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/option.mli ./lib/option.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/option.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/option.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -21,6 +21,8 @@
+ val catch : (fail:(unit -> 'exn) -> 'a) -> 'a option
+ val catch_exn : (unit -> 'a) -> 'a option
+ 
++val to_result : 'a option -> ('a, [> `None]) Result.t
++
+ val from_Some : 'a option -> 'a
+ (** may raise [Invalid_argument] *)
+ 
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/spot.ml ./lib/spot.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/spot.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/spot.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -101,6 +101,11 @@
+   include Xprintexc
+ end
+ 
++module Obj = struct
++  include Obj
++  include Xobj
++end
++
+ module URL = URL
+ 
+ module Gc = struct
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xfilename.ml ./lib/xfilename.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xfilename.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xfilename.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -10,6 +10,8 @@
+   with
+   | Invalid_argument _ -> s, ""
+ 
++let is_root d = not (is_relative d) && dirname d = d
++
+ module Pervasives = struct
+   let (^/) p1 p2 =
+     if Filename.is_relative p2 then Filename.concat p1 p2 else p2
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xfilename.mli ./lib/xfilename.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xfilename.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xfilename.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -4,6 +4,8 @@
+     [split_extension "hello_world" = "hello_world", ""]
+ *)
+ 
++val is_root : string -> bool
++
+ module Pervasives : sig
+   val (^/) : string -> string -> string
+   (** Filename concatenation. If the second argument is absolute,
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xhashtbl.ml ./lib/xhashtbl.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xhashtbl.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xhashtbl.ml	2014-08-02 21:23:06.000000000 +0000
+@@ -1,3 +1,5 @@
++open Hashtbl
++
+ let replace_list tbl kvs = 
+   List.iter (fun (k,v) ->
+     Hashtbl.replace tbl k v) kvs
+@@ -21,9 +23,11 @@
+     def
+ 
+ let alter tbl k f =
+-  match f (find_opt tbl k) with
+-  | None -> Hashtbl.remove tbl k
+-  | Some v -> Hashtbl.replace tbl k v
++  let old = find_opt tbl k in
++  match old, f old with
++  | None, None -> ()
++  | _, Some v -> replace tbl k v
++  | Some _, None -> remove tbl k
+ 
+ let concat tbls =
+   let t = Hashtbl.create 101 in (* CR jfuruse: fixed *)
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xobj.ml ./lib/xobj.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xobj.ml	1970-01-01 00:00:00.000000000 +0000
++++ ./lib/xobj.ml	2014-08-02 21:23:22.000000000 +0000
+@@ -0,0 +1,79 @@
++open Base
++open Obj
++
++type tag = 
++  | Abstract
++  | Closure
++  | Custom
++  | Double
++  | Double_array
++  | Final
++  | Forward
++  | Infix
++  | Int (* this is a virtual one *)
++  | Lazy
++  | No_scan
++  | Object
++  | Out_of_heap
++  | String
++  | Unaligned
++  | Unknown of int 
++
++let parse_tag t = 
++  if t = int_tag              then Int
++  else if t = double_tag      then Double
++  else if t = double_array_tag then Double_array
++  else if t = string_tag      then String
++  else if t = lazy_tag        then Lazy
++  else if t = closure_tag     then Closure
++  else if t = object_tag      then Object
++  else if t = infix_tag       then Infix
++  else if t = forward_tag     then Forward
++  else if t = no_scan_tag     then No_scan
++  else if t = abstract_tag    then Abstract
++  else if t = custom_tag      then Custom
++(*
++  else if t = final_tag       then Final
++*)
++  else if t = out_of_heap_tag then Out_of_heap
++  else if t = unaligned_tag   then Unaligned
++  else Unknown t
++
++let tag_name = function
++  | Int ->         "int"
++  | Double ->      "double"
++  | Double_array -> "double_array"
++  | String ->      "string"
++  | Lazy ->        "lazy"
++  | Closure ->     "closure"
++  | Object ->      "object"
++  | Infix ->       "infix"
++  | Forward ->     "forward"
++  | No_scan ->     "no_scan"
++  | Abstract ->    "abstract"
++  | Custom ->      "custom"
++  | Final ->       "final"
++  | Out_of_heap -> "out_of_heap"
++  | Unaligned ->   "unaligned"
++  | Unknown x ->   string_of_int x 
++
++let dump o = 
++  let open Format in
++  let rec dump ppf o =
++    let t = parse_tag & tag o in
++    match t with
++    | Int -> fprintf ppf "%d" & obj o
++    | Double -> fprintf ppf "%.4f" & obj o
++    | String -> fprintf ppf "%S" & obj o
++    | _ -> 
++        (* CR jfuruse: I believe there are some cases not covered by this *)
++        (* Double_array for example *)
++        fprintf ppf "[%s @[" & tag_name t;
++        let s = size o in
++        for i = 0 to s - 1 do
++          dump ppf (field o i);
++          fprintf ppf "@ "
++        done;
++        fprintf ppf "@]]"
++  in
++  eprintf "%a@." dump o
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xobj.mli ./lib/xobj.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xobj.mli	1970-01-01 00:00:00.000000000 +0000
++++ ./lib/xobj.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -0,0 +1,23 @@
++type tag = 
++  | Abstract
++  | Closure
++  | Custom
++  | Double
++  | Double_array
++  | Final
++  | Forward
++  | Infix
++  | Int (* this is a virtual one *)
++  | Lazy
++  | No_scan
++  | Object
++  | Out_of_heap
++  | String
++  | Unaligned
++  | Unknown of int 
++
++val parse_tag : int -> tag
++
++val tag_name : tag -> string
++
++val dump : Obj.t -> unit
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xstring.ml ./lib/xstring.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xstring.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xstring.ml	2014-08-02 21:23:22.000000000 +0000
+@@ -1,5 +1,6 @@
+ open Base
+-open String
++
++open Bytes (* BEWARE! compare is now for string *)
+ 
+ let index_opt s c = try Some (index s c) with Not_found -> None
+ 
+@@ -111,16 +112,25 @@
+ 
+ module Set = Xset.Make(struct type t = string let compare (x:string) y = compare x y end)
+ 
+-module Pervasives = struct
+-  let chop_eols = chop_eols
+-end
+-
+ let split_at len str = String.sub str 0 len, String.sub str len (String.length str - len)
+ 
+ TEST "Xstring.split_at" = 
+     split_at 3 "hello world" = ("hel", "lo world")
+ ;;
+ 
++let find s pos f =
++  let len = length s in
++  let rec scan pos =
++    if pos >= len then None
++    else if f (unsafe_get s pos) then Some pos else scan (pos + 1)
++  in
++  scan pos
++
++let split1 ?(from=0) f str =
++  match find str from f with
++  | None -> None
++  | Some pos -> Some (sub str 0 pos, sub str (pos+1) (length str - pos - 1))
++
+ let take len str = String.sub str 0 len
+ let prefix = take
+ let drop len str = String.sub str len (String.length str - len)
+@@ -222,20 +232,27 @@
+     
+ let foldi_left f acc s = scani_left f acc s
+ 
+-module Levenshtein = struct
+-  let (@) = String.unsafe_get
++let to_array s = Array.init (length s) & fun i -> unsafe_get s i
+ 
+-  (* It is not tail recursive, but so far I am happy *)    
+-  let dist_non_tco s1 s2 =
+-    let lev lev_fix (i, j) = match i, j with
+-      | -1, d | d, -1 -> max d 0
+-      | _ ->
+-          min (lev_fix (i-1, j) + 1)
+-          & min (lev_fix (i, j-1) + 1)
+-                (lev_fix (i-1, j-1) + if s1@i = s2@j then 0 else 1)
+-    in
+-    memoize_rec lev (String.length s1 - 1, String.length s2 - 1)
+-end
++let to_code_array s = Array.init (length s) & fun i -> Char.code & unsafe_get s i
++
++module Levenshtein = Levenshtein.String
++
++let random len = 
++  let s = create len in
++  for i = 0 to len - 1 do
++    unsafe_set s i (Char.chr (Random.int 256))
++  done;
++  s
++
++let random_hum len =
++  let s = create len in
++  let range = Char.code '~' - Char.code ' ' + 1 in
++  let shift = Char.code ' ' in
++  for i = 0 to len - 1 do
++    unsafe_set s i (Char.chr (Random.int range + shift))
++  done;
++  s
+ 
+ let sub' s pos len =
+   let orig_len = length s in
+@@ -252,17 +269,13 @@
+   assert (sub' "hello" 3 4 = "lo");
+   assert (sub' "hello" 5 5 = "")
+ 
+-let find s pos f =
+-  let len = length s in
+-  let rec scan pos =
+-    if pos >= len then None
+-    else if f (unsafe_get s pos) then Some pos else scan (pos + 1)
+-  in
+-  scan pos
+-
+ let replace_chars from to_ s =
+   let s' = copy s in
+   iteri (fun p -> function
+     | c when c = from -> unsafe_set s' p to_
+     | _ -> ()) s';
+   s'
++
++module Pervasives = struct
++  let chop_eols = chop_eols
++end
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xstring.mli ./lib/xstring.mli
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xstring.mli	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xstring.mli	2014-08-02 21:23:06.000000000 +0000
+@@ -31,13 +31,16 @@
+ (** [make1 = String.make 1] *) 
+ 
+ val lines : string -> (string * string) list
+-(** [lines "hello\nworld\r\ngood\rday" = ["hello", "\n"; "world", "\r\n"; "good", "\r"; "day", ""]  *)
++(** [lines "hello\nworld\r\ngood\rday" = ["hello", "\n"; "world", "\r\n"; "good", "\r"; "day", ""]]  *)
+ 
+ val split : (char -> bool) -> string -> string list
+-(** [split (function ' ' -> true | _ -> false) "hello      world" = ["hello"; "world"] *) 
++(** [split (function ' ' -> true | _ -> false) "hello      world" = ["hello"; "world"]] *) 
+ 
+ module Set : Xset.S with type elt = String.t
+ 
++val split1 : ?from:int -> (char -> bool) -> string -> (string * string) option
++(** Same as [split] but do the split only once *)
++
+ (** Haskelish string sub *)
+ val split_at : int -> string -> string * string
+ val take : int -> string -> string
+@@ -63,10 +66,8 @@
+   -> 'a -> string -> 'a
+ 
+ module Levenshtein : sig
+-  val dist_non_tco : string -> string -> int
+-  (** Levenshtein edit distance. 
+-     * Memoized.
+-     * Non tail recursive. *)
++  val distance : ?upper_bound: int -> string -> string -> int
++  (** See Levenshtein.S *)
+ end
+ 
+ module Pervasives : sig
+@@ -82,4 +83,12 @@
+ (** [replace_chars c1 c2 s] returns a copy of [s] with replacing
+     all the char occurrences of [c1] by [c2]. *)
+ 
++val to_array : string -> char array
++
++val to_code_array : string -> int array
++
++val random : int (** length *) -> string
++
++val random_hum : int (** length *) -> string
++(** human readable *)
+     
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xunix.ml ./lib/xunix.ml
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/lib/xunix.ml	2014-03-20 04:17:55.000000000 +0000
++++ ./lib/xunix.ml	2014-08-02 21:23:22.000000000 +0000
+@@ -181,7 +181,7 @@
+   
+   let command_aux readers stat =
+     let read_buflen = 4096 in
+-    let read_buf = String.create read_buflen in
++    let read_buf = Bytes.create read_buflen in
+   
+     let try_read_lines fd buf : (string list * bool (* eof *)) =
+       let read_bytes = 
+@@ -386,7 +386,7 @@
+ let with_chdir ?(at_failure=(fun exn -> raise exn)) dir f =
+   let cwd = Unix.getcwd () in
+   match Exn.catch Unix.chdir dir with
+-  | `Error exn -> at_failure exn
++  | `Error (`Exn exn) -> at_failure exn
+   | `Ok () ->
+       Exn.protect f () ~finally:(fun () -> Unix.chdir cwd)
+     
+diff -N -b -B -u -r ../camlspotter-spotlib-d4a8163bfceb.orig/OMyMakefile ./OMyMakefile
+--- ../camlspotter-spotlib-d4a8163bfceb.orig/OMyMakefile	2014-03-20 04:17:55.000000000 +0000
++++ ./OMyMakefile	2014-08-02 21:23:06.000000000 +0000
+@@ -477,6 +477,11 @@
+   # CR jfuruse: forgot to add the deps over the packages!
+   .DEFAULT: $(OCamlProgram $(name), $(files))
+ 
++  if $(not $(equal $(EXE), ""))
++    .PHONY: $(name)
++    $(name): $(name)$(EXE)
++    export
++
+   # The following clean the files twice if MyOCamlPackge coexists,
+   # but who cases ?
+   AutoClean()

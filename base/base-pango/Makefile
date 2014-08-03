@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.36.3
-PKGREVISION= 0
+VERSION=	 1.36.5
+PKGREVISION= 2
 PKG=         pango
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

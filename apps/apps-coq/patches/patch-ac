@@ -1,0 +1,11 @@
+--- ../../work-ref/coq-8.4pl4/lib/envars.ml	2014-04-24 17:13:03.000000000 +0200
++++ ./lib/envars.ml	2014-08-03 00:35:46.705200000 +0200
+@@ -34,7 +34,7 @@
+ 
+ let guess_coqlib () =
+   let file = "states/initial.coq" in
+-    reldir (if Coq_config.arch = "win32" then ["lib"] else ["lib";"coq"]) file
++    reldir ["lib";"coq"] file
+       (fun () ->
+         let coqlib = match Coq_config.coqlib with
+           | Some coqlib -> coqlib

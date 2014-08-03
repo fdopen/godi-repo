@@ -3,10 +3,10 @@ $NetBSD$
 SHA1 (gtkglarea-2.0.1.tar.bz2) = 436f3c1e267a421a6df11248b250c82e93a8331d
 Size (gtkglarea-2.0.1.tar.bz2) = 298744 bytes
 
-SHA1 (base-gtkglarea-2.0.1_0_64.txz) = 636b537910d74d0d186bdb9bc421560e5f890ff6
-Size (base-gtkglarea-2.0.1_0_64.txz) = 20448 bytes
+SHA1 (base-gtkglarea-2.0.1_2_64.txz) = 04b3104e856e24922376198ceb7ae2cd76085219
+Size (base-gtkglarea-2.0.1_2_64.txz) = 20456 bytes
 
-SHA1 (base-gtkglarea-2.0.1_0_32.txz) = 0ee346e316a5d17ee939aea54209ac48bfef2441
-Size (base-gtkglarea-2.0.1_0_32.txz) = 20128 bytes
+SHA1 (base-gtkglarea-2.0.1_2_32.txz) = a9e16cc6755c9cfc9a4a42942f6c28a532471bfa
+Size (base-gtkglarea-2.0.1_2_32.txz) = 20140 bytes
 
 SHA1 (patch-gtkglarea-1-fixes) = f7d2895f7f42150e06ff855ecd800ad898a03afb

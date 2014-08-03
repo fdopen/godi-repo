@@ -1,0 +1,473 @@
+--- ../../work-ref/ocaml-4.02/debugger/main.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./debugger/main.ml	2014-08-02 18:02:40.940400000 +0200
+@@ -154,10 +154,12 @@
+ let set_directory dir =
+   Sys.chdir dir
+ let print_version () =
++  Misc.mingw_binary_output ();
+   printf "The OCaml debugger, version %s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   printf "%s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/debugger/Makefile.shared	2014-08-02 05:11:28.000000000 +0200
++++ ./debugger/Makefile.shared	2014-08-02 18:02:36.213600000 +0200
+@@ -30,7 +30,7 @@
+ 
+ OTHEROBJS=\
+   $(UNIXDIR)/unix.cma \
+-  ../utils/misc.cmo ../utils/config.cmo ../utils/tbl.cmo \
++  ../utils/config.cmo ../utils/misc.cmo ../utils/tbl.cmo \
+   ../utils/clflags.cmo ../utils/consistbl.cmo ../utils/warnings.cmo \
+   ../parsing/location.cmo ../parsing/longident.cmo \
+   ../parsing/ast_helper.cmo ../parsing/ast_mapper.cmo \
+--- ../../work-ref/ocaml-4.02/driver/compenv.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./driver/compenv.ml	2014-08-02 18:02:36.213600000 +0200
+@@ -20,6 +20,7 @@
+   Misc.chop_extension_if_any oname
+ 
+ let print_version_and_library compiler =
++  Misc.mingw_binary_output ();
+   Printf.printf "The OCaml %s, version " compiler;
+   print_string Config.version; print_newline();
+   print_string "Standard library directory: ";
+@@ -27,9 +28,11 @@
+   exit 0
+ 
+ let print_version_string () =
++  Misc.mingw_binary_output ();
+   print_string Config.version; print_newline(); exit 0
+ 
+ let print_standard_library () =
++  Misc.mingw_binary_output ();
+   print_string Config.standard_library; print_newline(); exit 0
+ 
+ let fatal err =
+--- ../../work-ref/ocaml-4.02/driver/main.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./driver/main.ml	2014-08-02 18:02:36.213600000 +0200
+@@ -65,6 +65,7 @@
+   readenv ppf Before_compile; process_interface_file ppf filename;;
+ 
+ let show_config () =
++  Misc.mingw_binary_output ();
+   Config.print_config stdout;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/lex/main.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./lex/main.ml	2014-08-02 18:02:36.213600000 +0200
+@@ -20,12 +20,22 @@
+ 
+ let usage = "usage: ocamllex [options] sourcefile"
+ 
++let mingw_binary_output () =
++  match Sys.os_type with
++  | "Win32" ->
++      (try set_binary_mode_out stdout true with _ -> ());
++      (try set_binary_mode_out stderr true with _ -> ());
++  | _ -> ()
++
++
+ let print_version_string () =
++  mingw_binary_output ();
+   print_string "The OCaml lexer generator, version ";
+   print_string Sys.ocaml_version ; print_newline();
+   exit 0
+ 
+ let print_version_num () =
++  mingw_binary_output ();
+   print_endline Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/Makefile	2014-08-02 05:11:28.000000000 +0200
++++ ./Makefile	2014-08-02 18:02:36.213600000 +0200
+@@ -38,7 +38,7 @@
+ INCLUDES=-I utils -I parsing -I typing -I bytecomp -I asmcomp -I driver \
+ 	 -I toplevel
+ 
+-UTILS=utils/misc.cmo utils/tbl.cmo utils/config.cmo \
++UTILS=utils/config.cmo utils/misc.cmo utils/tbl.cmo \
+   utils/clflags.cmo utils/terminfo.cmo utils/ccomp.cmo utils/warnings.cmo \
+   utils/consistbl.cmo
+ 
+--- ../../work-ref/ocaml-4.02/Makefile.nt	2014-08-02 05:11:28.000000000 +0200
++++ ./Makefile.nt	2014-08-02 18:02:36.229200000 +0200
+@@ -34,7 +34,7 @@
+ INCLUDES=-I utils -I parsing -I typing -I bytecomp -I asmcomp -I driver \
+ 	 -I toplevel
+ 
+-UTILS=utils/misc.cmo utils/tbl.cmo utils/config.cmo \
++UTILS=utils/config.cmo utils/misc.cmo utils/tbl.cmo \
+   utils/clflags.cmo utils/terminfo.cmo utils/ccomp.cmo utils/warnings.cmo \
+   utils/consistbl.cmo
+ 
+--- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-08-02 18:03:09.160800000 +0200
++++ ./ocamlbuild/options.ml	2014-08-02 18:02:36.229200000 +0200
+@@ -170,11 +170,31 @@
+     build_dir := Filename.concat (Sys.getcwd ()) s
+   else
+     build_dir := s
++
++let slashify p =
++  match Sys.os_type with
++  | "Win32" ->
++      let len = String.length p in
++      let b = Bytes.create len in
++      for i = 0 to len - 1 do
++        Bytes.set b i (match p.[i] with
++          | '\\' ->  '/'
++          | x -> x )
++      done;
++      Bytes.to_string b
++  | _ -> p
++
++let sb () =
++  match Sys.os_type with
++  | "Win32" ->
++      (try set_binary_mode_out stdout true with _ -> ());
++  | _ -> ()
++
+ let spec = ref (
+   Arg.align
+   [
+-   "-version", Unit (fun () -> print_endline version; raise Exit_OK), " Display the version";
+-   "-vnum", Unit (fun () -> print_endline Sys.ocaml_version; raise Exit_OK),
++   "-version", Unit (fun () -> sb (); print_endline version; raise Exit_OK), " Display the version";
++   "-vnum", Unit (fun () -> sb (); print_endline Sys.ocaml_version; raise Exit_OK),
+             " Display the version number";
+    "-quiet", Unit (fun () -> Log.level := 0), " Make as quiet as possible";
+    "-verbose", Int (fun i -> Log.classic_display := true; Log.level := i + 2), "<level> Set the verbosity level";
+@@ -240,8 +260,8 @@
+    "-build-dir", String set_build_dir, "<path> Set build directory (implies no-links)";
+    "-install-lib-dir", Set_string Ocamlbuild_where.libdir, "<path> Set the install library directory";
+    "-install-bin-dir", Set_string Ocamlbuild_where.bindir, "<path> Set the install binary directory";
+-   "-where", Unit (fun () -> print_endline !Ocamlbuild_where.libdir; raise Exit_OK), " Display the install library directory";
+-   "-which", String (fun cmd -> print_endline (find_tool cmd); raise Exit_OK), "<command> Display path to the tool command";
++   "-where", Unit (fun () -> sb (); print_endline (slashify !Ocamlbuild_where.libdir); raise Exit_OK), " Display the install library directory";
++   "-which", String (fun cmd -> sb (); print_endline (slashify (find_tool cmd)); raise Exit_OK), "<command> Display path to the tool command";
+    "-ocamlc", set_cmd ocamlc, "<command> Set the OCaml bytecode compiler";
+    "-ocamlopt", set_cmd ocamlopt, "<command> Set the OCaml native compiler";
+    "-ocamldep", set_cmd ocamldep, "<command> Set the OCaml dependency tool";
+--- ../../work-ref/ocaml-4.02/ocamldoc/odoc_args.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./ocamldoc/odoc_args.ml	2014-08-02 18:02:40.940400000 +0200
+@@ -174,8 +174,8 @@
+ 
+ (** The default option list *)
+ let default_options = [
+-  "-version", Arg.Unit (fun () -> print_string M.message_version ; print_newline () ; exit 0) , M.option_version ;
+-  "-vnum", Arg.Unit (fun () -> print_string M.config_version ;
++  "-version", Arg.Unit (fun () -> Misc.mingw_binary_output (); print_string M.message_version ; print_newline () ; exit 0) , M.option_version ;
++  "-vnum", Arg.Unit (fun () -> Misc.mingw_binary_output (); print_string M.config_version ;
+                                print_newline () ; exit 0) , M.option_version ;
+   "-v", Arg.Unit (fun () -> Odoc_global.verbose := true), M.verbose_mode ;
+   "-I", Arg.String (fun s ->
+@@ -235,8 +235,11 @@
+   "-dot", Arg.Unit (fun () -> set_generator
+        (Odoc_gen.Dot (module Odoc_dot.Generator : Odoc_dot.Dot_generator))),
+     M.generate_dot ;
+-  "-customdir", Arg.Unit (fun () -> Printf.printf "%s\n" Odoc_config.custom_generators_path; exit 0),
+-  M.display_custom_generators_dir ;
++  "-customdir", Arg.Unit (fun () -> 
++    Misc.mingw_binary_output (); 
++    Odoc_config.custom_generators_path |> Misc.slashify |> Printf.printf "%s\n" ; 
++    exit 0),
++    M.display_custom_generators_dir ;
+   "-i", Arg.String (fun s -> ()), M.add_load_dir ;
+   "-g", Arg.String (fun s -> ()), M.load_file ^
+   "\n\n *** HTML options ***\n";
+--- ../../work-ref/ocaml-4.02/otherlibs/dynlink/Makefile	2014-08-02 05:11:28.000000000 +0200
++++ ./otherlibs/dynlink/Makefile	2014-08-02 18:02:36.229200000 +0200
+@@ -27,7 +27,7 @@
+ OBJS=dynlinkaux.cmo dynlink.cmo
+ 
+ COMPILEROBJS=\
+-  ../../utils/misc.cmo ../../utils/config.cmo ../../utils/clflags.cmo \
++  ../../utils/config.cmo ../../utils/misc.cmo ../../utils/clflags.cmo \
+   ../../utils/tbl.cmo ../../utils/consistbl.cmo \
+   ../../utils/terminfo.cmo ../../utils/warnings.cmo \
+   ../../parsing/asttypes.cmi \
+--- ../../work-ref/ocaml-4.02/testsuite/tests/utils/Makefile	2014-08-02 05:11:28.000000000 +0200
++++ ./testsuite/tests/utils/Makefile	2014-08-02 18:02:36.229200000 +0200
+@@ -11,10 +11,10 @@
+ #########################################################################
+ 
+ BASEDIR=../..
+-MODULES=testing misc
++MODULES=testing config misc
+ INCLUDES= -I $(OTOPDIR)/utils
+ ADD_COMPFLAGS=$(INCLUDES)
+-CMO_FILES+="misc.cmo"
++CMO_FILES+="config.cmo misc.cmo"
+ 
+ include $(BASEDIR)/makefiles/Makefile.several
+ include $(BASEDIR)/makefiles/Makefile.common
+--- ../../work-ref/ocaml-4.02/tools/Makefile.nt	2014-08-02 05:11:28.000000000 +0200
++++ ./tools/Makefile.nt	2014-08-02 18:02:36.244800000 +0200
+@@ -15,7 +15,7 @@
+ # To make custom toplevels
+ 
+ OCAMLMKTOP=ocamlmktop.cmo
+-OCAMLMKTOP_IMPORTS=misc.cmo config.cmo clflags.cmo ccomp.cmo
++OCAMLMKTOP_IMPORTS=config.cmo misc.cmo clflags.cmo ccomp.cmo
+ 
+ ocamlmktop: $(OCAMLMKTOP)
+ 	$(CAMLC) $(LINKFLAGS) -o ocamlmktop $(OCAMLMKTOP_IMPORTS) $(OCAMLMKTOP)
+--- ../../work-ref/ocaml-4.02/tools/Makefile.shared	2014-08-02 05:11:28.000000000 +0200
++++ ./tools/Makefile.shared	2014-08-02 18:02:36.244800000 +0200
+@@ -36,7 +36,7 @@
+ # The dependency generator
+ 
+ CAMLDEP_OBJ=depend.cmo ocamldep.cmo
+-CAMLDEP_IMPORTS=misc.cmo config.cmo clflags.cmo terminfo.cmo \
++CAMLDEP_IMPORTS=config.cmo misc.cmo clflags.cmo terminfo.cmo \
+   warnings.cmo location.cmo longident.cmo \
+   syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo parse.cmo \
+   ccomp.cmo pparse.cmo compenv.cmo
+@@ -66,7 +66,7 @@
+ # The profiler
+ 
+ CSLPROF=ocamlprof.cmo
+-CSLPROF_IMPORTS=misc.cmo config.cmo clflags.cmo terminfo.cmo \
++CSLPROF_IMPORTS=config.cmo misc.cmo clflags.cmo terminfo.cmo \
+   warnings.cmo location.cmo longident.cmo \
+   syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo parse.cmo
+ 
+@@ -97,8 +97,9 @@
+ 
+ # To help building mixed-mode libraries (OCaml + C)
+ 
++MKLIB_IMPORTS=config.cmo misc.cmo
+ ocamlmklib: ocamlmklibconfig.cmo ocamlmklib.cmo
+-	$(CAMLC) $(LINKFLAGS) -o ocamlmklib ocamlmklibconfig.cmo ocamlmklib.cmo
++	$(CAMLC) $(LINKFLAGS) -o ocamlmklib $(MKLIB_IMPORTS) ocamlmklibconfig.cmo ocamlmklib.cmo
+ 
+ install::
+ 	cp ocamlmklib $(INSTALL_BINDIR)/ocamlmklib$(EXE)
+@@ -159,7 +160,7 @@
+ 
+ # Insert labels following an interface file (upgrade 3.02 to 3.03)
+ 
+-ADDLABELS_IMPORTS=misc.cmo config.cmo clflags.cmo terminfo.cmo \
++ADDLABELS_IMPORTS=config.cmo misc.cmo clflags.cmo terminfo.cmo \
+   warnings.cmo location.cmo longident.cmo \
+   syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo parse.cmo
+ 
+@@ -197,11 +198,11 @@
+ # Reading cmt files
+ 
+ READ_CMT= \
++          ../utils/config.cmo \
+           ../utils/misc.cmo \
+           ../utils/warnings.cmo \
+           ../utils/tbl.cmo \
+           ../utils/consistbl.cmo \
+-          ../utils/config.cmo \
+           ../utils/clflags.cmo \
+           ../parsing/location.cmo \
+           ../parsing/longident.cmo \
+@@ -251,7 +252,7 @@
+ 
+ dumpobj: $(DUMPOBJ)
+ 	$(CAMLC) $(LINKFLAGS) -o dumpobj \
+-	         misc.cmo tbl.cmo config.cmo ident.cmo \
++	         config.cmo misc.cmo tbl.cmo ident.cmo \
+ 	         opcodes.cmo bytesections.cmo $(DUMPOBJ)
+ 
+ clean::
+--- ../../work-ref/ocaml-4.02/tools/ocamldep.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./tools/ocamldep.ml	2014-08-02 18:02:36.244800000 +0200
+@@ -393,11 +393,13 @@
+ let usage = "Usage: ocamldep [options] <source files>\nOptions are:"
+ 
+ let print_version () =
++  Misc.mingw_binary_output ();
+   Format.printf "ocamldep, version %s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+ 
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   Format.printf "%s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/tools/ocamlmklib.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./tools/ocamlmklib.ml	2014-08-02 18:02:36.244800000 +0200
+@@ -48,11 +48,13 @@
+ exception Bad_argument of string
+ 
+ let print_version () =
++  Misc.mingw_binary_output ();
+   printf "ocamlmklib, version %s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+ 
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   printf "%s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/tools/ocamlprof.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./tools/ocamlprof.ml	2014-08-02 18:02:36.260400000 +0200
+@@ -471,11 +471,13 @@
+ let usage = "Usage: ocamlprof <options> <files>\noptions are:"
+ 
+ let print_version () =
++  Misc.mingw_binary_output ();
+   printf "ocamlprof, version %s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+ 
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   printf "%s@." Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/toplevel/opttopmain.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./toplevel/opttopmain.ml	2014-08-02 18:02:40.940400000 +0200
+@@ -48,11 +48,13 @@
+     end
+ 
+ let print_version () =
++  Misc.mingw_binary_output ();
+   Printf.printf "The OCaml toplevel, version %s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+ 
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   Printf.printf "%s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/toplevel/topmain.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./toplevel/topmain.ml	2014-08-02 18:02:40.940400000 +0200
+@@ -47,11 +47,13 @@
+     end
+ 
+ let print_version () =
++  Misc.mingw_binary_output ();
+   Printf.printf "The OCaml toplevel, version %s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+ 
+ let print_version_num () =
++  Misc.mingw_binary_output ();
+   Printf.printf "%s\n" Sys.ocaml_version;
+   exit 0;
+ ;;
+--- ../../work-ref/ocaml-4.02/utils/config.mlp	2014-08-02 05:11:28.000000000 +0200
++++ ./utils/config.mlp	2014-08-02 18:02:36.260400000 +0200
+@@ -23,16 +23,32 @@
+ (* The main OCaml version string has moved to ../VERSION *)
+ let version = Sys.ocaml_version
+ 
+-let standard_library_default = "%%LIBDIR%%"
++let system = "%%SYSTEM%%"
++
++let slashify p =
++  match system with
++  | "mingw" | "mingw64" ->
++      let len = String.length p in
++      let b = Bytes.create len in
++      for i = 0 to len - 1 do
++        Bytes.set b i (match p.[i] with
++          | '\\' ->  '/'
++          | x -> x )
++      done;
++      Bytes.to_string b
++  | _ -> p
++
++let standard_library_default = slashify ( "%%LIBDIR%%" )
+ 
+ let standard_library =
++  slashify (
+   try
+     Sys.getenv "OCAMLLIB"
+   with Not_found ->
+   try
+     Sys.getenv "CAMLLIB"
+   with Not_found ->
+-    standard_library_default
++        standard_library_default )
+ 
+ let standard_runtime = "%%BYTERUN%%"
+ let ccomp_type = "%%CCOMPTYPE%%"
+@@ -74,7 +90,6 @@
+ 
+ let architecture = "%%ARCH%%"
+ let model = "%%MODEL%%"
+-let system = "%%SYSTEM%%"
+ 
+ let asm = "%%ASM%%"
+ let asm_cfi_supported = %%ASM_CFI_SUPPORTED%%
+--- ../../work-ref/ocaml-4.02/utils/misc.ml	2014-08-02 05:11:28.000000000 +0200
++++ ./utils/misc.ml	2014-08-02 18:02:40.956000000 +0200
+@@ -325,3 +325,24 @@
+ let cut_at s c =
+   let pos = String.index s c in
+   String.sub s 0 pos, String.sub s (pos+1) (String.length s - pos - 1)
++
++
++let mingw_binary_output () =
++  match Config.system with
++  | "mingw" | "mingw64" ->
++      (try set_binary_mode_out stdout true with _ -> ());
++      (try set_binary_mode_out stderr true with _ -> ());
++  | _ -> ()
++
++let slashify p =
++  match Config.system with
++  | "mingw" | "mingw64" ->
++      let len = String.length p in
++      let b = Bytes.create len in
++      for i = 0 to len - 1 do
++        Bytes.set b i (match p.[i] with
++          | '\\' ->  '/'
++          | x -> x )
++      done;
++      Bytes.to_string b
++  | _ -> p
+--- ../../work-ref/ocaml-4.02/utils/misc.mli	2014-08-02 05:11:28.000000000 +0200
++++ ./utils/misc.mli	2014-08-02 18:02:40.956000000 +0200
+@@ -159,3 +159,7 @@
+    Raise [Not_found] if the character does not appear in the string
+    @since 4.01
+ *)
++
++
++val mingw_binary_output : unit -> unit
++val slashify: string -> string
+--- ../../work-ref/ocaml-4.02/yacc/main.c	2014-08-02 05:11:28.000000000 +0200
++++ ./yacc/main.c	2014-08-02 18:02:40.956000000 +0200
+@@ -162,6 +162,17 @@
+     exit(1);
+ }
+ 
++#if defined(_WIN32) || defined(__CYGWIN__)
++#include <io.h>
++#include <fcntl.h>
++static void binary_stdout(void)
++{
++    setmode(1,O_BINARY);
++}
++#else
++#define binary_stdout() do{}while(0)
++#endif
++
+ void getargs(int argc, char **argv)
+ {
+     register int i;
+@@ -186,10 +197,12 @@
+ 
+         case 'v':
+             if (!strcmp (argv[i], "-version")){
++              binary_stdout();
+               printf ("The OCaml parser generator, version "
+                       OCAML_VERSION "\n");
+               exit (0);
+             }else if (!strcmp (argv[i], "-vnum")){
++              binary_stdout();
+               printf (OCAML_VERSION "\n");
+               exit (0);
+             }else{

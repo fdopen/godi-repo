@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (SDL_ttf-2.0.11.tar.gz) = 0ccf7c70e26b7801d83f4847766e09f09db15cc6
 Size (SDL_ttf-2.0.11.tar.gz) = 4053686 bytes
 
-SHA1 (base-sdl_ttf-2.0.11_0_64.txz) = 15685cab934ee08d05cb0bf18503ac3a67a33614
-Size (base-sdl_ttf-2.0.11_0_64.txz) = 21316 bytes
+SHA1 (base-sdl_ttf-2.0.11_1_64.txz) = e08085651a2913bb853221cc739d2e265bdf37db
+Size (base-sdl_ttf-2.0.11_1_64.txz) = 21288 bytes
 
-SHA1 (base-sdl_ttf-2.0.11_0_32.txz) = 344d2a270d0decd0859ac39fe6974a0bf90273e9
-Size (base-sdl_ttf-2.0.11_0_32.txz) = 19748 bytes
+SHA1 (base-sdl_ttf-2.0.11_1_32.txz) = e7cafe7795e70d8020c004861b18b8485d29246a
+Size (base-sdl_ttf-2.0.11_1_32.txz) = 19760 bytes

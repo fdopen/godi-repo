@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.10.0
-PKGREVISION= 0
+PKGREVISION= 2
 PKG=         c-ares
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -22,5 +22,11 @@ REMOVE_FILES+=  doc/${PKGBASE:Q}/ares_*.[Pp][Dd][Ff]
 MAKE_FLAGS+=	bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS=  man_MANS=
 
 MINGW_CPP_INCLUDE_ONLY= #
+
+.if defined(MINGW_BASE_BUILD)
+pre-configure:
+	cd ${WRKSRC:QQ} && autoreconf -fi
+.endif
+
 
 .include "../../mk/mingw.pkg.mk"

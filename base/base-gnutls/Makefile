@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 3.3.2
-PKGREVISION= 0
+VERSION=	 3.2.15
+PKGREVISION= 1
 PKG=         gnutls
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -29,6 +29,7 @@ DEF_CONFIGURE_ARGS+=    --disable-rpath
 DEF_CONFIGURE_ARGS+=    --disable-tests
 DEF_CONFIGURE_ARGS+=    --disable-cxx
 DEF_CONFIGURE_ARGS+=    --disable-openssl-compatibility
+#DEF_CONFIGURE_ARGS+=    --disable-hardware-acceleration
 DEF_CONFIGURE_ARGS+=	--enable-threads=win32
 DEF_CONFIGURE_ARGS+=	--without-libintl-prefix 
 DEF_CONFIGURE_ARGS+=	--disable-nls

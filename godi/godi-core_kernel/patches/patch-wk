@@ -1,9 +1,53 @@
---- ../../work-ref/core_kernel-111.11.00/lib/int_math_stubs.c	2014-04-21 14:58:20.000000000 +0200
-+++ ./lib/int_math_stubs.c	2014-04-25 16:58:37.446400000 +0200
-@@ -1,5 +1,6 @@
- #include <stdlib.h>
- #include <stdbool.h>
-+#include <stdint.h>
- #include <caml/alloc.h>
- #include <caml/mlvalues.h>
- #include <caml/memory.h>
+--- ../../work-ref/core_kernel-111.25.00/lib/bigstring_marshal_stubs.c	2014-07-23 10:58:47.000000000 +0200
++++ ./lib/bigstring_marshal_stubs.c	2014-07-31 14:17:05.126800000 +0200
+@@ -30,12 +30,12 @@
+ }
+ 
+ extern CAMLprim void
+-caml_output_value_to_malloc(value v, value v_flags, char **buf_p, long *len);
++caml_output_value_to_malloc(value v, value v_flags, char **buf_p, intnat *len);
+ 
+ CAMLprim value bigstring_marshal_stub(value v, value v_flags)
+ {
+   char *buf;
+-  long len;
++  intnat len;
+   int alloc_flags = CAML_BA_UINT8 | CAML_BA_C_LAYOUT | CAML_BA_MANAGED;
+   caml_output_value_to_malloc(v, v_flags, &buf, &len);
+   return caml_ba_alloc(alloc_flags, 1, buf, &len);
+--- ../../work-ref/core_kernel-111.25.00/lib/bigstring_stubs.c	2014-07-31 14:29:30.619600000 +0200
++++ ./lib/bigstring_stubs.c	2014-07-31 14:28:24.038800000 +0200
+@@ -143,7 +143,7 @@
+                               value v_pos, value v_len)
+ {
+   char *start, *r;
+-  long ret;
++  intnat ret;
+ 
+   start = get_bstr(v_str, v_pos);
+   r = (char*) memchr(start, Int_val(v_needle), Long_val(v_len));
+--- ../../work-ref/core_kernel-111.25.00/lib/core_gc_stubs.c	2014-07-23 10:58:47.000000000 +0200
++++ ./lib/core_gc_stubs.c	2014-07-31 14:27:15.040000000 +0200
+@@ -18,19 +18,19 @@
+ 
+ CAMLprim value core_kernel_gc_minor_words(value unit __attribute__((unused)))
+ {
+-  return (Val_long((long)
++  return (Val_long((intnat)
+     (caml_stat_minor_words +
+        (double) Wsize_bsize (caml_young_end - caml_young_ptr))));
+ }
+ 
+ CAMLprim value core_kernel_gc_major_words(value unit __attribute__((unused)))
+ {
+-  return Val_long((long)(caml_stat_major_words + (double) caml_allocated_words));
++  return Val_long((intnat)(caml_stat_major_words + (double) caml_allocated_words));
+ }
+ 
+ CAMLprim value core_kernel_gc_promoted_words(value unit __attribute__((unused)))
+ {
+-  return Val_long((long) caml_stat_promoted_words);
++  return Val_long((intnat) caml_stat_promoted_words);
+ }
+ 
+ CAMLprim value core_kernel_gc_minor_collections(value unit __attribute__((unused)))

@@ -1,0 +1,41 @@
+--- ../../work-ref/ocaml-top-1.1.2/data/toplevel_init.ml	2014-01-15 15:01:28.000000000 +0100
++++ ./data/toplevel_init.ml	2014-05-31 18:50:46.362000000 +0200
+@@ -1,5 +1,5 @@
+ (* lock out stdout so that only the output from the toplevel can write there *)
+-
++(*
+ module Pervasives = struct
+   include Pervasives
+   (* override stdout *)
+@@ -18,15 +18,29 @@
+ end
+ 
+ open Pervasives
++*)
++let stdout = stderr
++  (* redefine everything that depended on it *)
++let print_char c = output_char stdout c
++let print_string s = output_string stdout s
++let print_int i = output_string stdout (string_of_int i)
++let print_float f = output_string stdout (string_of_float f)
++let print_endline s =
++  output_string stdout s; output_char stdout '\n'; flush stdout
++let print_newline () = output_char stdout '\n'; flush stdout
++let read_line () = flush stdout; input_line stdin
++let read_int () = int_of_string(read_line())
++let read_float () = float_of_string(read_line())
++
+ 
+ module Printf = struct
+   include Printf
+-  let printf fmt = fprintf stdout fmt;;
++  let printf fmt = fprintf stderr fmt;;
+ end
+ 
+ module Format = struct
+   include Format
+-  let std_formatter = formatter_of_out_channel Pervasives.stdout
++  let std_formatter = formatter_of_out_channel Pervasives.stderr
+   let open_hbox = pp_open_hbox std_formatter
+   and open_vbox = pp_open_vbox std_formatter
+   and open_hvbox = pp_open_hvbox std_formatter

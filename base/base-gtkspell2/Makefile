@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 2.0.16
-PKGREVISION= 0
+PKGREVISION= 2
 PKG=         gtkspell2
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

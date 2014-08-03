@@ -11,12 +11,17 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       https://github.com/OCamlPro/ocplib-endian
 COMMENT=        read and write int16/32/64 from strings and bigarrays
 
-DEPENDS+= 	godi-ocaml>=3.10:../../godi/godi-ocaml
-BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
-BUILD_DEPENDS+= godi-optcomp>=0:../../godi/godi-optcomp
+DEPENDS+= 	godi-ocaml-*:../../godi/godi-ocaml
+#DEPENDS+= 	godi-bytes-*:../../godi/godi-bytes
+BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+= godi-optcomp-*:../../godi/godi-optcomp
 
 WINOASIS=		yes
+#WINOASIS_DISABLE_DOCS=  yes
+
+#post-install:
+#	${MKDIR} ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/html
+#	${CP} ${WRKSRC}/doc/* ${AUTOGENERATE_IMAGE}/doc/${PKGBASE}/html
 
 
 .include "../../mk/bsd.pkg.mk"

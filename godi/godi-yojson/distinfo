@@ -2,4 +2,3 @@ $NetBSD$
 
 SHA1 (yojson-1.1.8.tar.gz) = f3ac37915c10facb968867367b0f01755adddd22
 Size (yojson-1.1.8.tar.gz) = 25157 bytes
-SHA1 (patch-aa) = b5b0f0c66646956c81311bf9c4ba39f00b469f5b

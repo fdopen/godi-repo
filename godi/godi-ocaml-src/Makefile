@@ -14,14 +14,14 @@ OCAML_SVN_PATH?=	/ocaml/trunk
 
 
 # This is the official version string
-OVERSION= 	4.02beta
+OVERSION= 	4.02beta.6
 
 # This is the GODI version string, sometimes slightly modified
 VERSION=	4.02.0beta
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
 DISTNAME=	ocaml-4.02
-PKGREVISION=	0
+PKGREVISION=	5
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else

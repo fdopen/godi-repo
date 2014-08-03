@@ -1,0 +1,6 @@
+$NetBSD$
+
+SHA1 (ocaml-sqlexpr-0.5.5.tar.gz) = e7e9c62d114d428844a63b8c49ccc11ea9b4f7ad
+Size (ocaml-sqlexpr-0.5.5.tar.gz) = 68601 bytes
+
+SHA1 (patch-aa) = b2084949be220b98e1f47417804c732a2358d727

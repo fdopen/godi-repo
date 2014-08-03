@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 0.9.28
-PKGREVISION= 0
+VERSION=	 0.9.33
+PKGREVISION= 1
 PKG=         harfbuzz
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

@@ -12,7 +12,6 @@ COMMENT=        Caml2html colorizes OCaml source files
 
 DEPENDS+=	godi-ocaml-[0-9]*:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-camlp4-[0-9]*:../../godi/godi-camlp4
 BUILD_DEPENDS+= godi-camlmix-[0-9]*:../../godi/godi-camlmix
 MAKE_ENV+=	PREFIX=${LOCALBASE_NATIVE}
 

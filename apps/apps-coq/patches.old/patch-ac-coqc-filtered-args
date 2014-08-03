@@ -1,0 +1,27 @@
+--- scripts/coqc.ml	2012-08-08 20:54:37.000000000 +0200
++++ scripts/coqc.ml.new	2014-02-25 15:52:38.920451900 +0100
+@@ -57,18 +57,16 @@
+ let rec make_compilation_args = function
+   | [] -> []
+   | file :: fl ->
+-      let dirname = Filename.dirname file in
+-      let basename = Filename.basename file in
+-      let modulename =
+-        if Filename.check_suffix basename ".v" then
+-          Filename.chop_suffix basename ".v"
++      let name_no_suffix =
++        if Filename.check_suffix file ".v" then
++          Filename.chop_suffix file ".v"
+         else
+-          basename
++          file
+       in
++      let modulename = Filename.basename name_no_suffix  in
+       check_module_name modulename;
+-      let file = Filename.concat dirname modulename in
+       (if !verbose then "-compile-verbose" else "-compile")
+-      :: file :: (make_compilation_args fl)
++      :: name_no_suffix :: (make_compilation_args fl)
+ 
+ (* compilation of files [files] with command [command] and args [args] *)
+ 

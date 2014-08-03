@@ -2,14 +2,14 @@
 
 ONAME=		uunf
 PKG=		godi-${ONAME}
-VERSION=        0.9.2
+VERSION=        0.9.3
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tbz
 CATEGORIES=     godi
 MASTER_SITES=   http://erratique.ch/software/${ONAME}/releases/
-MAINTAINER=	wodi@ml.ignorelist.com
+MAINTAINER=     andreas@ml.ignorelist.com
 HOMEPAGE=       http://erratique.ch/software/${ONAME}
 COMMENT=        Unicode text normalization for OCaml
 

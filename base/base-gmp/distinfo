@@ -3,10 +3,10 @@ $NetBSD$
 SHA1 (gmp-6.0.0a.tar.xz) = 1aaf78358ab9e34aeb61f3ae08174ee9118ece98
 Size (gmp-6.0.0a.tar.xz) = 1904112 bytes
 
-SHA1 (base-gmp-6.0.0a_0_64.txz) = 9011529738668f6b5dd02e2084ac5684b8d3fce2
-Size (base-gmp-6.0.0a_0_64.txz) = 488220 bytes
+SHA1 (base-gmp-6.0.0a_1_64.txz) = 0480cbbc4e6a18949aef98c6ac195c845502fd27
+Size (base-gmp-6.0.0a_1_64.txz) = 488212 bytes
 
-SHA1 (base-gmp-6.0.0a_0_32.txz) = 91f535d3a1c617a19b78a227c39d6a0c0ed5c4be
-Size (base-gmp-6.0.0a_0_32.txz) = 461720 bytes
+SHA1 (base-gmp-6.0.0a_1_32.txz) = 6228ca1bcd2b507cfcd008d84362cb183f6cdfba
+Size (base-gmp-6.0.0a_1_32.txz) = 461688 bytes
 
 SHA1 (patch-wine) = 6c0e9b3c48c6b4dbe592348606768defd44f6a4d

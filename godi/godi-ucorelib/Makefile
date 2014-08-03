@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.1.0
+VERSION=	0.2.0
 PKG=		godi-ucorelib
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
@@ -13,6 +13,7 @@ COMMENT=	A light weight Unicode library for OCaml
 
 DEPENDS+=	godi-ocaml>=3.08:../../godi/godi-ocaml
 DEPENDS+=	godi-batteries>=2.1:../../godi/godi-batteries
+DEPENDS+=	godi-bitv>=1.1:../../godi/godi-bitv
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
 

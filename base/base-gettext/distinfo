@@ -1,17 +1,15 @@
 $NetBSD$
 
-SHA1 (gettext-0.18.3.2.tar.gz) = a2dc46d788edb0078ab20da7bd194bdb6da2f0d9
-Size (gettext-0.18.3.2.tar.gz) = 16189249 bytes
+SHA1 (gettext-0.19.2.tar.gz) = 3a8e0627290216d695661a748261eacda5cec8aa
+Size (gettext-0.19.2.tar.gz) = 17141404 bytes
 
-SHA1 (base-gettext-0.18.3.2_0_64.txz) = aabe27e49bd43995700463801f91ac0f0dd2e45c
-Size (base-gettext-0.18.3.2_0_64.txz) = 134468 bytes
+SHA1 (base-gettext-0.19.2_1_64.txz) = 242ca048f817a4899b98001b4bb81a7a019452c8
+Size (base-gettext-0.19.2_1_64.txz) = 139692 bytes
 
-SHA1 (base-gettext-0.18.3.2_0_32.txz) = db68006087b54141c60849e0cb4880514e418ee8
-Size (base-gettext-0.18.3.2_0_32.txz) = 135008 bytes
+SHA1 (base-gettext-0.19.2_1_32.txz) = 1a89b6712cb438d5972e6c8d8bb84c5c1ce1719a
+Size (base-gettext-0.19.2_1_32.txz) = 140160 bytes
 
 SHA1 (patch-00-relocatex-libintl-0.18.3.1) = 081c08475cae038549bb5a3a071fee0b8cbe87e3
-SHA1 (patch-04-mingw-script-slash-fix.mingw) = fc8535a869d54706a03cb3768966087e52d052fc
 SHA1 (patch-05-always-use-libintl-vsnprintf.mingw) = 74286424e25598ccb9ed76eec6d3e19a067443d8
 SHA1 (patch-06-dont-include-ctype-after-gnulibs-wctype.mingw) = 12f06a33c11047845c93a371bc01d81473f3709c
 SHA1 (patch-07-fix-asprintf-conflict.mingw) = 6ea69cb44d71590952869bc8279994e83d9770e9
-SHA1 (patch-120-Fix-Woe32-link-errors-when-compiling-with-O0) = 1b6ec2960a4b287693c9e75ac062e33ccd439d87

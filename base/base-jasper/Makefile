@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.900.1
-PKGREVISION= 0
+PKGREVISION= 1
 PKG=         jasper
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -24,10 +24,10 @@ MAKE_FLAGS+=	bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS=
 
 .if defined(MINGW_BASE_BUILD)
 do-extract:
-	cd ${WRKDIR} && unzip -q ${DISTDIR}/${DISTFILES}
+	cd ${WRKDIR:Q} && ${LOCALBASE:Q}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/${DISTFILES:Q}
 
 pre-configure:
-	cd ${WRKSRC} && autoreconf -fi
+	cd ${WRKSRC:Q} && autoreconf -fi
 .endif
 
 .include "../../mk/mingw.pkg.mk"

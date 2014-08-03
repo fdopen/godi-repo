@@ -1,0 +1,8 @@
+$NetBSD$
+
+SHA1 (coq-8.4pl4.tar.gz) = 4dfc3a1ae65f5c480ddc4387d21549a526183e00
+Size (coq-8.4pl4.tar.gz) = 4067355 bytes
+
+SHA1 (patch-aa-configure) = b98e1fa462b8a26cc4bb715ea77d10ffcb1c18d1
+SHA1 (patch-ab-402) = 7eb88010307d2b5164e18797f5c1ca635220d1b4
+SHA1 (patch-ac) = b6ace31dea86b1647caa43f20cddb142341b9cb0

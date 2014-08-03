@@ -1,5 +1,6 @@
 $NetBSD$
 
-SHA1 (ocaml-makefile-6.37.0.tar.gz) = 9ec5e52c88df9cccb693e590eeeae531161dae56
-Size (ocaml-makefile-6.37.0.tar.gz) = 49202 bytes
+SHA1 (ocaml-makefile-6.38.0.tar.gz) = 3a8d80f01e216f6bed777d305767d709deb49f8b
+Size (ocaml-makefile-6.38.0.tar.gz) = 48877 bytes
+
 SHA1 (patch-aa) = 68c97dce05a9e2416db956226c9fbeb45b096928

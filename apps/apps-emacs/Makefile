@@ -40,7 +40,7 @@ post-extract:
 	@${CHMOD} 755 ${WRKDIR:Q}/install.sh
 	@cd ${WRKDIR:Q} && \
 	  cd opt && \
-	  unzip -q ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && \
+	  ${LOCALBASE}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/emacs-${VERSION}-bin-i386.zip && \
 	  ${MV} emacs-* emacs 
 	@cd ${WRKDIR:Q} && tar -xf "${LOCALBASE}/lib/godi/saved-src/ocaml.txz"
 

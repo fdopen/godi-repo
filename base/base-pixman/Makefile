@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 0.32.4
-PKGREVISION= 0
+VERSION=	 0.32.6
+PKGREVISION= 1
 PKG=         pixman
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

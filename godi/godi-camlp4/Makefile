@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.0.1
+VERSION=	0.0.2
 PKGNAME=	godi-camlp4-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    2
 DISTNAME=	camlp4-trunk
 DISTFILES=	camlp4-${VERSION}.tar.xz
 CATEGORIES=	godi

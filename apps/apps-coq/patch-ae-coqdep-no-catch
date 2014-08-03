@@ -1,0 +1,13 @@
+--- tools/coqdep.ml	2014-02-28 15:13:58.326774900 +0100
++++ tools/coqdep.ml.new	2014-02-28 15:13:14.123742500 +0100
+@@ -216,4 +216,9 @@
+   if not !option_D then coq_dependencies ();
+   if !option_w || !option_D then declare_dependencies ()
+ 
+-let _ = Printexc.catch coqdep ()
++let _ = 
++  try
++    coqdep ()
++  with Util.UserError(s,pp) ->
++    let pp = if s <> "_" then Pp.(str s ++ str ": " ++ pp) else pp in
++    Pp.msgerrnl pp

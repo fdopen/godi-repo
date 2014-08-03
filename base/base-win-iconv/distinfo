@@ -3,10 +3,10 @@ $NetBSD$
 SHA1 (win-iconv-0.0.6.tar.bz2) = 51ce281cd8ce2debf3226482e86e0e534141ed01
 Size (win-iconv-0.0.6.tar.bz2) = 19363 bytes
 
-SHA1 (base-win-iconv-0.0.6_0_64.txz) = fb716211d485380569664dc6d9553172097c1fbe
-Size (base-win-iconv-0.0.6_0_64.txz) = 15144 bytes
+SHA1 (base-win-iconv-0.0.6_1_64.txz) = 033c2ebf7120a636cfb6ad03c920fdddefdf9b1a
+Size (base-win-iconv-0.0.6_1_64.txz) = 15064 bytes
 
-SHA1 (base-win-iconv-0.0.6_0_32.txz) = f0f6f02afc3fa7a4529b6ba9588075fbb9daac79
-Size (base-win-iconv-0.0.6_0_32.txz) = 14104 bytes
+SHA1 (base-win-iconv-0.0.6_1_32.txz) = 99835f2429bda84b262d632693b4c32b9f30a2da
+Size (base-win-iconv-0.0.6_1_32.txz) = 14096 bytes
 
 SHA1 (patch-aa) = a5ed57c1f1a2479d77bad790c51426227d33cc39

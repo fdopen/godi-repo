@@ -1,0 +1,10 @@
+--- rsvg-css.c~	2013-10-11 20:45:50.000000000 +0200
++++ rsvg-css.c	2014-07-25 11:57:16.132844853 +0200
+@@ -32,6 +32,7 @@
+ #include <glib.h>
+ #include <stdio.h>
+ #include <stdlib.h>
++#define _XOPEN_SOURCE 1
+ #include <string.h>
+ #ifdef HAVE_STRINGS_H
+ #include <strings.h>

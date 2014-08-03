@@ -3,11 +3,12 @@ $NetBSD$
 SHA1 (freetype-2.5.3.tar.gz) = d4a17b42505b23dab022f877e1849940aa3b64f3
 Size (freetype-2.5.3.tar.gz) = 2267172 bytes
 
-SHA1 (base-freetype-2.5.3_0_64.txz) = d71c9004eac77fa3683307265821d62bc96d79f9
-Size (base-freetype-2.5.3_0_64.txz) = 562268 bytes
+SHA1 (base-freetype-2.5.3_2_64.txz) = c8a616d6414af15c5f9c20d5ea88571157ef3104
+Size (base-freetype-2.5.3_2_64.txz) = 562156 bytes
 
-SHA1 (base-freetype-2.5.3_0_32.txz) = 14a96410bf6f7d47a84765cc7f06f4ff3d8a58db
-Size (base-freetype-2.5.3_0_32.txz) = 550564 bytes
+SHA1 (base-freetype-2.5.3_2_32.txz) = 1174916591032f24c820f599a9048b0f82115ee9
+Size (base-freetype-2.5.3_2_32.txz) = 550328 bytes
 
 SHA1 (patch-freetype-2.2.1-enable-valid) = c1f4d64e41b3dc8fc494b1999859da14e597aa6c
 SHA1 (patch-freetype-2.5.1-enable-spr) = c1319f3a81b3cc830c9079b2e801b0beb790dba8
+SHA1 (patch-freetype-2.5.3-freetype-config-libs) = 016e15770469b503b4e6c4f756477af2f506438c

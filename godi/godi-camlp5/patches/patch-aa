@@ -1,0 +1,137 @@
+--- ../../work-ref/camlp5-6.12beta/configure	2014-08-02 19:47:21.000000000 +0200
++++ ./configure	2014-08-02 20:56:37.122000000 +0200
+@@ -182,11 +182,18 @@
+ fi
+ 
+ x=$ocamlc_where
+-y=$(echo $x | sed -e 's|\\\\|/|g')
++y=$(echo "$x" | tr '\\' '/')
+ x="$(echo 'Sys.os_type;;' | ocaml | egrep 'Win32|Cygwin')"
+ if test "$x" = ""; then win=false; else win=true; fi
+ x="$(echo 'Sys.os_type;;' | ocaml | grep 'Win32')"
+ if test "$x" = ""; then win32=false; else win32=true; fi
++
++if test "$win32" = "true"; then
++    y=$(echo "$y" | sed 's|\r$||')
++    ocamlc_where=$y
++fi
++
++
+ OLIBDIR="$y"
+ if [ "$OVERSION" "<" "4.00" ]; then
+   OCLIBDIR="$y"
+@@ -200,14 +207,19 @@
+     EXE=
+ fi
+ 
+-if test "$win32" = "true"; then
+-    EXT_OBJ=.obj
+-    EXT_LIB=.lib
+-else
+-    EXT_OBJ=.o
+-    EXT_LIB=.a
++EXT_OBJ=$($ocamlc -config | grep '^ext_obj:' | awk '{print $2}')
++EXT_LIB=$($ocamlc -config | grep '^ext_lib:' | awk '{print $2}')
++if test "$EXT_LIB" = ""; then
++    if test "$win32" = "true"; then
++        EXT_OBJ=.obj
++        EXT_LIB=.lib
++    else
++        EXT_OBJ=.o
++        EXT_LIB=.a
++    fi
+ fi
+ 
++
+ if test "$bindir" != ""; then
+     BINDIR=$bindir
+ elif test "$prefix" != ""; then
+--- ../../work-ref/camlp5-6.12beta/etc/mkcamlp5.opt.sh.tpl	2014-08-02 19:47:21.000000000 +0200
++++ ./etc/mkcamlp5.opt.sh.tpl	2014-08-02 20:56:37.137600000 +0200
+@@ -1,8 +1,12 @@
+ #!/bin/sh
+ # mkcamlp5.opt.sh.tpl,v
+ 
+-OLIB=`OCAMLNc -where`
+-LIB=LIBDIR/CAMLP5N
++#OLIB=`OCAMLNc -where`
++OLIB="$(ocamlc -where | tr -d '\r')"
++OLIB="$(cygpath -m "$OLIB")"
++#LIB=LIBDIR/CAMLP5N
++LIB="$(dirname "$(godi_confdir)")"
++LIB="$(cygpath -m "${LIB}/lib/ocaml/std-lib/camlp5")"
+ 
+ INTERFACES=
+ OPTS=
+--- ../../work-ref/camlp5-6.12beta/etc/mkcamlp5.sh.tpl	2014-08-02 19:47:21.000000000 +0200
++++ ./etc/mkcamlp5.sh.tpl	2014-08-02 20:56:37.137600000 +0200
+@@ -1,8 +1,12 @@
+ #!/bin/sh
+ # mkcamlp5.sh.tpl,v
+ 
+-OLIB=`OCAMLNc -where`
+-LIB=LIBDIR/CAMLP5N
++#OLIB=`OCAMLNc -where`
++OLIB="$(ocamlc -where | tr -d '\r')"
++OLIB="$(cygpath -m "$OLIB")"
++#LIB=LIBDIR/CAMLP5N
++LIB="$(dirname "$(godi_confdir)")"
++LIB="$(cygpath -m "${LIB}/lib/ocaml/std-lib/camlp5")"
+ 
+ INTERFACES=
+ OPTS=
+--- ../../work-ref/camlp5-6.12beta/main/main.ml	2014-08-02 19:47:21.000000000 +0200
++++ ./main/main.ml	2014-08-02 20:56:37.137600000 +0200
+@@ -167,6 +167,16 @@
+ ;
+ 
+ value print_version () = do {
++  let set_output_binary () =
++    match Sys.os_type with
++      [ "Win32" ->
++        do {
++          try set_binary_mode_out stdout True with _ -> ();
++          try set_binary_mode_out stderr True with _ -> ();
++        }
++      | _ -> () ]
++  in
++  set_output_binary ();
+   eprintf "Camlp5 version %s (ocaml %s)\n" Pcaml.version
+     Pconfig.ocaml_version;
+   flush stderr;
+--- ../../work-ref/camlp5-6.12beta/odyl/Makefile	2014-08-02 19:47:22.000000000 +0200
++++ ./odyl/Makefile	2014-08-02 20:56:58.462800000 +0200
+@@ -29,11 +29,9 @@
+ 	$(OCAMLOPT) -c -impl odyl_main.ppo
+ 	rm -f odyl_main.ppo
+ 
+-odyl_config.ml:
+-	echo "let standard_library =" > odyl_config.ml
+-	echo "  try Sys.getenv \"CAMLP5LIB\" with" >> odyl_config.ml
+-	echo "    Not_found -> \"$(LIBDIR)/$(CAMLP5N)\"" | \
+-	sed -e 's|\\|/|g' >> odyl_config.ml
++MCAMLP5DIR=$(shell echo "$(LIBDIR)/$(CAMLP5N)" | sed -e 's|\\|/|g')
++odyl_config.ml: odyl_config.mlp
++	sed -e "s|@@CAMLP5DIR@@|$(MCAMLP5DIR)|g" odyl_config.mlp > odyl_config.ml
+ 
+ clean::
+ 	rm -f *.cm* *.pp[io] *.[ao] *.obj *.lib *.bak .*.bak *.out *.opt
+--- ../../work-ref/camlp5-6.12beta/odyl/odyl.ml	2014-08-02 19:47:22.000000000 +0200
++++ ./odyl/odyl.ml	2014-08-02 20:56:37.137600000 +0200
+@@ -13,6 +13,16 @@
+     }
+     else if s = "-nolib" then do { Odyl_main.nolib.val := True; incr i }
+     else if s = "-where" then do {
++      let set_output_binary () =
++        match Sys.os_type with
++          [ "Win32" ->
++            do {
++              try set_binary_mode_out stdout True with _ -> ();
++              try set_binary_mode_out stderr True with _ -> ();
++            }
++          | _ -> () ]
++      in
++      set_output_binary ();
+       print_string Odyl_config.standard_library;
+       print_newline ();
+       flush stdout;

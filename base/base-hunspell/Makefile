@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.3.2
-PKGREVISION= 0
+VERSION=	 1.3.3
+PKGREVISION= 2
 PKG=         hunspell
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

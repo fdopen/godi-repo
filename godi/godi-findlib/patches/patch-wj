@@ -1,24 +1,34 @@
---- ../../work-ref/findlib-1.4.1/src/findlib/frontend.ml	2014-03-02 19:05:45.000000000 +0100
-+++ ./src/findlib/frontend.ml	2014-05-26 11:25:43.890400000 +0200
-@@ -24,7 +24,7 @@
+--- ../../work-ref/findlib-1.5.2/src/findlib/frontend.ml	2014-08-01 14:02:24.000000000 +0200
++++ ./src/findlib/frontend.ml	2014-08-01 14:35:51.040800000 +0200
+@@ -25,10 +25,17 @@
+ ;;
+ 
+ 
++let () =
++  match Findlib_config.system with
++    | "mingw" | "cygwin" | "mingw64" | "cygwin64" ->
++      (try set_binary_mode_out stdout true with _ -> ());
++      (try set_binary_mode_out stderr true with _ -> ());
++    | _ -> ()
++
  
  let slashify s =
    match Findlib_config.system with
 -    | "mingw" | "cygwin" ->
-+    | "mingw" | "mingw64" | "cygwin" | "cygwin64" ->
++    | "mingw" | "cygwin" | "mingw64" | "cygwin64" ->
  	let u = String.copy s in
  	for k = 0 to String.length u - 1 do
  	  if u.[k] = '\\' then u.[k] <- '/'
-@@ -36,7 +36,7 @@
+@@ -40,7 +47,7 @@
  
  let out_path ?(prefix="") s =
    match Findlib_config.system with
 -    | "mingw" | "cygwin" ->
-+    | "mingw" | "mingw64" | "cygwin" | "cygwin64" ->
++    | "mingw" | "cygwin" | "mingw64" | "cygwin64" ->
  	let u = slashify s in
  	prefix ^ 
  	  (if String.contains u ' ' then
-@@ -316,7 +316,7 @@
+@@ -372,7 +379,7 @@
      Sys.signal Sys.sigint Sys.Signal_ignore in
  
    let need_exe =
@@ -27,3 +37,44 @@
  
    let fixed_cmd =
      if need_exe then (
+@@ -2263,7 +2270,9 @@
+ 
+ 
+ let print_configuration() =
++  let sl = slashify in
+   let dir s =
++    let s = sl s in
+     if Sys.file_exists s then
+       s
+     else
+@@ -2301,22 +2310,22 @@
+ 	   if md = "" then "the corresponding package directories" else dir md
+ 	  );
+ 	Printf.printf "The standard library is assumed to reside in:\n    %s\n"
+-	  (Findlib.ocaml_stdlib());
++	  (Findlib.ocaml_stdlib() |> sl );
+ 	Printf.printf "The ld.conf file can be found here:\n    %s\n"
+-	  (Findlib.ocaml_ldconf());
++	  (Findlib.ocaml_ldconf() |> sl );
+ 	flush stdout
+     | Some "conf" ->
+-	print_endline Findlib_config.config_file
++	print_endline @@ sl Findlib_config.config_file
+     | Some "path" ->
+-	List.iter print_endline (Findlib.search_path())
++	List.iter ( fun x -> sl x |> print_endline) (Findlib.search_path())
+     | Some "destdir" ->
+-	print_endline (Findlib.default_location())
++	print_endline (Findlib.default_location() |> sl )
+     | Some "metadir" ->
+-	print_endline (Findlib.meta_directory())
++	print_endline (Findlib.meta_directory() |> sl )
+     | Some "stdlib" ->
+-	print_endline (Findlib.ocaml_stdlib())
++	print_endline (Findlib.ocaml_stdlib() |> sl )
+     | Some "ldconf" ->
+-	print_endline (Findlib.ocaml_ldconf())
++	print_endline (Findlib.ocaml_ldconf() |> sl )
+     | _ ->
+ 	assert false
+ ;;

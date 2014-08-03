@@ -1,0 +1,57 @@
+--- ../../work-ref/sedlex-sedlex-1.99.2/examples/Makefile	2014-07-21 15:19:27.000000000 +0200
++++ ./examples/Makefile	2014-07-24 17:48:57.989600000 +0200
+@@ -2,7 +2,9 @@
+ # See the attached LICENSE file.
+ # Copyright 2005, 2013 by Alain Frisch and LexiFi.
+ 
+-include $(shell ocamlc -where)/Makefile.config
++include $(shell ocamlc -where | tr -d '\r')/Makefile.config
++
++SEDLEX=$(shell cygpath -m "$$(readlink -f "../src/syntax/ppx_sedlex$(EXE)")")
+ 
+ .PHONY: test
+ test: tokenizer$(EXE) complement$(EXE)
+@@ -10,10 +12,10 @@
+ 	./complement$(EXE)
+ 
+ tokenizer$(EXE): tokenizer.ml
+-	ocamlc -ppx "../src/syntax/ppx_sedlex$(EXE)" -I ../src/lib -o tokenizer$(EXE) sedlexing.cma tokenizer.ml
++	ocamlc -ppx "$(SEDLEX)" -I ../src/lib -o tokenizer$(EXE) sedlexing.cma tokenizer.ml
+ 
+ complement$(EXE): complement.ml
+-	ocamlc -ppx "../src/syntax/ppx_sedlex$(EXE)" -I ../src/lib -o complement$(EXE) sedlexing.cma complement.ml
++	ocamlc -ppx "$(SEDLEX)" -I ../src/lib -o complement$(EXE) sedlexing.cma complement.ml
+ 
+ .PHONY: with_driver
+ with_driver: tokenizer.ml
+--- ../../work-ref/sedlex-sedlex-1.99.2/Makefile	2014-07-21 15:19:27.000000000 +0200
++++ ./Makefile	2014-07-24 17:49:33.042800000 +0200
+@@ -2,7 +2,7 @@
+ # See the attached LICENSE file.
+ # Copyright 2005, 2013 by Alain Frisch and LexiFi.
+ 
+-include $(shell ocamlc -where)/Makefile.config
++include $(shell ocamlc -where | tr -d '\r')/Makefile.config
+ 
+ VERSION=1.99.2
+ # Don't forget to change META file as well
+@@ -24,7 +24,7 @@
+ 	(cd examples && make clean)
+ 	rm -rf libdoc
+ 
+-test: clean all opt
++test: all opt
+ 	cd examples && make test
+ 
+ INSTALL=META src/syntax/sedlex.cma src/syntax/ppx_sedlex$(EXE) src/lib/sedlexing.cma src/lib/sedlexing.cmi
+--- ../../work-ref/sedlex-sedlex-1.99.2/src/syntax/Makefile	2014-07-21 15:19:27.000000000 +0200
++++ ./src/syntax/Makefile	2014-07-24 17:48:57.989600000 +0200
+@@ -2,7 +2,7 @@
+ # See the attached LICENSE file.
+ # Copyright 2005, 2013 by Alain Frisch and LexiFi.
+ 
+-include $(shell ocamlc -where)/Makefile.config
++include $(shell ocamlc -where | tr -d '\r')/Makefile.config
+ 
+ SRCS=cset.mli cset.ml unicode63.mli unicode63.ml sedlex.mli sedlex.ml ppx_sedlex.ml
+ OCAMLC=ocamlfind ocamlc -package ppx_tools.metaquot -w +A-4-9 -annot

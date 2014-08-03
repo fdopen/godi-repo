@@ -1,5 +1,5 @@
---- ../../work-ref/ocaml-4.02/ocamlbuild/command.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/command.ml	2014-05-30 13:34:51.102000000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/command.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/command.ml	2014-07-23 17:30:12.622800000 +0200
 @@ -25,6 +25,7 @@
  type t =
  | Seq of t list
@@ -58,18 +58,19 @@
    else
      cmd
  
-@@ -151,8 +165,8 @@
+@@ -151,8 +165,9 @@
    let b = Buffer.create 256 in
    (* The best way to prevent bash from switching to its windows-style
     * quote-handling is to prepend an empty string before the command name. *)
 -  if Sys.os_type = "Win32" then
 -    Buffer.add_string b "''";
-+  (* if Sys.os_type = "Win32" then
-+    Buffer.add_string b "''"; *)
++  if Sys.win32 then
++    (* Buffer.add_string b "''"; *)
++    Buffer.add_char b ' '; (* whitespace seems to work, too *)
    let first = ref true in
    let put_space () =
      if !first then
-@@ -167,8 +181,16 @@
+@@ -167,8 +182,16 @@
      | N -> ()
      | A u -> put_space (); put_filename u
      | Sh u -> put_space (); Buffer.add_string b u
@@ -88,7 +89,7 @@
      | V v -> if resolve_virtuals then do_spec (virtual_solver v)
               else (put_space (); Printf.bprintf b "<virtual %s>" (Shell.quote_filename_if_needed v))
      | S l -> List.iter do_spec l
-@@ -180,24 +202,126 @@
+@@ -180,24 +203,126 @@
  
  let string_of_command_spec x = string_of_command_spec_with_calls ignore ignore false x
  
@@ -222,7 +223,7 @@
    | Seq seq -> List.print print f seq
    | Nop -> Format.pp_print_string f "nop"
    | Echo(texts, dest_path) ->
-@@ -242,7 +366,7 @@
+@@ -242,7 +367,7 @@
      with_output_file dest_path begin fun oc ->
        List.iter (output_string oc) texts
      end
@@ -231,7 +232,7 @@
  end
  
  let rec list_rev_iter f =
-@@ -255,14 +379,22 @@
+@@ -255,14 +380,22 @@
      function
      | [] -> acc
      | Nop :: xs -> loop acc xs
@@ -256,7 +257,7 @@
    let jobs = !jobs in
    if jobs < 0 then invalid_arg "jobs < 0";
    let max_jobs = if jobs = 0 then None else Some jobs in
-@@ -295,7 +427,7 @@
+@@ -295,7 +428,7 @@
                          if rc <> 0 then begin
                            if not quiet then
                              eprintf "Exit code %d while executing this \
@@ -265,7 +266,7 @@
                            raise (Exit_with_code rc)
                          end
                        end cmds;
-@@ -308,7 +440,15 @@
+@@ -308,7 +441,15 @@
              | Some(exn) -> Some(List.rev res, exn)
              | None -> None
            else
@@ -282,7 +283,7 @@
          end
      end
  ;;
-@@ -328,6 +468,7 @@
+@@ -328,6 +469,7 @@
    let rec cmd x =
      match x with
      | Nop | Echo _ -> ()
@@ -290,7 +291,7 @@
      | Cmd(s) -> spec s
      | Seq(s) -> List.iter cmd s in
    cmd x
-@@ -342,6 +483,10 @@
+@@ -342,6 +484,10 @@
      | Nop -> fun acc -> acc
      | Echo(_, p) -> f p
      | Cmd(s) -> spec s
@@ -301,7 +302,7 @@
      | Seq(s) -> List.fold_right cmd s in
    cmd x
  
-@@ -364,6 +509,10 @@
+@@ -364,6 +510,10 @@
    let rec cmd =
      function
      | Cmd spec -> fun acc -> string_of_command_spec spec :: acc
@@ -312,9 +313,9 @@
      | Seq seq -> list cmd seq
      | Nop -> fun acc -> acc
      | Echo(texts, dest_path) -> list text (dest_path :: texts)
---- ../../work-ref/ocaml-4.02/ocamlbuild/main.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/main.ml	2014-05-30 13:34:51.102000000 +0200
-@@ -214,7 +214,7 @@
+--- ../../work-ref/ocaml-4.02/ocamlbuild/main.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/main.ml	2014-07-23 17:30:12.622800000 +0200
+@@ -226,7 +226,7 @@
  
      Shell.chdir Pathname.pwd;
  
@@ -323,8 +324,8 @@
  
      let cmds =
        List.fold_right begin fun (target, ext) acc ->
---- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/my_std.ml	2014-05-30 13:35:20.835600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/my_std.ml	2014-07-23 17:30:12.622800000 +0200
 @@ -253,13 +253,115 @@
        try Array.iter (fun x -> if x = basename then raise Exit) a; false
        with Exit -> true
@@ -448,8 +449,8 @@
  
  (* FIXME warning fix and use Filename.concat *)
  let filename_concat x y =
---- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.mli	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/my_std.mli	2014-05-30 13:34:51.102000000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_std.mli	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/my_std.mli	2014-07-23 17:30:12.638400000 +0200
 @@ -56,9 +56,11 @@
  val reset_filesys_cache : unit -> unit
  val reset_filesys_cache_for_file : string -> unit
@@ -463,8 +464,8 @@
  val invalid_arg' : ('a, Format.formatter, unit, 'b) format4 -> 'a
  
  include Signatures.MISC
---- ../../work-ref/ocaml-4.02/ocamlbuild/my_unix.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/my_unix.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/my_unix.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/my_unix.ml	2014-07-23 17:30:12.638400000 +0200
 @@ -61,7 +61,7 @@
  let run_and_open s kont =
    with_temp_file "ocamlbuild" "out" begin fun tmp ->
@@ -474,8 +475,8 @@
      if st <> 0 then failwith (Printf.sprintf "Error while running: %s" s);
      with_input_file tmp kont
    end
---- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_tools.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/ocaml_tools.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_tools.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/ocaml_tools.ml	2014-07-23 17:30:12.638400000 +0200
 @@ -27,9 +27,9 @@
  
  let menhir_ocamldep_command' tags ~menhir_spec out =
@@ -509,8 +510,8 @@
  
  let menhir mly env build =
    let mly = env mly in
---- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_utils.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/ocaml_utils.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocaml_utils.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/ocaml_utils.ml	2014-07-23 17:30:12.638400000 +0200
 @@ -31,7 +31,7 @@
  
  let stdlib_dir = lazy begin
@@ -520,8 +521,8 @@
    String.chomp (read_file ocamlc_where)
  end
  
---- ../../work-ref/ocaml-4.02/ocamlbuild/ocamlbuild_plugin.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/ocamlbuild_plugin.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/ocamlbuild_plugin.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/ocamlbuild_plugin.ml	2014-07-23 17:30:12.638400000 +0200
 @@ -24,7 +24,7 @@
  module Rule = Ocamlbuild_pack.Rule
  module Options = Ocamlbuild_pack.Options
@@ -531,8 +532,8 @@
  and spec = Command.spec =
    | N | S of spec list | A of string | P of string | Px of string
    | Sh of string | T of Tags.t | V of string | Quote of spec
---- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/options.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/options.ml	2014-07-23 17:30:12.638400000 +0200
 @@ -54,8 +54,23 @@
      let long_opt = long ^ ".opt" in
        (* This defines how the command will be found *)
@@ -559,18 +560,8 @@
        (* For non core tool the preference is too look at PATH first *)
      let choices' =
        [fun () ->
-@@ -286,8 +301,7 @@
- 
-   if !use_ocamlfind then begin
-     ocamlfind_cmd := A "ocamlfind";
--    let cmd = Command.string_of_command_spec !ocamlfind_cmd in
--    begin try ignore(Command.search_in_path cmd)
-+    begin try ignore(Command.search_in_path "ocamlfind")
-     with Not_found -> failwith "ocamlfind not found on path, but -no-ocamlfind not used" end;
-     (* TODO: warning message when using an option such as -ocamlc *)
-     (* Note that plugins can still modify these variables After_options.
---- ../../work-ref/ocaml-4.02/ocamlbuild/plugin.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/plugin.ml	2014-05-30 13:34:51.117600000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/plugin.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/plugin.ml	2014-07-23 17:30:12.654000000 +0200
 @@ -245,7 +245,7 @@
            let spec = S[runner; P(!Options.build_dir/plugin^(!Options.exe));
                         A"-no-plugin"; atomize passed_argv] in
@@ -580,8 +571,8 @@
            raise (Exit_silently_with_code rc);
          end
        else if not (sys_file_exists plugin_file) && !Options.plugin_tags <> [] then
---- ../../work-ref/ocaml-4.02/ocamlbuild/shell.ml	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/shell.ml	2014-05-30 13:34:51.133200000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/shell.ml	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/shell.ml	2014-07-23 17:30:12.654000000 +0200
 @@ -23,12 +23,30 @@
      | 'a'..'z' | 'A'..'Z' | '0'..'9' | '.' | '-' | '/' | '_' | ':' | '@' | '+' | ',' -> loop (pos + 1)
      | _ -> false in
@@ -667,8 +658,8 @@
 -  run["mv"; src; dest] dest
 +  run[add_exe "mv"; src; dest] dest
    (*Sys.rename src dest*)
---- ../../work-ref/ocaml-4.02/ocamlbuild/signatures.mli	2014-05-25 20:50:44.000000000 +0200
-+++ ./ocamlbuild/signatures.mli	2014-05-30 13:34:51.133200000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/signatures.mli	2014-07-23 09:45:14.000000000 +0200
++++ ./ocamlbuild/signatures.mli	2014-07-23 17:30:12.669600000 +0200
 @@ -159,6 +159,10 @@
    end
  end

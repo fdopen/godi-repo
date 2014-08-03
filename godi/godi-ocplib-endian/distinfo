@@ -2,6 +2,3 @@ $NetBSD$
 
 SHA1 (ocplib-endian-0.7.tar.gz) = 178c500e97fba50e94bd1cfe9214462344d8a731
 Size (ocplib-endian-0.7.tar.gz) = 56248 bytes
-
-SHA1 (patch-aa) = 5c1f2ad9fc3ad641ff5cea369b705dae5a2b8b8f
-SHA1 (patch-ab) = 5ee3097864889a1af7e28a6e8eb20ee9546e6c34

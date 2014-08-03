@@ -2,7 +2,7 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	3
+PKGREVISION=	4
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
 EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
@@ -52,7 +52,7 @@ post-extract:
 	cp files/config_reader* ${WRKSRC:Q}
 	@cd ${WRKDIR:Q} && \
 	  ${MKDIR} add && cd add && \
-	  unzip -q ${DISTDIR}/flexdll-bin-${VERSION}.zip
+	  ${LOCALBASE}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/flexdll-bin-${VERSION}.zip
 
 
 pre-configure:

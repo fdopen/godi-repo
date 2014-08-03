@@ -1,6 +1,7 @@
 $NetBSD$
 
-SHA1 (camlp4-0.0.1.tar.xz) = 973592f1dd67da1ebfaff8e3367f828036feee99
-Size (camlp4-0.0.1.tar.xz) = 390172 bytes
+SHA1 (camlp4-0.0.2.tar.xz) = 63bae39a614cb404b78390607fc844c1dfa4ddbe
+Size (camlp4-0.0.2.tar.xz) = 391008 bytes
 
 SHA1 (patch-aa) = 2a6ccf30062b4a62479f58593bd72a33da9d359c
+SHA1 (patch-ab) = d12614eec0e318ef13dbd2a6b274db48722f9bd7

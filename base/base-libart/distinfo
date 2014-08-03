@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (libart_lgpl-2.3.21.tar.bz2) = dbac185c65696381ef188de1f98b348b530e22f9
 Size (libart_lgpl-2.3.21.tar.bz2) = 329102 bytes
 
-SHA1 (base-libart-2.3.21_0_64.txz) = 00a8094fc32aeaad2996c0346593a708178f8fa9
-Size (base-libart-2.3.21_0_64.txz) = 82124 bytes
+SHA1 (base-libart-2.3.21_1_64.txz) = 98403189dbf6058384c9995330403374d45755f1
+Size (base-libart-2.3.21_1_64.txz) = 82124 bytes
 
-SHA1 (base-libart-2.3.21_0_32.txz) = 3167a6052b591dba354402a7cd186a7f74501a7e
-Size (base-libart-2.3.21_0_32.txz) = 78172 bytes
+SHA1 (base-libart-2.3.21_1_32.txz) = 7087a7a8a4f0d662e46d92f9d549408921412bd5
+Size (base-libart-2.3.21_1_32.txz) = 78156 bytes

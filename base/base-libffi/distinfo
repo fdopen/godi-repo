@@ -3,10 +3,10 @@ $NetBSD$
 SHA1 (libffi-3.1.tar.gz) = cb373ef2115ec7c57913b84ca72eee14b10ccdc3
 Size (libffi-3.1.tar.gz) = 937214 bytes
 
-SHA1 (base-libffi-3.1_0_64.txz) = 2247a21afe0fbbecbcd6ff7411d4f83ac20ac262
-Size (base-libffi-3.1_0_64.txz) = 72516 bytes
+SHA1 (base-libffi-3.1_1_64.txz) = f2c5329869a3c66a707a72962698810e22c85f8c
+Size (base-libffi-3.1_1_64.txz) = 72548 bytes
 
-SHA1 (base-libffi-3.1_0_32.txz) = 63416b0c899c40b65824b8b13b95b21f8ffd1b64
-Size (base-libffi-3.1_0_32.txz) = 72848 bytes
+SHA1 (base-libffi-3.1_1_32.txz) = f722ab23f65be1a0570a33da1d7887dda90c7e19
+Size (base-libffi-3.1_1_32.txz) = 72808 bytes
 
 SHA1 (patch-aa) = 06a58b2fa158d2ef8095e99d6ca23c3960906f06

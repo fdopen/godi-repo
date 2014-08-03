@@ -5,7 +5,7 @@ VERSION=	0.1
 PKG=		apps-ocamltop-win
 PKGNAME=	${PKG}-${VERSION}
 
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocamltopwin-${VERSION}
 DISTFILES=	${DISTNAME}.tar.xz
 
