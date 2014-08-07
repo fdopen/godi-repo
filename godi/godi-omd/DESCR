@@ -1,0 +1,8 @@
+OMD implements a Markdown parser in OCaml.
+
+OMD provides two things:
+
+ - the command-line tool omd, which takes some Markdown and converts
+   it to HTML or Markdown.
+
+ - a library for OCaml 
