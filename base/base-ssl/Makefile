@@ -3,7 +3,7 @@
 PKG=		base-ssl
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-VERSION=	1.0.1h
+VERSION=	1.0.1i
 DISTNAME=	openssl-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	base
@@ -38,6 +38,13 @@ CONFIGURE_ARGS+= ${GODI_BASE_SSL_CONF_ARGS}
 .else
 CONFIGURE_ARGS+=	shared 
 CONFIGURE_ARGS+=	zlib-dynamic
+CONFIGURE_ARGS+=	no-rc5 
+CONFIGURE_ARGS+=	no-srp 
+CONFIGURE_ARGS+=	no-ec2m
+CONFIGURE_ARGS+=	enable-camellia
+CONFIGURE_ARGS+=	enable-idea
+CONFIGURE_ARGS+=	no-hw
+CONFIGURE_ARGS+=	no-capieng
 .endif
 
 
@@ -49,7 +56,7 @@ MAKE_FLAGS+=    INSTALL_PREFIX=${IMAGE}
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
-ALL_TARGET=	all # test
+ALL_TARGET=	depend all # test
 
 INSTALL_TARGET=	install_sw
 
