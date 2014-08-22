@@ -1,0 +1,20 @@
+--- ../../work-ref/mikmatch-1.0.7/pcre/run_mikmatch_pcre.ml	2014-01-25 01:50:14.000000000 +0100
++++ ./pcre/run_mikmatch_pcre.ml	2014-06-24 16:08:25.726400000 +0200
+@@ -16,7 +16,7 @@
+     if 
+       try
+ 	unsafe_pcre_exec 
+-	  irflags rex cur_pos subj subgroup_offsets offset_vector None; true
++	  irflags rex ~pos:cur_pos ~subj_start:0 ~subj ~subgroups2:subgroup_offsets offset_vector None; true
+       with Not_found -> false
+     then
+       (f substrings;
+@@ -34,7 +34,7 @@
+     if 
+       try
+ 	unsafe_pcre_exec 
+-	  irflags rex cur_pos subj subgroup_offsets offset_vector None; true
++	  irflags rex ~pos:cur_pos ~subj_start:0 ~subj ~subgroups2:subgroup_offsets offset_vector None; true
+       with Not_found -> 
+ 	let last = String.length subj in
+ 	if full || last > previous_last then

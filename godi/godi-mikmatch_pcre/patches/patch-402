@@ -1,0 +1,10 @@
+--- ../../work-ref/mikmatch-1.0.7/common/match.ml	2014-01-25 01:50:14.000000000 +0100
++++ ./common/match.ml	2014-08-22 13:38:58.891600000 +0200
+@@ -585,6 +585,7 @@
+     | <:patt< $_$ ; $_$ >> (* record or array items *)
+     | <:patt< $_$ = $_$ >> (* record field *)
+     | <:patt< >>
++    | Ast.PaAtt _    (* [@attr] *)
+     | Ast.PaMod _    (* (module M) *)
+     | Ast.PaOlb _    (* ?s or ?s:(p) *)
+     | Ast.PaOlbi _   (* ?s:(p = e) or ?(p = e) *)
