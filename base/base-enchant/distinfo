@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (enchant-1.6.0.tar.gz) = 321f9cf0abfa1937401676ce60976d8779c39536
 Size (enchant-1.6.0.tar.gz) = 607018 bytes
 
-SHA1 (base-enchant-1.6.0_2_64.txz) = 0ab579af77aa2a4050df6bb0689c078da3d4fbd7
-Size (base-enchant-1.6.0_2_64.txz) = 205700 bytes
+SHA1 (base-enchant-1.6.0_3_64.txz) = 6c4b61ac026052512c4e34368a52ee41ef78733d
+Size (base-enchant-1.6.0_3_64.txz) = 205984 bytes
 
-SHA1 (base-enchant-1.6.0_2_32.txz) = cac446328ab274eeafb9985ed3a317bbd7cfedc3
-Size (base-enchant-1.6.0_2_32.txz) = 202904 bytes
+SHA1 (base-enchant-1.6.0_3_32.txz) = aa0da66ade5a0044ad89b5af1b2c61747d46a9c0
+Size (base-enchant-1.6.0_3_32.txz) = 202996 bytes
 
 SHA1 (patch-enchant-mingw-compile-fix) = 6b96491e5ca11dad9cab3b18990792abe8a9fe06
 SHA1 (patch-enchant-remove-define-enchant-global-module-dir) = b20c107a1bd2b8121a0f5800081e5e925ae7fd78
