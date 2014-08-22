@@ -1,0 +1,42 @@
+From 88b97ff3962d94e56764c334a71fa2f82815a096 Mon Sep 17 00:00:00 2001
+From: Nikos Mavrogiannopoulos <nmav@redhat.com>
+Date: Thu, 31 Jul 2014 12:18:16 +0200
+Subject: [PATCH] several windows compilation fixes
+
+---
+ lib/nettle/rnd-common.c |    1 +
+ lib/x509/verify-high2.c |    6 +++++-
+ 2 files changed, 6 insertions(+), 1 deletions(-)
+
+diff --git a/lib/nettle/rnd-common.c b/lib/nettle/rnd-common.c
+index 3bdfdbd..0a015d5 100644
+--- lib/nettle/rnd-common.c
++++ lib/nettle/rnd-common.c
+@@ -80,6 +80,7 @@ void _rnd_get_event(struct event_st *e)
+ 
+ static HCRYPTPROV device_fd = 0;
+ 
++static
+ int _rnd_get_system_entropy_win32(void* rnd, size_t size)
+ {
+ 	if (!CryptGenRandom(device_fd, (DWORD) size, rnd)) {
+diff --git a/lib/x509/verify-high2.c b/lib/x509/verify-high2.c
+index ec55f38..fd90a99 100644
+--- lib/x509/verify-high2.c
++++ lib/x509/verify-high2.c
+@@ -304,7 +304,11 @@ int load_dir_certs(const char *dirname,
+ 	if (dirp != NULL) {
+ 		do {
+ 			d = readdir(dirp);
+-			if (d != NULL && d->d_type == DT_REG) {
++			if (d != NULL
++#ifndef _WIN32
++				&& d->d_type == DT_REG
++#endif
++				) {
+ 				snprintf(path, sizeof(path), "%s/%s",
+ 					 dirname, d->d_name);
+ 
+-- 
+1.7.1
+

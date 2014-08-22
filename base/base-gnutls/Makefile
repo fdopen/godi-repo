@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 3.2.15
-PKGREVISION= 1
+VERSION=	 3.3.6
+PKGREVISION= 0
 PKG=         gnutls
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -38,5 +38,12 @@ DEF_CONFIGURE_ARGS+=	--disable-srp-authentication
 DEF_CONFIGURE_ARGS+=	--disable-non-suiteb-curves
 DEF_CONFIGURE_ARGS+=	--enable-local-libopts
 DEF_CONFIGURE_ARGS+=	--without-tpm
+
+
+.if defined(MINGW_BASE_BUILD)
+pre-configure:
+	cd ${WRKSRC} && autoreconf -f
+.endif
+
 
 .include "../../mk/mingw.pkg.mk"

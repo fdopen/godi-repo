@@ -1,12 +1,15 @@
 $NetBSD$
 
-SHA1 (gnutls-3.2.15.tar.xz) = 31f289b48b0bf054f5f8c16d3b878615d0ae06fc
-Size (gnutls-3.2.15.tar.xz) = 5140200 bytes
+SHA1 (gnutls-3.3.6.tar.xz) = 2460b4f3a69c3e98cafb77a006cf36b06a67b6d2
+Size (gnutls-3.3.6.tar.xz) = 6076320 bytes
 
-SHA1 (base-gnutls-3.2.15_1_64.txz) = e1a030e979266c302109fc69eace509e6de944ff
-Size (base-gnutls-3.2.15_1_64.txz) = 777624 bytes
+SHA1 (base-gnutls-3.3.6_0_64.txz) = c49b7ddbf2900ae91ad7a060896b58a170dbcf81
+Size (base-gnutls-3.3.6_0_64.txz) = 770056 bytes
 
-SHA1 (base-gnutls-3.2.15_1_32.txz) = 47af11700aedd35c4ec6c07a9611a6bf727cfc45
-Size (base-gnutls-3.2.15_1_32.txz) = 717244 bytes
+SHA1 (base-gnutls-3.3.6_0_32.txz) = 0b4539f8f86b89132ed6d971f73208830402bdc8
+Size (base-gnutls-3.3.6_0_32.txz) = 705988 bytes
 
 SHA1 (patch-gnutls-3.1.11-nosrp) = 214f6bbd5df17f112c610b0eaa0a5047eff2626b
+SHA1 (patch-gnutls-3.3.6-default-policy) = bf7643ac77b652d524d0bbf8a9f5dc79ede89b2f
+SHA1 (patch-gnutls-mingw-fixes) = cd55348fde7493024525e0dc9c953b44cb003810
+SHA1 (patch-gnutls-mingw-inet) = 5048c67b0f0c305614328a184d0621a90a5c9adf
