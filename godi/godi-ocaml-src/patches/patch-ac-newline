@@ -1,5 +1,5 @@
---- ../../work-ref/ocaml-4.02/debugger/main.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./debugger/main.ml	2014-08-02 18:02:40.940400000 +0200
+--- ../../work-ref/ocaml-4.02/debugger/main.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./debugger/main.ml	2014-08-11 20:49:18.005600000 +0200
 @@ -154,10 +154,12 @@
  let set_directory dir =
    Sys.chdir dir
@@ -13,8 +13,8 @@
    printf "%s@." Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/debugger/Makefile.shared	2014-08-02 05:11:28.000000000 +0200
-+++ ./debugger/Makefile.shared	2014-08-02 18:02:36.213600000 +0200
+--- ../../work-ref/ocaml-4.02/debugger/Makefile.shared	2014-08-10 13:08:17.000000000 +0200
++++ ./debugger/Makefile.shared	2014-08-11 20:49:18.005600000 +0200
 @@ -30,7 +30,7 @@
  
  OTHEROBJS=\
@@ -24,8 +24,8 @@
    ../utils/clflags.cmo ../utils/consistbl.cmo ../utils/warnings.cmo \
    ../parsing/location.cmo ../parsing/longident.cmo \
    ../parsing/ast_helper.cmo ../parsing/ast_mapper.cmo \
---- ../../work-ref/ocaml-4.02/driver/compenv.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./driver/compenv.ml	2014-08-02 18:02:36.213600000 +0200
+--- ../../work-ref/ocaml-4.02/driver/compenv.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./driver/compenv.ml	2014-08-11 20:49:18.005600000 +0200
 @@ -20,6 +20,7 @@
    Misc.chop_extension_if_any oname
  
@@ -46,8 +46,8 @@
    print_string Config.standard_library; print_newline(); exit 0
  
  let fatal err =
---- ../../work-ref/ocaml-4.02/driver/main.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./driver/main.ml	2014-08-02 18:02:36.213600000 +0200
+--- ../../work-ref/ocaml-4.02/driver/main.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./driver/main.ml	2014-08-11 20:49:18.005600000 +0200
 @@ -65,6 +65,7 @@
    readenv ppf Before_compile; process_interface_file ppf filename;;
  
@@ -56,8 +56,8 @@
    Config.print_config stdout;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/lex/main.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./lex/main.ml	2014-08-02 18:02:36.213600000 +0200
+--- ../../work-ref/ocaml-4.02/lex/main.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./lex/main.ml	2014-08-11 20:49:18.005600000 +0200
 @@ -20,12 +20,22 @@
  
  let usage = "usage: ocamllex [options] sourcefile"
@@ -81,8 +81,8 @@
    print_endline Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/Makefile	2014-08-02 05:11:28.000000000 +0200
-+++ ./Makefile	2014-08-02 18:02:36.213600000 +0200
+--- ../../work-ref/ocaml-4.02/Makefile	2014-08-10 13:08:17.000000000 +0200
++++ ./Makefile	2014-08-11 20:49:18.021200000 +0200
 @@ -38,7 +38,7 @@
  INCLUDES=-I utils -I parsing -I typing -I bytecomp -I asmcomp -I driver \
  	 -I toplevel
@@ -92,8 +92,8 @@
    utils/clflags.cmo utils/terminfo.cmo utils/ccomp.cmo utils/warnings.cmo \
    utils/consistbl.cmo
  
---- ../../work-ref/ocaml-4.02/Makefile.nt	2014-08-02 05:11:28.000000000 +0200
-+++ ./Makefile.nt	2014-08-02 18:02:36.229200000 +0200
+--- ../../work-ref/ocaml-4.02/Makefile.nt	2014-08-10 13:08:17.000000000 +0200
++++ ./Makefile.nt	2014-08-11 20:49:18.021200000 +0200
 @@ -34,7 +34,7 @@
  INCLUDES=-I utils -I parsing -I typing -I bytecomp -I asmcomp -I driver \
  	 -I toplevel
@@ -103,8 +103,8 @@
    utils/clflags.cmo utils/terminfo.cmo utils/ccomp.cmo utils/warnings.cmo \
    utils/consistbl.cmo
  
---- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-08-02 18:03:09.160800000 +0200
-+++ ./ocamlbuild/options.ml	2014-08-02 18:02:36.229200000 +0200
+--- ../../work-ref/ocaml-4.02/ocamlbuild/options.ml	2014-08-11 20:50:26.973200000 +0200
++++ ./ocamlbuild/options.ml	2014-08-11 20:49:18.021200000 +0200
 @@ -170,11 +170,31 @@
      build_dir := Filename.concat (Sys.getcwd ()) s
    else
@@ -150,8 +150,8 @@
     "-ocamlc", set_cmd ocamlc, "<command> Set the OCaml bytecode compiler";
     "-ocamlopt", set_cmd ocamlopt, "<command> Set the OCaml native compiler";
     "-ocamldep", set_cmd ocamldep, "<command> Set the OCaml dependency tool";
---- ../../work-ref/ocaml-4.02/ocamldoc/odoc_args.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./ocamldoc/odoc_args.ml	2014-08-02 18:02:40.940400000 +0200
+--- ../../work-ref/ocaml-4.02/ocamldoc/odoc_args.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./ocamldoc/odoc_args.ml	2014-08-11 20:49:18.021200000 +0200
 @@ -174,8 +174,8 @@
  
  (** The default option list *)
@@ -177,8 +177,8 @@
    "-i", Arg.String (fun s -> ()), M.add_load_dir ;
    "-g", Arg.String (fun s -> ()), M.load_file ^
    "\n\n *** HTML options ***\n";
---- ../../work-ref/ocaml-4.02/otherlibs/dynlink/Makefile	2014-08-02 05:11:28.000000000 +0200
-+++ ./otherlibs/dynlink/Makefile	2014-08-02 18:02:36.229200000 +0200
+--- ../../work-ref/ocaml-4.02/otherlibs/dynlink/Makefile	2014-08-10 13:08:17.000000000 +0200
++++ ./otherlibs/dynlink/Makefile	2014-08-11 20:49:18.021200000 +0200
 @@ -27,7 +27,7 @@
  OBJS=dynlinkaux.cmo dynlink.cmo
  
@@ -188,8 +188,8 @@
    ../../utils/tbl.cmo ../../utils/consistbl.cmo \
    ../../utils/terminfo.cmo ../../utils/warnings.cmo \
    ../../parsing/asttypes.cmi \
---- ../../work-ref/ocaml-4.02/testsuite/tests/utils/Makefile	2014-08-02 05:11:28.000000000 +0200
-+++ ./testsuite/tests/utils/Makefile	2014-08-02 18:02:36.229200000 +0200
+--- ../../work-ref/ocaml-4.02/testsuite/tests/utils/Makefile	2014-08-10 13:08:17.000000000 +0200
++++ ./testsuite/tests/utils/Makefile	2014-08-11 20:49:18.036800000 +0200
 @@ -11,10 +11,10 @@
  #########################################################################
  
@@ -203,8 +203,8 @@
  
  include $(BASEDIR)/makefiles/Makefile.several
  include $(BASEDIR)/makefiles/Makefile.common
---- ../../work-ref/ocaml-4.02/tools/Makefile.nt	2014-08-02 05:11:28.000000000 +0200
-+++ ./tools/Makefile.nt	2014-08-02 18:02:36.244800000 +0200
+--- ../../work-ref/ocaml-4.02/tools/Makefile.nt	2014-08-10 13:08:17.000000000 +0200
++++ ./tools/Makefile.nt	2014-08-11 20:49:18.036800000 +0200
 @@ -15,7 +15,7 @@
  # To make custom toplevels
  
@@ -214,8 +214,8 @@
  
  ocamlmktop: $(OCAMLMKTOP)
  	$(CAMLC) $(LINKFLAGS) -o ocamlmktop $(OCAMLMKTOP_IMPORTS) $(OCAMLMKTOP)
---- ../../work-ref/ocaml-4.02/tools/Makefile.shared	2014-08-02 05:11:28.000000000 +0200
-+++ ./tools/Makefile.shared	2014-08-02 18:02:36.244800000 +0200
+--- ../../work-ref/ocaml-4.02/tools/Makefile.shared	2014-08-10 13:08:17.000000000 +0200
++++ ./tools/Makefile.shared	2014-08-11 20:49:18.036800000 +0200
 @@ -36,7 +36,7 @@
  # The dependency generator
  
@@ -224,7 +224,7 @@
 +CAMLDEP_IMPORTS=config.cmo misc.cmo clflags.cmo terminfo.cmo \
    warnings.cmo location.cmo longident.cmo \
    syntaxerr.cmo ast_helper.cmo parser.cmo lexer.cmo parse.cmo \
-   ccomp.cmo pparse.cmo compenv.cmo
+   ccomp.cmo ast_mapper.cmo pparse.cmo compenv.cmo
 @@ -66,7 +66,7 @@
  # The profiler
  
@@ -276,9 +276,9 @@
  	         opcodes.cmo bytesections.cmo $(DUMPOBJ)
  
  clean::
---- ../../work-ref/ocaml-4.02/tools/ocamldep.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./tools/ocamldep.ml	2014-08-02 18:02:36.244800000 +0200
-@@ -393,11 +393,13 @@
+--- ../../work-ref/ocaml-4.02/tools/ocamldep.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./tools/ocamldep.ml	2014-08-11 20:49:18.036800000 +0200
+@@ -394,11 +394,13 @@
  let usage = "Usage: ocamldep [options] <source files>\nOptions are:"
  
  let print_version () =
@@ -292,8 +292,8 @@
    Format.printf "%s@." Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/tools/ocamlmklib.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./tools/ocamlmklib.ml	2014-08-02 18:02:36.244800000 +0200
+--- ../../work-ref/ocaml-4.02/tools/ocamlmklib.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./tools/ocamlmklib.ml	2014-08-11 20:49:18.052400000 +0200
 @@ -48,11 +48,13 @@
  exception Bad_argument of string
  
@@ -308,8 +308,8 @@
    printf "%s\n" Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/tools/ocamlprof.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./tools/ocamlprof.ml	2014-08-02 18:02:36.260400000 +0200
+--- ../../work-ref/ocaml-4.02/tools/ocamlprof.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./tools/ocamlprof.ml	2014-08-11 20:49:18.052400000 +0200
 @@ -471,11 +471,13 @@
  let usage = "Usage: ocamlprof <options> <files>\noptions are:"
  
@@ -324,8 +324,8 @@
    printf "%s@." Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/toplevel/opttopmain.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./toplevel/opttopmain.ml	2014-08-02 18:02:40.940400000 +0200
+--- ../../work-ref/ocaml-4.02/toplevel/opttopmain.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./toplevel/opttopmain.ml	2014-08-11 20:49:18.052400000 +0200
 @@ -48,11 +48,13 @@
      end
  
@@ -340,8 +340,8 @@
    Printf.printf "%s\n" Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/toplevel/topmain.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./toplevel/topmain.ml	2014-08-02 18:02:40.940400000 +0200
+--- ../../work-ref/ocaml-4.02/toplevel/topmain.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./toplevel/topmain.ml	2014-08-11 20:49:18.052400000 +0200
 @@ -47,11 +47,13 @@
      end
  
@@ -356,8 +356,8 @@
    Printf.printf "%s\n" Sys.ocaml_version;
    exit 0;
  ;;
---- ../../work-ref/ocaml-4.02/utils/config.mlp	2014-08-02 05:11:28.000000000 +0200
-+++ ./utils/config.mlp	2014-08-02 18:02:36.260400000 +0200
+--- ../../work-ref/ocaml-4.02/utils/config.mlp	2014-08-10 13:08:17.000000000 +0200
++++ ./utils/config.mlp	2014-08-11 20:49:18.052400000 +0200
 @@ -23,16 +23,32 @@
  (* The main OCaml version string has moved to ../VERSION *)
  let version = Sys.ocaml_version
@@ -401,8 +401,8 @@
  
  let asm = "%%ASM%%"
  let asm_cfi_supported = %%ASM_CFI_SUPPORTED%%
---- ../../work-ref/ocaml-4.02/utils/misc.ml	2014-08-02 05:11:28.000000000 +0200
-+++ ./utils/misc.ml	2014-08-02 18:02:40.956000000 +0200
+--- ../../work-ref/ocaml-4.02/utils/misc.ml	2014-08-10 13:08:17.000000000 +0200
++++ ./utils/misc.ml	2014-08-11 20:49:18.052400000 +0200
 @@ -325,3 +325,24 @@
  let cut_at s c =
    let pos = String.index s c in
@@ -428,8 +428,8 @@
 +      done;
 +      Bytes.to_string b
 +  | _ -> p
---- ../../work-ref/ocaml-4.02/utils/misc.mli	2014-08-02 05:11:28.000000000 +0200
-+++ ./utils/misc.mli	2014-08-02 18:02:40.956000000 +0200
+--- ../../work-ref/ocaml-4.02/utils/misc.mli	2014-08-10 13:08:17.000000000 +0200
++++ ./utils/misc.mli	2014-08-11 20:49:18.068000000 +0200
 @@ -159,3 +159,7 @@
     Raise [Not_found] if the character does not appear in the string
     @since 4.01
@@ -438,8 +438,8 @@
 +
 +val mingw_binary_output : unit -> unit
 +val slashify: string -> string
---- ../../work-ref/ocaml-4.02/yacc/main.c	2014-08-02 05:11:28.000000000 +0200
-+++ ./yacc/main.c	2014-08-02 18:02:40.956000000 +0200
+--- ../../work-ref/ocaml-4.02/yacc/main.c	2014-08-10 13:08:17.000000000 +0200
++++ ./yacc/main.c	2014-08-11 20:49:18.068000000 +0200
 @@ -162,6 +162,17 @@
      exit(1);
  }

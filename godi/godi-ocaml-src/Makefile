@@ -14,14 +14,14 @@ OCAML_SVN_PATH?=	/ocaml/trunk
 
 
 # This is the official version string
-OVERSION= 	4.02beta.6
+OVERSION= 	4.02.0+rc1
 
 # This is the GODI version string, sometimes slightly modified
-VERSION=	4.02.0beta
+VERSION=	4.02.0rc1
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
 DISTNAME=	ocaml-4.02
-PKGREVISION=	5
+PKGREVISION=	0
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -96,6 +96,7 @@ PATH:=		${GODI_BOOT_FLEXDLL}:${PATH}
 # OCAML_CONF_ARGS can be used on the command-line to pass further
 # config arguments
 
+OCAML_OVERSION=ocaml-${OVERSION}
 post-extract:
 .if ${OCAML_SVN_CHECKOUT} == "yes"
 	cd ${WRKDIR} && \
@@ -105,8 +106,10 @@ post-extract:
 # 	cd ${WRKDIR} && \
 # 	${RM} -rf ocaml-${VERSION} && \
 # 	${MV} ocaml-${OVERSION} ocaml-${VERSION}
+.elif ${OCAML_OVERSION} != ${DISTNAME}
+	cd ${WRKDIR} && ${RMDIR} * >/dev/null 2>&1 || true
+	cd ${WRKDIR} && ${MV} ${OCAML_OVERSION} ${DISTNAME}
 .endif
-
 
 # .if defined(W32PORT) && ${W32PORT} == "mingw"
 # 	${CP} files/patch-win* patches
