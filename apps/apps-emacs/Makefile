@@ -3,12 +3,14 @@
 VERSION=	24.3
 XPMVERSION=	3.5.8
 MNODE=          1304	
-PKGREVISION=	3
+PKGREVISION=	5
 PKG=		apps-emacs
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	opt
-DISTFILES=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz emacs-${VERSION}-bin-i386.zip emacs-${VERSION}.tar.xz libxpm-${XPMVERSION}-w32-src.zip v1.3.1.tar.gz
-EXTRACT_ONLY=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz v1.3.1.tar.gz
+COMPANY_VERSION= 0.8.2
+YASNIPPET_VERSION=0.8.0
+DISTFILES=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz emacs-${VERSION}-bin-i386.zip emacs-${VERSION}.tar.xz libxpm-${XPMVERSION}-w32-src.zip v1.3.1.tar.gz company-${COMPANY_VERSION}.tar.xz yasnippet-${YASNIPPET_VERSION}.tar.xz
+EXTRACT_ONLY=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz v1.3.1.tar.gz company-${COMPANY_VERSION}.tar.xz yasnippet-${YASNIPPET_VERSION}.tar.xz
 CATEGORIES=	apps
 MASTER_SITES=	http://ftp.gnu.org/gnu/emacs/windows/ http://ftp.gnu.org/gnu/emacs/ http://forge.ocamlcore.org/frs/download.php/${MNODE}/ http://download.savannah.gnu.org/releases-redirect/
 
@@ -18,6 +20,7 @@ COMMENT=	emacs for windows
 
 BUILD_DEPENDS+= godi-ocaml-src>=3.12:../../godi-ocaml-src
 
+PATH:=		${LOCALBASE}/bin:${PATH}
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 INSTALL_SCRIPT_FILE=files/install
@@ -38,6 +41,7 @@ pre-extract:
 post-extract:
 	@${CP} files/* ${WRKDIR:Q}
 	@${CHMOD} 755 ${WRKDIR:Q}/install.sh
+	@${INSTALL} -m 0644 files/cl-lib-*.el ${WRKDIR}/company-${COMPANY_VERSION}/cl-lib.el
 	@cd ${WRKDIR:Q} && \
 	  cd opt && \
 	  ${LOCALBASE}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/emacs-${VERSION}-bin-i386.zip && \

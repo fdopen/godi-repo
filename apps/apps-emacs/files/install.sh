@@ -9,6 +9,7 @@ cd "${SCRIPT_DIR}"
 
 chmod 0755 opt/emacs/bin/*.exe
 EMACS="$(readlink -f opt/emacs/bin)"
+export PATH="${EMACS}:${PATH}"
 EMACS="${EMACS}/emacs.exe"
 cp -a tuareg-* opt/emacs/site-lisp/tuareg
 cp -a color-theme-* opt/emacs/site-lisp/color-theme
@@ -18,7 +19,6 @@ mkdir -p opt/emacs/site-lisp/cygwin
 cp cygwin-mount.el opt/emacs/site-lisp/cygwin
 cp -a ocaml/emacs opt/emacs/site-lisp/caml
 cp omake.el opt/emacs/site-lisp
-
 
 batch_compile(){
     if [ ! -f "$1" ] || [ -z "$1" ]; then
@@ -30,6 +30,26 @@ batch_compile(){
         fi
     fi
 }
+
+cd yasnippet-*
+for f in *.el ; do
+    batch_compile "$f"
+done
+rm -f ChangeLog README
+mv * ../company-*
+cd ../company-*
+batch_compile "cl-lib.el"
+make compile
+for f in *.el ; do
+    if [ -f "$f" ] && [ -f "${f}c" ]; then
+        gzip -9 "$f"
+    fi
+done
+rm -f ChangeLog Makefile *.md .git* .*.yml .*.el
+rm -rf snippets/ruby-mode # broken, space in path!
+cd ..
+cp -a company-* opt/emacs/site-lisp/company 
+
 cd opt/emacs/site-lisp
 
 batch_compile omake.el

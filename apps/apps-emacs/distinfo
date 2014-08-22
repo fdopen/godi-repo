@@ -17,3 +17,9 @@ Size (libxpm-3.5.8-w32-src.zip) = 1480046 bytes
 
 SHA1 (v1.3.1.tar.gz) = d584d1d24250ded3534719aa948a3f4529ad80fb
 Size (v1.3.1.tar.gz) = 168245 bytes
+
+SHA1 (company-0.8.2.tar.xz) = 9962ff6d0bc00a5ab33b25dcad1b29c039a9c15f
+Size (company-0.8.2.tar.xz) = 56260 bytes
+
+SHA1 (yasnippet-0.8.0.tar.xz) = c22752c18e7907ea38c9a42d0a331aa03eec0c56
+Size (yasnippet-0.8.0.tar.xz) = 61312 bytes
