@@ -3,7 +3,7 @@
 VERSION=	1.0.2b
 ONAME=		ocp-index
 PKGNAME=	godi-${ONAME}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	${ONAME}-4.02
 DISTFILES=	${ONAME}-${VERSION}.tar.xz
 CATEGORIES=	godi
@@ -42,10 +42,10 @@ post-install:
 .	for F in LICENSE README.md
 	    cp ${WRKSRC}/${F} ${IMAGE_DIR}/doc/${PKGBASE:Q}
 .	endfor
-	cd ${IMAGE_DIR:Q} && ${RM} -rf share/emacs share/vim
-	${MKDIR} ${IMAGE_DIR:Q}/share/typerex/ocp-index
+	${RM} -rf ${IMAGE_DIR:Q}/share/vim ${IMAGE_DIR:Q}/share/emacs
+	${MKDIR} ${IMAGE_DIR:Q}/share/emacs/site-lisp
 	# the current ocp-index.el doesn't work. 
-	${INSTALL} -m 0644 ${PKGDIR:Q}/files/ocp-index.el ${IMAGE_DIR:Q}/share/typerex/ocp-index
+	${INSTALL} -m 0644 ${PKGDIR:Q}/files/ocp-index.el ${IMAGE_DIR:Q}/share/emacs/site-lisp
 	#${INSTALL} -m 0644 ${WRKSRC:Q}/tools/ocp-index.el ${IMAGE_DIR:Q}/share/typerex/ocp-index
 	cd ${IMAGE_DIR} && ${FIND} * ! -type d >${PLIST_SRC} && \
 		${PAX} -rw -pp . ${LOCALBASE:Q}
