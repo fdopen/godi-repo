@@ -1,0 +1,11 @@
+--- ../../work-ref/Syndic-1.0/_oasis	2014-08-01 01:59:51.000000000 +0200
++++ ./_oasis	2014-08-07 17:44:37.851200000 +0200
+@@ -20,7 +20,7 @@
+   Type:                 ocamlbuild (0.4)
+   BuildTools:           ocamldoc
+   Title:                "Syndic"
+-  PostCommand:          cp Syndic.docdir/*.html doc/
++  PostCommand:          cp ./_build/lib/Syndic.docdir/*.html ./doc/
+   XOCamlbuildPath:      lib
+   XOCamlbuildLibraries: syndic
+   XOCamlbuildExtraArgs:
