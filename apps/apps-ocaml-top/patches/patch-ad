@@ -1,0 +1,15 @@
+--- ../../work-ref/ocaml-top-1.1.2/data/toplevel_init.ml	2014-08-22 13:20:27.376000000 +0200
++++ ./data/toplevel_init.ml	2014-08-22 13:20:07.673200000 +0200
+@@ -91,10 +91,10 @@
+   and get_formatter_output_functions =
+     pp_get_formatter_output_functions std_formatter
+ 
+-  and set_all_formatter_output_functions =
++(*  and set_all_formatter_output_functions =
+     pp_set_all_formatter_output_functions std_formatter
+   and get_all_formatter_output_functions =
+-    pp_get_all_formatter_output_functions std_formatter
++    pp_get_all_formatter_output_functions std_formatter *)
+ 
+   and set_formatter_tag_functions =
+     pp_set_formatter_tag_functions std_formatter
