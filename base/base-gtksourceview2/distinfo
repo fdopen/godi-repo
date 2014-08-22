@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (gtksourceview-2.10.5.tar.bz2) = 5081dc7a081954d0af73852c22e874a746bda30e
 Size (gtksourceview-2.10.5.tar.bz2) = 1253321 bytes
 
-SHA1 (base-gtksourceview2-2.10.5_2_64.txz) = 231e6c7b92db38bfb4d99c3a34ffccf800785428
-Size (base-gtksourceview2-2.10.5_2_64.txz) = 647508 bytes
+SHA1 (base-gtksourceview2-2.10.5_3_64.txz) = d8167e208f0b7fe773adf6b9af2deee8fce41529
+Size (base-gtksourceview2-2.10.5_3_64.txz) = 647864 bytes
 
-SHA1 (base-gtksourceview2-2.10.5_2_32.txz) = 598620c3b401829e423b5ec37aeb7b0c140ea2be
-Size (base-gtksourceview2-2.10.5_2_32.txz) = 643104 bytes
+SHA1 (base-gtksourceview2-2.10.5_3_32.txz) = 0d9881f23aea990453d1f2b570d554327eb428d4
+Size (base-gtksourceview2-2.10.5_3_32.txz) = 644216 bytes
