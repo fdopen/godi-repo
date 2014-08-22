@@ -2,7 +2,7 @@
 
 VERSION=	1.4.1
 PKGNAME=	godi-ocp-indent-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocp-indent-${VERSION}
 DISTFILES=	ocp-indent-${VERSION}.tar.gz
 CATEGORIES=	godi
@@ -48,8 +48,6 @@ post-install:
 .	for F in CHANGELOG LICENSE README.md
 	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	endfor
-	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-indent
-	${CP} ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-indent.el ${LOCALBASE:Q}/share/typerex/ocp-indent
 
 
 .include "../../mk/bsd.pkg.mk"
