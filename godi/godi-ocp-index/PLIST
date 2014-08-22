@@ -6,6 +6,5 @@ bin/ocp-grep.exe
 man/man3/ocp-grep.1
 man/man3/ocp-index.1
 @optional man/man3/ocp-browser.1
-share/typerex/ocp-index/ocp-index.el
 share/emacs/site-lisp/ocp-index.el
 share/vim/syntax/ocp-index.vim

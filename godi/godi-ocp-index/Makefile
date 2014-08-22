@@ -2,7 +2,7 @@
 
 VERSION=	1.0.1
 PKGNAME=	godi-ocp-index-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocp-index-${VERSION}
 DISTFILES=	ocp-index-${VERSION}.tar.gz
 CATEGORIES=	godi
@@ -48,8 +48,5 @@ post-install:
 .	for F in LICENSE README.md
 	    cp ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	endfor
-	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-index
-	${CP} ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-index.el ${LOCALBASE:Q}/share/typerex/ocp-index
-
 
 .include "../../mk/bsd.pkg.mk"
