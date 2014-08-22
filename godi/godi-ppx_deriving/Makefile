@@ -4,7 +4,7 @@ VERSION= 	0.2
 ONAME=		ppx_deriving
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-${ONAME}-${VERSION}
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	${ONAME}-${VERSION}
 DISTFILES=	${DISTNAME}.tar.xz
 CATEGORIES=	godi
@@ -16,5 +16,9 @@ DEPENDS+=	godi-ocaml>4.01:../../godi/godi-ocaml
 DEPENDS+=	godi-ppx_tools>=0.99:../../godi/godi-ppx_tools
 
 WINPKG=	yes
+
+post-install:
+	${MV} ${PREFIX}/lib/ocaml/pkg-lib/ppx_deriving/ppx_deriving \
+	 ${PREFIX}/lib/ocaml/pkg-lib/ppx_deriving/ppx_deriving.exe
 
 .include "../../mk/bsd.pkg.mk"
