@@ -6,8 +6,8 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKGNAME=	godi-ocaml-${VERSION}
-VERSION=	4.02.0beta
-PKGREVISION=	5
+VERSION=	4.02.0rc1
+PKGREVISION=	0
 DISTNAME=	ocaml
 DISTFILES=
 CATEGORIES=	godi
