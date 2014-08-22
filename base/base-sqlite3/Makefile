@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 3.8.5.0
-PKGREVISION= 1
+VERSION=	 3.8.6.0
+PKGREVISION= 0
 PKG=         sqlite3
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
