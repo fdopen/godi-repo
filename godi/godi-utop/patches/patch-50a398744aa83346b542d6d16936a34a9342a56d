@@ -1,0 +1,26 @@
+From 50a398744aa83346b542d6d16936a34a9342a56d Mon Sep 17 00:00:00 2001
+From: Jeremie Dimino <jdimino@janestreet.com>
+Date: Mon, 18 Aug 2014 11:29:34 +0100
+Subject: [PATCH] handle Syntaxerr.Ill_formed_ast
+
+---
+ src/lib/uTop.ml | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/src/lib/uTop.ml b/src/lib/uTop.ml
+index 58d8c10..3834ce4 100644
+--- src/lib/uTop.ml
++++ src/lib/uTop.ml
+@@ -256,6 +256,9 @@ let parse_default parse str eos_is_error =
+       | Syntaxerr.Not_expecting (loc, nonterm) ->
+           Error ([mkloc loc],
+                  Printf.sprintf "Syntax error: %s not expected" nonterm)
++      | Syntaxerr.Ill_formed_ast (loc, s) ->
++          Error ([mkloc loc],
++                 Printf.sprintf "Error: broken invariant in parsetree: %s" s)
+ #endif
+     end
+     | Syntaxerr.Escape_error | Parsing.Parse_error ->
+-- 
+2.0.4
+
