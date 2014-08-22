@@ -1,0 +1,12 @@
+--- ../../work-ref/ocaml-containers-0.3.3/Makefile	2014-08-06 23:10:28.000000000 +0200
++++ ./Makefile	2014-08-07 15:26:19.415600000 +0200
+@@ -86,7 +86,8 @@
+ 
+ run-test: build qtest-build
+ 	./qtest_all.native
+-	./run_tests.native
++	./_build/tests/run_tests.native
++	./_build/tests/test_levenshtein.native
+ 
+ test-all: run-test qtest
+ 
