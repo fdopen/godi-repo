@@ -1,0 +1,70 @@
+From 96cc9f2306de9e23e1895beeda7d1489c0eda2e3 Mon Sep 17 00:00:00 2001
+From: Hugo Heuzard <hugo.heuzard@gmail.com>
+Date: Fri, 15 Aug 2014 00:11:04 +0200
+Subject: [PATCH] Compiler: fix stackoverflow
+
+---
+ compiler/compile.ml    |  2 ++
+ compiler/specialize.ml | 18 ++++++++++--------
+ 2 files changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/compiler/compile.ml b/compiler/compile.ml
+index 3b15c73..8d982cf 100644
+--- compiler/compile.ml
++++ compiler/compile.ml
+@@ -224,5 +224,7 @@ let _ =
+     Format.eprintf "%s: Error: %s@." Sys.argv.(0) s;
+     exit 1
+   | exc ->
++    let backtrace = Printexc.get_backtrace () in
+     Format.eprintf "%s: Error: %s@." Sys.argv.(0) (Printexc.to_string exc);
++    prerr_string backtrace;
+     exit 1
+diff --git a/compiler/specialize.ml b/compiler/specialize.ml
+index f97ef69..8a48c78 100644
+--- compiler/specialize.ml
++++ compiler/specialize.ml
+@@ -21,22 +21,24 @@
+ open Code
+ open Flow
+ 
+-let rec function_cardinality info x =
++let rec function_cardinality info x acc =
+   get_approx info
+     (fun x ->
+        match info.info_defs.(Var.idx x) with
+        | Expr (Closure (l, _)) ->
+            Some (List.length l)
+        | Expr (Apply (f, l, _)) ->
+-           begin match function_cardinality info f with
++         if List.mem f acc
++         then None
++         else begin match function_cardinality info f (f::acc) with
+              Some n ->
+-               let diff = n - List.length l in
+-               if diff > 0 then Some diff else None
++             let diff = n - List.length l in
++             if diff > 0 then Some diff else None
+            | None ->
+-               None
+-           end
++             None
++         end
+        | _ ->
+-           None)
++         None)
+     None
+     (fun u v -> match u, v with Some n, Some m when n = m -> u | _ -> None)
+     x
+@@ -45,7 +47,7 @@ let specialize_instr info (acc,free_pc,extra) i =
+   match i with
+     | Let (x, Apply (f, l, _)) when Option.Optim.optcall () -> begin
+       let n' = List.length l in
+-      match function_cardinality info f with
++      match function_cardinality info f [] with
+         | None -> i::acc,free_pc,extra
+         | Some n when n = n' -> Let (x, Apply (f, l, true))::acc,free_pc,extra
+         | Some n when n < n' ->
+-- 
+2.0.4
+

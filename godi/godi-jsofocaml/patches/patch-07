@@ -1,0 +1,79 @@
+From 40ad53956ba01f9aa58764b2dff39b06487e395f Mon Sep 17 00:00:00 2001
+From: Hugo Heuzard <hugo.heuzard@gmail.com>
+Date: Fri, 15 Aug 2014 03:54:32 +0200
+Subject: [PATCH] beuh
+
+---
+ compiler/instr.ml          | 14 +++++++-------
+ compiler/instr.mli         |  2 +-
+ compiler/parse_bytecode.ml |  2 +-
+ 3 files changed, 9 insertions(+), 9 deletions(-)
+
+diff --git a/compiler/instr.ml b/compiler/instr.ml
+index 1dc80ee..ee238cc 100644
+--- compiler/instr.ml
++++ compiler/instr.ml
+@@ -181,7 +181,7 @@ type kind =
+   | KClosurerec
+   | KClosure
+   | KStop of int
+-  | K_will_not_append
++  | K_will_not_happen
+ 
+ type desc = { code : t; kind : kind; name : string; opcode : int }
+ 
+@@ -337,11 +337,11 @@ let ops,ops_rev =
+        GETPUBMET, KBinary, "GETPUBMET";
+        GETDYNMET, KNullary, "GETDYNMET";
+        STOP, KStop 0, "STOP";
+-       EVENT, K_will_not_append, "EVENT";
+-       BREAK, K_will_not_append, "BREAK";
+-       RERAISE, if_v4 (KStop 0) K_will_not_append, "RERAISE";
+-       RAISE_NOTRACE, if_v4 (KStop 0) K_will_not_append, "RAISE_NOTRACE";
+-       FIRST_UNIMPLEMENTED_OP, K_will_not_append, "FIRST_UNIMPLEMENTED_OP"|] in
++       EVENT, K_will_not_happen, "EVENT";
++       BREAK, K_will_not_happen, "BREAK";
++       RERAISE, if_v4 (KStop 0) K_will_not_happen, "RERAISE";
++       RAISE_NOTRACE, if_v4 (KStop 0) K_will_not_happen, "RAISE_NOTRACE";
++       FIRST_UNIMPLEMENTED_OP, K_will_not_happen, "FIRST_UNIMPLEMENTED_OP"|] in
+   let ops =
+     Array.mapi
+       (fun i (c, k, n) ->
+@@ -397,7 +397,7 @@ let get_instr code pc =
+   let i = getu code pc in
+   if i < 0 || i >= Array.length ops then raise (Bad_instruction i);
+   let ins = ops.(i) in
+-  if ins.kind = K_will_not_append then raise (Bad_instruction i);
++  if ins.kind = K_will_not_happen then raise (Bad_instruction i);
+   ins
+ 
+ (****)
+diff --git a/compiler/instr.mli b/compiler/instr.mli
+index e774be8..7d7858a 100644
+--- compiler/instr.mli
++++ compiler/instr.mli
+@@ -180,7 +180,7 @@ type kind =
+   | KClosurerec
+   | KClosure
+   | KStop of int
+-  | K_will_not_append
++  | K_will_not_happen
+ 
+ type desc = { code : t; kind : kind; name : string; opcode : int }
+ 
+diff --git a/compiler/parse_bytecode.ml b/compiler/parse_bytecode.ml
+index 44d42e6..91c6190 100644
+--- compiler/parse_bytecode.ml
++++ compiler/parse_bytecode.ml
+@@ -73,7 +73,7 @@ end = struct
+         scan blocks code (pc + 3) len
+       | KStop n ->
+         scan blocks code (pc + n + 1) len
+-      | K_will_not_append -> assert false
++      | K_will_not_happen -> assert false
+     end
+     else blocks
+ 
+-- 
+2.0.4
+

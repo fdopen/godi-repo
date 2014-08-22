@@ -1,0 +1,203 @@
+From 9721f9394e221849555fa64ff0aa57bbd1ee8d73 Mon Sep 17 00:00:00 2001
+From: Hugo Heuzard <hugo.heuzard@gmail.com>
+Date: Thu, 14 Aug 2014 16:52:28 +0200
+Subject: [PATCH] Compiler: fix with latest 4.02
+
+---
+ compiler/instr.ml          | 47 ++++++++++++++++++++++++++--------------------
+ compiler/instr.mli         | 10 +++++++---
+ compiler/parse_bytecode.ml |  4 ++++
+ runtime/stdlib.js          |  7 +++++++
+ 4 files changed, 45 insertions(+), 23 deletions(-)
+
+diff --git a/compiler/instr.ml b/compiler/instr.ml
+index 641456a..1dc80ee 100644
+--- compiler/instr.ml
++++ compiler/instr.ml
+@@ -19,7 +19,7 @@
+  *)
+ 
+ type t =
+-    ACC0
++  | ACC0
+   | ACC1
+   | ACC2
+   | ACC3
+@@ -111,8 +111,6 @@ type t =
+   | PUSHTRAP
+   | POPTRAP
+   | RAISE
+-  | RERAISE
+-  | RAISE_NOTRACE
+   | CHECK_SIGNALS
+   | C_CALL1
+   | C_CALL2
+@@ -165,6 +163,12 @@ type t =
+   | GETPUBMET
+   | GETDYNMET
+   | STOP
++  | EVENT
++  | BREAK
++  | RERAISE
++  | RAISE_NOTRACE
++  | FIRST_UNIMPLEMENTED_OP
++
+ 
+ type kind =
+   | KNullary
+@@ -177,12 +181,18 @@ type kind =
+   | KClosurerec
+   | KClosure
+   | KStop of int
++  | K_will_not_append
+ 
+ type desc = { code : t; kind : kind; name : string; opcode : int }
+ 
+ let ops,ops_rev =
+   let ops_rev = Hashtbl.create 17 in
+-  let block1 =
++  let if_v4 =
++    match Util.Version.v with
++      `V3    -> (fun _ default -> default)
++    | `V4_02 -> (fun k _ -> k)
++  in
++  let instrs =
+     [| ACC0, KNullary, "ACC0";
+        ACC1, KNullary, "ACC1";
+        ACC2, KNullary, "ACC2";
+@@ -274,12 +284,8 @@ let ops,ops_rev =
+        BOOLNOT, KNullary, "BOOLNOT";
+        PUSHTRAP, KCond_jump, "PUSHTRAP";
+        POPTRAP, KNullary, "POPTRAP";
+-       RAISE, KStop 0, "RAISE" |]
+-  and block2 =
+-    [| RERAISE, KStop 0, "RERAISE";
+-       RAISE_NOTRACE, KStop 0, "RAISE_NOTRACE" |]
+-  and block3 =
+-    [| CHECK_SIGNALS, KNullary, "CHECK_SIGNALS";
++       RAISE, KStop 0, "RAISE";
++       CHECK_SIGNALS, KNullary, "CHECK_SIGNALS";
+        C_CALL1, KUnary, "C_CALL1";
+        C_CALL2, KUnary, "C_CALL2";
+        C_CALL3, KUnary, "C_CALL3";
+@@ -330,19 +336,18 @@ let ops,ops_rev =
+        BUGEINT, KCmp_jump, "BUGEINT";
+        GETPUBMET, KBinary, "GETPUBMET";
+        GETDYNMET, KNullary, "GETDYNMET";
+-       STOP, KStop 0, "STOP"|]
+-  in
+-  let instrs =
+-    match Util.Version.v with
+-      `V3    -> [block1; block3]
+-    | `V4_02 -> [block1; block2; block3]
+-  in
++       STOP, KStop 0, "STOP";
++       EVENT, K_will_not_append, "EVENT";
++       BREAK, K_will_not_append, "BREAK";
++       RERAISE, if_v4 (KStop 0) K_will_not_append, "RERAISE";
++       RAISE_NOTRACE, if_v4 (KStop 0) K_will_not_append, "RAISE_NOTRACE";
++       FIRST_UNIMPLEMENTED_OP, K_will_not_append, "FIRST_UNIMPLEMENTED_OP"|] in
+   let ops =
+     Array.mapi
+       (fun i (c, k, n) ->
+          Hashtbl.add ops_rev c i;
+-         {code = c; kind = k; name = n; opcode = i})
+-      (Array.concat instrs)
++         {code = c; kind = k; name = n; opcode = i}
++      ) instrs
+   in
+   ops,ops_rev
+ 
+@@ -391,7 +396,9 @@ exception Bad_instruction of int
+ let get_instr code pc =
+   let i = getu code pc in
+   if i < 0 || i >= Array.length ops then raise (Bad_instruction i);
+-  ops.(i)
++  let ins = ops.(i) in
++  if ins.kind = K_will_not_append then raise (Bad_instruction i);
++  ins
+ 
+ (****)
+ 
+diff --git a/compiler/instr.mli b/compiler/instr.mli
+index ee6eab2..e774be8 100644
+--- compiler/instr.mli
++++ compiler/instr.mli
+@@ -19,7 +19,7 @@
+  *)
+ 
+ type t =
+-    ACC0
++  | ACC0
+   | ACC1
+   | ACC2
+   | ACC3
+@@ -111,8 +111,6 @@ type t =
+   | PUSHTRAP
+   | POPTRAP
+   | RAISE
+-  | RERAISE
+-  | RAISE_NOTRACE
+   | CHECK_SIGNALS
+   | C_CALL1
+   | C_CALL2
+@@ -165,6 +163,11 @@ type t =
+   | GETPUBMET
+   | GETDYNMET
+   | STOP
++  | EVENT
++  | BREAK
++  | RERAISE
++  | RAISE_NOTRACE
++  | FIRST_UNIMPLEMENTED_OP
+ 
+ type kind =
+   | KNullary
+@@ -177,6 +180,7 @@ type kind =
+   | KClosurerec
+   | KClosure
+   | KStop of int
++  | K_will_not_append
+ 
+ type desc = { code : t; kind : kind; name : string; opcode : int }
+ 
+diff --git a/compiler/parse_bytecode.ml b/compiler/parse_bytecode.ml
+index 1075611..44d42e6 100644
+--- compiler/parse_bytecode.ml
++++ compiler/parse_bytecode.ml
+@@ -73,6 +73,7 @@ end = struct
+         scan blocks code (pc + 3) len
+       | KStop n ->
+         scan blocks code (pc + n + 1) len
++      | K_will_not_append -> assert false
+     end
+     else blocks
+ 
+@@ -1577,6 +1578,9 @@ and compile blocks code limit pc state instrs =
+          Let (meths, Field (obj, 0)) :: instrs)
+     | STOP ->
+       (instrs, Stop, state)
++    | EVENT
++    | BREAK
++    | FIRST_UNIMPLEMENTED_OP -> assert false
+   end
+ 
+ (****)
+diff --git a/runtime/stdlib.js b/runtime/stdlib.js
+index 72f7628..a5a5f69 100644
+--- runtime/stdlib.js
++++ runtime/stdlib.js
+@@ -906,3 +906,10 @@ function caml_set_oo_id (b) {
+ 
+ //Provides: caml_install_signal_handler const
+ function caml_install_signal_handler(){return 0}
++
++
++//Provides: caml_convert_raw_backtrace_slot
++//Requires: caml_failwith
++function caml_convert_raw_backtrace_slot(){
++  caml_failwith("caml_convert_raw_backtrace_slot");
++}
+-- 
+2.0.4
+
