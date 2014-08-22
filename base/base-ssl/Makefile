@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.0.1h
-PKGREVISION= 1
+VERSION=	 1.0.1i
+PKGREVISION= 0
 PKG=         ssl
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -14,6 +14,7 @@ COMMENT=	 Secure Sockets Layer library
 
 DEPENDS+=	base-zlib>=0:../../base/base-zlib
 
+.if defined(MINGW_BASE_BUILD)
 CONFIGURE_ENV+=	CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q}
 
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == 64 
@@ -22,7 +23,6 @@ PTARGET=	mingw64
 PTARGET=	mingw
 .endif
 
-.if defined(MINGW_BASE_BUILD)
 do-configure:
 	cd ${WRKSRC:Q} && ${SETENV} ${CONFIGURE_ENV} \
 	 ./Configure shared --prefix=${MINGW_PREFIX:Q} \
