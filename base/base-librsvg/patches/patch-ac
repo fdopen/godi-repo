@@ -1,0 +1,24 @@
+--- ../../work-ref/librsvg-2.40.3/configure.in	2014-06-18 19:54:36.000000000 +0200
++++ ./configure.in	2014-08-20 15:08:30.762856495 +0200
+@@ -111,7 +111,7 @@
+ 
+ PKG_CHECK_MODULES([GMODULE],[gmodule-2.0])
+ 
+-PKG_CHECK_MODULES([RSVG_CONVERT],[gio-2.0 gio-unix-2.0 gdk-pixbuf-2.0 cairo pangocairo])
++PKG_CHECK_MODULES([RSVG_CONVERT],[gio-2.0 gdk-pixbuf-2.0 cairo pangocairo])
+ 
+ dnl ===========================================================================
+ 
+@@ -252,10 +252,10 @@
+   enable_introspection=yes
+ fi
+ 
+-GOBJECT_INTROSPECTION_CHECK([0.10.8])
++dnl GOBJECT_INTROSPECTION_CHECK([0.10.8])
+ 
+ # Vala bindings
+-VAPIGEN_CHECK([0.17.1.26],,,[no])
++dnl VAPIGEN_CHECK([0.17.1.26],,,[no])
+ 
+ dnl ===========================================================================
+

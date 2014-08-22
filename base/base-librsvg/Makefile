@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 2.40.2
-PKGREVISION=	 2
+VERSION=	 2.40.3
+PKGREVISION=	 0
 PKG=		 librsvg
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -31,6 +31,8 @@ DEF_CONFIGURE_ARGS+=    --disable-vala
 .if defined(MINGW_BASE_BUILD)
 post-extract:
 	cp files/*.* ${WRKSRC}
+pre-configure:
+	cd ${WRKSRC} && autoreconf
 .endif
 
 MAKE_FLAGS+=	bin_PROGRAMS= sbin_PROGRAMS= noinst_PROGRAMS= man_MANS=
