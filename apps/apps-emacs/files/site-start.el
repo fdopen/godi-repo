@@ -23,6 +23,7 @@
 
 (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
 (add-to-list 'auto-mode-alist '("\\.ml[iylp]?\\'" . tuareg-mode))
+(autoload 'company-mode "company" nil t)
 
 (setq completion-ignored-extensions
       (append '(".cmo" ".cmx" ".cmxs" ".cma" ".cmxa" ".cmi" ".annot" ".cmti")
@@ -79,13 +80,21 @@
 
 (require 'color-theme)
 
-(let ((fln_ocp_indent (concat (getenv "emacs_dir") "/../../share/typerex/ocp-indent/ocp-indent.el")))
+(let ((fln_ocp_indent (concat (getenv "emacs_dir") "/../../share/emacs/site-lisp/ocp-indent.el")))
   (if (file-exists-p fln_ocp_indent)
       (load-file  fln_ocp_indent)))
 
-(let ((fln_ocp_index (concat (getenv "emacs_dir") "/../../share/typerex/ocp-index/ocp-index.el")))
+(let ((fln_ocp_index (concat (getenv "emacs_dir") "/../../share/emacs/site-lisp/ocp-index.el")))
   (if (file-exists-p fln_ocp_index)
       (load-file  fln_ocp_index)))
+
+(let ((fln_merlin (concat (getenv "emacs_dir") "/../../share/emacs/site-lisp/merlin.el")))
+  (if (file-exists-p fln_merlin)
+      (progn
+        (load-file  fln_merlin)
+        (let ((fln_merlin_exe (concat (getenv "emacs_dir") "/../../bin/ocamlmerlin.exe")))
+          (if (file-exists-p fln_merlin_exe)
+              (setq merlin-command fln_merlin_exe))))))
 
 (let ((omake_file (concat (getenv "emacs_dir") "/site-lisp/omake.elc")))
   (if (file-exists-p omake_file)

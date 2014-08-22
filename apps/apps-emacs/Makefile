@@ -3,12 +3,14 @@
 VERSION=	24.3
 XPMVERSION=	3.5.8
 MNODE=          1304	
-PKGREVISION=	2
+PKGREVISION=	5
 PKG=		apps-emacs
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	emacs
-DISTFILES=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz emacs-${VERSION}-bin-i386.zip emacs-${VERSION}.tar.xz libxpm-${XPMVERSION}-w32-src.zip v1.3.1.tar.gz
-EXTRACT_ONLY=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz v1.3.1.tar.gz
+DISTNAME=	opt
+COMPANY_VERSION= 0.8.2
+YASNIPPET_VERSION=0.8.0
+DISTFILES=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz emacs-${VERSION}-bin-i386.zip emacs-${VERSION}.tar.xz libxpm-${XPMVERSION}-w32-src.zip v1.3.1.tar.gz company-${COMPANY_VERSION}.tar.xz yasnippet-${YASNIPPET_VERSION}.tar.xz
+EXTRACT_ONLY=	tuareg-2.0.7.tar.gz color-theme-6.6.0.tar.gz v1.3.1.tar.gz company-${COMPANY_VERSION}.tar.xz yasnippet-${YASNIPPET_VERSION}.tar.xz
 CATEGORIES=	apps
 MASTER_SITES=	http://ftp.gnu.org/gnu/emacs/windows/ http://ftp.gnu.org/gnu/emacs/ http://forge.ocamlcore.org/frs/download.php/${MNODE}/ http://download.savannah.gnu.org/releases-redirect/
 
@@ -34,13 +36,16 @@ pre-configure:
 .endif
 
 pre-extract:
-	@${MKDIR} ${WRKDIR:Q}/emacs
+	@${MKDIR} -p ${WRKDIR:Q}/opt
 
 post-extract:
 	@${CP} files/* ${WRKDIR:Q}
 	@${CHMOD} 755 ${WRKDIR:Q}/install.sh
-	@${RMDIR} ${WRKDIR:Q}/emacs
-	@cd ${WRKDIR:Q} && unzip -q ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && ${MV} emacs-* emacs 
+	@${INSTALL} -m 0644 files/cl-lib-*.el ${WRKDIR}/company-${COMPANY_VERSION}/cl-lib.el
+	@cd ${WRKDIR:Q} && \
+	  cd opt && \
+	  unzip -q ${DISTDIR}/emacs-${VERSION}-bin-i386.zip && \
+	  ${MV} emacs-* emacs 
 	@cd ${WRKDIR:Q} && tar -xf "${LOCALBASE}/lib/godi/saved-src/ocaml.txz"
 
 BUILD_SCRIPT= ${WRKDIR:Q}/install.sh
