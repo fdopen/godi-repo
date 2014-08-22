@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (pkg-config-0.28.tar.gz) = 71853779b12f958777bffcb8ca6d849b4d3bed46
 Size (pkg-config-0.28.tar.gz) = 1931203 bytes
 
-SHA1 (base-pkg-config-0.28_2_64.txz) = 5f5b8619dba5cd92dd96fc6a782ecc04ee7f6ef4
-Size (base-pkg-config-0.28_2_64.txz) = 52876 bytes
+SHA1 (base-pkg-config-0.28_3_64.txz) = 1f6c5978cde975d7eb047159ba329a339ae85f43
+Size (base-pkg-config-0.28_3_64.txz) = 52828 bytes
 
-SHA1 (base-pkg-config-0.28_2_32.txz) = d41278998fee77414910f25819c2ad6ed81f884d
-Size (base-pkg-config-0.28_2_32.txz) = 50596 bytes
+SHA1 (base-pkg-config-0.28_3_32.txz) = 9523bc303ed840deb6954ab598d9579b701d0ddd
+Size (base-pkg-config-0.28_3_32.txz) = 50572 bytes
