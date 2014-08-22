@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (libglade-2.6.4.tar.bz2) = 8465851733b8a0efbe57c43efc0f140d8e2d2edb
 Size (libglade-2.6.4.tar.bz2) = 356119 bytes
 
-SHA1 (base-libglade-2.6.4_2_64.txz) = a5a4bb28b64a1f47d63876d239180decc7118edf
-Size (base-libglade-2.6.4_2_64.txz) = 93332 bytes
+SHA1 (base-libglade-2.6.4_3_64.txz) = d3ce857924e2d42e1717f7d9088df12666a62ae2
+Size (base-libglade-2.6.4_3_64.txz) = 93316 bytes
 
-SHA1 (base-libglade-2.6.4_2_32.txz) = 368bd8d618356565f4b8bca451da93c10ab5e975
-Size (base-libglade-2.6.4_2_32.txz) = 92316 bytes
+SHA1 (base-libglade-2.6.4_3_32.txz) = 603c1927a20fc0eed1ca4c27d1fa3f686fbe76d0
+Size (base-libglade-2.6.4_3_32.txz) = 92424 bytes
 
 SHA1 (patch-libglade-2.0.1-nowarning) = 01036e630b0ee135d0d61ec68c1e61857cee073c
 SHA1 (patch-libglade-link-against-gmodule) = 66ef105f7e12dc4867b9023fdb834ad0f58cffa6
