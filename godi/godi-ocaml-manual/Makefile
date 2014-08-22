@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.02beta
+VERSION=        4.02rc1
 PKGREVISION=	0
 PKGNAME=        godi-ocaml-manual-${VERSION}
 DISTNAME=       htmlman
-DISTFILES=      ocaml-4.02beta-refman-html.tar.gz
+DISTFILES=      ocaml-4.02-refman-html.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://caml.inria.fr/pub/distrib/ocaml-4.02/
 #MASTER_SITES=   http://www.ocaml-programming.de/godi-backup/
