@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	2.0.7
+VERSION= 	2.1.0
 PKG=		godi-postgresql
 PKGNAME= 	godi-postgresql-${VERSION}  
 PKGREVISION= 	0
-DISTNAME=	postgresql-ocaml-2.0.7
-DISTFILES=	postgresql-ocaml-2.0.7.tar.gz
+DISTNAME=	postgresql-ocaml-2.1.0
+DISTFILES=	postgresql-ocaml-2.1.0.tar.gz
 CATEGORIES=	godi  
-MASTER_SITES= 	https://github.com/mmottl/postgresql-ocaml/releases/download/v2.0.7/
+MASTER_SITES= 	https://github.com/mmottl/postgresql-ocaml/releases/download/v2.1.0/
 HOMEPAGE=	https://github.com/mmottl/postgresql-ocaml
 COMMENT=	PostgreSQL Bindings for OCaml
 
