@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (gtk+-2.24.24.tar.xz) = c43eb248b3d30c6b49937692b4c4bfa10b96201e
 Size (gtk+-2.24.24.tar.xz) = 13324064 bytes
 
-SHA1 (base-gtk2-2.24.24_2_64.txz) = c4923c37d5a3b30c0949c9217c5cff42f1d27e5f
-Size (base-gtk2-2.24.24_2_64.txz) = 5583528 bytes
+SHA1 (base-gtk2-2.24.24_3_64.txz) = 94854a967ed1030b2272bbef66aab3a659eefe17
+Size (base-gtk2-2.24.24_3_64.txz) = 5584236 bytes
 
-SHA1 (base-gtk2-2.24.24_2_32.txz) = 8af0c97628817be1ddffeac2bd6fe3d1226903b1
-Size (base-gtk2-2.24.24_2_32.txz) = 5507796 bytes
+SHA1 (base-gtk2-2.24.24_3_32.txz) = 049739a11a15d39d34d40ff2e02cf9019da7c333
+Size (base-gtk2-2.24.24_3_32.txz) = 5508768 bytes
 
 SHA1 (patch-0012-embed-manifest.all) = 4d40afd53501082bc35b2513413091895550f2ca
 SHA1 (patch-gtk-combo-box-dont-use-invalidated-iter) = 877e36154ffe3f3471d7a12a872c5867dad3c6dd
