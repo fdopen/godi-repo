@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.99
+VERSION=	0.99.1
 PKGREVISION=	0
 ONAME=		ppx_tools
 PKGNAME=	godi-${ONAME}-${VERSION}
