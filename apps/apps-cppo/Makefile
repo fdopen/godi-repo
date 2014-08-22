@@ -3,7 +3,7 @@
 
 VERSION=        0.9.4
 PKGNAME=        apps-cppo-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       cppo-0.9.4
 DISTFILES=      cppo-0.9.4.tar.gz
 CATEGORIES=     apps
@@ -18,7 +18,8 @@ COMMENT=        cpp for OCaml
 AUTOGENERATE_PLIST = yes
 PKG  =          apps-cppo
 MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man 
-DEPENDS+= godi-ocaml>=3.09:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=3.09:../../godi/godi-ocaml
+BUILD_DEPENDS+=	godi-findlib>=1:../../godi/godi-findlib
 
 # HAS_CONFIGURE = yes
 
