@@ -1,12 +1,12 @@
 $NetBSD$
 
-SHA1 (pango-1.36.5.tar.xz) = 98e954e0a9e9c47f7f399488d074c1965eaaceae
-Size (pango-1.36.5.tar.xz) = 1023952 bytes
+SHA1 (pango-1.36.6.tar.xz) = 91aea0a9364532ba2fb1bde8c84f4d5c2ef5f1ca
+Size (pango-1.36.6.tar.xz) = 1027756 bytes
 
-SHA1 (base-pango-1.36.5_2_64.txz) = 1355f25c460762a6f37f079adbc4f484a03cf319
-Size (base-pango-1.36.5_2_64.txz) = 494300 bytes
+SHA1 (base-pango-1.36.6_0_64.txz) = bb1a5426abd06eb12e898427403fa493ea500134
+Size (base-pango-1.36.6_0_64.txz) = 496612 bytes
 
-SHA1 (base-pango-1.36.5_2_32.txz) = dffa42cc7a1a1ccccd1571f957fee25859b235e6
-Size (base-pango-1.36.5_2_32.txz) = 485796 bytes
+SHA1 (base-pango-1.36.6_0_32.txz) = 9e8613f7f9e71087ef91768f8625e1538e1d5985
+Size (base-pango-1.36.6_0_32.txz) = 488108 bytes
 
 SHA1 (patch-enable-delay-load-of-freetype-and-fontconfig) = 1e2d1cd6798873e97c5b41bd2bacfd5800f39e88
