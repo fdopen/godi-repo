@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (harfbuzz-0.9.33.tar.bz2) = 4d935607f528a039efe632a5de7b729d60406df1
-Size (harfbuzz-0.9.33.tar.bz2) = 1139621 bytes
+SHA1 (harfbuzz-0.9.35.tar.bz2) = 6f4401af396069214be2ba15b884361ef540e501
+Size (harfbuzz-0.9.35.tar.bz2) = 1165359 bytes
 
-SHA1 (base-harfbuzz-0.9.33_1_64.txz) = 6920fed7cb8b675d50d46a250324ff174bb15578
-Size (base-harfbuzz-0.9.33_1_64.txz) = 413380 bytes
+SHA1 (base-harfbuzz-0.9.35_0_64.txz) = 6c62e1f2faaea66ff9fa29349c9c41574ae687f9
+Size (base-harfbuzz-0.9.35_0_64.txz) = 421280 bytes
 
-SHA1 (base-harfbuzz-0.9.33_1_32.txz) = ba72ebf9c365139480ea298e4f2845122e08b5e8
-Size (base-harfbuzz-0.9.33_1_32.txz) = 409716 bytes
+SHA1 (base-harfbuzz-0.9.35_0_32.txz) = 195a0de2a4772cc104e9bdf7905664089b0b4100
+Size (base-harfbuzz-0.9.35_0_32.txz) = 417388 bytes
