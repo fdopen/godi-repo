@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 3.1
-PKGREVISION= 1
+PKGREVISION= 2
 PKG=         libffi
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -12,7 +12,7 @@ HOMEPAGE=	 http://sourceware.org/libffi/
 COMMENT=	 Foreign Function Interface library
 
 DEF_CONFIGURE_ARGS+=	--enable-shared
-DEF_CONFIGURE_ARGS+=	--disable-static
+DEF_CONFIGURE_ARGS+=	--enable-static
 
 .if defined(MINGW_BASE_BUILD)
 post-install:
