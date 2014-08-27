@@ -3,7 +3,7 @@
 VERSION=	1.0.2b
 ONAME=		ocp-index
 PKGNAME=	godi-${ONAME}-${VERSION}
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	${ONAME}-4.02
 DISTFILES=	${ONAME}-${VERSION}.tar.xz
 CATEGORIES=	godi
@@ -17,7 +17,7 @@ DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 DEPENDS+=	godi-cmdliner>=0:../../godi/godi-cmdliner
 DEPENDS+= 	godi-ocp-indent>=1.4.0:../../godi/godi-ocp-indent
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ocp-build>=1.99.7beta:../../godi/godi-ocp-build
+BUILD_DEPENDS+= godi-ocp-build>=1.99.8beta:../../godi/godi-ocp-build
 BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
 BUILD_DEPENDS+= godi-re>=1.0:../../godi/godi-re
 
