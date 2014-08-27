@@ -2,8 +2,8 @@
 
 PKG=		base-windows
 PKGNAME=	${PKG}-${VERSION}
-VERSION=	0.0.1
-PKGREVISION=	1
+VERSION=	0.0.2
+PKGREVISION=	0
 DISTNAME=	mingw
 DISTFILES=	
 CATEGORIES=	base
@@ -33,7 +33,7 @@ do-extract:
 
 do-build:
 	@cd ${WRKSRC:Q} && \
-	 ${SETENV} ${MAKE_ENV} ocamlfind ocamlopt -package unix -linkpkg pkg.ml -o pkg-config.exe
+	 ${SETENV} ${MAKE_ENV} ocamlfind ocamlopt -package unix,str -linkpkg pkg.ml -o pkg-config.exe
 	@${SETENV} ${MAKE_ENV} ${MINGW_TOOL_PREFIX:Q}strip --strip-unneeded ${WRKSRC:Q}/pkg-config.exe
 	@echo bin/pkg-config.exe > ${PLIST_SRC:Q}
 .if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""

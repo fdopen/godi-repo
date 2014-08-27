@@ -106,19 +106,6 @@ let rec write_real = function
 let write_stdout str =
   write_real (str ^ "\n")
 
-let output_line = function
-| "" -> write_stdout ""
-| str ->
-  let len = String.length str in
-  match str.[len-1] with
-  | '\r' -> String.sub str 0 (len-1) |> write_stdout
-  | _    -> write_stdout str
-
-let rec output_without_last = function
-| [] -> assert false
-| hd::[] -> hd
-| hd::tl -> output_line hd ; output_without_last tl
-
 let create_argv () =
   let dir = Filename.dirname Sys.executable_name in
   let real = Filename.concat dir "pkg-config_real.exe" in
@@ -129,6 +116,101 @@ let create_argv () =
     n.(0) <- real;
     n
 
+let cygwin_root_rex =
+  try
+    let p_stdout_read = new_pipe ()
+    and p_stdout_write = new_pipe () in
+    try_finally ( fun () ->
+      let shell =
+        try
+          let exe_dir = Filename.dirname Sys.executable_name in
+          let s = Filename.concat exe_dir "..\\..\\..\\bin\\dash.exe" in
+          if Sys.file_exists s then
+            s
+          else
+            let s = Filename.concat exe_dir "..\\..\\..\\bin\\bash.exe" in
+            if Sys.file_exists s then
+              s
+            else
+              "bash.exe"
+        with
+        | _ -> "bash.exe"
+      in
+      let argv = 
+        [|
+          shell ;
+          "-c";
+          "/bin/cygpath -m \"$(/bin/readlink -f /)\"";
+        |]
+      in
+      pipe p_stdout_read p_stdout_write;
+      let pid = Unix.create_process argv.(0) argv Unix.stdin p_stdout_write.fd Unix.stderr in
+      close_pipe p_stdout_write;
+      let buf_len = 128 in
+      let buf = Buffer.create buf_len
+      and buf_str = String.create buf_len
+      and x = ref 1 in
+      while !x > 0 do
+        x := (try read p_stdout_read.fd buf_str 0 buf_len with | _ -> -1) ;
+        if !x > 0 then
+          Buffer.add_substring buf buf_str 0 !x;
+      done;
+      close_pipe p_stdout_read;
+      let pid', process_status = waitpid pid in
+      assert (pid = pid');
+      match process_status with
+      | Unix.WEXITED 0 -> 
+        let len = Buffer.length buf in
+        let buf2 = Buffer.create len
+        and i = ref 0 in
+        while !i < len ; do
+          match Buffer.nth buf !i with
+          | '\r' | '\n' -> i:= len;
+          | x -> Buffer.add_char buf2  x; incr i
+        done;
+        (match Buffer.contents buf2 with
+        | "" -> None
+        | x -> 
+          if Sys.is_directory x then
+            Some (Str.quote x |> Str.regexp)
+          else
+            None
+        )
+      | Unix.WEXITED _ 
+      | Unix.WSIGNALED _   (* like OCaml's uncaught exceptions *)
+      | Unix.WSTOPPED _ ->  None
+      (* only possible if the call was done using WUNTRACED
+         or when the child is being traced *)
+    ) () ( fun () -> close_pipe p_stdout_write; close_pipe p_stdout_read ) ()
+  with
+  | _ -> None
+
+let output_line = function
+| "" -> write_stdout ""
+| str ->
+  (* 
+     Remove windows paths:
+     '-L/opt/godi', instead of '-LC:/cygwin/opt/godi'
+     This way, linker flags are relocatable,...
+  *)
+  let str = match cygwin_root_rex with
+  | None -> str
+  | Some r -> Str.global_replace r "" str 
+  in
+  let len = String.length str in
+  if len = 0 then
+    write_stdout ""
+  else
+    match str.[len-1] with
+    | '\r' -> String.sub str 0 (len-1) |> write_stdout
+    | _    -> write_stdout str
+
+let rec output_without_last = function
+| [] -> assert false
+| hd::[] -> hd
+| hd::tl -> output_line hd ; output_without_last tl
+
+  
 let run () : int =
   let p_stdout_read = new_pipe ()
   and p_stdout_write = new_pipe () in
@@ -167,5 +249,6 @@ let run () : int =
   ) () ( fun () -> close_pipe p_stdout_write; close_pipe p_stdout_read ) ()
 
 let () =
+  (*Printf.printf "%S" cygwin_root*)
   let ret = run () in
   exit ret
