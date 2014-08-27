@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	1.1.0
+VERSION= 	1.2.0
 ONAME=		react
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-react-${VERSION}
-PKGREVISION= 	1
+PKGREVISION= 	0
 DISTNAME=	react-${VERSION}
 DISTFILES=	${DISTNAME}.tbz
 CATEGORIES=	godi
@@ -17,5 +17,10 @@ BUILD_DEPENDS+= godi-camlp4-[0-9]*:../../godi/godi-camlp4
 
 WINPKG=	yes
 DOCUMENT_DIRS = doc
+
+post-install:
+	@cd ${WRKSRC:Q} && \
+	  ${SET_ENV} ${MAKE_ENV} ${LOCALBASE:Q}/bin/ocamlbuild -use-ocamlfind test/tests.otarget && \
+	  ./test.native
 
 .include "../../mk/bsd.pkg.mk"
