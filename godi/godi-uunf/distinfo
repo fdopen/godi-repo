@@ -2,3 +2,6 @@ $NetBSD$
 
 SHA1 (uunf-0.9.3.tbz) = 468cc41deb9727057b404ad9bfe15c553eef5a8b
 Size (uunf-0.9.3.tbz) = 42641 bytes
+
+SHA1 (NormalizationTest-01.xz) = 9134f37cc7be51318c50b70aeffba65f75913103
+Size (NormalizationTest-01.xz) = 183824 bytes

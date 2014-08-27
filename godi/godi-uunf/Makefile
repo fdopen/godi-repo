@@ -4,9 +4,11 @@ ONAME=		uunf
 PKG=		godi-${ONAME}
 VERSION=        0.9.3
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
-DISTFILES=      ${ONAME}-${VERSION}.tbz
+QTESTEFILE=	NormalizationTest-01.xz
+DISTFILES=      ${ONAME}-${VERSION}.tbz ${QTESTEFILE} 
+EXTRACT_ONLY=	${ONAME}-${VERSION}.tbz
 CATEGORIES=     godi
 MASTER_SITES=   http://erratique.ch/software/${ONAME}/releases/
 MAINTAINER=     andreas@ml.ignorelist.com
@@ -32,10 +34,12 @@ INSTALL_SCRIPT= bash ${PKGDIR:Q}/files/install.sh --prefix=${IMAGE_DIR:Q} --wrks
 		 --install-file=${ONAME}.install --name=${PKGBASE:Q}
 
 post-install:
+	@cd ${WRKSRC:Q} && \
+	  ${SET_ENV} ${MAKE_ENV} ${LOCALBASE:Q}/bin/ocamlbuild -use-ocamlfind -package uutf test/tests.otarget && \
+	  /bin/xz -k -d -c ${DISTDIR:Q}/${QTESTEFILE:Q} | ./test.native
 	${MKDIR} ${IMAGE_DIR}/doc/${PKGBASE:Q}/html
 	${CP} ${WRKSRC}/doc/* ${IMAGE_DIR}/doc/${PKGBASE:Q}/html
 	cd ${IMAGE_DIR} && ${FIND} * ! -type d >${PLIST_SRC} && \
 		${PAX} -rw -pp . ${LOCALBASE:Q}
-
 
 .include "../../mk/bsd.pkg.mk"
