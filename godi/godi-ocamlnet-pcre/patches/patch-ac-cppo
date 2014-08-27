@@ -1,0 +1,97 @@
+--- ../../work-ref/ocamlnet-3.7.5alpha/configure	2014-08-27 12:20:33.302000000 +0200
++++ ./configure	2014-08-27 12:19:09.015200000 +0200
+@@ -3,6 +3,9 @@
+ # $Id: configure 1989 2014-08-24 12:44:32Z gerd $
+ 
+ #######################################################################
++# Constants:
++cppo_version=0.9.4
++
+ # Helpers:
+ 
+ # Split $PATH into words:
+@@ -31,7 +34,6 @@
+         fi
+     done
+ }
+-
+ #######################################################################
+ # Defaults
+ 
+@@ -338,7 +340,7 @@
+ # Check OS
+ 
+ with_rpc_xti=0
+-
++with_cppo_tweak=0
+ printf "%s" "Checking operating system... "
+ u=`uname`
+ case "$u" in
+@@ -348,6 +350,7 @@
+ 		path_sep=";"   # this is only for OCAMLPATH, ";" is correct for Cygwin
+ 		case `ocamlc -config | grep os_type` in
+ 		    *Win32*)
++                        with_cppo_tweak=1
+                         if [ $cpp_set = 0 ]; then
+                             cpp=`realpath /bin/cpp | cygpath -m -f -`
+                         fi
+@@ -359,6 +362,7 @@
+         MINGW*)
+ 		echo "MinGW"
+ 		exec_suffix=".exe"
++		with_cppo_tweak=2
+ 		path_sep=";"
+ 		mingw_lib=`get_path gcc`
+ 		mingw_lib=`dirname "$mingw_lib"`/../lib
+@@ -962,6 +966,19 @@
+ ######################################################################
+ # Write Makefile.conf
+ 
++if [ $with_cppo_tweak -ne 0 ]; then
++    xdir="$(readlink -f "$(dirname "$0")")"
++    if [ $with_cppo_tweak -eq 1 ]; then
++        xdir="$(cygpath "${xdir}")"
++    fi
++    xdir="${xdir}/tools/cppo-${cppo_version}"
++    export_path="export PATH:=${xdir}:\$(PATH)"
++    cppo="cppo-ocamlnet.exe"
++else
++    export_path=
++    cppo='$(TOP_DIR)/tools/cppo-$(CPPO_VERSION)/cppo'
++fi
++
+ echo "Writing Makefile.conf"
+ cat <<_EOF_ >Makefile.conf
+ # Makefike.conf written by configure
+@@ -1049,8 +1066,10 @@
+ OCAMLRPCGEN_CPP = $cpp
+ 
+ # cppo:
+-CPPO_VERSION = 0.9.4
++CPPO_VERSION = $cppo_version
+ 
++CPPO = $cppo
++$export_path
+ _EOF_
+ 
+ ######################################################################
+--- ../../work-ref/ocamlnet-3.7.5alpha/Makefile.rules	2014-08-25 13:03:20.000000000 +0200
++++ ./Makefile.rules	2014-08-27 12:09:20.474000000 +0200
+@@ -20,7 +20,6 @@
+ OCAMLMKLIB = $(TOP_DIR)/tools/mkstublib
+ OCAMLDOC  = $(OCAMLFIND) ocamldoc
+ STUBCC    = $(TOP_DIR)/tools/stubcc -ocamlc ocamlc
+-CPPO      = $(TOP_DIR)/tools/cppo-$(CPPO_VERSION)/cppo
+ 
+ # Set here which warnings we want to have:
+ # 3: whether to report deprecated features. This is disabled because we are
+--- ../../work-ref/ocamlnet-3.7.5alpha/tools/cppo-0.9.4/Makefile	2014-08-25 13:03:18.000000000 +0200
++++ ./tools/cppo-0.9.4/Makefile	2014-08-27 12:18:43.790000000 +0200
+@@ -58,6 +58,7 @@
+ 
+ all: $(ML)
+ 	ocamlc -o cppo$(EXE) -dtypes unix.cma $(ML)
++	cp cppo$(EXE) cppo-ocamlnet$(EXE)
+ 
+ opt: $(ML)
+ 	ocamlopt -o cppo$(EXE) -dtypes unix.cmxa $(ML)

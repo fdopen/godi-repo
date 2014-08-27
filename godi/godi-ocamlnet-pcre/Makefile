@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.7.4
+VERSION=	3.7.5alpha
 PKGNAME=	godi-ocamlnet-pcre-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocamlnet-${VERSION}
-DISTFILES=	ocamlnet-${VERSION}.tar.gz
+DISTFILES=	ocamlnet-${VERSION}.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -18,11 +18,8 @@ DEPENDS+=	godi-ocamlnet==${VERSION}:../../godi/godi-ocamlnet
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
-# ocamlfind must install into the pkg-lib directory, not into site-lib.
-# Use the build time configuration file:
-MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
+WINGMAKE=	yes
 HAS_CONFIGURE=	yes
 CONFIGURE_ARGS=	-disable-core
 CONFIGURE_ARGS+=-enable-pcre
@@ -38,22 +35,8 @@ ALL_TARGET+=	opt
 
 MAKE_FLAGS+="INC_NETSYS=-package netsys"
 
-
-.if defined(W32PORT) && ${W32PORT} == "mingw"
-pre-clean:
-	${RM} -f patches/patch-win*
-
-post-extract:
-	${CP} files/patch-win* patches
-.endif
-
-
 post-install:
-	${MKDIR} ${PREFIX}/doc/godi-ocamlnet-pcre
-	cd ${WRKSRC} && \
-	${CP} LICENSE ${PREFIX}/doc/godi-ocamlnet-pcre
 	${ECHO} "See package godi-ocamlnet for further documentation." \
 		>${PREFIX}/doc/godi-ocamlnet-pcre/README.GODI
-
 
 .include "../../mk/bsd.pkg.mk"
