@@ -3,8 +3,10 @@ $NetBSD$
 SHA1 (file-5.19.tar.gz) = 0dff09eb44fde1998be79e8d312e9be4456d31ee
 Size (file-5.19.tar.gz) = 719158 bytes
 
-SHA1 (base-file-5.19_1_64.txz) = f0683d7f5fda0fc5475f807f8994f6076f061818
-Size (base-file-5.19_1_64.txz) = 197296 bytes
+SHA1 (base-file-5.19_2_64.txz) = f07ea3b945eae83b145456cb6f953598d4360dcb
+Size (base-file-5.19_2_64.txz) = 197192 bytes
 
-SHA1 (base-file-5.19_1_32.txz) = 7f556d193337bd88488b8ee81dbbc9221ce45633
-Size (base-file-5.19_1_32.txz) = 197940 bytes
+SHA1 (base-file-5.19_2_32.txz) = a21a9c31c361a8e36298ec2b811b4154a1a96b92
+Size (base-file-5.19_2_32.txz) = 198136 bytes
+
+SHA1 (patch-file-5.19-CVE-2014-3587) = c492cefcbdede3270fac51e9ff40429dbbed0c59
