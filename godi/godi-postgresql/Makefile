@@ -3,7 +3,7 @@
 VERSION= 	2.1.0
 PKG=		godi-postgresql
 PKGNAME= 	godi-postgresql-${VERSION}  
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	postgresql-ocaml-2.1.0
 DISTFILES=	postgresql-ocaml-2.1.0.tar.gz
 CATEGORIES=	godi  
@@ -22,5 +22,11 @@ DEPENDS+=	base-libpq>=0:../../base/base-libpq
 .endif
 
 WINOASIS=	yes
+
+OCAMLPARAM=	cclib=-L${LOCALBASE}/lib,_
+
+CONFIGURE_ENV+= OCAMLPARAM=${OCAMLPARAM:Q}
+MAKE_ENV+=	OCAMLPARAM=${OCAMLPARAM:Q}
+
 
 .include "../../mk/bsd.pkg.mk"
