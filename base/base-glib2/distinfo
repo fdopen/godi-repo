@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (glib-2.41.3.tar.xz) = 201f94ad412be29c27f38558d5bc399e2366dbee
 Size (glib-2.41.3.tar.xz) = 6974636 bytes
 
-SHA1 (base-glib2-2.41.3_0_64.txz) = 05afdbe5535f3f69e2b3428b0b30c31d017a4d56
-Size (base-glib2-2.41.3_0_64.txz) = 2153804 bytes
+SHA1 (base-glib2-2.41.3_1_64.txz) = feabdf4d438369ef78f0252544d942963cca9b4f
+Size (base-glib2-2.41.3_1_64.txz) = 2155312 bytes
 
-SHA1 (base-glib2-2.41.3_0_32.txz) = 4a2c374163c67b2b98358d2805a8a846fb868c37
-Size (base-glib2-2.41.3_0_32.txz) = 2119388 bytes
+SHA1 (base-glib2-2.41.3_1_32.txz) = b5a629c53f242bcaf22a696a865dec1806aa826a
+Size (base-glib2-2.41.3_1_32.txz) = 2121960 bytes
 
 SHA1 (patch-0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always) = 0e2fd4dc420dd225d4642beaf6184b416523b91b
 SHA1 (patch-0003-g_abort.all) = cc2259e20ccc6a760d73cfee56f93c36ae0735eb
