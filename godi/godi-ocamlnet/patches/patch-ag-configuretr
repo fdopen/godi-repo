@@ -1,0 +1,20 @@
+--- ./configure
++++ ./configure
+@@ -485,7 +485,7 @@
+ cat <<_EOF_ >tmp/t.ml
+ print_endline(string_of_int(Sys.word_size))
+ _EOF_
+-word_size="$(ocaml tmp/t.ml)"
++word_size="$(ocaml tmp/t.ml | tr -d '\r')"
+ echo "$word_size bit"
+ 
+ printf "%s" "Checking endianess... "
+@@ -522,7 +522,7 @@
+ 
+ printf "Checking for GPROF... "
+ 
+-stdlib=`ocamlc -where`
++stdlib=`ocamlc -where | tr -d '\r'`
+ if [ -f $stdlib/std_exit.p.cmx ]; then
+     echo "found"
+     have_gprof=1

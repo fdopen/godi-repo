@@ -1,0 +1,18 @@
+--- ../../work-ref/ocamlnet-3.7.5alpha/src/netstring/Makefile.def	2014-08-25 13:03:18.000000000 +0200
++++ ./src/netstring/Makefile.def	2014-08-25 15:00:11.384800000 +0200
+@@ -124,11 +124,12 @@
+ 	(cd netdb && ls *.netdb) | \
+ 	{ while read f; do echo "$(NET_DB_DIR)/$$f"; done; } >netdb-packlist
+ 
++NET_DB_DIR_CYGWIN=$(shell cygpath "$(NET_DB_DIR)")
+ .PHONY: install-netdb
+ install-netdb:
+-	mkdir -p "$(DESTDIR)$(NET_DB_DIR)"
+-	cp netdb/*.netdb "$(DESTDIR)$(NET_DB_DIR)"
+-	@echo "Installed .netdb files into $(DESTDIR)$(NET_DB_DIR)"
++	mkdir -p "$(DESTDIR)$(NET_DB_DIR_CYGWIN)"
++	cp netdb/*.netdb "$(DESTDIR)$(NET_DB_DIR_CYGWIN)"
++	@echo "Installed .netdb files into $(DESTDIR)$(NET_DB_DIR_CYGWIN)"
+ 
+ tools_done:
+ 	cd tools && $(MAKE)

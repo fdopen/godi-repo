@@ -1,29 +1,21 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.7.4
+VERSION=	3.7.5alpha
 PKGREVISION=	0
 PKGNAME=	godi-ocamlnet-${VERSION}
 DISTNAME=	ocamlnet-${VERSION}
-DISTFILES=	ocamlnet-${VERSION}.tar.gz
+DISTFILES=	ocamlnet-${VERSION}.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://projects.camlcity.org/projects/ocamlnet.html
 COMMENT=	base library for network protocols
 
-# Basically, you can set this still to "no". However, in this case
-# there will be an install conflict with godi-ocamlnet-pcre. Not
-# recommended.
-GODI_OCAMLNET_NO_PCRE ?= yes
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
 DEPENDS+=       godi-cryptgps>=0.2.1:../../godi/godi-cryptgps
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
-
-.if ${GODI_OCAMLNET_NO_PCRE} != "yes"
-DEPENDS+=	godi-pcre>=5:../../godi/godi-pcre
-.endif
+#BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 # godi-tools-1.6 is the first version that processes CONFLICTS
 # correctly. By requiring it we are sure...
@@ -31,7 +23,6 @@ DEPENDS+=	godi-pcre>=5:../../godi/godi-pcre
 # ocamlnet --> tools --> equeue --> ocamlnet
 # BUILD_DEPENDS+= godi-tools>=1.6:../../godi/godi-tools
 
-# TODO: -prefer-netcgi
 
 .ifdef GODI_CONSOLE_SUPPORTS_CONFLICTS
 CONFLICTS=	godi-equeue<2.2
@@ -39,18 +30,21 @@ CONFLICTS+=	godi-netclient<2.2
 CONFLICTS+=	godi-rpc<2.2
 .endif
 
+WINGMAKE=	yes
 HAS_CONFIGURE=	yes
-CONFIGURE_ARGS+=-bindir "${LOCALBASE}/bin"
-CONFIGURE_ARGS+=-datadir ${LOCALBASE_NATIVE}/share/godi-ocamlnet
-CONFIGURE_ARGS+=-with-nethttpd -with-rpc-auth-dh
-
-.if ${GODI_OCAMLNET_NO_PCRE} != "yes"
-CONFIGURE_ARGS+=-enable-pcre
-.endif
-
-# ocamlfind must install into the pkg-lib directory, not into site-lib.
-# Use the build time configuration file:
-MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
+CONFIGURE_ARGS+=-bindir ${LOCALBASE:Q}/bin
+CONFIGURE_ARGS+=-datadir ${LOCALBASE_NATIVE:Q}/share/godi-ocamlnet
+CONFIGURE_ARGS+=-disable-pcre
+CONFIGURE_ARGS+=-disable-full-pcre
+CONFIGURE_ARGS+=-disable-gtk
+CONFIGURE_ARGS+=-disable-gtk2
+CONFIGURE_ARGS+=-disable-tcl
+CONFIGURE_ARGS+=-disable-ssl
+CONFIGURE_ARGS+=-disable-zip
+CONFIGURE_ARGS+=-disable-crypto
+CONFIGURE_ARGS+=-disable-apache
+CONFIGURE_ARGS+=-without-nethttpd
+CONFIGURE_ARGS+=-without-rpc-auth-dh
 
 ALL_TARGET=	all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
@@ -58,26 +52,15 @@ ALL_TARGET+=	opt
 .endif
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-pre-clean:
-	${RM} -f patches/patch-win*
-post-extract:
-	${CP} files/patch-win* patches
-
 .if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
-CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp
+CONFIGURE_ARGS+=-cpp ${MINGW_TOOL_PREFIX}cpp.exe
 .endif
 .endif
 
-
-pre-install:
-	${MKDIR} ${PREFIX}/lib/ocaml/pkg-lib/stublibs
+post-extract:
+	${RM} -f ${WRKSRC:Q}/src/netsys/unixsupport_w32.c
 
 post-install:
-	mkdir -p ${PREFIX}/doc/godi-ocamlnet
-.	for F in LICENSE LICENSE.GPL LICENSE.LGPL INSTALL ChangeLog RELNOTES
-	    cp ${WRKSRC}/${F} ${PREFIX}/doc/godi-ocamlnet
-.	endfor
-	cp -R ${WRKSRC}/doc/html-main ${PREFIX}/doc/godi-ocamlnet/html
-	cp -R ${WRKSRC}/examples ${PREFIX}/doc/godi-ocamlnet
+	cd ${WRKSRC:Q} && ${PAX} -rw -pp examples ${PREFIX:Q}/doc/godi-ocamlnet
 
 .include "../../mk/bsd.pkg.mk"
