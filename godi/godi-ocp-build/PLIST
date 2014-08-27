@@ -3,13 +3,19 @@ bin/ocp-build.byte.exe
 lib/ocaml/pkg-lib/META.ocp-build
 lib/ocaml/pkg-lib/META.ocp-build-bundle
 lib/ocaml/pkg-lib/META.ocp-build-misc
-lib/ocaml/pkg-lib/META.ocp-build-ocplib
 lib/ocaml/pkg-lib/META.ocp-build-win32
+lib/ocaml/pkg-lib/META.ocplib-debug
+lib/ocaml/pkg-lib/META.ocplib-lang
 lib/ocaml/pkg-lib/META.ocplib-project
+lib/ocaml/pkg-lib/META.ocplib-subcmd
+lib/ocaml/pkg-lib/META.ocplib-system
 @deepdir lib/ocaml/typerex/ocp-build
 @deepdir lib/ocaml/typerex/ocp-build-bundle
 @deepdir lib/ocaml/typerex/ocp-build-misc
-@deepdir lib/ocaml/typerex/ocp-build-ocplib
 @deepdir lib/ocaml/typerex/ocp-build-win32
+@deepdir lib/ocaml/typerex/ocplib-debug
+@deepdir lib/ocaml/typerex/ocplib-lang
 @deepdir lib/ocaml/typerex/ocplib-project
+@deepdir lib/ocaml/typerex/ocplib-subcmd
+@deepdir lib/ocaml/typerex/ocplib-system
 @deepdir doc/godi-ocp-build

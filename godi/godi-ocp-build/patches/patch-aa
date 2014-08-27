@@ -1,5 +1,5 @@
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildConfig.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildConfig.ml	2013-07-29 23:16:53.537600000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildConfig.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildConfig.ml	2014-08-26 22:44:09.594800000 +0200
 @@ -49,7 +49,7 @@
    Unix.putenv "PATH" (String.concat sep_PATH_str path)
  
@@ -9,8 +9,8 @@
    match st.Unix.st_kind with
        Unix.S_REG ->
  	begin
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngine.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildEngine.ml	2013-07-29 23:16:53.537600000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildEngine.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildEngine.ml	2014-08-26 22:44:09.610400000 +0200
 @@ -652,7 +652,7 @@
  	  | FILE_REAL ->
  	  try
@@ -20,8 +20,8 @@
  	    f.file_exists <- true;
  	    f.file_mtime <- BuildEngineMtime.compute filename
  	  with e ->
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineContext.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildEngineContext.ml	2013-07-29 23:16:53.537600000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildEngineContext.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildEngineContext.ml	2014-08-26 22:44:09.610400000 +0200
 @@ -60,7 +60,7 @@
     name
  
@@ -31,9 +31,9 @@
    if st.Unix.st_ino = 0 &&
      match Win32.os_type with
        Win32.UNIX -> false
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineDisplay.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildEngineDisplay.ml	2013-07-29 23:16:53.537600000 +0200
-@@ -163,7 +163,7 @@
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildEngineDisplay.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildEngineDisplay.ml	2014-08-26 22:44:09.610400000 +0200
+@@ -125,7 +125,7 @@
        (BuildEngineRules.command_of_command cmd)
        @ List.map (BuildEngineRules.argument_of_argument r) cmd.cmd_args
      in
@@ -42,8 +42,8 @@
      begin
        if verbose 2 then begin
          Printf.eprintf "[%d.%d]   END(%d) '%s'\n%!" r.rule_id proc.proc_step
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildEngineMtime.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildEngineMtime.ml	2013-07-29 23:16:53.537600000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildEngineMtime.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildEngineMtime.ml	2014-08-26 22:44:09.610400000 +0200
 @@ -29,7 +29,7 @@
    if !use_digests then
      Digest (Digest.file filename)
@@ -53,9 +53,9 @@
      Inode (st.Unix.st_dev, st.Unix.st_ino, st.Unix.st_mtime)
  
  let use_digests bool = use_digests := bool
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildMisc.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildMisc.ml	2013-07-29 23:16:53.553200000 +0200
-@@ -336,3 +336,31 @@
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildMisc.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildMisc.ml	2014-08-26 22:44:09.626000000 +0200
+@@ -354,3 +354,31 @@
      with _ -> ()
    end;
    (status, List.rev !lines)
@@ -87,8 +87,8 @@
 +      Unix.lstat (clean_fln fln)
 +    else
 +      Unix.lstat fln )
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildOCamlInstall.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildOCamlInstall.ml	2013-07-29 23:16:53.553200000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildOCamlInstall.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildOCamlInstall.ml	2014-08-26 22:44:09.626000000 +0200
 @@ -136,7 +136,7 @@
  let rec safe_mkdir where log filename =
    let filename_d = in_destdir where filename in
@@ -107,8 +107,8 @@
    match st.Unix.st_kind with
    | Unix.S_DIR ->
      safe_mkdir where log dst;
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocp-build/buildOCFGen.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocp-build/buildOCFGen.ml	2013-07-29 23:16:53.553200000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/buildOCFGen.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/buildOCFGen.ml	2014-08-26 22:44:09.626000000 +0200
 @@ -53,7 +53,7 @@
  
  let file_mtime filename =
@@ -118,8 +118,91 @@
    with _ -> max_float
  
  module InstalledOCPParser = BuildOCPParse.MakeParser(struct
---- ../../work-ref/ocp-build-ocp-build.1.99.7-beta/src/ocplib/file.ml	2013-04-24 23:18:51.000000000 +0200
-+++ ./src/ocplib/file.ml	2013-07-29 23:16:53.553200000 +0200
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/metaFile.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/metaFile.ml	2014-08-26 22:44:09.626000000 +0200
+@@ -86,13 +86,33 @@
+       (String.concat " " var.metavar_value)
+   ) entries
+ 
++let normalize_dir = function
++| Some str when Sys.os_type = "Win32" ->
++  let len = String.length str in
++  let buf = Buffer.create len in
++  let rec iter i bs =
++    if i >= len then
++      Buffer.contents buf
++    else
++      match str.[i] with
++      | '\\' | '/' ->
++        if bs = false || i = 1 then
++          Buffer.add_char buf '/' ;
++        iter (succ i) true
++      | x ->
++        Buffer.add_char buf x ;
++        iter (succ i) false
++  in
++  Some(iter 0 false)
++| x -> x
++
+ let create_meta_file filename meta =
+   let oc = open_out filename in
+   let rec fprintf_meta oc indent meta =
+     fprintf_option_field oc indent "version" meta.meta_version;
+     fprintf_option_field oc indent "description" meta.meta_description;
+     fprintf_option_field oc indent "name" meta.meta_name;
+-    fprintf_option_field oc indent "directory" meta.meta_directory;
++    fprintf_option_field oc indent "directory" (normalize_dir meta.meta_directory);
+     fprintf_option_field oc indent "license" meta.meta_license;
+     fprintf_option_field oc indent "preprocessor" meta.meta_preprocessor;
+     fprintf_option_field oc indent "linkopts" meta.meta_linkopts;
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocp-build/metaParser.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocp-build/metaParser.ml	2014-08-26 22:44:09.641600000 +0200
+@@ -81,6 +81,34 @@
+ let parse_file filename =
+   let tokens = tokens_of_file false filename in
+ 
++  let normalize_dir str =
++    if Sys.os_type <> "Win32" then
++      str
++    else
++      let len = String.length str in
++      let buf = Buffer.create len in
++      let rec iter i bs =
++        if i >= len then
++          Buffer.contents buf
++        else
++          match str.[i] with
++          | '\\' ->
++            if bs = true then
++              iter (succ i) false
++            else (
++              Buffer.add_char buf '\\' ;
++              iter (succ i) true
++            )
++          | '/' ->
++            Buffer.add_char buf '\\' ;
++            iter (succ i) false
++          | x ->
++            Buffer.add_char buf x ;
++            iter (succ i) false
++      in
++      iter 0 false
++  in
++
+   let rec iter meta path tokens =
+     match tokens with
+       [] ->
+@@ -98,7 +126,7 @@
+           "version" -> meta.meta_version <- Some str
+         | "description" -> meta.meta_description <- Some str
+         | "exists_if" -> meta.meta_exists_if <- split_simplify str
+-        | "directory" -> meta.meta_directory <- Some str
++        | "directory" -> meta.meta_directory <- Some (normalize_dir str)
+         | "preprocessor" -> meta.meta_preprocessor <- Some str
+         | "name" -> meta.meta_name <- Some str
+         | "linkopts" -> meta.meta_linkopts <- Some str
+--- ../../work-ref/OCamlPro-ocp-build-2e576ce/src/ocplib/system/file.ml	2014-08-26 13:45:12.000000000 +0200
++++ ./src/ocplib/system/file.ml	2014-08-26 22:44:09.641600000 +0200
 @@ -35,6 +35,39 @@
    else
      ':'
