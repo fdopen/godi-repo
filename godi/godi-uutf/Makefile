@@ -4,7 +4,7 @@ ONAME=		uutf
 PKG=		godi-${ONAME}
 VERSION=        0.9.3
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ${ONAME}-${VERSION}
 DISTFILES=      ${ONAME}-${VERSION}.tbz
 CATEGORIES=     godi
@@ -30,10 +30,12 @@ INSTALL_SCRIPT= bash ${PKGDIR:Q}/files/install.sh --prefix=${IMAGE_DIR:Q} --wrks
 		 --install-file=${ONAME:Q}.install --name=${PKGBASE:Q}
 
 post-install:
+	cd ${WRKSRC:Q} && \
+	  ${SET_ENV} ${MAKE_ENV} ${LOCALBASE:Q}/bin/ocamlbuild test/tests.otarget && \
+	  ./test.native
 	${MKDIR} ${IMAGE_DIR}/doc/${PKGBASE:Q}/html
 	${CP} ${WRKSRC}/doc/* ${IMAGE_DIR}/doc/${PKGBASE:Q}/html
 	cd ${IMAGE_DIR} && ${FIND} * ! -type d >${PLIST_SRC} && \
 		${PAX} -rw -pp . ${LOCALBASE:Q}
-
 
 .include "../../mk/bsd.pkg.mk"
