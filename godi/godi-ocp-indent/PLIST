@@ -4,4 +4,4 @@ bin/ocp-indent.exe
 @deepdir share/typerex/ocp-indent
 share/emacs/site-lisp/ocp-indent.el
 share/vim/syntax/ocp-indent.vim
-man/man3/ocp-indent.1
+man/man1/ocp-indent.1

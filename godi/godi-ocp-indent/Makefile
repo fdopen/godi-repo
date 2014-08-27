@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.4.1
+VERSION=	1.4.2
 PKGNAME=	godi-ocp-indent-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocp-indent-${VERSION}
-DISTFILES=	ocp-indent-${VERSION}.tar.gz
+DISTFILES=	ocp-indent-${VERSION}.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
@@ -18,7 +18,7 @@ COMMENT=	tool to indent OCaml programs
 DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
 DEPENDS+=	godi-cmdliner>=0:../../godi/godi-cmdliner
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-ocp-build>=1.99.7beta:../../godi/godi-ocp-build
+BUILD_DEPENDS+= godi-ocp-build>=1.99.8beta:../../godi/godi-ocp-build
 BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
 
 
@@ -41,7 +41,9 @@ INSTALL_TARGET=install
 
 
 post-install:
-	cd ${LOCALBASE}/lib && ${MV} ocp-indent ${LOCALBASE}/lib/ocaml/pkg-lib
+	cd ${LOCALBASE}/lib && \
+	  ${PAX} -rw -pp ocp-indent ${LOCALBASE}/lib/ocaml/pkg-lib && \
+	  ${RM} -rf ocp-indent
 	${MKDIR} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	for F in CHANGELOG LICENSE README.md
 	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
