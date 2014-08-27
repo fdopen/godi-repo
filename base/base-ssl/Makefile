@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.0.1i
-PKGREVISION= 0
+PKGREVISION= 1
 PKG=         ssl
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
@@ -25,14 +25,13 @@ PTARGET=	mingw
 
 do-configure:
 	cd ${WRKSRC:Q} && ${SETENV} ${CONFIGURE_ENV} \
-	 ./Configure shared --prefix=${MINGW_PREFIX:Q} \
-	   no-rc5 no-srp no-ec2m \
-	   enable-camellia enable-idea \
-	   no-hw no-capieng \
-	   zlib-dynamic \
-	   ${PTARGET}
+	 ./Configure ${PTARGET} enable-static-engine shared \
+	  enable-camellia enable-seed enable-tlsext enable-rfc3779 \
+	  enable-cms enable-md2 no-mdc2 no-rc5 no-ec2m no-gost no-srp \
+	  no-fips no-hw zlib-dynamic \
+	  --prefix=${MINGW_PREFIX:Q} \
+	  --cross-compile-prefix=${MINGW_TOOL_PREFIX:Q} \
 
-#no-ec no-ec2m no-ecdh no-ecdsa 
 
 SSLENV=		CPPFLAGS=${MINGW_CPPFLAGS:Q} CFLAGS=${MINGW_CFLAGS:Q} CXXFLAGS=${MINGW_CXXFLAGS:Q}
 
@@ -42,14 +41,14 @@ SSLMAKE_FLAGS+=	AR=${MINGW_TOOL_PREFIX}ar\ rcu
 SSLMAKE_FLAGS+=	CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q}
 SSLMAKE_FLAGS+=	INSTALL_PREFIX=${IMAGE_DIR:Q}
 
-ALL_TARGET= build_libs openssl.pc libssl.pc libcrypto.pc
+ALL_TARGET= all #build_libs openssl.pc libssl.pc libcrypto.pc
 
 do-build:
-	${SETENV} ${SSLENV} ${GMAKE} -C ${WRKSRC:Q} ${SSLMAKE_FLAGS}
+	${SETENV} ${SSLENV} ${GMAKE} -C ${WRKSRC:Q} ${SSLMAKE_FLAGS} depend
+	${SETENV} ${SSLENV} ${GMAKE} -C ${WRKSRC:Q} ${SSLMAKE_FLAGS} ${ALL_TARGET}
 
 MAKE_FLAGS+=    ${SSLMAKE_FLAGS}
 INSTALL_TARGET=	install_sw
-
 REMOVE_FILES+=	bin/c_rehash bin/*exe
 .endif
 
