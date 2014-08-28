@@ -1,24 +1,22 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.25.00
+VERSION=	111.28.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       core_kernel-111.25.00
-DISTFILES=      core_kernel-111.25.00.tar.gz
+DISTNAME=       core_kernel-111.28.00
+DISTFILES=      core_kernel-111.28.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.25.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.28.00/individual/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
 COMMENT=        Part of Jane Street’s Core library
 
 DEPENDS+=  godi-pa_test>=111.08.00:../../godi/godi-pa_test
 DEPENDS+=  godi-enumerate>=111.08.00:../../godi/godi-enumerate
 DEPENDS+=  godi-typerep>=111.17.00:../../godi/godi-typerep
-DEPENDS+=  godi-pa_bench<=109.55.02:../../godi/godi-pa_bench
-DEPENDS+=  godi-pa_bench>=109.55.00:../../godi/godi-pa_bench
+DEPENDS+=  godi-pa_bench>=111.28.00:../../godi/godi-pa_bench
 DEPENDS+=  godi-comparelib>=109.60.00:../../godi/godi-comparelib
-DEPENDS+=  godi-pa_ounit<=109.53.02:../../godi/godi-pa_ounit
-DEPENDS+=  godi-pa_ounit>=109.53.00:../../godi/godi-pa_ounit
+DEPENDS+=  godi-pa_ounit>=111.28.00:../../godi/godi-pa_ounit
 DEPENDS+=  godi-variantslib<=109.15.03:../../godi/godi-variantslib
 DEPENDS+=  godi-variantslib>=109.15.00:../../godi/godi-variantslib
 DEPENDS+=  godi-fieldslib<=109.20.03:../../godi/godi-fieldslib
