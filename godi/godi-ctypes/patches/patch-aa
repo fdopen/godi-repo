@@ -1,0 +1,165 @@
+--- ../../work-ref/ocaml-ctypes-0.3.3/Makefile	2014-08-01 10:23:56.000000000 +0200
++++ ./Makefile	2014-08-24 13:54:16.046000000 +0200
+@@ -7,13 +7,13 @@
+ OCAMLMKLIB=ocamlmklib
+ VPATH=src examples
+ BUILDDIR=_build
+-PROJECTS=configure libffi-abigen configured ctypes cstubs ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
+-GENERATED=src/ctypes_config.h src/ctypes_config.ml setup.data src/ctypes/ctypes_primitives.ml
++PROJECTS=configure configured ctypes cstubs #libffi-abigen ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
++GENERATED=src/ctypes_config.h src/ctypes_config.ml src/ctypes/ctypes_primitives.ml #setup.data
+ OCAML_FFI_INCOPTS=$(libffi_opt)
+ export CFLAGS DEBUG
+ 
+ # public targets
+-all: setup.data build
++all: build #setup.data
+ 
+ build: $(PROJECTS)
+ 
+@@ -24,7 +24,7 @@
+ 	rm -f $(GENERATED)
+ 
+ # ctypes subproject
+-ctypes.public = static primitives unsigned signed structs ctypes posixTypes
++ctypes.public = static primitives unsigned signed structs ctypes #posixTypes
+ ctypes.dir = src/ctypes
+ ctypes.extra_mls = ctypes_primitives.ml
+ ctypes.deps = str bigarray bytes
+@@ -112,7 +112,7 @@
+ libffi-abigen: $$(NATIVE_TARGET)
+ 
+ # configuration
+-configured: src/ctypes/ctypes_primitives.ml src/ctypes-foreign-base/libffi_abi.ml
++configured: src/ctypes/ctypes_primitives.ml #src/ctypes-foreign-base/libffi_abi.ml
+ 
+ src/ctypes/ctypes_primitives.ml: $(BUILDDIR)/configure.native
+ 	$< > $@
+@@ -125,7 +125,7 @@
+ 
+ # dependencies
+ depend: configure
+-	$(OCAMLDEP) $(foreach project,$(PROJECTS),-I $($(project).dir)) \
++	$(OCAMLDEP) -slash $(foreach project,$(PROJECTS),-I $($(project).dir)) \
+             $(shell find src examples -name '*.mli' -o -name '*.ml') \
+            | sed "s!src/!_build/src/!g; s!examples/!_build/examples/!g" > .depend
+ 
+@@ -150,5 +150,5 @@
+ .PHONY: depend distclean clean build configure all install $(PROJECTS)
+ 
+ include .depend Makefile.rules Makefile.examples Makefile.tests
+--include setup.data
++#-include setup.data
+ 
+--- ../../work-ref/ocaml-ctypes-0.3.3/Makefile.rules	2014-08-01 10:23:56.000000000 +0200
++++ ./Makefile.rules	2014-08-24 13:54:30.881600000 +0200
+@@ -3,13 +3,21 @@
+ .SECONDARY:
+ 
+ ifeq ($(DEBUG),false)
++ifneq (,$(filter Windows%,$(OS)))
++  CFLAGS=-std=gnu99 -D__USE_MINGW_ANSI_STDIO=1 -Wall -O3 $(OCAML_FFI_INCOPTS)
++else
+   CFLAGS=-fPIC -Wall -O3 $(OCAML_FFI_INCOPTS)
++endif
+   OCAMLFLAGS=
+ else
++ifneq (,$(filter Windows%,$(OS)))
++  CFLAGS=-std=gnu99 -D__USE_MINGW_ANSI_STDIO=1 -Wall -g $(OCAML_FFI_INCOPTS)
++else
+   CFLAGS=-fPIC -Wall -g $(OCAML_FFI_INCOPTS)
++endif
+   OCAMLFLAGS=-g
+ endif
+-
++EXTDLL=$(shell ocamlfind ocamlc -config | grep '^ext_dll: ' | awk '{print $$2}')
+ C_SOURCE  = $(wildcard $($(PROJECT).dir)/*.c)
+ ML_SOURCE = $(shell $(OCAMLDEP) -sort $(sort $(wildcard $($(PROJECT).dir)/*.ml) \
+                     $(patsubst %,$($(PROJECT).dir)/%,$($(PROJECT).extra_mls))))
+@@ -18,7 +26,7 @@
+ BYTE_OBJECTS = $(ML_SOURCE:$($(PROJECT).dir)/%.ml=$(BUILDDIR)/$($(PROJECT).dir)/%.cmo)
+ C_OBJECTS = $(C_SOURCE:$($(PROJECT).dir)/%.c=$(BUILDDIR)/$($(PROJECT).dir)/%.o)
+ 
+-STUB_LIB = $(if $(C_OBJECTS),$(BUILDDIR)/dll$(PROJECT)_stubs.so)
++STUB_LIB = $(if $(C_OBJECTS),$(BUILDDIR)/dll$(PROJECT)_stubs$(EXTDLL))
+ 
+ CMO_OPTS = $($(PROJECT).cmo_opts)
+ CMX_OPTS = $($(PROJECT).cmx_opts)
+@@ -50,7 +58,7 @@
+ $(BUILDDIR)/%.cmxa: $$(NATIVE_OBJECTS)
+ 	$(OCAMLFIND) opt -a -linkall $(OCAMLFLAGS) $(THREAD_FLAG) $(OCAMLFIND_PACKAGE_FLAGS) $(CMXA_OPTS) -o $@ $(NATIVE_OBJECTS) $(OCAML_LINK_FLAGS)
+ 
+-$(BUILDDIR)/dll%_stubs.so: $$(C_OBJECTS)
++$(BUILDDIR)/dll%_stubs$(EXTDLL): $$(C_OBJECTS)
+ 	$(OCAMLMKLIB) -o $(BUILDDIR)/$*_stubs $^ $(LINK_FLAGS)
+ 
+ $(BUILDDIR)/%.cmxs : $$(NATIVE_OBJECTS)
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/managed_buffer_stubs.c	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes/managed_buffer_stubs.c	2014-08-24 13:54:30.881600000 +0200
+@@ -28,10 +28,10 @@
+   return (l > r) - (l < r);
+ }
+ 
+-static long hash_address(value l)
++static intnat hash_address(value l)
+ {
+   /* address hashing */
+-  return (long)*(void **)Data_custom_val(l);
++  return (intnat)*(void **)Data_custom_val(l);
+ }
+ 
+ static struct custom_operations managed_buffer_custom_ops = {
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/type_info_stubs.c	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes/type_info_stubs.c	2014-08-24 13:54:30.881600000 +0200
+@@ -19,6 +19,12 @@
+ #include "raw_pointer.h"
+ #include "primitives.h"
+ 
++#if defined(_WIN64) && defined(__USE_MINGW_ANSI_STDIO)
++#define REAL_ARCH_INTNAT_PRINTF_FORMAT "ll"
++#else
++#define REAL_ARCH_INTNAT_PRINTF_FORMAT ARCH_INTNAT_PRINTF_FORMAT
++#endif
++
+ /* Read a C value from a block of memory */
+ /* read : 'a prim -> offset:int -> raw_pointer -> 'a */
+ value ctypes_read(value prim_, value offset_, value buffer_)
+@@ -132,9 +138,9 @@
+   case Uint16_t: len = snprintf(buf, sizeof buf, "%" PRIu16, Uint16_val(v)); break;
+   case Uint32_t: len = snprintf(buf, sizeof buf, "%" PRIu32, Uint32_val(v)); break;
+   case Uint64_t: len = snprintf(buf, sizeof buf, "%" PRIu64, Uint64_val(v)); break;
+-  case Camlint: len = snprintf(buf, sizeof buf, "%" ARCH_INTNAT_PRINTF_FORMAT "d",
++  case Camlint: len = snprintf(buf, sizeof buf, "%" REAL_ARCH_INTNAT_PRINTF_FORMAT "d",
+                          (intnat)Int_val(v)); break;
+-  case Nativeint: len = snprintf(buf, sizeof buf, "%" ARCH_INTNAT_PRINTF_FORMAT "d",
++  case Nativeint: len = snprintf(buf, sizeof buf, "%" REAL_ARCH_INTNAT_PRINTF_FORMAT "d",
+                            (intnat)Nativeint_val(v)); break;
+   case Float: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
+   case Double: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/unsigned_stubs.c	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes/unsigned_stubs.c	2014-08-24 13:54:30.881600000 +0200
+@@ -36,20 +36,20 @@
+     return (u1 > u2) - (u1 < u2);                                            \
+   }                                                                          \
+                                                                              \
+-  static long uint ## BITS ## _hash(value v)                                 \
++  static intnat uint ## BITS ## _hash(value v)                                 \
+   {                                                                          \
+     return Uint_custom_val(TYPE(BITS), v);                                   \
+   }                                                                          \
+                                                                              \
+   static void uint ## BITS ## _serialize(value v,                            \
+-                                         unsigned long *wsize_32,            \
+-                                         unsigned long *wsize_64)            \
++                                         uintnat *wsize_32,             \
++                                         uintnat *wsize_64)             \
+   {                                                                          \
+     caml_serialize_int_ ## BYTES(Uint_custom_val(TYPE(BITS), v));            \
+     *wsize_32 = *wsize_64 = BYTES;                                           \
+   }                                                                          \
+                                                                              \
+-  static unsigned long uint ## BITS ## _deserialize(void *dst)               \
++  static uintnat uint ## BITS ## _deserialize(void *dst)                \
+   {                                                                          \
+     *(TYPE(BITS) *)dst = caml_deserialize_uint_ ## BYTES();                  \
+     return BYTES;                                                            \
