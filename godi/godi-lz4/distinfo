@@ -2,3 +2,5 @@ $NetBSD$
 
 SHA1 (lz4-1.0.0.tar.xz) = f593201ac5a1c6895d9cc7f80955dc77ecdf087e
 Size (lz4-1.0.0.tar.xz) = 48456 bytes
+
+SHA1 (patch-aa) = 99298d5f2abee42a2fc9398e411d5aa1ac0c07e7

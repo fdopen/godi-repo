@@ -16,6 +16,7 @@ DEPENDS+=	base-lz4-*:../../base/base-lz4
 DEPENDS+= 	godi-ctypes>=0:../../godi/godi-ctypes
 
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
+BUILD_DEPENDS+=	godi-ounit-*:../../godi/godi-ounit
 
 WINOASIS=		yes
 
