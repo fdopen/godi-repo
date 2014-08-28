@@ -2,7 +2,7 @@
 
 VERSION=	1.99.8beta
 PKGNAME=	godi-ocp-build-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	OCamlPro-ocp-build-2e576ce
 BOOT_ARCHIVE=	ocp-build.1.99.8-beta-boot.xz
 DISTFILES=	OCamlPro-ocp-build-ocp-build.1.99.8-beta-0-g2e576ce.tar.xz ${BOOT_ARCHIVE}

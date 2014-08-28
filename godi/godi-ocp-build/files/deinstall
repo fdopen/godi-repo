@@ -10,12 +10,14 @@ fi
 
 for f in \
     lib/ocaml/pkg-lib/META.ocp-build \
-    lib/ocaml/pkg-lib/META.ocp-build-bundle \
-    lib/ocaml/pkg-lib/META.ocp-build-misc \
-    lib/ocaml/pkg-lib/META.ocp-build-ocplib \
-    lib/ocaml/pkg-lib/META.ocp-build-win32 \
-    lib/ocaml/pkg-lib/META.ocplib-project
-do
+    lib/ocaml/pkg-lib/META.ocp-build-bundle  \
+    lib/ocaml/pkg-lib/META.ocp-build-misc  \
+    lib/ocaml/pkg-lib/META.ocp-build-win32  \
+    lib/ocaml/pkg-lib/META.ocplib-debug  \
+    lib/ocaml/pkg-lib/META.ocplib-lang  \
+    lib/ocaml/pkg-lib/META.ocplib-project  \
+    lib/ocaml/pkg-lib/META.ocplib-subcmd  \
+    lib/ocaml/pkg-lib/META.ocplib-system ; do
     xfile="${GODI_PREFIX}/${f}"
     if [ -f "${xfile}" ]; then
         restore_backup "${xfile}"
