@@ -1,5 +1,0 @@
-Available options for godi-ocamlnet:
-
-Note that GODI_OCAMLNET_NO_PCRE is no longer available as separate
-option, because it is now enabled by default. If you need PCRE
-support, please install the separate package godi-ocamlnet-pcre.

@@ -1,0 +1,23 @@
+--- ../../work-ref/ocamlnet-3.7.5/src/netstring/netdb.mlp	2014-08-31 20:21:05.000000000 +0200
++++ ./src/netstring/netdb.mlp	2014-09-01 21:45:49.319600000 +0200
+@@ -4,7 +4,19 @@
+  *)
+ 
+ 
+-let net_db_dir = ref "@NET_DB_DIR@" ;;
++let net_db_dir = ref (
++  match Sys.os_type with
++  | "Win32" -> 
++    (try 
++      let x = Sys.getenv "OCAMLNET_DB_DIR" in
++      if Sys.is_directory x then
++        x
++      else
++        raise Not_found
++    with
++    | _ -> "@NET_DB_DIR@" )
++  | _ -> "@NET_DB_DIR@" )
++
+ 
+ let net_db_hash = Hashtbl.create 20 ;;
+ 
