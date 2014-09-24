@@ -3,10 +3,15 @@ $NetBSD$
 SHA1 (file-5.19.tar.gz) = 0dff09eb44fde1998be79e8d312e9be4456d31ee
 Size (file-5.19.tar.gz) = 719158 bytes
 
-SHA1 (base-file-5.19_2_64.txz) = f07ea3b945eae83b145456cb6f953598d4360dcb
-Size (base-file-5.19_2_64.txz) = 197192 bytes
+SHA1 (base-file-5.19_3_64.txz) = 721dc6ae7db87ec77de36591c797a1a90cddfbba
+Size (base-file-5.19_3_64.txz) = 197392 bytes
 
-SHA1 (base-file-5.19_2_32.txz) = a21a9c31c361a8e36298ec2b811b4154a1a96b92
-Size (base-file-5.19_2_32.txz) = 198136 bytes
+SHA1 (base-file-5.19_3_32.txz) = f412feb6b1a8894c37d76b79b0ce5e6ea2210f4f
+Size (base-file-5.19_3_32.txz) = 197888 bytes
 
 SHA1 (patch-file-5.19-CVE-2014-3587) = c492cefcbdede3270fac51e9ff40429dbbed0c59
+SHA1 (patch-file-5.19-cafebabe) = 9afb0ab4db7f48e7ff667e24cb8980dcb1d8371d
+SHA1 (patch-file-5.19-locale-archive) = e7a54f5af6a4d6430f49824a544c79a94cb31fa0
+SHA1 (patch-file-5.19-msooxml) = 81c4bcbab7fb7b55695be754e5492405e9b72802
+SHA1 (patch-file-5.19-pascal) = c99d043da04e580c591ff0d76c12e08c4468f974
+SHA1 (patch-file-5.19-python-3.4) = 23573233ee5e571ac1daa84574ae70b071cec0b0
