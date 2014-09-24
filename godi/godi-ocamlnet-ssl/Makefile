@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.7.5alpha
+VERSION=	3.7.6
 PKGNAME=	godi-ocamlnet-ssl-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocamlnet-${VERSION}
-DISTFILES=	ocamlnet-${VERSION}.tar.xz
+DISTFILES=	ocamlnet-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
