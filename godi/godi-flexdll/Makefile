@@ -2,7 +2,7 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	4
+PKGREVISION=	5
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
 EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
@@ -49,7 +49,7 @@ MAKE_ENV+=      FLEXDIR=${GODI_BOOT_FLEXDLL}/../lib/flexdll
 .endif
 
 post-extract:
-	cp files/config_reader* ${WRKSRC:Q}
+	cd ${PKGDIR:Q}/files && cp config_reader* flexdll_*  ${WRKSRC:Q}
 	@cd ${WRKDIR:Q} && \
 	  ${MKDIR} add && cd add && \
 	  ${LOCALBASE}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/flexdll-bin-${VERSION}.zip
@@ -63,12 +63,16 @@ pre-configure:
 	@false
 .endif
 
+
+test-target:
+	@echo ${FLEXLINKFLAGS:Q}
+
 post-install:
 	${MKDIR} ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/flexdll
 	${MKDIR} ${PREFIX}/doc/godi-flexdll
 	${INSTALL} -m 0755 ${WRKSRC}/flexlink.exe ${PREFIX}/bin
 	${INSTALL} -m 0644 ${WRKSRC}/flexdll.h ${PREFIX}/include
-	for file in flexdll.h flexdll_*.o *.manifest ; do \
+	for file in flexdll.h flexdll_*.o flexdll_*.res *.manifest ; do \
 	   ${INSTALL} -m 0644 ${WRKSRC}/$$file ${PREFIX}/lib/flexdll; \
 	done
 .for  f in flexdll_cygwin.o flexdll_initer_cygwin.o \
