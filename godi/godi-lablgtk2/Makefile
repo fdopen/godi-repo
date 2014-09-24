@@ -1,12 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
 # This date was taken from the CHANGES file.
-VERSION=	20131001
-#VERSION=	2.18.0
-PKGNAME=	godi-lablgtk2-${VERSION}
 
-PKGREVISION=	3
-DISTNAME=	lablgtk-2.18.0
+VERSION=	20140917
+PKGNAME=	godi-lablgtk2-${VERSION}
+PKGREVISION=	0
+DISTNAME=	lablgtk-2.18.2
 DISTFILES=	${DISTNAME}.tar.gz
 
 CATEGORIES=	godi
