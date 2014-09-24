@@ -1,0 +1,31 @@
+--- ../../work-ref/camlp4-trunk/myocamlbuild.ml	2014-08-27 10:32:22.000000000 +0200
++++ ./myocamlbuild.ml	2014-08-29 09:57:43.786400000 +0200
+@@ -88,6 +88,19 @@
+         in
+         (Some dep, cmd)
+     in
++    let hot_camlp4boot_cmd =
++      if not windows then
++        hot_camlp4boot_cmd
++      else
++        let buf = Buffer.create (String.length hot_camlp4boot_cmd + 5) in
++        for i = 0 to String.length hot_camlp4boot_cmd - 1 do
++          match hot_camlp4boot_cmd.[i] with
++          | '/' ->
++            Buffer.add_string buf "\\";
++          | x -> Buffer.add_char buf x;
++        done;
++        Buffer.contents buf          
++    in
+ 
+     flag ["ocaml"; "ocamlyacc"] (A"-v");
+ 
+@@ -105,7 +118,7 @@
+      | Some fn ->
+        dep ["camlp4boot"] [fn]
+      | None -> ());
+-    flag ["ocaml"; "pp"; "camlp4boot"] (P hot_camlp4boot_cmd);
++    flag ["ocaml"; "pp"; "camlp4boot"] (if windows then Sh hot_camlp4boot_cmd else P hot_camlp4boot_cmd);
+     flag ["ocaml"; "pp"; "camlp4boot"; "native"] (S[A"-D"; A"OPT"]);
+     flag ["ocaml"; "pp"; "camlp4boot"; "pp:dep"] (S[A"-D"; A"OPT"]);
+     flag ["ocaml"; "pp"; "camlp4boot"; "pp:doc"] (S[A"-printer"; A"o"]);
