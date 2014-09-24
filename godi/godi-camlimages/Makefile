@@ -1,20 +1,21 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.1.1
+VERSION=        4.1.2
 
 ONAME=		camlimages
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       camlimages-${VERSION}
-DISTFILES=      ${DISTNAME}.tar.xz
+DISTNAME=       camlspotter-camlimages-e70559bc4fcc
+DISTFILES=      camlimages-4.1.2.tar.xz
 CATEGORIES=     godi
-MASTER_SITES=   ${MASTER_SITES_BACKUP}
+MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=       http://gallium.inria.fr/camlimages/
+HOMEPAGE=       https://bitbucket.org/camlspotter/camlimages
 COMMENT=        Objective Caml image processing library
 
-DEPENDS+= godi-ocaml>=3.08:../../godi/godi-ocaml
+BUILD_DEPENDS+=  godi-omake-*:../../godi/godi-omake
+DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
 DEPENDS+= godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
 #DEPENDS+= godi-ocaml-graphics>=3.08:../../godi/godi-ocaml-graphics
 BUILD_DEPENDS = godi-findlib>=1.0:../../godi-findlib
