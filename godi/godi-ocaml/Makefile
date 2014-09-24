@@ -6,8 +6,8 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKGNAME=	godi-ocaml-${VERSION}
-VERSION=	4.02.0rc1
-PKGREVISION=	0
+VERSION=	4.02.0
+PKGREVISION=	1
 DISTNAME=	ocaml
 DISTFILES=
 CATEGORIES=	godi
@@ -127,12 +127,13 @@ post-install:
 	${SED} -e 's:%%LOCALBASE%%:${LOCALBASE}:' files/ocamlmklib.c.in > "${WRKDIR}/tmp/wrap.c"
 	${MV} "${STAGEDIR}/bin/ocamlmklib.exe" "${STAGEDIR}/bin/ocamlmklib_real.exe"
 	@${SETENV} ${MAKE_ENV} ${CC} -o "${STAGEDIR}/bin/ocamlmklib.exe" "${WRKDIR}/tmp/wrap.c"
+	${MINGW_TOOL_PREFIX}strip --strip-unneeded "${STAGEDIR}/bin/ocamlmklib.exe"
 .else
 	${MV} "${STAGEDIR}/bin/ocamlmklib" "${STAGEDIR}/bin/ocamlmklib.bin"
 	godi_ldopts=`${AWK} '/^GODI_LDOPTS=/ { gsub("^GODI_LDOPTS=",""); print $$0 }' "${WRKSRC}/config/Makefile"`; \
-	${SED} -e 's:%%OCAMLMKLIB%%:${LOCALBASE}/bin/ocamlmklib.bin:' \
-	       -e "s:%%GODI_LDOPTS%%:$$godi_ldopts:" \
-	       files/ocamlmklib.in >"${STAGEDIR}/bin/ocamlmklib"
+# 	${SED} -e 's:%%OCAMLMKLIB%%:${LOCALBASE}/bin/ocamlmklib.bin:' \
+# 	       -e "s:%%GODI_LDOPTS%%:$$godi_ldopts:" \
+# 	       files/ocamlmklib.in >"${STAGEDIR}/bin/ocamlmklib"
 	${CHMOD} 755 "${STAGEDIR}/bin/ocamlmklib"
 .endif
 	@# Symlinks:
