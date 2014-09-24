@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.3.1
+VERSION=        1.4.0
 PKGNAME=        godi-atdgen-${VERSION}
 PKGREVISION=    0
 DISTNAME=       atdgen-${VERSION}

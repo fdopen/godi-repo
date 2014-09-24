@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (atdgen-1.3.1.tar.gz) = bbd283622030a90bc22fce896987b0f239b294e7
-Size (atdgen-1.3.1.tar.gz) = 73763 bytes
+SHA1 (atdgen-1.4.0.tar.gz) = 895412e0cd93426f7225a83cb623a4a0172d3f72
+Size (atdgen-1.4.0.tar.gz) = 71834 bytes
 
-SHA1 (patch-aa) = 06fa372262afb37d404359de0292a385af997c57
+SHA1 (patch-aa) = f9554bcf04ed19be91bf5b0d34c5f23ae896c928
