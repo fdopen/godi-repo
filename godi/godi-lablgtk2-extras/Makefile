@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.4
-MNODE=		1282
+VERSION=	1.5
+MNODE=		1453
 
 PKGNAME=	godi-lablgtk2-extras-${VERSION}
 
 PKGREVISION=	0
-DISTNAME=	lablgtkextras-${VERSION}
-DISTFILES=	${DISTNAME}.tar.gz
+DISTNAME=	lablgtkextras-1.5
+DISTFILES=	lablgtkextras-1.5.tar.gz
 
 CATEGORIES=	godi
 MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/${MNODE}/
