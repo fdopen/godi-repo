@@ -1,5 +1,5 @@
---- ../../work-ref/atdgen-1.3.1/Makefile	2014-01-19 09:19:18.000000000 +0100
-+++ ./Makefile	2014-02-09 02:38:41.918000000 +0100
+--- ../../work-ref/atdgen-1.4.0/Makefile	2014-09-14 09:02:19.000000000 +0200
++++ ./Makefile	2014-09-18 14:15:36.141200000 +0200
 @@ -85,6 +85,13 @@
    export BINDIR
  endif
@@ -14,18 +14,15 @@
  .PHONY: default
  default: all opt
  
-@@ -94,9 +101,9 @@
+@@ -94,7 +101,7 @@
  
  .PHONY: all opt install uninstall reinstall
  all: pp
 -	$(MAKE) atdgen.cma atdgen.run
 +	$(MAKE) atdgen.cma atdgen.run$(EXE)
  opt: pp
--	$(MAKE) atdgen.cmxa $(CMXS) atdgen
-+	$(MAKE) atdgen.cmxa $(CMXS) atdgen$(EXE)
+ 	$(MAKE) atdgen.cmxa $(CMXS) atdgen$(EXE)
  
- install: META
- 	test ! -f atdgen.run || cp atdgen.run $(BINDIR)/
 @@ -159,8 +166,8 @@
  atdgen.cmxs: dep $(CMI) $(CMX)
  	ocamlfind ocamlopt $(OCAMLFLAGS) -shared -o $(CMXS) $(CMX)
@@ -37,7 +34,7 @@
  		-package "$(OCAMLPACKS)" -linkpkg \
  		$(CMO) ag_main.ml
  
-@@ -274,7 +281,7 @@
+@@ -271,7 +278,7 @@
  .PHONY: clean
  clean:
  	rm -f *.o *.a *.cm* *~ *.annot \
