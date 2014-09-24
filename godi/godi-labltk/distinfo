@@ -1,6 +1,7 @@
 $NetBSD$
 
-SHA1 (labltk-4.02-beta1.tar.gz) = cff26b483aa7f5e8512b0d974e966288dd96cc7b
-Size (labltk-4.02-beta1.tar.gz) = 366625 bytes
+SHA1 (labltk-8.06.0.tar.gz) = c7f36b0a88428f707c3cf326bd8b72220149ad13
+Size (labltk-8.06.0.tar.gz) = 368790 bytes
 
 SHA1 (patch-aa) = 1834a3d07b7c549c21f75da23a7687ceef1189cc
+SHA1 (patch-ab) = 93c37ea38397044d1a023eebb5fedc315b829665

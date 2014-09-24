@@ -1,14 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	4.02beta1
+VERSION=	8.06.0
 ONAME=		labltk
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
-DISTNAME=	${ONAME}-4.02-beta1
-DISTFILES=	${ONAME}-4.02-beta1.tar.gz
+PKGREVISION=	1
+DISTNAME=	${ONAME}-${VERSION}
+#DISTNAME=	labltk-4.02-beta1
+DISTFILES=	${ONAME}-${VERSION}.tar.gz
 CATEGORIES=	godi
-MNODE=		1409
+MNODE=		1455
 MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/${MNODE}/
 HOMEPAGE=	https://forge.ocamlcore.org/projects/labltk/
 COMMENT=	LablTk is an interface to the Tcl/Tk GUI framework
@@ -30,6 +31,9 @@ ADD_ENV= ${MAKE_ENV} GODI_PREFIX=${LOCALBASE}
 do-configure:
 	@${ECHO} "WHERE=${LOCALBASE}/lib/ocaml/std-lib" > ${WRKSRC:Q}/config/Makefile
 	@${ECHO} "include ${LOCALBASE}/lib/ocaml/std-lib/Makefile.config" >> ${WRKSRC:Q}/config/Makefile
+	@${ECHO} "INSTALLDIR=${LOCALBASE}/lib/ocaml/std-lib/labltk" >> ${WRKSRC:Q}/config/Makefile
+	@${ECHO} "INSTALLBINDIR=${LOCALBASE}/bin" >> ${WRKSRC:Q}/config/Makefile
+	@${ECHO} "TK_ROOT=${LOCALBASE}/bin" >> ${WRKSRC:Q}/config/Makefile
 	@${ECHO} "TK_DEFS=-I${LOCALBASE}/include" >> ${WRKSRC:Q}/config/Makefile
 	@${ECHO} "TK_LINK=-lws2_32 ${LOCALBASE}/lib/libtcl86.dll.a ${LOCALBASE}/lib/libtk86.a" >> ${WRKSRC:Q}/config/Makefile
 
