@@ -1,13 +1,6 @@
 $NetBSD$
 
-SHA1 (js_of_ocaml-2.4.tar.xz) = 70160ff5a74273a5e2a9a9904ac80ae2e51f3918
-Size (js_of_ocaml-2.4.tar.xz) = 1045368 bytes
+SHA1 (js_of_ocaml-2.4.1.tar.xz) = 0217c9faa4e5512ef4fabe880d175b4efbe0486e
+Size (js_of_ocaml-2.4.1.tar.xz) = 1045864 bytes
 
-SHA1 (patch-01) = c0241af9b196754ad179193fbc346c0c216f59a9
-SHA1 (patch-02) = 2606c47538430ec1576e83a635c15fa91dd9a4a5
-SHA1 (patch-03) = 410cb2bcb7bc455deb57f32a4741f0fea0fc911f
-SHA1 (patch-04) = ed11f6993ad93edf826da2c8bc2ed482bb9306c4
-SHA1 (patch-05) = 4c3dde47fa87227f20b10e9bece0b25270776a31
-SHA1 (patch-06) = 4fed4e30312189706167f623f4c742a3a01c19c1
-SHA1 (patch-07) = fee6ba2107cb093deaf1e6183052f61df31f6823
 SHA1 (patch-aa) = 6f56dc62028b84a1bb221dd247c5c76ea884c409
