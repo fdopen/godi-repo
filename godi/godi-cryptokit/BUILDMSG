@@ -1,0 +1,4 @@
+Available options for Lwt:
+
+- GODI_CRYPTOKIT_ZLIB: Build with support for zlib compression.
+  Possible values: yes,no, <blank> = yes.
