@@ -3,3 +3,4 @@ $NetBSD$
 SHA1 (ocaml-bytes.1.1.tar.xz) = d8e70ab29759116c6888a53c91657bd08f54c05e
 Size (ocaml-bytes.1.1.tar.xz) = 23828 bytes
 SHA1 (patch-aa) = 3eab460c3c77d979fb238d8a799764106d4b6301
+SHA1 (patch-ab) = 71688e1c27151945258388497a037b7ce403e876

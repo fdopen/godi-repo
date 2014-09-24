@@ -1,14 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.1
+VERSION=	1.5.3
+RVERSION=	1.1
 ONAME=		bytes
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	ocaml-bytes-ocaml-bytes.${VERSION}
-DISTFILES=	ocaml-bytes.${VERSION}.tar.xz
+PKGREVISION=	0
+DISTNAME=	ocaml-bytes-ocaml-bytes.${RVERSION}
+DISTFILES=	ocaml-bytes.${RVERSION}.tar.xz
 CATEGORIES=	godi
-HOMEPAGE=	https://github.com/chambart/ocaml-bytes/
+HOMEPAGE=	http://projects.camlcity.org/projects/findlib.html
 COMMENT=	Transitional Bytes module to simplify adoption of -safe-string in 4.02.0
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
