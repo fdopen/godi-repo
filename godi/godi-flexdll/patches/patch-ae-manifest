@@ -1,0 +1,136 @@
+diff -b -B -u -r ../../work-ref/flexdll/cmdline.ml ./cmdline.ml
+--- ../../work-ref/flexdll/cmdline.ml	2014-09-24 18:00:43.118200000 +0000
++++ ./cmdline.ml	2014-09-24 17:53:23.011000000 +0000
+@@ -25,6 +25,18 @@
+ let dry_mode = ref false
+ let verbose = ref 0
+ let dirs = ref []
++(* mingw_manifest will be removed again, because upstream mingw-w64 will provide a solution to this problem *)
++let mingw_manifest = ref (
++  try
++    let s = Sys.getenv "FLEXLINK_MANIFEST_HACK" in
++    if s = "" then
++      false
++    else
++      match s.[0] with
++      | '0' | 'f' | 'F' | 'n' | 'N' -> false
++      | _ -> true
++  with
++  | _ -> false )
+ let no_merge_manifest = ref false
+ let merge_manifest = ref false
+ let real_manifest = ref true
+@@ -67,6 +79,9 @@
+   "-exe", Arg.Unit (fun () -> exe_mode := `EXE),
+   " Link the main program as an exe file";
+ 
++  "-dm", Arg.Unit (fun () -> mingw_manifest := true),
++  " intentionally undocumented, will be removed again";
++  
+   "-maindll", Arg.Unit (fun () -> exe_mode := `MAINDLL),
+   " Link the main program as a dll file";
+ 
+diff -b -B -u -r ../../work-ref/flexdll/Makefile ./Makefile
+--- ../../work-ref/flexdll/Makefile	2014-09-24 18:00:43.118200000 +0000
++++ ./Makefile	2014-09-24 15:02:48.350200000 +0000
+@@ -59,8 +59,8 @@
+ build_msvc: flexdll_msvc.obj flexdll_initer_msvc.obj
+ build_msvc64: flexdll_msvc64.obj flexdll_initer_msvc64.obj
+ build_cygwin: flexdll_cygwin.o flexdll_initer_cygwin.o 
+-build_mingw: flexdll_mingw.o flexdll_initer_mingw.o 
+-build_mingw64: flexdll_mingw64.o flexdll_initer_mingw64.o
++build_mingw: flexdll_mingw.o flexdll_initer_mingw.o  flexdll_manifest_mingw.res
++build_mingw64: flexdll_mingw64.o flexdll_initer_mingw64.o flexdll_manifest_mingw64.res
+ 
+ OBJS = version.ml config_reader.ml coff.ml cmdline.ml create_dll.ml reloc.ml
+ 
+@@ -75,6 +75,11 @@
+ version_res.o: version.rc
+ 	$(WINDRES) version.rc version_res.o
+ 
++flexdll_manifest_mingw.res:
++	$(MINGW_PREFIX)-windres --input-format rc --input flexdll_manifest.rc --output-format coff --output flexdll_manifest_mingw.res
++
++flexdll_manifest_mingw64.res:
++	$(MINGW64_PREFIX)-windres --input-format rc --input flexdll_manifest.rc --output-format coff --output flexdll_manifest_mingw64.res
+ 
+ flexdll_msvc.obj: flexdll.h flexdll.c
+ 	$(MSVC_PREFIX) $(MSVCC) /DMSVC -c /Fo"flexdll_msvc.obj" flexdll.c
+@@ -123,7 +128,7 @@
+ 	(cd test && $(MSVC64_PREFIX) $(MAKE) clean demo CHAIN=msvc64 CC="$(MSVCC64)" O=obj)
+ 
+ clean:
+-	rm -f *.obj *.o *.lib *.a *.exe *.cmx *.dll *.exp *.cmi *~
++	rm -f *.obj *.o *.lib *.a *.exe *.cmx *.dll *.exp *.cmi *~ *.res
+ 	cd test && $(MAKE) clean
+ 
+ 
+diff -b -B -u -r ../../work-ref/flexdll/reloc.ml ./reloc.ml
+--- ../../work-ref/flexdll/reloc.ml	2014-09-24 18:00:43.118200000 +0000
++++ ./reloc.ml	2014-09-24 17:52:47.084200000 +0000
+@@ -130,12 +130,23 @@
+    too_long = false;
+  }
+ 
++
++(*let append_log line =
++  try
++    let ch = open_out_gen [ Open_wronly ; Open_append ;  Open_creat ; Open_binary ] 0o644 "C:/cygwin/tmp/flexdll.log" in
++    output_string ch line;
++    output_char ch '\n';
++    close_out ch
++  with
++  | _ -> () *)
++    
+ let run_command cmdline cmd =
+   let cmd_quiet =
+     match !toolchain with
+     | `MSVC | `MSVC64 when !verbose < 1 -> cmd ^ " >NUL"
+     | _ -> cmd
+   in
++  (* append_log cmd; *)
+   (* note: for Cygwin, using bash allow to follow symlinks to find
+      gcc... *)
+   if cmdline.too_long || !toolchain = `CYGWIN then begin
+@@ -473,6 +484,7 @@
+     l
+ 
+ let cmd_verbose cmd =
++  (*append_log cmd;*)
+   if !verbose >= 1 then Printf.printf "+ %s\n" cmd;
+   Sys.command cmd
+ 
+@@ -968,6 +980,7 @@
+ 	  (Filename.quote fn)
+       in
+       if !verbose >= 1 then Printf.printf "+ %s\n%!" mcmd;
++      (* append_log mcmd; *)
+       if Sys.command mcmd <> 0 then
+ 	failwith "Error while merging the manifest";
+       safe_remove manifest_file;
+@@ -1074,6 +1087,7 @@
+           failwith "Compilation of C code is not supported for this toolchain"
+     in
+     if !verbose >= 1 || !dry_mode then Printf.printf "+ %s\n%!" cmd;
++    (* append_log cmd; *)
+     if (Sys.command cmd <> 0) then failwith "Error while compiling";
+     tmp_obj
+   end else
+@@ -1106,8 +1120,17 @@
+   | `MINGW64 -> "mingw64.o"
+   | `MINGW | `LIGHTLD -> "mingw.o" in
+   if !exe_mode <> `DLL then
++    let files =
+     if !add_flexdll_obj then f ("flexdll_" ^ tc) :: files
+     else files
++    in
++    if !mingw_manifest = false then
++      files
++    else
++      match !toolchain with
++      | `MINGW64 -> files@[(f "flexdll_manifest_mingw64.res")]
++      | `MINGW -> files@[(f "flexdll_manifest_mingw.res")]
++      | _ -> files
+   else
+     if !noentry then files
+     else f ("flexdll_initer_" ^ tc) :: files
