@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.3
+VERSION=	2.4.1
 PKGREVISION=	0
 PKGNAME=	godi-jsofocaml-${VERSION}
 DISTNAME=	js_of_ocaml-${VERSION}
@@ -17,13 +17,14 @@ DEPENDS+=	godi-ocaml>=0:../../godi/godi-ocaml
 DEPENDS+=	godi-findlib>=0:../../godi/godi-findlib
 DEPENDS+= 	godi-lwt>=2.4:../../godi/godi-lwt
 DEPENDS+= 	godi-deriving-ocsigen>=0.6:../../godi/godi-deriving-ocsigen
-DEPENDS+= 	godi-tyxml>=0:../../godi/godi-tyxml
+DEPENDS+= 	godi-tyxml>=3.2.1:../../godi/godi-tyxml
 DEPENDS+= 	godi-reactiveData>=0:../../godi/godi-reactiveData
 
 USE_GMAKE=	yes
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 ALL_TARGET=	depend all doc
-MAKE_FLAGS+=	BINDIR=${LOCALBASE:Q}/bin
+MAKE_FLAGS+=	BINDIR=${LOCALBASE:Q}/bin EXEEXT=.exe OBJEXT=.o LIBEXT=.a DLLEXT=.dll
+
 
 post-install:
 	@${MKDIR} ${LOCALBASE}/doc/${PKGBASE}/examples

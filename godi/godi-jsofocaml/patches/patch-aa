@@ -1,53 +1,37 @@
---- ../../work-ref/js_of_ocaml-2.3/Makefile.conf	2014-06-30 11:47:56.000000000 +0200
-+++ ./Makefile.conf	2014-07-01 17:57:54.246800000 +0200
-@@ -4,34 +4,32 @@
- 
- ####
- 
--LIBRARY  := js_of_ocaml
--LIBNAME  := js_of_ocaml$(LIBEXT)
--COMPILER := js_of_ocaml$(EXEEXT)
--MINIFIER := jsoo_minify$(EXEEXT)
-+EXEEXT ?= .exe
-+OBJEXT ?= .o
-+LIBEXT ?= .a
-+DLLEXT ?= .dll
-+
-+LIBRARY  = js_of_ocaml
-+LIBNAME  = js_of_ocaml$(LIBEXT)
-+COMPILER = js_of_ocaml$(EXEEXT)
-+MINIFIER = jsoo_minify$(EXEEXT)
- # opt/byte
--BEST := opt
-+BEST ?= opt
+--- Makefile.conf.orig	2014-08-13 09:22:39.000000000 +0000
++++ Makefile.conf	2014-08-21 09:40:14.589600000 +0000
+@@ -15,10 +15,10 @@
  
  ####
  
 -EXEEXT :=
--OBJEXT := .o
--LIBEXT := .a
++EXEEXT := .exe
+ OBJEXT := .o
+ LIBEXT := .a
 -DLLEXT := .so
--
++DLLEXT := .dll
+ 
  ifeq ($(shell ocamlc -v | grep -q "version 4"; echo $$?),0)
  OCAML4:="YES"
+@@ -26,16 +26,16 @@
  endif
  
  ### Optional dependencies: deriving
 -WITH_DERIVING ?= $(shell if [ -f `ocamlfind query deriving 2> /dev/null`/deriving.cma ]; then echo YES; else echo NO; fi)
--
++WITH_DERIVING ?= $(shell if [ -f `ocamlfind query deriving | tr -d '\015' | tr '\134' '/' 2> /dev/null`/deriving.cma ]; then echo YES; else echo NO; fi)
+ 
 -WITH_GRAPHICS ?= $(shell if [ -f `ocamlfind query graphics 2> /dev/null`/graphics.cmi ]; then echo YES; else echo NO; fi)
--
++WITH_GRAPHICS ?= $(shell if [ -f `ocamlfind query graphics | tr -d '\015' | tr '\134' '/' 2> /dev/null`/graphics.cmi ]; then echo YES; else echo NO; fi)
+ 
 -WITH_REACT ?= $(shell if [ -f `ocamlfind query reactiveData 2> /dev/null`/reactiveData.cma ]; then echo YES; else echo NO; fi)
 -WITH_TYXML ?= $(shell if [ -f `ocamlfind query tyxml 2> /dev/null`/tyxml_f.cma ]; then echo YES; else echo NO; fi)
-+WITH_DERIVING ?= $(shell if [ -f `ocamlfind query deriving | tr -d '\015' | tr '\134' '/' 2> /dev/null`/deriving.cma ]; then echo YES; else echo NO; fi)
-+WITH_GRAPHICS ?= $(shell if [ -f `ocamlfind query graphics | tr -d '\015' | tr '\134' '/' 2> /dev/null`/graphics.cmi ]; then echo YES; else echo NO; fi)
 +WITH_REACT ?= $(shell if [ -f `ocamlfind query reactiveData | tr -d '\015' | tr '\134' '/' 2> /dev/null`/reactiveData.cma ]; then echo YES; else echo NO; fi)
 +WITH_TYXML ?= $(shell if [ -f `ocamlfind query tyxml | tr -d '\015' | tr '\134' '/' 2> /dev/null`/tyxml_f.cma ]; then echo YES; else echo NO; fi)
+ 
+ 
  
 -NATDYNLINK ?= $(shell if [ -f `ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
 +NATDYNLINK ?= $(shell if [ -f `ocamlc -where | tr -d '\015' | tr '\134' '/'`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
  
  METAOCAML ?= 0
  
--VERSION_GIT := $(shell git log -n1 --pretty=format:%h 2> /dev/null)
-+#VERSION_GIT := $(shell git log -n1 --pretty=format:%h 2> /dev/null)
