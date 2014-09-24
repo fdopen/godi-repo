@@ -1,0 +1,41 @@
+--- /dev/null	2014-09-22 13:49:11.000000000 +0000
++++ odyl/odyl_config.mlp	2014-09-22 13:47:19.823600000 +0000
+@@ -0,0 +1,38 @@
++let standard_library =
++  let slashify p =
++    match Sys.os_type with
++    | "Win32" ->
++      let len = String.length p in
++      let b = String.create len in
++      for i = 0 to len - 1 do
++        String.set b i (match p.[i] with
++        | '\\' ->  '/'
++        | x -> x )
++      done;
++      b
++    | _ -> p
++  in
++  try 
++    let d = Sys.getenv "CAMLP5LIB" in
++    if Sys.is_directory d then
++      slashify d
++    else
++      raise Not_found
++  with
++    _ -> 
++      let help var =
++        try
++          let d = Filename.concat (Sys.getenv var) "camlp5" in
++          if Sys.is_directory d then
++            d
++          else
++            ""
++        with
++        | _ -> ""
++      in
++      let camllib = help "OCAMLLIB" in
++      let camllib = if camllib <> "" then camllib else help "CAMLLIB" in
++      if camllib = "" then
++        "@@CAMLP5DIR@@"
++      else
++        slashify camllib

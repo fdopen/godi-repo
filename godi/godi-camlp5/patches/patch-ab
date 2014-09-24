@@ -1,0 +1,18 @@
+--- ../../work-ref/camlp5-6.12/ocaml_src/odyl/Makefile	2014-09-19 08:53:41.000000000 +0200
++++ ./ocaml_src/odyl/Makefile	2014-09-22 15:47:25.548800000 +0200
+@@ -29,11 +29,10 @@
+ 	$(OCAMLOPT) -c -impl odyl_main.ppo
+ 	rm -f odyl_main.ppo
+ 
+-odyl_config.ml:
+-	echo "let standard_library =" > odyl_config.ml
+-	echo "  try Sys.getenv \"CAMLP5LIB\" with" >> odyl_config.ml
+-	echo "    Not_found -> \"$(LIBDIR)/$(CAMLP5N)\"" | \
+-	sed -e 's|\\|/|g' >> odyl_config.ml
++
++MCAMLP5DIR=$(shell echo "$(LIBDIR)/$(CAMLP5N)" | sed -e 's|\\|/|g')
++odyl_config.ml: ../../odyl/odyl_config.mlp
++	sed -e "s|@@CAMLP5DIR@@|$(MCAMLP5DIR)|g" ../../odyl/odyl_config.mlp > odyl_config.ml
+ 
+ clean::
+ 	rm -f *.cm* *.pp[io] *.[ao] *.obj *.lib *.bak .*.bak *.out *.opt
