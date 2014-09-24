@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (ocurl-0.7.1.tar.gz) = 1e77f8715435280fb472e1b76caf52d3984c7740
-Size (ocurl-0.7.1.tar.gz) = 108236 bytes
+SHA1 (ocurl-0.7.2.tar.gz) = 532f8bd28d3f4620283f8b687f6ecfcee30ab77c
+Size (ocurl-0.7.2.tar.gz) = 108530 bytes
 
-SHA1 (patch-aa-makefile_in) = 931ec765e14e3403567d3284154b2a7f18737505
+SHA1 (patch-aa-makefile_in) = 9f7382801ce4483c051a1138278f0fe97e6e8d46
