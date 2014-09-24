@@ -1,0 +1,10 @@
+--- ../../work-ref/lablgtk-2.18.2/META	2014-09-18 08:47:06.000000000 +0200
++++ ./META	2014-09-18 14:42:19.540400000 +0200
+@@ -1,6 +1,6 @@
+ description = "Bindings for gtk2"
+ requires = ""
+-version = "2.18.0"
++version = "2.18.2"
+ 
+ archive(byte) = "lablgtk.cma"
+ archive(native) = "lablgtk.cmxa"
