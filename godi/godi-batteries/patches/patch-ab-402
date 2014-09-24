@@ -1,0 +1,33 @@
+From a9e9b7f73ff0c06540b8021317d54c57e121d8fd Mon Sep 17 00:00:00 2001
+From: Gabriel Scherer <gabriel.scherer@gmail.com>
+Date: Wed, 27 Aug 2014 19:59:35 +0200
+Subject: [PATCH] fix BatPrintf for 4.02 -- remove faulty (string = fmt)
+ assumption
+
+---
+ src/batPrintf.mlv | 12 ++++--------
+ 1 file changed, 4 insertions(+), 8 deletions(-)
+
+diff --git a/src/batPrintf.mlv b/src/batPrintf.mlv
+index bf91423..c4e8dfe 100644
+--- src/batPrintf.mlv
++++ src/batPrintf.mlv
+@@ -56,14 +56,10 @@ module Sformat = struct
+   let add_int_index i idx = index_of_int (i + int_of_index idx);;
+   let succ_index = add_int_index 1;;
+ 
+-  external length : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int
+-    = "%string_length";;
+-  external get : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int -> char
+-    = "%string_safe_get";;
+-  external unsafe_get : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> int -> char
+-    = "%string_unsafe_get";;
+-  external unsafe_to_string : ('a, 'b, 'c, 'd, 'e, 'f) format6 -> string
+-    = "%identity";;
++  let length fmt = String.length (string_of_format fmt)
++  let get fmt i = String.get (string_of_format fmt) i
++  let unsafe_get fmt i = String.unsafe_get (string_of_format fmt) i
++  let unsafe_to_string = string_of_format
+   let sub fmt idx len =
+     String.sub (unsafe_to_string fmt) (int_of_index idx) len;;
+   let to_string fmt = sub fmt (unsafe_index_of_int 0) (length fmt);;

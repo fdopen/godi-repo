@@ -3,7 +3,7 @@
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
 VERSION = 	2.2
-PKGREVISION=    1
+PKGREVISION=    2
 CATEGORIES=     godi
 FORGE_NODE =	1363
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
@@ -64,5 +64,8 @@ ALL_TARGET+= test-native
 ALL_TARGET+= doc
 INSTALL_TARGET+= install-doc
 .endif
+
+post-patch:
+	${RM} ${WRKSRC:Q}/src/batPrintf.ml ${WRKSRC:Q}/src/batPrintf.mli
 
 .include "../../mk/bsd.pkg.mk"
