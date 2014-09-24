@@ -1,11 +1,7 @@
---- Makefile.in.orig	2014-03-08 06:35:04.000000000 +0000
-+++ Makefile.in	2014-05-02 18:15:59.045600000 +0000
-@@ -16,10 +16,10 @@
- OCAMLDEP = @OCAMLDEP@
- OCAMLMKLIB = @OCAMLMKLIB@
- 
--FLAGS		=
-+FLAGS		= -g
+--- ../../work-ref/ocurl-0.7.2/Makefile.in	2014-09-22 18:40:01.000000000 +0200
++++ ./Makefile.in	2014-09-24 11:31:14.917600000 +0200
+@@ -19,7 +19,7 @@
+ FLAGS		= -g
  LIBS		=
  
 -CFLAGS		= @CFLAGS@ @DEFS@ -Wall
@@ -24,7 +20,7 @@
  ifneq (@OCAML_PKG_lwt@,no)
  TARGETS += curl_lwt.cmo
  endif
-@@ -60,20 +62,20 @@
+@@ -60,10 +62,10 @@
  examples:
  		(cd examples; $(MAKE))
  
@@ -37,19 +33,6 @@
  		$(OCAMLMKLIB) -o curl $(CURLOBJS) -oc curl-helper $(CLIBS)
  
  curl_lwt.cmo: curl_lwt.ml
--	$(FINDLIB) c -package lwt.unix -c $< -o $@
-+	$(FINDLIB) c -g -package lwt.unix -c $< -o $@
- 
- curl_lwt.cmx: curl_lwt.ml
--	$(FINDLIB) opt -package lwt.unix -c $< -o $@
-+	$(FINDLIB) opt -g -package lwt.unix -c $< -o $@
- 
- curl_lwt.cmi: curl_lwt.mli
--	$(FINDLIB) c -package lwt -c $< -o $@
-+	$(FINDLIB) c -g -package lwt -c $< -o $@
- 
- .ml.cmx:
- 		$(OCAMLOPT) -c $(FLAGS) $< -o $@
 @@ -84,7 +86,7 @@
  .ml.cmo:
  		$(OCAMLC) -c $(FLAGS) $< -o $@

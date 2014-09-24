@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.7.1
-FORGENODE=	1400
+VERSION=	0.7.2
+FORGENODE=	1463
 PKGNAME=	godi-curl-${VERSION}
 PKGREVISION=	0
 DISTNAME=	ocurl-${VERSION}
