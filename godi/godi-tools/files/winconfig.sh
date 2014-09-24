@@ -1,5 +1,8 @@
 #!/bin/bash
 
+if [ -z "$USER" ]; then
+    USER=
+fi
 set -u
 
 commentregex='^\s*#'
@@ -119,7 +122,7 @@ startwodiex=''
 
 if [ -f "${GODI_PREFIX}/etc/env_ignore" ]; then
     startwodilines="\$(/bin/grep -P -v '\s*#' ${GODI_PREFIX}/etc/env_ignore)"
-    while read -r startwodivar startwodiex ; do 
+    while read -r startwodivar startwodiex ; do
         if [ -z "\$startwodivar" ] || [ -n "\$startwodiex" ]; then
             continue
         fi
@@ -132,7 +135,7 @@ fi
 if [ -f "${GODI_PREFIX}/etc/env_add" ]; then
     startwodilines="\$(/bin/grep -P -v '\s*#' ${GODI_PREFIX}/etc/env_add)"
 
-    while IFS='|' read -r startwodivar startwodival startwodiex ; do 
+    while IFS='|' read -r startwodivar startwodival startwodiex ; do
         if [ -z "\$startwodivar" ] || [ -z "\$startwodival" ] || [ -n "\$startwodiex" ]; then
             continue
         fi
@@ -562,6 +565,56 @@ function remove_startmenu_folder(){
     fi
 }
 
+function protect_file(){
+    local SID odir file ofile
+    odir="$(pwd)"
+    ofile=$1
+    if [ ! -e "$ofile" ]; then
+        return
+    fi
+
+    dir="$(/usr/bin/dirname "$ofile")"
+    if [ -n "$dir" ] && [ "$dir" != "." ]; then
+        cd "$dir"
+    fi
+    file="$(/usr/bin/basename "$ofile")"
+
+    /bin/chmod 0755 "$file" || true
+    if [ -z "$USER" ]; then
+        cd "$odir"
+        return
+    fi
+    SID="$(/bin/getent passwd "$USER" | /usr/bin/awk -F':' '{print $5}' | /usr/bin/awk -F',' '{print $NF}' || echo '')"
+    if [ -z "$SID" ]; then
+        cd "$odir"
+        return
+    fi
+    if ! which icacls.exe >/dev/null 2>&1 ; then
+        cd "$odir"
+        return
+    fi
+
+    if ! icacls.exe "$file" /reset >/dev/null 2>&1 ; then
+        /bin/chmod 0755 "$file" || true
+        cd "$odir"
+        return
+    fi
+
+    if ! icacls.exe "${file}" /inheritance:r  >/dev/null 2>&1 ; then
+        /bin/chmod 0755 "$file" || true
+        return
+    fi
+
+    if icacls.exe "$file" /grant "*${SID}:(F)"  >/dev/null 2>&1  && \
+        icacls.exe "$file" /grant '*S-1-1-0:(RX)' >/dev/null 2>&1 && \
+        icacls.exe "$file" /grant '*S-1-3-1:(RX)' >/dev/null 2>&1 ; then
+        cd "$odir"
+        return
+    fi
+    /bin/chmod 0755 "$file" || true
+    cd "$odir"
+}
+
 
 function refresh_root_links(){
     cd "/" || return 1
@@ -614,6 +667,7 @@ function refresh_root_links(){
             else
                 /usr/bin/mkshortcut -i "$picture" -a "$lparams" -n "./${relname}" "${RUN2}"
             fi
+            protect_file "./${relname}"
         fi
         if [ ${#arr[@]} -gt 0 ]; then
             arr=("${arr[@]}" "$relname")
@@ -665,7 +719,6 @@ function refresh_startmenu_links(){
     local oldpwd="$(pwd)"
     cd "${START_MENU_DIR}" || return 1
     # wrapreadshortcut has problems with character encoding
-    local tmpfile="$(/usr/bin/mktemp --suffix '.lnk')"
     if [ -f "./${WODI_MANAGER}.lnk" ]; then
         xtmp="$(wrapreadshortcut "./${WODI_MANAGER}.lnk")"
         xtmp="$(/usr/bin/cygpath "$xtmp")"
@@ -930,7 +983,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ $FIRST_RUN -eq 1 ]; then
-    refresh_startmenu_links
+    refresh_root_links
 fi
 
 changed=0
@@ -983,7 +1036,7 @@ while [ $# -gt 0 ]; do
             shift
             ;;
         '--first-run')
-            refresh_startmenu_links ;
+            refresh_root_links
             ;;
         '--refresh-startmenu')
             refresh_startmenu_links

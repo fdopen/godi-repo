@@ -2,7 +2,7 @@
 
 VERSION=	3.0.37h
 RVERSION=       3.0.37
-PKGREVISION=	6
+PKGREVISION=	10
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
@@ -51,7 +51,7 @@ CONFIGURE_ARGS+=-w32port ${W32PORT}
 CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
 .if ${W32PORT} == "mingw"
-BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+BUILD_DEPENDS+=	base-zlib>=0:../../base/base-zlib
 BUILD_DEPENDS+=	godi-ocamlmakefile>=0:../../godi/godi-ocamlmakefile
 .endif
 .endif
