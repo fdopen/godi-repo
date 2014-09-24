@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.8
+VERSION=	0.2.9
 GVERSION=	3.0.37
-PKGREVISION=	0
+PKGREVISION=	1
 PKGNAME=	godi-tools-gui-${VERSION}
 DISTNAME=	godi-tools-${GVERSION}
 DISTFILES=	godi-tools-${GVERSION}.tar.gz godi-gui-${VERSION}.tar.xz
@@ -23,14 +23,11 @@ DEPENDS+=	base-gui>=0:../../base/base-gui
 BUILD_DEPENDS+= godi-curl>=0.5.3:../../godi/godi-curl
 .endif
 
-
-PATH:=		${LOCALBASE}/bin:${PATH}
-
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
 CONFIGURE_ENV+=	${BUILD_OCAMLFIND_ENV}
 
-USE_GMAKE=	yes
 HAS_CONFIGURE=	yes
+USE_GMAKE=	yes
 
 # mk:
 .if defined(SEARCH_CMDS)
@@ -44,7 +41,7 @@ CONFIGURE_ARGS+=-w32port ${W32PORT}
 .if defined(MINGW_TOOL_PREFIX) && ${MINGW_TOOL_PREFIX} != ""
 CONFIGURE_ARGS+=-mk -toolchain-prefix ${MINGW_TOOL_PREFIX}
 .endif
-.if ${W32PORT} == "mingw"
+.if defined(W32PORT) && ${W32PORT} == "mingw" 
 BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
 .endif
 .endif

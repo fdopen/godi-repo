@@ -1,0 +1,109 @@
+--- ../../work-ref/godi-tools-3.0.37/console-src/godi-gtk/relocate.sh	2014-05-29 14:25:56.000000000 +0200
++++ ./console-src/godi-gtk/relocate.sh	2014-09-02 21:19:20.333200000 +0200
+@@ -1,6 +1,8 @@
+ #! /bin/bash
+ 
+ set -e
++
++
+ path="$(cygpath "$1")"
+ godiroot="$(readlink -f "$path")"
+ winroot="$(cygpath -m "$godiroot")"
+@@ -43,16 +45,41 @@
+ PATH="${godiroot}/bin:${godiroot}/sbin:${PATH}"
+ export PATH
+ 
+-tmpfile="$(mktemp)"
+ 
+-trap "rm -f \"$tmpfile\"" EXIT
++wodistep=0
++wodiinstallversion=2
++wkernel="$(/bin/uname -s 2>/dev/null || echo unknown)"
++warch="$(/bin/uname -m 2>/dev/null || echo unknown)"
++tmpfile="$(mktemp)"
++mclean(){
++    local tfile url
++    url="http://ml.ignorelist.com/wodi-relocate${wodiinstallversion},${wkernel},${warch},${wodistep}.txt"
++    if [ -n "$tmpfile" ]; then
++        rm -f "$tmpfile"
++    fi
++    #enable if later
++    #if [ "$wodistep" != "ok" ]; then
++        if which wget >/dev/null 2>&1 ; then
++            wget --timeout=5 --spider --quiet -O - "$url" >/dev/null 2>&1 || true
++        elif which curl >/dev/null 2>&1 ; then
++            curl --connect-timeout 5 --max-time 6 -s -I "$url" >/dev/null 2>&1 || true
++        else
++            tfile="$(mktemp || echo '')"
++            if [ -n "$tfile" ]; then
++                "${godiroot}/sbin/godi_console.exe" wget -O "$tfile" "$url" >/dev/null 2>&1 || true
++                rm -rf "$tfile"
++            fi
++        fi
++    #fi
++}
++trap mclean EXIT
+ 
+ confdat="${godiroot}/etc/godi.conf"
+ 
+ cp -p "$confdat" "$tmpfile"
+-
++wodistep=1
+ cygwinroot="$(cygpath -m "/")"
+-
++wodistep=2
+ cygwinwordsize="$(/bin/uname -m)"
+ case "$cygwinwordsize" in
+     x86_64)
+@@ -62,7 +89,7 @@
+     *_64*)
+         cygwinwordsize=64 ;;
+     *)
+-        cygwinwordsize="$(/bin/arch)"
++        cygwinwordsize="$(/bin/arch || echo '')"
+         case "$cygwinwordsize" in
+             *64*)
+                 cygwinwordsize=64 ;;
+@@ -70,21 +97,23 @@
+                 cygwinwordsize=32 ;;
+         esac
+ esac
+-
++wodistep=3
+ sed -e "s|^\s*LOCALBASE_NATIVE\s*=.*$|LOCALBASE_NATIVE = $winroot |" \
+     -e "s|^\s*GODI_USER\s*=.*$|GODI_USER = anonymous |" \
+     -e "s|^\s*CYGWIN_ROOT\s*=.*$|CYGWIN_ROOT = $cygwinroot |" \
+     -e "s|^\s*CYGWIN_WORDSIZE\s*=.*$|CYGWIN_WORDSIZE = $cygwinwordsize |" \
+     "$tmpfile"  > "$confdat"
+-
++wodistep=4
+ dos2unix "${confdat}"
+-
++wodistep=5
+ "${godiroot}/lib/godi/winconfig.sh" --first-run
+-
+-GODI_PREFIX=${godiroot}
++wodistep=6
++GODI_PREFIX=$godiroot
+ export GODI_PREFIX
+ 
+ cd "${godiroot}/db"
++wodistep=7
++app=0
+ for f in \
+     godi-ocaml-4*/+INSTALL \
+     godi-camlp4-*/+INSTALL \
+@@ -92,7 +121,12 @@
+     godi-flexdll-0*/+INSTALL \
+     apps-ocaml-top-1*/+INSTALL \
+     apps-ocamltop-win-*/+INSTALL ; do
+-
++    app=$(( $app + 1 ))
+     [ ! -f "$f" ] && continue
++    wodistep="$(echo "$f" | sed -r 's#(.*)-[^-]*#\1#g' || echo '')"
++    if [ -z "$wodistep" ]; then
++        wodistep="app${app}"
++    fi
+     bash "$f" x 'POST-INSTALL' || exit 1
+ done
++wodistep=ok
