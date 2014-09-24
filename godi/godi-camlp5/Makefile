@@ -1,14 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=6.12beta
+VERSION=6.12
 NAME=camlp5
 PKGNAME=godi-${NAME}-${VERSION}
 PKGREVISION=0
 DISTNAME=${NAME}-${VERSION}
-DISTFILES=${DISTNAME}.tar.xz #tgz
+DISTFILES=${DISTNAME}.tgz
 CATEGORIES=godi
 MASTER_SITES=http://pauillac.inria.fr/~ddr/camlp5/distrib/src/
-MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=http://pauillac.inria.fr/~ddr/camlp5/
 COMMENT=pre-processor-pretty-printer for ocaml
 
