@@ -6,8 +6,9 @@ Size (godi-tools-3.0.37.tar.gz) = 568998 bytes
 SHA1 (godi-gui-0.2.9.tar.xz) = 81e72805c766b919cc41562d7e9d2aa0ee1d8e1d
 Size (godi-gui-0.2.9.tar.xz) = 101188 bytes
 
-SHA1 (patch-aa) = 3db9f4c72aed5a177b5d24ddd86a7374d0b41086
+SHA1 (patch-aa) = ca090596e686c7aa96f81ac2fbe42d23c9dc2688
 SHA1 (patch-zz) = 514a5cb599e44d7ee521804797840ec211d46bbd
 SHA1 (patch-zz-pkgmakefile) = b88d0c21c341be557e099b9f58102fb84d22d465
+SHA1 (patch-zz-relocate) = 9ab806e139db2fa1f14d81d3d4f71adb577e4e63
 SHA1 (patch-zz-versionml) = 83b7f67ce8d8f6d3fc911ce69a357a227b5cc154
 SHA1 (patch-zz-versionmli) = 372959a39d4c6cafd2ab770968b15d60ef008c8d

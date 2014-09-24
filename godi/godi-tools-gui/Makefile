@@ -2,7 +2,7 @@
 
 VERSION=	0.2.9
 GVERSION=	3.0.37
-PKGREVISION=	0
+PKGREVISION=	2
 PKGNAME=	godi-tools-gui-${VERSION}
 DISTNAME=	godi-tools-${GVERSION}
 DISTFILES=	godi-tools-${GVERSION}.tar.gz godi-gui-${VERSION}.tar.xz
