@@ -1,16 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=	1.2.0
+VERSION=	1.2.1
 PKG=		godi-orakuda
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	camlspotter-orakuda-5af4e6d7d50c
-DISTFILES=	orakuda-${VERSION}.tar.xz
+DISTNAME=	camlspotter-orakuda-3dfc83fb0a7f
+DISTFILES=	orakuda-1.2.1.tar.xz
 CATEGORIES=	godi
-MASTER_SITES=	${MASTER_SITES_BACKUP}
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://bitbucket.org/camlspotter/orakuda/
 COMMENT=	Perlish string literals in OCaml
 
-DEPENDS+=	godi-ocaml>=4.00:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.01.0:../../godi/godi-ocaml
 DEPENDS+=	godi-pcre>=0:../../godi/godi-pcre
 DEPENDS+=	godi-spotlib>=2.4.0:../../godi/godi-spotlib
 BUILD_DEPENDS+= godi-findlib>=0:../../godi/godi-findlib
