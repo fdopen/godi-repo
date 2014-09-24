@@ -3,7 +3,7 @@
 VERSION= 	0.7.3
 PKG=		godi-magic
 PKGNAME= 	${PKG}-${VERSION}
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	ocaml-magic-${VERSION}
 DISTFILES=	ocaml-magic-${VERSION}.tar.gz
 CATEGORIES=	godi
@@ -51,7 +51,7 @@ LDFLAGS+=-Wl,${ELF_RPATH_FLAG}${CONF_MAGIC_NEED_RPATH}
 .endif
 
 .else
-BUILD_DEPENDS+= base-file>=0:../../base/base-file
+DEPENDS+= base-file>=0:../../base/base-file
 .endif
 
 DOCUMENT_DIRS+= doc/html
