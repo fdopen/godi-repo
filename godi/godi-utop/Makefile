@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.14
+VERSION=        1.15
 MNODE=		1122
 ONAME=		utop
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       utop-1.14
-DISTFILES=      utop-1.14.tar.xz
+PKGREVISION=    0
+DISTNAME=       utop-1.15
+DISTFILES=      utop-1.15.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=       https://github.com/diml/utop
