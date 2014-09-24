@@ -1,13 +1,7 @@
 $NetBSD$
 
-SHA1 (ocamlnet-3.7.5alpha.tar.xz) = 85a4c95b9d5dae45fdabd66798495e756f8db8a6
-Size (ocamlnet-3.7.5alpha.tar.xz) = 4201640 bytes
+SHA1 (ocamlnet-3.7.6.tar.gz) = 05a0fbb62423e23d2cffaa66f34432e16b055389
+Size (ocamlnet-3.7.6.tar.gz) = 3425021 bytes
 
 SHA1 (patch-aa-getmaxstdio) = e5ad40525a6c7b3d7338aec9958bd21093eed2a7
-SHA1 (patch-ab-win64netsysconfigure) = 916d712ccdd73c088e35eded6c07623b63c32ee3
-SHA1 (patch-ac-cppo) = c5958bf53a95ef202304260e70df9cd130a5a368
-SHA1 (patch-ad-intnat_not_long) = c3a2fa27e02fd676af07775c7c5e5c1bf21cd2f5
-SHA1 (patch-ae-intptr_t) = 8bac15e10c62688b9cd2e27fdc4432181f43912d
-SHA1 (patch-af-unixsupport_external) = 4bd30a15779eaf71bfbdc72815f84645f41828f2
-SHA1 (patch-ag-configuretr) = 4801366bab1da499db551b973044bda0f83c1da0
 SHA1 (patch-wl) = 6daa8dfb481624ea9287bf39c22079091cb356e9
