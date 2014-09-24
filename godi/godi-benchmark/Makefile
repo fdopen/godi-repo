@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3
+VERSION=	1.3.1
 PKG=		godi-benchmark
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	benchmark-1.3
-DISTFILES=	benchmark-1.3.tar.gz
+PKGREVISION=	0
+DISTNAME=	benchmark-1.3.1
+DISTFILES=	benchmark-1.3.1.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1252/
+MASTER_SITES=	https://github.com/Chris00/ocaml-benchmark/releases/download/1.3.1/
 HOMEPAGE=	http://ocaml-benchmark.forge.ocamlcore.org/
 COMMENT=	simple benchmark functions
 
