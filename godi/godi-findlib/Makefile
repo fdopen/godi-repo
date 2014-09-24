@@ -2,7 +2,7 @@
 
 GODI_FINDLIB_TOOLBOX?=  no
 
-VERSION=	1.5.2
+VERSION=	1.5.3
 PKGNAME=	godi-findlib-${VERSION}
 PKGREVISION=	0
 DISTNAME=	findlib-${VERSION}
@@ -63,8 +63,9 @@ post-configure:
 	@# Delete META files of packages not to install
 .if !defined(W32PORT) && ${W32PORT} != "mingw"
 	rm -f ${WRKSRC:Q}/site-lib-src/graphics/META
-	rm -f ${WRKSRC:Q}/site-lib-src/labltk/META
 .endif
+	rm -f ${WRKSRC:Q}/site-lib-src/labltk/META
+	rm -f ${WRKSRC:Q}/site-lib-src/camlp4/META
 	rm -f ${WRKSRC:Q}/site-lib-src/dbm/META
 #	${SED} -i 's|\(^PARTS.*\)bytes\(.*\)$$|\1\2|' ${WRKSRC:Q}/Makefile.config
 SEP=	:

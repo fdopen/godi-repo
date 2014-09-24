@@ -1,4 +1,5 @@
 @comment $GODI$
+@optional bin/safe_camlp4
 bin/ocamlfind
 etc/findlib.conf
 etc/findlib-BUILD.conf
