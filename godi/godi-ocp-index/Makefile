@@ -1,21 +1,21 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.2b
+VERSION=	1.0.3
 ONAME=		ocp-index
 PKGNAME=	godi-${ONAME}-${VERSION}
-PKGREVISION=	2
-DISTNAME=	${ONAME}-4.02
-DISTFILES=	${ONAME}-${VERSION}.tar.xz
+PKGREVISION=	0
+DISTNAME=	ocp-index-1.0.3
+DISTFILES=	ocp-index-1.0.3.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	https://github.com/OCamlPro/ocp-index/
+HOMEPAGE=	http://www.typerex.org/ocp-index.html
 COMMENT=	tool to index OCaml programs
 
-DEPENDS+=	godi-ocaml>=3.06:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
 DEPENDS+=	godi-cmdliner>=0:../../godi/godi-cmdliner
-DEPENDS+= 	godi-ocp-indent>=1.4.0:../../godi/godi-ocp-indent
+DEPENDS+= 	godi-ocp-indent>=1.4.2:../../godi/godi-ocp-indent
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocp-build>=1.99.8beta:../../godi/godi-ocp-build
 BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer

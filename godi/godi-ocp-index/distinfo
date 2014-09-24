@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (ocp-index-1.0.2b.tar.xz) = 1934563ee59800252aaa7a07b1b82146b2b889e8
-Size (ocp-index-1.0.2b.tar.xz) = 74092 bytes
+SHA1 (ocp-index-1.0.3.tar.xz) = c73df0dec036ff0c6ee87a6d21e3eaf2ad75b39a
+Size (ocp-index-1.0.3.tar.xz) = 73928 bytes
 
 SHA1 (patch-aa) = 65ee824a2b1ab7332ac7aeffcf04a8999b8314f5
-SHA1 (patch-ab) = e8a3140a906021c7d0841dd65666f46211e89961
+SHA1 (patch-f50b1a488e25ae3fb9125d2a739b614adfbad6a6) = 93544760036298f230fcdfdc6b9d8c32aac5f356
