@@ -2,10 +2,10 @@
 
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
-VERSION = 	2.2
-PKGREVISION=    2
+VERSION = 	2.3
+PKGREVISION=    0
 CATEGORIES=     godi
-FORGE_NODE =	1363
+FORGE_NODE =	1465
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://batteries.forge.ocamlcore.org
@@ -13,6 +13,10 @@ COMMENT=	a community-maintained foundation library for OCaml
 GIT_REPO=	git://github.com/ocaml-batteries-team/batteries-included.git
 DISTNAME = 	batteries-${VERSION}
 DISTFILES = 	batteries-${VERSION}.tar.gz
+
+
+GODI_BATTERIES_RUN_TESTS ?= no
+GODI_BATTERIES_BUILD_DOCS ?= yes
 
 DEPENDS+= godi-ocaml>4.00.1:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=1.2.5:../../godi/godi-findlib
@@ -22,9 +26,6 @@ BUILD_DEPENDS+= godi-ounit>=1.0.3:../../godi/godi-ounit
 BUILD_DEPENDS+= godi-qtest>=2.0:../../godi/godi-qtest
 BUILD_DEPENDS+= godi-bisect>=1.3:../../godi/godi-bisect
 .endif
-
-GODI_BATTERIES_RUN_TESTS ?= no
-GODI_BATTERIES_BUILD_DOCS ?= yes
 
 .if !defined(SHLIB_TYPE) || ${SHLIB_TYPE} == "MachO"
 GODI_BATTERIES_SHLIB ?= no
@@ -65,7 +66,7 @@ ALL_TARGET+= doc
 INSTALL_TARGET+= install-doc
 .endif
 
-post-patch:
-	${RM} ${WRKSRC:Q}/src/batPrintf.ml ${WRKSRC:Q}/src/batPrintf.mli
+#post-patch:
+#	${RM} ${WRKSRC:Q}/src/batPrintf.ml ${WRKSRC:Q}/src/batPrintf.mli
 
 .include "../../mk/bsd.pkg.mk"
