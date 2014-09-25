@@ -3,10 +3,10 @@
 
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
-VERSION = 	2.2
+VERSION = 	2.3
 PKGREVISION=    0
 CATEGORIES=     godi
-FORGE_NODE =	1363
+FORGE_NODE =	1465
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://batteries.forge.ocamlcore.org
@@ -19,7 +19,7 @@ GODI_BATTERIES_GIT_REPO ?= ${GIT_REPO}
 GODI_BATTERIES_GIT_BRANCH ?= master
 
 GODI_BATTERIES_VCS_CHECKOUT ?= no
-GODI_BATTERIES_RUN_TESTS ?= yes
+GODI_BATTERIES_RUN_TESTS ?= no
 
 #.if defined(OPSYS) && ${OPSYS} == "CYGWIN" && defined(W32PORT) && ${W32PORT} == "mingw"
 # because of symlinks
@@ -37,6 +37,7 @@ PKGREVISION = 99
 AUTOGENERATE_PLIST = yes
 MAKE_FLAGS=     PREFIX=${PREFIX} LIBDIR=${PREFIX}/lib BINDIR=${PREFIX}/bin MANDIR=${PREFIX}/man DOCROOT=${PREFIX}/doc/${PKG}
 DEPENDS+= godi-ocaml>4.00.1:../../godi/godi-ocaml
+DEPENDS+= godi-bytes>1.5:../../godi/godi-bytes
 BUILD_DEPENDS+= godi-findlib>=1.2.5:../../godi/godi-findlib
 .if ${GODI_BATTERIES_RUN_TESTS} == "yes"
 BUILD_DEPENDS+= godi-ounit>=1.0.3:../../godi/godi-ounit
