@@ -42,13 +42,3 @@
 +  output
 +
 +let cat = (^)
---- ../../work-ref/ocaml-bytes-ocaml-bytes.1.1/bytes.mli	2014-05-23 14:24:31.000000000 +0200
-+++ ./bytes.mli	2014-09-18 23:00:37.001600000 +0200
-@@ -4,5 +4,5 @@
- val of_string : string -> t
- val to_string : t -> string
- val sub_string : t -> int -> int -> string
--external unsafe_to_string : t -> string = "%identity"
--external unsafe_of_string : string -> t = "%identity"
-+val unsafe_to_string : t -> string
-+val unsafe_of_string : string -> t

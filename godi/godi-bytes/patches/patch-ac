@@ -1,0 +1,24 @@
+--- ../../work-ref/ocaml-bytes-ocaml-bytes.1.1/bytes.mli	2014-05-23 14:24:31.000000000 +0200
++++ ./bytes.mli	2014-09-25 17:47:54.704400000 +0200
+@@ -1,8 +1,13 @@
+-include module type of String
+-
+-val empty : t
+-val of_string : string -> t
+-val to_string : t -> string
+-val sub_string : t -> int -> int -> string
+-external unsafe_to_string : t -> string = "%identity"
+-external unsafe_of_string : string -> t = "%identity"
++include module type of String
++
++val empty : t
++val of_string : string -> t
++val to_string : t -> string
++val sub_string : t -> int -> int -> string
++val blit_string : string -> int -> string -> int -> int -> unit
++val unsafe_to_string : t -> string
++val unsafe_of_string : string -> t
++val extend : string -> int -> int -> string
++val init : int -> (int -> char) -> string
++val mapi : (int -> char -> char) -> string -> string
++val cat : string -> string -> string
