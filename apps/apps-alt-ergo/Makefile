@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.9.4
+VERSION=        0.95.2
 
 PKGREVISION=
 PKGNAME=        apps-alt-ergo-${VERSION}
-DISTNAME=       alt-ergo-0.94
+DISTNAME=       alt-ergo-0.95.2
 DISTFILES=      ${DISTNAME}.tar.gz
 CATEGORIES=     apps
-MASTER_SITES=   http://alt-ergo.lri.fr/http/${DISTNAME}/
+MASTER_SITES=   http://alt-ergo.ocamlpro.com/http/alt-ergo-${VERSION}/
 MAINTAINER=     Virgile Prevosto <virgile.prevosto@m4x.org>
-HOMEPAGE=       http://alt-ergo.lri.fr
+HOMEPAGE=       http://alt-ergo.ocamlpro.com
 COMMENT=        Automated first-order theorem prover
 
 PKG=            apps-alt-ergo
