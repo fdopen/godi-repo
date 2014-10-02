@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 VERSION=        1.8.5
 PKGNAME=        godi-ocamlgraph-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=       ocamlgraph-${VERSION}
 DISTFILES=      ocamlgraph-${VERSION}.tar.gz
 CATEGORIES=     godi
@@ -17,8 +17,9 @@ BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 
 .if ${GODI_OCAMLGRAPH_VIEWER} == "yes"
 DEPENDS+=	base-gui>=0:../../base/base-gui
-BUILD_DEPENDS+=	godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
 .endif
+# dgraph depends on it and is used by e.g. apps-frama-c
+DEPENDS+=	godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
 
 INSTALL_SCRIPT_FILE=files/install
 DEINSTALL_SCRIPT_FILE=files/deinstall
