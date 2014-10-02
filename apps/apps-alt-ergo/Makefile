@@ -16,10 +16,10 @@ PKG=            apps-alt-ergo
 
 DEPENDS+=       godi-ocaml>=3.08:../../godi/godi-ocaml
 DEPENDS+=       godi-ocamlgraph>=0.95:../../godi/godi-ocamlgraph
-USE_GMAKE=      yes
+DEPENDS+=       godi-zarith>=0:../../godi/godi-zarith
 
-GNU_CONFIGURE=   yes
-
+GNU_CONFIGURE=    yes
+WINGMAKE=	  yes
 CONF_ALTERGO_ENABLE_GUI?=auto
 
 CONFIGURE_ARGS+= --mandir=${PREFIX}/man

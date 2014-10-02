@@ -1,6 +1,0 @@
-bin/alt-ergo
-@optional bin/altgr-ergo
-@optional bin/altgr-ergo.exe
-@deepdir lib/alt-ergo
-@optional share/gtksourceview-2.0/language-specs/alt-ergo.lang
-man/man1/alt-ergo.1
