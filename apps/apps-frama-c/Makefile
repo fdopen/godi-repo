@@ -16,13 +16,20 @@ COMMENT=        Framework for analysis of C programs
 DEPENDS+=       godi-ocaml>=3.08:../../godi/godi-ocaml
 DEPENDS+=       godi-lablgtk2>=20051028:../../godi/godi-lablgtk2
 DEPENDS+=       apps-coq>=8.4:../apps-coq
-DEPENDS+=       apps-alt-ergo>=0.9.4:../apps-altergo
+DEPENDS+=       apps-alt-ergo>=0.9.4:../apps-alt-ergo
 DEPENDS+=       godi-ocamlgraph>=1.8.5:../../godi/godi-ocamlgraph
 DEPENDS+=       godi-zarith>=1.2.1:../../godi/godi-zarith
-USE_GMAKE=      yes
 
-HAS_CONFIGURE=   yes
-CONFIGURE_ARGS+= --prefix ${LOCALBASE_NATIVE}
+USE_GMAKE=		yes
+HAS_CONFIGURE=   	yes
+CONFIGURE_ARGS+= --prefix=${LOCALBASE_NATIVE:Q}
 
+.if defined(W32PORT) && ${W32PORT} == "mingw"
+INSTALL_SCRIPT_FILE   =files/install
+DEINSTALL_SCRIPT_FILE =files/deinstall
+.endif
+
+xhelp:
+	echo ${INSTALL_SCRIPT}
 
 .include "../../mk/bsd.pkg.mk"
