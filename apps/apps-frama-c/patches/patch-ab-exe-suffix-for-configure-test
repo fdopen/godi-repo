@@ -1,0 +1,40 @@
+--- configure.in	2014-03-12 16:07:50.000000000 +0100
++++ configure.in.new	2014-06-10 13:23:20.200793300 +0200
+@@ -348,7 +348,7 @@
+     esac
+     if test "$OCAMLGRAPH_EXISTS" = "yes"; then # current version is ok
+       if test "$OCAMLBEST" = "opt"; then 
+-        if $OCAMLOPT -o test_ocamlgraph $OCAMLGRAPH_INCLUDE graph.cmxa \
++        if $OCAMLOPT -o test_ocamlgraph$EXE $OCAMLGRAPH_INCLUDE graph.cmxa \
+           test_ocamlgraph.ml 2> /dev/null; \
+         then
+           AC_MSG_NOTICE([OcamlGraph native version is ok])
+@@ -489,7 +489,7 @@
+   # OCaml native threads
+   AC_MSG_CHECKING([OCaml native threads])
+   echo "let f = Thread.create (fun () -> ())" > test_native_threads.ml
+-  if ($OCAMLOPT -thread -o test_native_threads unix.cmxa threads.cmxa \
++  if ($OCAMLOPT -thread -o test_native_threads$EXE unix.cmxa threads.cmxa \
+       test_native_threads.ml) 2> /dev/null ; \
+   then
+     HAS_NATIVE_THREADS=yes
+--- configure	2014-03-12 16:07:57.000000000 +0100
++++ configure.new	2014-06-10 13:25:23.482043300 +0200
+@@ -3524,7 +3524,7 @@
+     esac
+     if test "$OCAMLGRAPH_EXISTS" = "yes"; then # current version is ok
+       if test "$OCAMLBEST" = "opt"; then
+-        if $OCAMLOPT -o test_ocamlgraph $OCAMLGRAPH_INCLUDE graph.cmxa \
++        if $OCAMLOPT -o test_ocamlgraph$EXE $OCAMLGRAPH_INCLUDE graph.cmxa \
+           test_ocamlgraph.ml 2> /dev/null; \
+         then
+           { $as_echo "$as_me:${as_lineno-$LINENO}: OcamlGraph native version is ok" >&5
+@@ -3816,7 +3816,7 @@
+   { $as_echo "$as_me:${as_lineno-$LINENO}: checking OCaml native threads" >&5
+ $as_echo_n "checking OCaml native threads... " >&6; }
+   echo "let f = Thread.create (fun () -> ())" > test_native_threads.ml
+-  if ($OCAMLOPT -thread -o test_native_threads unix.cmxa threads.cmxa \
++  if ($OCAMLOPT -thread -o test_native_threads$EXE unix.cmxa threads.cmxa \
+       test_native_threads.ml) 2> /dev/null ; \
+   then
+     HAS_NATIVE_THREADS=yes

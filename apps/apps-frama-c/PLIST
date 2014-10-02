@@ -1,0 +1,7 @@
+bin/frama-c
+bin/frama-c.byte
+@optional bin/frama-c-gui
+@optional bin/frama-c-gui.byte
+@deepdir share/frama-c
+@deepdir lib/frama-c
+
