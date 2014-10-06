@@ -1,0 +1,3 @@
+This library implements a wrapper for dlfcn, as specified in POSIX and
+SUS, around the dynamic link library functions found in the Windows
+API.
