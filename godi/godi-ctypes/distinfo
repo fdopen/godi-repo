@@ -3,4 +3,4 @@ $NetBSD$
 SHA1 (ctypes-0.3.3.tar.xz) = e06f6ff00165b5656af14f126a77883781a24307
 Size (ctypes-0.3.3.tar.xz) = 105328 bytes
 
-SHA1 (patch-aa) = a4264124d02c6cb48ce3852d9292a9dac067616b
+SHA1 (patch-aa) = 59e2c7ec5bb4c2db877e66da2c0a915927f341a5

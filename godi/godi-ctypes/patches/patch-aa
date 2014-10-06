@@ -1,12 +1,560 @@
+--- ../../work-ref/ocaml-ctypes-0.3.3/.depend	2014-08-01 10:23:56.000000000 +0200
++++ ./.depend	2014-10-06 15:17:51.564000000 +0200
+@@ -1,237 +1,135 @@
+-_build/src/ctypes-foreign-base/ffi.cmo : _build/src/ctypes-foreign-base/weakRef.cmi \
+-    _build/src/ctypes/type_printing.cmi _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/memory.cmo \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi \
+-    _build/src/ctypes-foreign-base/ffi_stubs.cmo _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes/ctypes_primitives.cmo _build/src/ctypes-foreign-base/ffi.cmi
+-_build/src/ctypes-foreign-base/ffi.cmx : _build/src/ctypes-foreign-base/weakRef.cmx \
+-    _build/src/ctypes/type_printing.cmx _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/primitives.cmx _build/src/ctypes/memory.cmx \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmx \
+-    _build/src/ctypes-foreign-base/ffi_stubs.cmx _build/src/ctypes/ctypes_raw.cmx \
+-    _build/src/ctypes/ctypes_primitives.cmx _build/src/ctypes-foreign-base/ffi.cmi
+-_build/src/ctypes-foreign-base/libffi_abi.cmo : _build/src/ctypes/ctypes.cmi \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi
+-_build/src/ctypes-foreign-base/libffi_abi.cmx : _build/src/ctypes/ctypes.cmx \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi
+-_build/src/ctypes-foreign-base/ffi.cmi : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi
+-_build/src/ctypes-foreign-base/libffi_abi.cmi :
+-_build/src/ctypes-foreign-base/dl.cmo : _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes-foreign-base/dl.cmi
+-_build/src/ctypes-foreign-base/dl.cmx : _build/src/ctypes/ctypes_raw.cmx \
+-    _build/src/ctypes-foreign-base/dl.cmi
++_build/src/configure/make_primitive_details.cmo :
++_build/src/configure/make_primitive_details.cmx :
++_build/src/cstubs/cstubs.cmo : _build/src/cstubs/cstubs_generate_ml.cmi \
++    _build/src/cstubs/cstubs_generate_c.cmi _build/src/cstubs/cstubs.cmi
++_build/src/cstubs/cstubs.cmx : _build/src/cstubs/cstubs_generate_ml.cmx \
++    _build/src/cstubs/cstubs_generate_c.cmx _build/src/cstubs/cstubs.cmi
++_build/src/cstubs/cstubs.cmi :
++_build/src/cstubs/cstubs_analysis.cmo : _build/src/cstubs/cstubs_analysis.cmi
++_build/src/cstubs/cstubs_analysis.cmx : _build/src/cstubs/cstubs_analysis.cmi
++_build/src/cstubs/cstubs_analysis.cmi :
++_build/src/cstubs/cstubs_errors.cmo : _build/src/cstubs/cstubs_errors.cmi
++_build/src/cstubs/cstubs_errors.cmx : _build/src/cstubs/cstubs_errors.cmi
++_build/src/cstubs/cstubs_errors.cmi :
++_build/src/cstubs/cstubs_generate_c.cmo : _build/src/cstubs/cstubs_errors.cmi \
++    _build/src/cstubs/cstubs_generate_c.cmi
++_build/src/cstubs/cstubs_generate_c.cmx : _build/src/cstubs/cstubs_errors.cmx \
++    _build/src/cstubs/cstubs_generate_c.cmi
++_build/src/cstubs/cstubs_generate_c.cmi :
++_build/src/cstubs/cstubs_generate_ml.cmo : _build/src/cstubs/cstubs_public_name.cmi \
++    _build/src/cstubs/cstubs_errors.cmi _build/src/cstubs/cstubs_analysis.cmi \
++    _build/src/cstubs/cstubs_generate_ml.cmi
++_build/src/cstubs/cstubs_generate_ml.cmx : _build/src/cstubs/cstubs_public_name.cmx \
++    _build/src/cstubs/cstubs_errors.cmx _build/src/cstubs/cstubs_analysis.cmx \
++    _build/src/cstubs/cstubs_generate_ml.cmi
++_build/src/cstubs/cstubs_generate_ml.cmi :
++_build/src/cstubs/cstubs_internals.cmo : _build/src/cstubs/cstubs_internals.cmi
++_build/src/cstubs/cstubs_internals.cmx : _build/src/cstubs/cstubs_internals.cmi
++_build/src/cstubs/cstubs_internals.cmi :
++_build/src/cstubs/cstubs_inverted.cmo : _build/src/cstubs/cstubs_generate_ml.cmi \
++    _build/src/cstubs/cstubs_generate_c.cmi _build/src/cstubs/cstubs_inverted.cmi
++_build/src/cstubs/cstubs_inverted.cmx : _build/src/cstubs/cstubs_generate_ml.cmx \
++    _build/src/cstubs/cstubs_generate_c.cmx _build/src/cstubs/cstubs_inverted.cmi
++_build/src/cstubs/cstubs_inverted.cmi :
++_build/src/cstubs/cstubs_public_name.cmo : _build/src/cstubs/cstubs_public_name.cmi
++_build/src/cstubs/cstubs_public_name.cmx : _build/src/cstubs/cstubs_public_name.cmi
++_build/src/cstubs/cstubs_public_name.cmi :
++_build/src/ctypes/bigarray_stubs.cmo :
++_build/src/ctypes/bigarray_stubs.cmx :
++_build/src/ctypes/coerce.cmo : _build/src/ctypes/coerce.cmi
++_build/src/ctypes/coerce.cmx : _build/src/ctypes/coerce.cmi
++_build/src/ctypes/coerce.cmi :
++_build/src/ctypes/common.cmo :
++_build/src/ctypes/common.cmx :
++_build/src/ctypes/ctypes.cmo : _build/src/ctypes/ctypes.cmi
++_build/src/ctypes/ctypes.cmx : _build/src/ctypes/ctypes.cmi
++_build/src/ctypes/ctypes.cmi :
++_build/src/ctypes/ctypes_bigarray.cmo : _build/src/ctypes/ctypes_bigarray.cmi
++_build/src/ctypes/ctypes_bigarray.cmx : _build/src/ctypes/ctypes_bigarray.cmi
++_build/src/ctypes/ctypes_bigarray.cmi :
++_build/src/ctypes/ctypes_path.cmo : _build/src/ctypes/ctypes_path.cmi
++_build/src/ctypes/ctypes_path.cmx : _build/src/ctypes/ctypes_path.cmi
++_build/src/ctypes/ctypes_path.cmi :
++_build/src/ctypes/ctypes_primitives.cmo :
++_build/src/ctypes/ctypes_primitives.cmx :
++_build/src/ctypes/ctypes_raw.cmo :
++_build/src/ctypes/ctypes_raw.cmx :
++_build/src/ctypes/memory.cmo :
++_build/src/ctypes/memory.cmx :
++_build/src/ctypes/memory_stubs.cmo :
++_build/src/ctypes/memory_stubs.cmx :
++_build/src/ctypes/primitives.cmo : _build/src/ctypes/primitives.cmi
++_build/src/ctypes/primitives.cmx : _build/src/ctypes/primitives.cmi
++_build/src/ctypes/primitives.cmi :
++_build/src/ctypes/signed.cmo : _build/src/ctypes/signed.cmi
++_build/src/ctypes/signed.cmx : _build/src/ctypes/signed.cmi
++_build/src/ctypes/signed.cmi :
++_build/src/ctypes/static.cmo : _build/src/ctypes/static.cmi
++_build/src/ctypes/static.cmx : _build/src/ctypes/static.cmi
++_build/src/ctypes/static.cmi :
++_build/src/ctypes/std_views.cmo :
++_build/src/ctypes/std_views.cmx :
++_build/src/ctypes/std_view_stubs.cmo :
++_build/src/ctypes/std_view_stubs.cmx :
++_build/src/ctypes/structs.cmo : _build/src/ctypes/structs.cmi
++_build/src/ctypes/structs.cmx : _build/src/ctypes/structs.cmi
++_build/src/ctypes/structs.cmi :
++_build/src/ctypes/structs_computed.cmo : _build/src/ctypes/structs_computed.cmi
++_build/src/ctypes/structs_computed.cmx : _build/src/ctypes/structs_computed.cmi
++_build/src/ctypes/structs_computed.cmi :
++_build/src/ctypes/type_printing.cmo : _build/src/ctypes/type_printing.cmi
++_build/src/ctypes/type_printing.cmx : _build/src/ctypes/type_printing.cmi
++_build/src/ctypes/type_printing.cmi :
++_build/src/ctypes/unsigned.cmo : _build/src/ctypes/unsigned.cmi
++_build/src/ctypes/unsigned.cmx : _build/src/ctypes/unsigned.cmi
++_build/src/ctypes/unsigned.cmi :
++_build/src/ctypes/value_printing.cmo :
++_build/src/ctypes/value_printing.cmx :
++_build/src/ctypes/value_printing_stubs.cmo :
++_build/src/ctypes/value_printing_stubs.cmx :
+ _build/src/ctypes-foreign-base/closure_properties.cmo : \
+     _build/src/ctypes-foreign-base/closure_properties.cmi
+ _build/src/ctypes-foreign-base/closure_properties.cmx : \
+     _build/src/ctypes-foreign-base/closure_properties.cmi
+-_build/src/ctypes-foreign-base/weakRef.cmi :
+-_build/src/ctypes-foreign-base/dl.cmi : _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes-foreign-base/foreign_basis.cmo : _build/src/ctypes/type_printing.cmi \
+-    _build/src/ctypes/std_views.cmo _build/src/ctypes/static.cmi _build/src/ctypes/memory.cmo \
++_build/src/ctypes-foreign-base/closure_properties.cmi :
++_build/src/ctypes-foreign-base/dl.cmo : _build/src/ctypes-foreign-base/dl.cmi
++_build/src/ctypes-foreign-base/dl.cmx : _build/src/ctypes-foreign-base/dl.cmi
++_build/src/ctypes-foreign-base/dl.cmi :
++_build/src/ctypes-foreign-base/ffi.cmo : _build/src/ctypes-foreign-base/weakRef.cmi \
++    _build/src/ctypes-foreign-base/libffi_abi.cmi \
++    _build/src/ctypes-foreign-base/ffi_stubs.cmo _build/src/ctypes-foreign-base/ffi.cmi
++_build/src/ctypes-foreign-base/ffi.cmx : _build/src/ctypes-foreign-base/weakRef.cmx \
++    _build/src/ctypes-foreign-base/libffi_abi.cmx \
++    _build/src/ctypes-foreign-base/ffi_stubs.cmx _build/src/ctypes-foreign-base/ffi.cmi
++_build/src/ctypes-foreign-base/ffi.cmi : _build/src/ctypes-foreign-base/libffi_abi.cmi
++_build/src/ctypes-foreign-base/ffi_stubs.cmo :
++_build/src/ctypes-foreign-base/ffi_stubs.cmx :
++_build/src/ctypes-foreign-base/foreign_basis.cmo : \
+     _build/src/ctypes-foreign-base/libffi_abi.cmi \
+     _build/src/ctypes-foreign-base/ffi_stubs.cmo _build/src/ctypes-foreign-base/ffi.cmi \
+-    _build/src/ctypes-foreign-base/dl.cmi _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes/ctypes.cmi _build/src/ctypes/coerce.cmi
+-_build/src/ctypes-foreign-base/foreign_basis.cmx : _build/src/ctypes/type_printing.cmx \
+-    _build/src/ctypes/std_views.cmx _build/src/ctypes/static.cmx _build/src/ctypes/memory.cmx \
++    _build/src/ctypes-foreign-base/dl.cmi
++_build/src/ctypes-foreign-base/foreign_basis.cmx : \
+     _build/src/ctypes-foreign-base/libffi_abi.cmx \
+     _build/src/ctypes-foreign-base/ffi_stubs.cmx _build/src/ctypes-foreign-base/ffi.cmx \
+-    _build/src/ctypes-foreign-base/dl.cmx _build/src/ctypes/ctypes_raw.cmx \
+-    _build/src/ctypes/ctypes.cmx _build/src/ctypes/coerce.cmx
+-_build/src/ctypes-foreign-base/ffi_stubs.cmo : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes-foreign-base/ffi_stubs.cmx : _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx
++    _build/src/ctypes-foreign-base/dl.cmx
++_build/src/ctypes-foreign-base/libffi_abi.cmo : \
++    _build/src/ctypes-foreign-base/libffi_abi.cmi
++_build/src/ctypes-foreign-base/libffi_abi.cmx : \
++    _build/src/ctypes-foreign-base/libffi_abi.cmi
++_build/src/ctypes-foreign-base/libffi_abi.cmi :
+ _build/src/ctypes-foreign-base/weakRef.cmo : _build/src/ctypes-foreign-base/weakRef.cmi
+ _build/src/ctypes-foreign-base/weakRef.cmx : _build/src/ctypes-foreign-base/weakRef.cmi
+-_build/src/ctypes-foreign-base/closure_properties.cmi :
+-_build/src/discover/discover.cmo :
+-_build/src/discover/discover.cmx :
+-_build/src/cstubs/cstubs_public_name.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/ctypes_path.cmi \
+-    _build/src/cstubs/cstubs_public_name.cmi
+-_build/src/cstubs/cstubs_public_name.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/primitives.cmx _build/src/ctypes/ctypes_path.cmx \
+-    _build/src/cstubs/cstubs_public_name.cmi
+-_build/src/cstubs/cstubs_generate_c.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/ctypes.cmi \
+-    _build/src/cstubs/cstubs_errors.cmi _build/src/cstubs/cstubs_generate_c.cmi
+-_build/src/cstubs/cstubs_generate_c.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/primitives.cmx _build/src/ctypes/ctypes.cmx \
+-    _build/src/cstubs/cstubs_errors.cmx _build/src/cstubs/cstubs_generate_c.cmi
+-_build/src/cstubs/cstubs_analysis.cmo : _build/src/ctypes/unsigned.cmi \
+-    _build/src/ctypes/static.cmi _build/src/ctypes/signed.cmi _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_bigarray.cmi _build/src/cstubs/cstubs_analysis.cmi
+-_build/src/cstubs/cstubs_analysis.cmx : _build/src/ctypes/unsigned.cmx \
+-    _build/src/ctypes/static.cmx _build/src/ctypes/signed.cmx _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/ctypes_bigarray.cmx _build/src/cstubs/cstubs_analysis.cmi
+-_build/src/cstubs/cstubs.cmo : _build/src/ctypes/ctypes.cmi \
+-    _build/src/cstubs/cstubs_generate_ml.cmi _build/src/cstubs/cstubs_generate_c.cmi \
+-    _build/src/cstubs/cstubs.cmi
+-_build/src/cstubs/cstubs.cmx : _build/src/ctypes/ctypes.cmx \
+-    _build/src/cstubs/cstubs_generate_ml.cmx _build/src/cstubs/cstubs_generate_c.cmx \
+-    _build/src/cstubs/cstubs.cmi
+-_build/src/cstubs/cstubs_generate_ml.cmi : _build/src/ctypes/ctypes.cmi
+-_build/src/cstubs/cstubs_errors.cmi :
+-_build/src/cstubs/cstubs.cmi : _build/src/ctypes/ctypes.cmi
+-_build/src/cstubs/cstubs_internals.cmi : _build/src/ctypes/unsigned.cmi \
+-    _build/src/ctypes/static.cmi _build/src/ctypes/signed.cmi _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/memory_stubs.cmo _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes/ctypes_bigarray.cmi _build/src/ctypes/ctypes.cmi
+-_build/src/cstubs/cstubs_inverted.cmi : _build/src/ctypes/ctypes.cmi
+-_build/src/cstubs/cstubs_generate_c.cmi : _build/src/ctypes/ctypes.cmi
+-_build/src/cstubs/cstubs_generate_ml.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/ctypes_path.cmi \
+-    _build/src/ctypes/ctypes.cmi _build/src/cstubs/cstubs_public_name.cmi \
+-    _build/src/cstubs/cstubs_errors.cmi _build/src/cstubs/cstubs_analysis.cmi \
+-    _build/src/cstubs/cstubs_generate_ml.cmi
+-_build/src/cstubs/cstubs_generate_ml.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/primitives.cmx _build/src/ctypes/ctypes_path.cmx \
+-    _build/src/ctypes/ctypes.cmx _build/src/cstubs/cstubs_public_name.cmx \
+-    _build/src/cstubs/cstubs_errors.cmx _build/src/cstubs/cstubs_analysis.cmx \
+-    _build/src/cstubs/cstubs_generate_ml.cmi
+-_build/src/cstubs/cstubs_public_name.cmi : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_path.cmi
+-_build/src/cstubs/cstubs_inverted.cmo : _build/src/ctypes/ctypes.cmi \
+-    _build/src/cstubs/cstubs_inverted.cmi
+-_build/src/cstubs/cstubs_inverted.cmx : _build/src/ctypes/ctypes.cmx \
+-    _build/src/cstubs/cstubs_inverted.cmi
+-_build/src/cstubs/cstubs_internals.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/memory_stubs.cmo \
+-    _build/src/ctypes/ctypes_raw.cmo _build/src/cstubs/cstubs_internals.cmi
+-_build/src/cstubs/cstubs_internals.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/primitives.cmx _build/src/ctypes/memory_stubs.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx _build/src/cstubs/cstubs_internals.cmi
+-_build/src/cstubs/cstubs_analysis.cmi : _build/src/ctypes/static.cmi
+-_build/src/cstubs/cstubs_errors.cmo : _build/src/cstubs/cstubs_errors.cmi
+-_build/src/cstubs/cstubs_errors.cmx : _build/src/cstubs/cstubs_errors.cmi
+-_build/src/configure/make_primitive_details.cmo :
+-_build/src/configure/make_primitive_details.cmx :
+-_build/src/libffi-abigen/libffi_abigen.cmo :
+-_build/src/libffi-abigen/libffi_abigen.cmx :
+-_build/src/ctypes-top/ctypes_printers.cmi : _build/src/ctypes/unsigned.cmi \
+-    _build/src/ctypes/signed.cmi _build/src/ctypes/posixTypes.cmi _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes-top/install_printers.cmo :
+-_build/src/ctypes-top/install_printers.cmx :
+-_build/src/ctypes-top/ctypes_printers.cmo : _build/src/ctypes/unsigned.cmi \
+-    _build/src/ctypes/static.cmi _build/src/ctypes/signed.cmi _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes/ctypes.cmi _build/src/ctypes-top/ctypes_printers.cmi
+-_build/src/ctypes-top/ctypes_printers.cmx : _build/src/ctypes/unsigned.cmx \
+-    _build/src/ctypes/static.cmx _build/src/ctypes/signed.cmx _build/src/ctypes/posixTypes.cmx \
+-    _build/src/ctypes/ctypes.cmx _build/src/ctypes-top/ctypes_printers.cmi
+-_build/src/ctypes/primitives.cmo : _build/src/ctypes/unsigned.cmi _build/src/ctypes/signed.cmi \
+-    _build/src/ctypes/primitives.cmi
+-_build/src/ctypes/primitives.cmx : _build/src/ctypes/unsigned.cmx _build/src/ctypes/signed.cmx \
+-    _build/src/ctypes/primitives.cmi
+-_build/src/ctypes/type_printing.cmi : _build/src/ctypes/static.cmi
+-_build/src/ctypes/signed.cmo : _build/src/ctypes/unsigned.cmi _build/src/ctypes/signed.cmi
+-_build/src/ctypes/signed.cmx : _build/src/ctypes/unsigned.cmx _build/src/ctypes/signed.cmi
+-_build/src/ctypes/unsigned.cmi :
+-_build/src/ctypes/ctypes_path.cmi :
+-_build/src/ctypes/type_printing.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/ctypes_primitives.cmo _build/src/ctypes/ctypes_bigarray.cmi \
+-    _build/src/ctypes/common.cmo _build/src/ctypes/type_printing.cmi
+-_build/src/ctypes/type_printing.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/ctypes_primitives.cmx _build/src/ctypes/ctypes_bigarray.cmx \
+-    _build/src/ctypes/common.cmx _build/src/ctypes/type_printing.cmi
+-_build/src/ctypes/ctypes_bigarray.cmi : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_raw.cmo _build/src/ctypes/ctypes_path.cmi
+-_build/src/ctypes/posixTypes.cmi : _build/src/ctypes/unsigned.cmi _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes/value_printing.cmo : _build/src/ctypes/value_printing_stubs.cmo \
+-    _build/src/ctypes/type_printing.cmi _build/src/ctypes/static.cmi _build/src/ctypes/memory.cmo \
+-    _build/src/ctypes/common.cmo
+-_build/src/ctypes/value_printing.cmx : _build/src/ctypes/value_printing_stubs.cmx \
+-    _build/src/ctypes/type_printing.cmx _build/src/ctypes/static.cmx _build/src/ctypes/memory.cmx \
+-    _build/src/ctypes/common.cmx
+-_build/src/ctypes/primitives.cmi : _build/src/ctypes/unsigned.cmi _build/src/ctypes/signed.cmi
+-_build/src/ctypes/ctypes_path.cmo : _build/src/ctypes/ctypes_path.cmi
+-_build/src/ctypes/ctypes_path.cmx : _build/src/ctypes/ctypes_path.cmi
+-_build/src/ctypes/ctypes_primitives.cmo : _build/src/ctypes/primitives.cmi
+-_build/src/ctypes/ctypes_primitives.cmx : _build/src/ctypes/primitives.cmx
+-_build/src/ctypes/structs_computed.cmi : _build/src/ctypes/structs.cmi \
+-    _build/src/ctypes/static.cmi
+-_build/src/ctypes/structs.cmo : _build/src/ctypes/static.cmi _build/src/ctypes/structs.cmi
+-_build/src/ctypes/structs.cmx : _build/src/ctypes/static.cmx _build/src/ctypes/structs.cmi
+-_build/src/ctypes/value_printing_stubs.cmo : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes/value_printing_stubs.cmx : _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx
+-_build/src/ctypes/structs_computed.cmo : _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/structs_computed.cmi
+-_build/src/ctypes/structs_computed.cmx : _build/src/ctypes/static.cmx \
+-    _build/src/ctypes/structs_computed.cmi
+-_build/src/ctypes/memory_stubs.cmo : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes/memory_stubs.cmx : _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx
+-_build/src/ctypes/signed.cmi : _build/src/ctypes/unsigned.cmi
+-_build/src/ctypes/ctypes_raw.cmo : _build/src/ctypes/signed.cmi \
+-    _build/src/ctypes/ctypes_primitives.cmo
+-_build/src/ctypes/ctypes_raw.cmx : _build/src/ctypes/signed.cmx \
+-    _build/src/ctypes/ctypes_primitives.cmx
+-_build/src/ctypes/std_views.cmo : _build/src/ctypes/std_view_stubs.cmo \
+-    _build/src/ctypes/static.cmi _build/src/ctypes/memory_stubs.cmo _build/src/ctypes/memory.cmo \
+-    _build/src/ctypes/coerce.cmi
+-_build/src/ctypes/std_views.cmx : _build/src/ctypes/std_view_stubs.cmx \
+-    _build/src/ctypes/static.cmx _build/src/ctypes/memory_stubs.cmx _build/src/ctypes/memory.cmx \
+-    _build/src/ctypes/coerce.cmx
+-_build/src/ctypes/structs.cmi : _build/src/ctypes/static.cmi
+-_build/src/ctypes/static.cmo : _build/src/ctypes/primitives.cmi _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes/ctypes_primitives.cmo _build/src/ctypes/ctypes_bigarray.cmi \
+-    _build/src/ctypes/static.cmi
+-_build/src/ctypes/static.cmx : _build/src/ctypes/primitives.cmx _build/src/ctypes/ctypes_raw.cmx \
+-    _build/src/ctypes/ctypes_primitives.cmx _build/src/ctypes/ctypes_bigarray.cmx \
+-    _build/src/ctypes/static.cmi
+-_build/src/ctypes/static.cmi : _build/src/ctypes/unsigned.cmi _build/src/ctypes/signed.cmi \
+-    _build/src/ctypes/primitives.cmi _build/src/ctypes/ctypes_raw.cmo \
+-    _build/src/ctypes/ctypes_bigarray.cmi
+-_build/src/ctypes/ctypes_bigarray.cmo : _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/ctypes_raw.cmo _build/src/ctypes/ctypes_primitives.cmo \
+-    _build/src/ctypes/ctypes_path.cmi _build/src/ctypes/bigarray_stubs.cmo \
+-    _build/src/ctypes/ctypes_bigarray.cmi
+-_build/src/ctypes/ctypes_bigarray.cmx : _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx _build/src/ctypes/ctypes_primitives.cmx \
+-    _build/src/ctypes/ctypes_path.cmx _build/src/ctypes/bigarray_stubs.cmx \
+-    _build/src/ctypes/ctypes_bigarray.cmi
+-_build/src/ctypes/bigarray_stubs.cmo : _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes/bigarray_stubs.cmx : _build/src/ctypes/ctypes_raw.cmx
+-_build/src/ctypes/coerce.cmo : _build/src/ctypes/static.cmi _build/src/ctypes/primitives.cmi \
+-    _build/src/ctypes/coerce.cmi
+-_build/src/ctypes/coerce.cmx : _build/src/ctypes/static.cmx _build/src/ctypes/primitives.cmx \
+-    _build/src/ctypes/coerce.cmi
+-_build/src/ctypes/std_view_stubs.cmo : _build/src/ctypes/memory_stubs.cmo \
+-    _build/src/ctypes/ctypes_raw.cmo
+-_build/src/ctypes/std_view_stubs.cmx : _build/src/ctypes/memory_stubs.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx
+-_build/src/ctypes/unsigned.cmo : _build/src/ctypes/unsigned.cmi
+-_build/src/ctypes/unsigned.cmx : _build/src/ctypes/unsigned.cmi
+-_build/src/ctypes/common.cmo :
+-_build/src/ctypes/common.cmx :
+-_build/src/ctypes/memory.cmo : _build/src/ctypes/static.cmi _build/src/ctypes/memory_stubs.cmo \
+-    _build/src/ctypes/ctypes_raw.cmo _build/src/ctypes/ctypes_bigarray.cmi
+-_build/src/ctypes/memory.cmx : _build/src/ctypes/static.cmx _build/src/ctypes/memory_stubs.cmx \
+-    _build/src/ctypes/ctypes_raw.cmx _build/src/ctypes/ctypes_bigarray.cmx
+-_build/src/ctypes/coerce.cmi : _build/src/ctypes/static.cmi
+-_build/src/ctypes/posixTypes.cmo : _build/src/ctypes/unsigned.cmi _build/src/ctypes/ctypes.cmi \
+-    _build/src/ctypes/posixTypes.cmi
+-_build/src/ctypes/posixTypes.cmx : _build/src/ctypes/unsigned.cmx _build/src/ctypes/ctypes.cmx \
+-    _build/src/ctypes/posixTypes.cmi
+-_build/src/ctypes/ctypes.cmo : _build/src/ctypes/value_printing.cmo \
+-    _build/src/ctypes/type_printing.cmi _build/src/ctypes/structs_computed.cmi \
+-    _build/src/ctypes/std_views.cmo _build/src/ctypes/static.cmi _build/src/ctypes/memory.cmo \
+-    _build/src/ctypes/coerce.cmi _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes/ctypes.cmx : _build/src/ctypes/value_printing.cmx \
+-    _build/src/ctypes/type_printing.cmx _build/src/ctypes/structs_computed.cmx \
+-    _build/src/ctypes/std_views.cmx _build/src/ctypes/static.cmx _build/src/ctypes/memory.cmx \
+-    _build/src/ctypes/coerce.cmx _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes/ctypes.cmi : _build/src/ctypes/unsigned.cmi _build/src/ctypes/static.cmi \
+-    _build/src/ctypes/signed.cmi
+-_build/src/ctypes-foreign-unthreaded/foreign.cmi : \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi _build/src/ctypes-foreign-base/dl.cmi \
+-    _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes-foreign-unthreaded/gc_mutex.cmo :
+-_build/src/ctypes-foreign-unthreaded/gc_mutex.cmx :
++_build/src/ctypes-foreign-base/weakRef.cmi :
++_build/src/ctypes-foreign-threaded/foreign.cmo : \
++    _build/src/ctypes-foreign-base/foreign_basis.cmo \
++    _build/src/ctypes-foreign-base/closure_properties.cmi \
++    _build/src/ctypes-foreign-threaded/foreign.cmi
++_build/src/ctypes-foreign-threaded/foreign.cmx : \
++    _build/src/ctypes-foreign-base/foreign_basis.cmx \
++    _build/src/ctypes-foreign-base/closure_properties.cmx \
++    _build/src/ctypes-foreign-threaded/foreign.cmi
++_build/src/ctypes-foreign-threaded/foreign.cmi : \
++    _build/src/ctypes-foreign-base/libffi_abi.cmi _build/src/ctypes-foreign-base/dl.cmi
+ _build/src/ctypes-foreign-unthreaded/foreign.cmo : \
+     _build/src/ctypes-foreign-unthreaded/gc_mutex.cmo \
+     _build/src/ctypes-foreign-base/foreign_basis.cmo \
+@@ -242,130 +140,75 @@
+     _build/src/ctypes-foreign-base/foreign_basis.cmx \
+     _build/src/ctypes-foreign-base/closure_properties.cmx \
+     _build/src/ctypes-foreign-unthreaded/foreign.cmi
+-_build/src/ctypes-foreign-threaded/foreign.cmi : \
+-    _build/src/ctypes-foreign-base/libffi_abi.cmi _build/src/ctypes-foreign-base/dl.cmi \
+-    _build/src/ctypes/ctypes.cmi
+-_build/src/ctypes-foreign-threaded/foreign.cmo : \
+-    _build/src/ctypes-foreign-base/foreign_basis.cmo \
+-    _build/src/ctypes-foreign-base/closure_properties.cmi \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi
+-_build/src/ctypes-foreign-threaded/foreign.cmx : \
+-    _build/src/ctypes-foreign-base/foreign_basis.cmx \
+-    _build/src/ctypes-foreign-base/closure_properties.cmx \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi
++_build/src/ctypes-foreign-unthreaded/foreign.cmi : \
++    _build/src/ctypes-foreign-base/libffi_abi.cmi _build/src/ctypes-foreign-base/dl.cmi
++_build/src/ctypes-foreign-unthreaded/gc_mutex.cmo :
++_build/src/ctypes-foreign-unthreaded/gc_mutex.cmx :
++_build/src/ctypes-top/ctypes_printers.cmo : _build/src/ctypes-top/ctypes_printers.cmi
++_build/src/ctypes-top/ctypes_printers.cmx : _build/src/ctypes-top/ctypes_printers.cmi
++_build/src/ctypes-top/ctypes_printers.cmi :
++_build/src/ctypes-top/install_printers.cmo :
++_build/src/ctypes-top/install_printers.cmx :
+ _build/src/ctypes_config.cmo :
+ _build/src/ctypes_config.cmx :
+-_build/examples/fts/stub-generation/stub-generator/fts_stub_generator.cmo : \
+-    _build/examples/fts/stub-generation/bindings/fts_bindings.cmo \
++_build/src/discover/discover.cmo :
++_build/src/discover/discover.cmx :
++_build/src/libffi-abigen/libffi_abigen.cmo :
++_build/src/libffi-abigen/libffi_abigen.cmx :
++_build/examples/date/foreign/date.cmo : _build/src/ctypes-foreign-threaded/foreign.cmi \
++    _build/examples/date/foreign/date.cmi
++_build/examples/date/foreign/date.cmx : _build/src/ctypes-foreign-threaded/foreign.cmx \
++    _build/examples/date/foreign/date.cmi
++_build/examples/date/foreign/date.cmi :
++_build/examples/date/stub-generation/bindings/date_stubs.cmo :
++_build/examples/date/stub-generation/bindings/date_stubs.cmx :
++_build/examples/date/stub-generation/date_cmd.cmo :
++_build/examples/date/stub-generation/date_cmd.cmx :
++_build/examples/date/stub-generation/stub-generator/date_stub_generator.cmo : \
+     _build/src/cstubs/cstubs.cmi
+-_build/examples/fts/stub-generation/stub-generator/fts_stub_generator.cmx : \
+-    _build/examples/fts/stub-generation/bindings/fts_bindings.cmx \
++_build/examples/date/stub-generation/stub-generator/date_stub_generator.cmx : \
+     _build/src/cstubs/cstubs.cmx
+-_build/examples/fts/stub-generation/fts_cmd.cmo : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmo \
+-    _build/examples/fts/stub-generation/fts_if.cmo _build/src/ctypes/ctypes.cmi
+-_build/examples/fts/stub-generation/fts_cmd.cmx : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmx \
+-    _build/examples/fts/stub-generation/fts_if.cmx _build/src/ctypes/ctypes.cmx
+-_build/examples/fts/stub-generation/bindings/fts.cmi : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmo _build/src/ctypes/ctypes.cmi
+-_build/examples/fts/stub-generation/bindings/fts_types.cmo : \
+-    _build/src/ctypes/unsigned.cmi _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi _build/src/ctypes/ctypes.cmi \
+-    _build/src/ctypes/coerce.cmi
+-_build/examples/fts/stub-generation/bindings/fts_types.cmx : \
+-    _build/src/ctypes/unsigned.cmx _build/src/ctypes/posixTypes.cmx \
+-    _build/src/ctypes-foreign-threaded/foreign.cmx _build/src/ctypes/ctypes.cmx \
+-    _build/src/ctypes/coerce.cmx
++_build/examples/fts/foreign/fts.cmo : _build/src/ctypes-foreign-threaded/foreign.cmi \
++    _build/examples/fts/foreign/fts.cmi
++_build/examples/fts/foreign/fts.cmx : _build/src/ctypes-foreign-threaded/foreign.cmx \
++    _build/examples/fts/foreign/fts.cmi
++_build/examples/fts/foreign/fts.cmi :
++_build/examples/fts/foreign/fts_cmd.cmo :
++_build/examples/fts/foreign/fts_cmd.cmx :
++_build/examples/fts/stub-generation/bindings/fts.cmi :
+ _build/examples/fts/stub-generation/bindings/fts_bindings.cmo : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmo _build/src/ctypes/ctypes.cmi \
+     _build/src/cstubs/cstubs.cmi
+ _build/examples/fts/stub-generation/bindings/fts_bindings.cmx : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmx _build/src/ctypes/ctypes.cmx \
+     _build/src/cstubs/cstubs.cmx
+-_build/examples/fts/stub-generation/fts_generated.cmo : _build/src/ctypes/ctypes.cmi \
+-    _build/src/cstubs/cstubs_internals.cmi
+-_build/examples/fts/stub-generation/fts_generated.cmx : _build/src/ctypes/ctypes.cmx \
+-    _build/src/cstubs/cstubs_internals.cmx
+-_build/examples/fts/stub-generation/fts_if.cmo : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmo \
+-    _build/examples/fts/stub-generation/fts_generated.cmo \
+-    _build/examples/fts/stub-generation/bindings/fts_bindings.cmo \
+-    _build/src/ctypes/ctypes.cmi
+-_build/examples/fts/stub-generation/fts_if.cmx : \
+-    _build/examples/fts/stub-generation/bindings/fts_types.cmx \
+-    _build/examples/fts/stub-generation/fts_generated.cmx \
+-    _build/examples/fts/stub-generation/bindings/fts_bindings.cmx \
+-    _build/src/ctypes/ctypes.cmx
+-_build/examples/fts/foreign/fts_cmd.cmo : _build/examples/fts/foreign/fts.cmi \
+-    _build/src/ctypes/ctypes.cmi
+-_build/examples/fts/foreign/fts_cmd.cmx : _build/examples/fts/foreign/fts.cmx \
+-    _build/src/ctypes/ctypes.cmx
+-_build/examples/fts/foreign/fts.cmi : _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes/ctypes.cmi
+-_build/examples/fts/foreign/fts.cmo : _build/src/ctypes/unsigned.cmi \
+-    _build/src/ctypes/posixTypes.cmi _build/src/ctypes-foreign-threaded/foreign.cmi \
+-    _build/src/ctypes/ctypes.cmi _build/src/ctypes/coerce.cmi _build/examples/fts/foreign/fts.cmi
+-_build/examples/fts/foreign/fts.cmx : _build/src/ctypes/unsigned.cmx \
+-    _build/src/ctypes/posixTypes.cmx _build/src/ctypes-foreign-threaded/foreign.cmx \
+-    _build/src/ctypes/ctypes.cmx _build/src/ctypes/coerce.cmx _build/examples/fts/foreign/fts.cmi
+-_build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmo : \
+-    _build/src/ctypes/ctypes.cmi _build/src/cstubs/cstubs.cmi
+-_build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmx : \
+-    _build/src/ctypes/ctypes.cmx _build/src/cstubs/cstubs.cmx
+-_build/examples/ncurses/stub-generation/ncurses_stub_cmd.cmo : \
+-    _build/examples/ncurses/stub-generation/ncurses_generated.cmo \
+-    _build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmo
+-_build/examples/ncurses/stub-generation/ncurses_stub_cmd.cmx : \
+-    _build/examples/ncurses/stub-generation/ncurses_generated.cmx \
+-    _build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmx
+-_build/examples/ncurses/stub-generation/ncurses_generated.cmo : \
+-    _build/src/ctypes/ctypes.cmi _build/src/cstubs/cstubs_internals.cmi
+-_build/examples/ncurses/stub-generation/ncurses_generated.cmx : \
+-    _build/src/ctypes/ctypes.cmx _build/src/cstubs/cstubs_internals.cmx
+-_build/examples/ncurses/foreign/ncurses_cmd.cmo : \
+-    _build/examples/ncurses/foreign/ncurses.cmi
+-_build/examples/ncurses/foreign/ncurses_cmd.cmx : \
+-    _build/examples/ncurses/foreign/ncurses.cmx
++_build/examples/fts/stub-generation/bindings/fts_types.cmo : \
++    _build/src/ctypes-foreign-threaded/foreign.cmi
++_build/examples/fts/stub-generation/bindings/fts_types.cmx : \
++    _build/src/ctypes-foreign-threaded/foreign.cmx
++_build/examples/fts/stub-generation/fts_cmd.cmo :
++_build/examples/fts/stub-generation/fts_cmd.cmx :
++_build/examples/fts/stub-generation/fts_if.cmo :
++_build/examples/fts/stub-generation/fts_if.cmx :
++_build/examples/fts/stub-generation/stub-generator/fts_stub_generator.cmo : \
++    _build/src/cstubs/cstubs.cmi
++_build/examples/fts/stub-generation/stub-generator/fts_stub_generator.cmx : \
++    _build/src/cstubs/cstubs.cmx
+ _build/examples/ncurses/foreign/ncurses.cmo : \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi _build/src/ctypes/ctypes.cmi \
++    _build/src/ctypes-foreign-threaded/foreign.cmi \
+     _build/examples/ncurses/foreign/ncurses.cmi
+ _build/examples/ncurses/foreign/ncurses.cmx : \
+-    _build/src/ctypes-foreign-threaded/foreign.cmx _build/src/ctypes/ctypes.cmx \
++    _build/src/ctypes-foreign-threaded/foreign.cmx \
+     _build/examples/ncurses/foreign/ncurses.cmi
+ _build/examples/ncurses/foreign/ncurses.cmi :
+-_build/examples/date/stub-generation/stub-generator/date_stub_generator.cmo : \
+-    _build/examples/date/stub-generation/bindings/date_stubs.cmo \
++_build/examples/ncurses/foreign/ncurses_cmd.cmo :
++_build/examples/ncurses/foreign/ncurses_cmd.cmx :
++_build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmo : \
+     _build/src/cstubs/cstubs.cmi
+-_build/examples/date/stub-generation/stub-generator/date_stub_generator.cmx : \
+-    _build/examples/date/stub-generation/bindings/date_stubs.cmx \
++_build/examples/ncurses/stub-generation/bindings/ncurses_bindings.cmx : \
+     _build/src/cstubs/cstubs.cmx
+-_build/examples/date/stub-generation/bindings/date_stubs.cmo : \
+-    _build/src/ctypes/posixTypes.cmi _build/src/ctypes/ctypes.cmi
+-_build/examples/date/stub-generation/bindings/date_stubs.cmx : \
+-    _build/src/ctypes/posixTypes.cmx _build/src/ctypes/ctypes.cmx
+-_build/examples/date/stub-generation/date_cmd.cmo : _build/src/ctypes/posixTypes.cmi \
+-    _build/examples/date/stub-generation/bindings/date_stubs.cmo \
+-    _build/examples/date/stub-generation/date_generated.cmo _build/src/ctypes/ctypes.cmi
+-_build/examples/date/stub-generation/date_cmd.cmx : _build/src/ctypes/posixTypes.cmx \
+-    _build/examples/date/stub-generation/bindings/date_stubs.cmx \
+-    _build/examples/date/stub-generation/date_generated.cmx _build/src/ctypes/ctypes.cmx
+-_build/examples/date/stub-generation/date_generated.cmo : _build/src/ctypes/ctypes.cmi \
+-    _build/src/cstubs/cstubs_internals.cmi
+-_build/examples/date/stub-generation/date_generated.cmx : _build/src/ctypes/ctypes.cmx \
+-    _build/src/cstubs/cstubs_internals.cmx
+-_build/examples/date/foreign/date.cmo : _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi _build/src/ctypes/ctypes.cmi \
+-    _build/examples/date/foreign/date.cmi
+-_build/examples/date/foreign/date.cmx : _build/src/ctypes/posixTypes.cmx \
+-    _build/src/ctypes-foreign-threaded/foreign.cmx _build/src/ctypes/ctypes.cmx \
+-    _build/examples/date/foreign/date.cmi
+-_build/examples/date/foreign/date.cmi : _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes/ctypes.cmi
+-_build/examples/sigset/sigset.cmo : _build/src/ctypes/posixTypes.cmi \
+-    _build/src/ctypes-foreign-threaded/foreign.cmi _build/src/ctypes/ctypes.cmi \
++_build/examples/ncurses/stub-generation/ncurses_stub_cmd.cmo :
++_build/examples/ncurses/stub-generation/ncurses_stub_cmd.cmx :
++_build/examples/sigset/sigset.cmo : _build/src/ctypes-foreign-threaded/foreign.cmi \
+     _build/examples/sigset/sigset.cmi
+-_build/examples/sigset/sigset.cmx : _build/src/ctypes/posixTypes.cmx \
+-    _build/src/ctypes-foreign-threaded/foreign.cmx _build/src/ctypes/ctypes.cmx \
++_build/examples/sigset/sigset.cmx : _build/src/ctypes-foreign-threaded/foreign.cmx \
+     _build/examples/sigset/sigset.cmi
+-_build/examples/sigset/sigset.cmi : _build/src/ctypes/posixTypes.cmi _build/src/ctypes/ctypes.cmi
++_build/examples/sigset/sigset.cmi :
 --- ../../work-ref/ocaml-ctypes-0.3.3/Makefile	2014-08-01 10:23:56.000000000 +0200
-+++ ./Makefile	2014-08-24 13:54:16.046000000 +0200
-@@ -7,13 +7,13 @@
++++ ./Makefile	2014-10-06 15:17:52.656000000 +0200
+@@ -7,13 +7,14 @@
  OCAMLMKLIB=ocamlmklib
  VPATH=src examples
  BUILDDIR=_build
--PROJECTS=configure libffi-abigen configured ctypes cstubs ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
++#PROJECTS=configure configured ctypes cstubs libffi-abigen ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
+ PROJECTS=configure libffi-abigen configured ctypes cstubs ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
 -GENERATED=src/ctypes_config.h src/ctypes_config.ml setup.data src/ctypes/ctypes_primitives.ml
-+PROJECTS=configure configured ctypes cstubs #libffi-abigen ctypes-foreign-base ctypes-foreign-threaded ctypes-foreign-unthreaded ctypes-top
 +GENERATED=src/ctypes_config.h src/ctypes_config.ml src/ctypes/ctypes_primitives.ml #setup.data
  OCAML_FFI_INCOPTS=$(libffi_opt)
  export CFLAGS DEBUG
@@ -17,7 +565,7 @@
  
  build: $(PROJECTS)
  
-@@ -24,7 +24,7 @@
+@@ -24,7 +25,7 @@
  	rm -f $(GENERATED)
  
  # ctypes subproject
@@ -26,16 +574,14 @@
  ctypes.dir = src/ctypes
  ctypes.extra_mls = ctypes_primitives.ml
  ctypes.deps = str bigarray bytes
-@@ -112,7 +112,7 @@
- libffi-abigen: $$(NATIVE_TARGET)
- 
- # configuration
--configured: src/ctypes/ctypes_primitives.ml src/ctypes-foreign-base/libffi_abi.ml
-+configured: src/ctypes/ctypes_primitives.ml #src/ctypes-foreign-base/libffi_abi.ml
- 
- src/ctypes/ctypes_primitives.ml: $(BUILDDIR)/configure.native
+@@ -120,12 +121,12 @@
+ src/ctypes-foreign-base/libffi_abi.ml: $(BUILDDIR)/libffi-abigen.native
  	$< > $@
-@@ -125,7 +125,7 @@
+ 
+-setup.data: src/discover/discover.ml
+-	ocaml $^ -ocamlc "$(OCAMLFIND) ocamlc"
++#setup.data: src/discover/discover.ml
++#	ocaml $^ -ocamlc "$(OCAMLFIND) ocamlc"
  
  # dependencies
  depend: configure
@@ -44,15 +590,15 @@
              $(shell find src examples -name '*.mli' -o -name '*.ml') \
             | sed "s!src/!_build/src/!g; s!examples/!_build/examples/!g" > .depend
  
-@@ -150,5 +150,5 @@
+@@ -150,5 +151,5 @@
  .PHONY: depend distclean clean build configure all install $(PROJECTS)
  
  include .depend Makefile.rules Makefile.examples Makefile.tests
 --include setup.data
-+#-include setup.data
++include setup.data
  
 --- ../../work-ref/ocaml-ctypes-0.3.3/Makefile.rules	2014-08-01 10:23:56.000000000 +0200
-+++ ./Makefile.rules	2014-08-24 13:54:30.881600000 +0200
++++ ./Makefile.rules	2014-10-06 15:17:47.242800000 +0200
 @@ -3,13 +3,21 @@
  .SECONDARY:
  
@@ -94,8 +640,34 @@
  	$(OCAMLMKLIB) -o $(BUILDDIR)/$*_stubs $^ $(LINK_FLAGS)
  
  $(BUILDDIR)/%.cmxs : $$(NATIVE_OBJECTS)
+--- ../../work-ref/ocaml-ctypes-0.3.3/Makefile.tests	2014-08-01 10:23:56.000000000 +0200
++++ ./Makefile.tests	2014-10-06 15:17:51.564000000 +0200
+@@ -3,6 +3,7 @@
+ VPATH += tests
+ 
+ CFLAGS += -I $(PWD)/src -I $(PWD)/tests
++EXTDLL=$(shell ocamlfind ocamlc -config | grep '^ext_dll: ' | awk '{print $$2}')
+ 
+ # tests-common subproject
+ tests-common.dir = tests/tests-common
+@@ -667,12 +668,12 @@
+ TESTS += test-coercions-stubs test-coercions-stub-generator test-coercions-generated test-coercions
+ TESTS += test-passing-ocaml-values-stubs test-passing-ocaml-values-stub-generator test-passing-ocaml-values-generated test-passing-ocaml-values
+ 
+-testlib: $(BUILDDIR)/clib/libtest_functions.so
+-$(BUILDDIR)/clib/libtest_functions.so: $(BUILDDIR)/clib/test_functions.o
++testlib: $(BUILDDIR)/clib/libtest_functions$(EXTDLL)
++$(BUILDDIR)/clib/libtest_functions$(EXTDLL): $(BUILDDIR)/clib/test_functions.o
+ 	$(CC) -shared $(LDFLAGS) -o $@ $^
+ $(BUILDDIR)/clib/test_functions.o: tests/clib/test_functions.c
+ 	@mkdir -p $(@D)
+-	$(CC) -c $(CFLAGS) -I `ocamlc -where` -o $@ $^
++	$(CC) -c $(CFLAGS) -I `ocamlc -where | tr -d '\r'` -o $@ $^
+ tests/clib/test_functions.c: tests/clib/test_functions.h
+ 
+ .PHONY: test testlib $(TESTS) tests-common
 --- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/managed_buffer_stubs.c	2014-08-01 10:23:56.000000000 +0200
-+++ ./src/ctypes/managed_buffer_stubs.c	2014-08-24 13:54:30.881600000 +0200
++++ ./src/ctypes/managed_buffer_stubs.c	2014-10-06 15:17:47.258400000 +0200
 @@ -28,10 +28,10 @@
    return (l > r) - (l < r);
  }
@@ -110,7 +682,7 @@
  
  static struct custom_operations managed_buffer_custom_ops = {
 --- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/type_info_stubs.c	2014-08-01 10:23:56.000000000 +0200
-+++ ./src/ctypes/type_info_stubs.c	2014-08-24 13:54:30.881600000 +0200
++++ ./src/ctypes/type_info_stubs.c	2014-10-06 15:17:47.258400000 +0200
 @@ -19,6 +19,12 @@
  #include "raw_pointer.h"
  #include "primitives.h"
@@ -137,7 +709,7 @@
    case Float: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
    case Double: len = snprintf(buf, sizeof buf, "%.12g", Double_val(v)); break;
 --- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes/unsigned_stubs.c	2014-08-01 10:23:56.000000000 +0200
-+++ ./src/ctypes/unsigned_stubs.c	2014-08-24 13:54:30.881600000 +0200
++++ ./src/ctypes/unsigned_stubs.c	2014-10-06 15:17:47.258400000 +0200
 @@ -36,20 +36,20 @@
      return (u1 > u2) - (u1 < u2);                                            \
    }                                                                          \
@@ -163,3 +735,138 @@
    {                                                                          \
      *(TYPE(BITS) *)dst = caml_deserialize_uint_ ## BYTES();                  \
      return BYTES;                                                            \
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes-foreign-base/dl.ml	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes-foreign-base/dl.ml	2014-10-06 15:17:51.579600000 +0200
+@@ -44,6 +44,17 @@
+ let crush_flags f : 'a list -> int = List.fold_left (fun i o -> i lor (f o)) 0
+ 
+ let dlopen ?filename ~flags =
++  let filename = match filename with
++  | None -> None
++  | Some x ->
++    if Sys.os_type <> "Win32" then
++      filename
++    else
++      if Filename.check_suffix x ".so" = false then
++        filename
++      else
++        Some( (Filename.chop_extension x) ^ ".dll" )
++  in
+   match _dlopen ?filename ~flags:(crush_flags resolve_flag flags) with
+     | Some library -> library
+     | None         -> _report_dl_error ()
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes-top/ctypes_printers.ml	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes-top/ctypes_printers.ml	2014-10-06 15:17:51.579600000 +0200
+@@ -43,7 +43,7 @@
+   Ctypes.(format CArray.(array (length v) (reference_type (start v))) fmt v)
+ let format_ocaml fmt (Static.OCamlRef (_, _, ty) as v) =
+   Ctypes.format (Static.OCaml ty) fmt v
+-let format_blkcnt_t fmt v =
++(*let format_blkcnt_t fmt v =
+   Ctypes.format PosixTypes.blkcnt_t fmt v
+ let format_blksize_t fmt v =
+   Ctypes.format PosixTypes.blksize_t fmt v
+@@ -81,3 +81,4 @@
+   Ctypes.format PosixTypes.uid_t fmt v
+ let format_useconds_t fmt v =
+   Ctypes.format PosixTypes.useconds_t fmt v
++*)
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes-top/ctypes_printers.mli	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes-top/ctypes_printers.mli	2014-10-06 15:17:51.579600000 +0200
+@@ -25,7 +25,7 @@
+ val format_union : formatter -> ('a, 'b) Ctypes.structured -> unit
+ val format_array : formatter -> 'a Ctypes.CArray.t -> unit
+ val format_ocaml : formatter -> 'a Ctypes.ocaml -> unit
+-val format_blkcnt_t : formatter -> PosixTypes.blkcnt_t -> unit
++(*val format_blkcnt_t : formatter -> PosixTypes.blkcnt_t -> unit
+ val format_blksize_t : formatter -> PosixTypes.blksize_t -> unit
+ val format_clock_t : formatter -> PosixTypes.clock_t -> unit
+ val format_dev_t : formatter -> PosixTypes.dev_t -> unit
+@@ -44,3 +44,4 @@
+ val format_time_t : formatter -> PosixTypes.time_t -> unit
+ val format_uid_t : formatter -> PosixTypes.uid_t -> unit
+ val format_useconds_t : formatter -> PosixTypes.useconds_t -> unit
++*)
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/ctypes-top/install_printers.ml	2014-08-01 10:23:56.000000000 +0200
++++ ./src/ctypes-top/install_printers.ml	2014-10-06 15:17:51.579600000 +0200
+@@ -9,7 +9,7 @@
+                  "Ctypes_printers.format_uint16";
+                  "Ctypes_printers.format_uint32";
+                  "Ctypes_printers.format_uint64";
+-                 "Ctypes_printers.format_size_t";
++                 (*"Ctypes_printers.format_size_t";*)
+                  "Ctypes_printers.format_ushort";
+                  "Ctypes_printers.format_uint";
+                  "Ctypes_printers.format_ulong";
+@@ -19,7 +19,7 @@
+                  "Ctypes_printers.format_union";
+                  "Ctypes_printers.format_array";
+                  "Ctypes_printers.format_ocaml";
+-                 "Ctypes_printers.format_blkcnt_t";
++(*                 "Ctypes_printers.format_blkcnt_t";
+                  "Ctypes_printers.format_blksize_t";
+                  "Ctypes_printers.format_clock_t";
+                  "Ctypes_printers.format_dev_t";
+@@ -37,7 +37,7 @@
+                  "Ctypes_printers.format_suseconds_t";
+                  "Ctypes_printers.format_time_t";
+                  "Ctypes_printers.format_uid_t";
+-                 "Ctypes_printers.format_useconds_t";]
++                   "Ctypes_printers.format_useconds_t"; *) ]
+ 
+ let eval_string
+       ?(print_outcome = false) ?(err_formatter = Format.err_formatter) str =
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/discover/discover.ml	2014-08-01 10:23:56.000000000 +0200
++++ ./src/discover/discover.ml	2014-10-06 15:17:51.595200000 +0200
+@@ -403,15 +403,23 @@
+ 
+   test_feature "no_as_needed" ""
+     (fun () ->
+-      ksprintf Sys.command "
++      let command =
++        sprintf "
+          touch as_needed_test.ml;
+          ocamlopt -shared -cclib -Wl,--no-as-needed as_needed_test.ml -o as_needed_test.cmxs > %s 2>&1;
+          EXIT=$?;
+          rm as_needed_test.*;
+          exit $EXIT"
+-        !log_file = 0);
+-
+-  if !not_available = [] then
++        !log_file 
++      in
++      let command = 
++        if Sys.os_type = "Win32" then
++          "bash -c '" ^ command ^ "'"
++        else
++          command
++      in
++      Sys.command command = 0);
++  if !not_available = [] && Sys.os_type <> "Win32" then
+     setup_data := ("as_needed_flags", ["-Wl,--no-as-needed"]) :: !setup_data
+   else
+     setup_data := ("as_needed_flags", []) :: !setup_data;
+--- ../../work-ref/ocaml-ctypes-0.3.3/src/libffi-abigen/libffi_abigen.ml	2014-08-01 10:23:56.000000000 +0200
++++ ./src/libffi-abigen/libffi_abigen.ml	2014-10-06 15:17:51.595200000 +0200
+@@ -57,13 +57,20 @@
+   try Sys.getenv name
+   with Not_found -> default
+ 
++let null_device = 
++  if Sys.os_type = "Win32" then
++    "nul"
++  else
++    "/dev/null"
++
+ let read_output_int input_filename output_filename =
+   let cmd = 
+-    Printf.sprintf "%s -o %s %s %s 2>/dev/null && %s"
++    Printf.sprintf "%s -o %s %s %s 2>%s && %s"
+       (getenv ~default:"cc" "CC")
+       output_filename
+       (getenv ~default:"" "CFLAGS")
+       input_filename
++      null_device
+       output_filename
+   in
+   let inch = Unix.open_process_in cmd in
