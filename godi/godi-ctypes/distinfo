@@ -5,3 +5,4 @@ Size (ctypes-0.3.3.tar.xz) = 105328 bytes
 
 SHA1 (patch-aa-upstream) = 25cdd21c20e7690d27b476f9b5c2b4dcdda14822
 SHA1 (patch-ab-windows) = f662c256862780dea601b24ddb7ca73b534c33ab
+SHA1 (patch-ac) = 37575f7bb8c2585806ecf3593d006b3f558c88f9
