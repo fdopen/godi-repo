@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3.0
+VERSION=	1.3.1
 ONAME=		mstruct
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-mstruct-1.3.0
-DISTFILES=	mstruct-1.3.0.tar.gz
+DISTNAME=	ocaml-mstruct-1.3.1
+DISTFILES=	ocaml-mstruct-1.3.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/samoht/ocaml-mstruct/
