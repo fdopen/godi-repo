@@ -1,4 +1,7 @@
-SHA1 (base-freeglut-2.6.0.3.205_32.tar.xz) = 20019b193c01d56fc745a587a72171d16ba2024f
-Size (base-freeglut-2.6.0.3.205_32.tar.xz) = 81680 bytes 
-SHA1 (base-freeglut-2.6.0.3.168_64.tar.xz) = 8ce1436d5b40a1d07d29f020296f21e6825e6aee
-Size (base-freeglut-2.6.0.3.168_64.tar.xz) = 84660 bytes 
+$NetBSD$
+
+SHA1 (base-freeglut_0_64.tar.xz) = 6a0f287f7650bbb166fdd04739c1b7058c5867b7
+Size (base-freeglut_0_64.tar.xz) = 127656 bytes
+
+SHA1 (base-freeglut_0_32.tar.xz) = 330d619c7709332e52f90951edfa28d5ab74752e
+Size (base-freeglut_0_32.tar.xz) = 124156 bytes

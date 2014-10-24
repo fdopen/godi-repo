@@ -2,31 +2,18 @@
 
 PKG=		base-freeglut
 PKGNAME=	${PKG}-${VERSION}
+VERSION=	2.8.1
+RVERSION=	0
 PKGREVISION=	0
 DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+DISTFILES=	${PKG}_${RVERSION}_${MINGW_WORDSIZE}.tar.xz
 CATEGORIES=	base
 MASTER_SITES=
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://freeglut.sourceforge.net/
 COMMENT=	open source alternative to the OpenGL Utility Toolkit
 
-
-#libgcc
-DEPENDS+= base-windows>=0:../../base/base-windows
-
-
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
-
-
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
-
 
 .if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
 pre-configure:
@@ -36,12 +23,23 @@ pre-configure:
 	@false
 .endif
 
-
 do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-
-#@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
-
+	@if [ /opt/wodi${MINGW_WORDSIZE:Q} != ${LOCALBASE:QQ} ] && [ -d ${WRKDIR:QQ}/mingw/lib/pkgconfig ]; then \
+	  cd ${WRKDIR:QQ}/mingw/lib/pkgconfig && \
+	  for f in *.[Pp][Cc] ; do \
+	    if [ -n "$$f" ] && [ -f "$$f" ]; then \
+	      ${SED} -i -e "s|/opt/wodi${MINGW_WORDSIZE}|${LOCALBASE}|g" "$$f"; \
+	    fi \
+	  done \
+	fi
+.if defined(REPLACE_FILES) && ${REPLACE_FILES} != ""
+.for file in ${REPLACE_FILES}
+	@cd ${WRKDIR:QQ}/mingw &&\
+	if [ -n ${file:QQ} ] && [ /opt/wodi${MINGW_WORDSIZE:Q} != ${LOCALBASE:QQ} ] && [ -f ${file:QQ} ]; then\
+	  ${SED} -i -e "s|/opt/wodi${MINGW_WORDSIZE}|${LOCALBASE}|g" ${file:QQ}; \
+	fi
+.endfor
+.endif
 
 
 do-install:
