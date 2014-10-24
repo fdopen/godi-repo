@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        3.0.4
+VERSION=        3.0.5
 PKGNAME=        godi-pomap-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pomap-3.0.4
-DISTFILES=      pomap-3.0.4.tar.gz
+DISTNAME=       pomap-3.0.5
+DISTFILES=      pomap-3.0.5.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mmottl/pomap/releases/download/v3.0.4/
+MASTER_SITES=   https://github.com/mmottl/pomap/releases/download/v3.0.5/
 HOMEPAGE=       https://github.com/mmottl/pomap
 COMMENT=        OCaml library for manipulating partially ordered maps
 
