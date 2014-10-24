@@ -1,4 +1,7 @@
-SHA1 (base-expat-2.0.1.4.384_32.tar.xz) = 69ab682dcdcd167da149194ffff7df4c2ae509b0
-Size (base-expat-2.0.1.4.384_32.tar.xz) = 73712 bytes 
-SHA1 (base-expat-2.0.1.3.314_64.tar.xz) = 65c9a007cbf0ae0fcda092faacc2846f8f914823
-Size (base-expat-2.0.1.3.314_64.tar.xz) = 75868 bytes 
+$NetBSD$
+
+SHA1 (base-expat_0_64.tar.xz) = 2f6623bc152d46ed97fbffd8bc106d7551b46837
+Size (base-expat_0_64.tar.xz) = 71992 bytes
+
+SHA1 (base-expat_0_32.tar.xz) = 805b08460abc4970a8ab1fc92a53b454db05b967
+Size (base-expat_0_32.tar.xz) = 69448 bytes
