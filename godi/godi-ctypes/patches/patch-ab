@@ -1,0 +1,10 @@
+--- ../../work-ref/ocaml-ctypes-0.3.3/Makefile	2014-10-22 19:19:42.030200000 +0200
++++ ./Makefile	2014-10-22 19:15:51.821000000 +0200
+@@ -61,6 +61,7 @@
+ ctypes-foreign-base.dir = src/ctypes-foreign-base
+ ctypes-foreign-base.subproject_deps = ctypes
+ ctypes-foreign-base.extra_mls = libffi_abi.ml dl.ml
++ctypes-foreign-base.deps = bytes
+ ctypes-foreign-base.extra_cs = dl_stubs.c
+ ctypes-foreign-base.link_flags = $(as_needed_flags) $(libffi_lib) $(lib_process)
+ ctypes-foreign-base.cmo_opts = $(OCAML_FFI_INCOPTS:%=-ccopt %)
