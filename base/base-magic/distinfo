@@ -1,4 +1,7 @@
-SHA1 (base-magic-5.04.4.195_32.tar.xz) = 823fa3ad95d19da6b4749fd648241fcd8117f534
-Size (base-magic-5.04.4.195_32.tar.xz) = 304756 bytes 
-SHA1 (base-magic-5.04.4.164_64.tar.xz) = fe63a3e2ca3a06d534bf22ed4d15eac9db11df81
-Size (base-magic-5.04.4.164_64.tar.xz) = 307820 bytes 
+$NetBSD$
+
+SHA1 (base-magic_0_64.tar.xz) = cb310c98604f6f244fb6aaf09c94f6fd40084246
+Size (base-magic_0_64.tar.xz) = 196892 bytes
+
+SHA1 (base-magic_0_32.tar.xz) = bc6cda461122ab8ca35eea75b494e47dda0822b0
+Size (base-magic_0_32.tar.xz) = 197748 bytes
