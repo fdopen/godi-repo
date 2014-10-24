@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: f36596b7ae91f848448f1f425c86a1ab) *)
+(* DO NOT EDIT (digest: a5545295014973d22c9dc77e11754b1c) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -311,9 +311,7 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x = S[Sh (
-    Ocamlbuild_pack.Shell.quote_filename_if_needed
-      (exec_from_conf "ocamlfind") ); x]
+  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
@@ -593,7 +591,7 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 596 "myocamlbuild.ml"
+# 594 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
@@ -601,6 +599,8 @@ let package_default =
        [
           ("containers", ["core"], []);
           ("containers_string", ["string"], []);
+          ("containers_advanced", ["advanced"], []);
+          ("containers_pervasives", ["pervasives"], []);
           ("containers_misc", ["misc"], []);
           ("containers_thread", ["threads"], []);
           ("containers_lwt", ["lwt"], []);
@@ -613,17 +613,20 @@ let package_default =
           ("threads", ["core"]);
           ("tests/lwt", ["core"; "lwt"]);
           ("tests", ["core"; "misc"; "string"]);
+          ("pervasives", ["core"]);
           ("misc", ["core"]);
           ("lwt", ["core"; "misc"]);
           ("examples/cgi", ["cgi"; "core"]);
           ("examples", ["core"; "misc"]);
-          ("cgi", ["core"])
+          ("cgi", ["core"]);
+          ("benchs", ["advanced"; "core"; "misc"; "string"]);
+          ("advanced", ["core"])
        ]
   }
   ;;
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 628 "myocamlbuild.ml"
+# 631 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;

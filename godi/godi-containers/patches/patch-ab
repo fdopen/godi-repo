@@ -1,0 +1,23 @@
+--- ../../work-ref/ocaml-containers-0.4.1/_oasis	2014-10-19 21:59:37.000000000 +0200
++++ ./_oasis	2014-10-21 12:26:10.944800000 +0200
+@@ -142,13 +142,13 @@
+   XOCamlbuildPath:      .
+   XOCamlbuildLibraries: containers.string
+ 
+-Document containers_advanced
+-  Title:                Containers_advanced docs
+-  Type:                 ocamlbuild (0.3)
+-  BuildTools+:          ocamldoc
+-  Install:              true
+-  XOCamlbuildPath:      .
+-  XOCamlbuildLibraries: containers.advanced
++#Document containers_advanced
++#  Title:                Containers_advanced docs
++#  Type:                 ocamlbuild (0.3)
++#  BuildTools+:          ocamldoc
++#  Install:              true
++#  XOCamlbuildPath:      .
++#  XOCamlbuildLibraries: containers.advanced
+ 
+ Executable benchs
+   Path:             benchs/
