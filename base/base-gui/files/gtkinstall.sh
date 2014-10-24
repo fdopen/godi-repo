@@ -21,7 +21,7 @@ fi
 
 if ! mkdir -p "${godi_gui_dir}/bin" \
     "${godi_gui_dir}/etc" \
-    "${godi_gui_dir}/lib/gtk-2.0/2.10.0" \
+    "${godi_gui_dir}/lib" \
     "${godi_gui_dir}/share/themes" 
 then
     exit 1
@@ -36,8 +36,10 @@ cd "$cdir"
 
 cp -a "${godi_root_dir}/etc/fonts" "${godi_gui_dir}/etc"
 cp -a "${godi_root_dir}/etc/gtk-2.0" "${godi_gui_dir}/etc"
-cp -a "${godi_root_dir}/lib/gtk-2.0/2.10.0/engines" "${godi_gui_dir}/lib/gtk-2.0/2.10.0"
-cp -a "${godi_root_dir}/lib/gtk-2.0/modules" "${godi_gui_dir}/lib/gtk-2.0"
+cp -a "${godi_root_dir}/lib/gtk-2.0" "${godi_gui_dir}/lib"
+cp -a "${godi_root_dir}/lib/gdk-pixbuf-2.0" "${godi_gui_dir}/lib"
+cp -a "${godi_root_dir}/lib/pango" "${godi_gui_dir}/lib"
+cp -a "${godi_root_dir}/lib/libglade" "${godi_gui_dir}/lib"
 cp -a "${godi_root_dir}/share/themes/MS-Windows" "${godi_gui_dir}/share/themes"
 cp -a "${godi_root_dir}/share/gtksourceview-2.0" "${godi_gui_dir}/share"
 
@@ -79,6 +81,11 @@ do
 done
 cd ~-
 
+list_dlls(){
+    $OBJDUMP -p "$1" | /bin/grep 'DLL Name:' | /bin/awk '{print $3}'
+    $STRINGS "$1" | /bin/grep '.dll$'
+}
+
 oldIFS=$IFS
 IFS='
 '
@@ -90,7 +97,7 @@ while [ $new_found -eq 1 ]; do
 	if [ $value -eq 1 ]; then
 	    mymap[$dll]=2
 	    cp -p "${godi_bin_dir}/${dll}" "${godi_gui_dir}/bin"
-	    for ndll in `$OBJDUMP -p "${godi_bin_dir}/${dll}" | grep 'DLL Name:' | awk '{print $3}'` ; do
+	    for ndll in $(list_dlls "${godi_bin_dir}/${dll}") ; do
 		if [ -z "$ndll" ] || [ ! -f "${godi_bin_dir}/${ndll}" ] \
 		    || [ "${mymap[$ndll]}" = "1" ] || [ "${mymap[$ndll]}" = "2" ] ; then
 		    continue
