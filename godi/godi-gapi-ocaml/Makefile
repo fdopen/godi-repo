@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.5
+VERSION=	0.2.6
 ONAME=		gapi-ocaml
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	gapi-ocaml-0.2.5
-DISTFILES=	gapi-ocaml-0.2.5.tar.gz
+DISTNAME=	gapi-ocaml-0.2.6
+DISTFILES=	gapi-ocaml-0.2.6.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1460/
+MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1468/
 HOMEPAGE=	http://gapi-ocaml.forge.ocamlcore.org
 COMMENT=	A simple OCaml client for Google Services
 
