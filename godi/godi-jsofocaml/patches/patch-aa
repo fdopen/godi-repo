@@ -1,6 +1,6 @@
---- Makefile.conf.orig	2014-08-13 09:22:39.000000000 +0000
-+++ Makefile.conf	2014-08-21 09:40:14.589600000 +0000
-@@ -15,10 +15,10 @@
+--- ../../work-ref/js_of_ocaml-2.5/Makefile.conf	2014-09-30 16:40:37.000000000 +0200
++++ ./Makefile.conf	2014-10-13 00:05:01.724800000 +0200
+@@ -18,10 +18,10 @@
  
  ####
  
@@ -13,7 +13,7 @@
  
  ifeq ($(shell ocamlc -v | grep -q "version 4"; echo $$?),0)
  OCAML4:="YES"
-@@ -26,16 +26,16 @@
+@@ -35,15 +35,14 @@
  endif
  
  ### Optional dependencies: deriving
@@ -28,8 +28,7 @@
 +WITH_REACT ?= $(shell if [ -f `ocamlfind query reactiveData | tr -d '\015' | tr '\134' '/' 2> /dev/null`/reactiveData.cma ]; then echo YES; else echo NO; fi)
 +WITH_TYXML ?= $(shell if [ -f `ocamlfind query tyxml | tr -d '\015' | tr '\134' '/' 2> /dev/null`/tyxml_f.cma ]; then echo YES; else echo NO; fi)
  
- 
- 
+-
 -NATDYNLINK ?= $(shell if [ -f `ocamlc -where`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
 +NATDYNLINK ?= $(shell if [ -f `ocamlc -where | tr -d '\015' | tr '\134' '/'`/dynlink.cmxa ]; then echo YES; else echo NO; fi)
  
