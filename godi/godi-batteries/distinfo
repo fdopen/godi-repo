@@ -1,5 +1,4 @@
 $NetBSD$
 
-SHA1 (batteries-2.3.tar.gz) = de4069c849dd9a11629c7321d7e5aeb98c95366e
-Size (batteries-2.3.tar.gz) = 728917 bytes
-SHA1 (patch-aa) = 9b4c52790771d7590754544e4cdc3adf9ea81527
+SHA1 (batteries-included-2.3.1.tar.xz) = a1e0ed1e6f2a2f6a65c596783c9b77274bf26476
+Size (batteries-included-2.3.1.tar.xz) = 547724 bytes
