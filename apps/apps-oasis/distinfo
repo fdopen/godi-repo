@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (oasis-0.4.4.tar.gz) = e3b09c0c83a6d989cf6daff11749a839372bf163
-Size (oasis-0.4.4.tar.gz) = 333041 bytes
+SHA1 (oasis-0.4.5.tar.gz) = dc9b38ab61a1ea6ff68f9b18907eb8cae3db9229
+Size (oasis-0.4.5.tar.gz) = 336502 bytes
 
-SHA1 (patch-aa) = 4e4ea70fa422266e5188cba5a5346674adb9cbc5
+SHA1 (patch-aa) = 60833948f65bb3389053a120513e97c94ab2edf5
 SHA1 (patch-zz-new_files) = 5b23b027e5f1a2d75a4eb9f7bef85f89df2800a6

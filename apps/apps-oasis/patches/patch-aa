@@ -1,21 +1,5 @@
-Nur in ./examples: with test space.
-diff -b -B -r -u ../oasis-0.4.4.orig/_oasis ./_oasis
---- ../oasis-0.4.4.orig/_oasis	2014-03-26 02:14:11.000000000 +0100
-+++ ./_oasis	2014-03-26 11:20:25.000000000 +0100
-@@ -222,9 +222,7 @@
- 
- Test main
-   Type: custom (0.3)
--  Command: $test -oasis $oasis -is-native $is_native \
--                 -native-dynlink $native_dynlink \
--                 -ocamlmod $ocamlmod -fake-ocamlfind $fake_ocamlfind
-+  Command: $test -oasis $oasis -is-native $is_native -native-dynlink $native_dynlink -ocamlmod $ocamlmod -fake-ocamlfind $fake_ocamlfind
-   WorkingDirectory: test
-   TestTools: oasis, test, ocamlmod, fake_ocamlfind
- 
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCheck.ml ./src/base/BaseCheck.ml
---- ../oasis-0.4.4.orig/src/base/BaseCheck.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseCheck.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseCheck.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseCheck.ml	2014-10-23 20:43:16.169200000 +0200
 @@ -118,9 +118,11 @@
    in
    let findlib_dir pkg =
@@ -29,9 +13,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCheck.ml ./src/base/BaseCheck.
      in
        if Sys.file_exists dir && Sys.is_directory dir then
          dir
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCustom.ml ./src/base/BaseCustom.ml
---- ../oasis-0.4.4.orig/src/base/BaseCustom.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseCustom.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseCustom.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseCustom.ml	2014-10-23 20:43:16.169200000 +0200
 @@ -31,7 +31,7 @@
    OASISExec.run ~ctxt:!BaseContext.default ~quote:false
      (var_expand cmd)
@@ -41,9 +24,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseCustom.ml ./src/base/BaseCusto
         (args @ (Array.to_list extra_args)))
  
  
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.ml ./src/base/BaseEnv.ml
---- ../oasis-0.4.4.orig/src/base/BaseEnv.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseEnv.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseEnv.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseEnv.ml	2014-10-23 20:43:16.184800000 +0200
 @@ -72,7 +72,7 @@
    Genlex.make_lexer []
  
@@ -66,9 +48,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.ml ./src/base/BaseEnv.ml
                 | _ ->
                     failwithf
                       (f_ "Unknown expression '%s' in variable expansion of %s.")
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.mli ./src/base/BaseEnv.mli
---- ../oasis-0.4.4.orig/src/base/BaseEnv.mli	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseEnv.mli	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseEnv.mli	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseEnv.mli	2014-10-23 20:43:16.184800000 +0200
 @@ -78,9 +78,9 @@
  
  (** Expand variable that can be found in string. Variable follow definition of
@@ -81,9 +62,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseEnv.mli ./src/base/BaseEnv.mli
  
  (** Get variable.
    *)
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseOCamlcConfig.ml ./src/base/BaseOCamlcConfig.ml
---- ../oasis-0.4.4.orig/src/base/BaseOCamlcConfig.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseOCamlcConfig.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseOCamlcConfig.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseOCamlcConfig.ml	2014-10-23 20:43:16.184800000 +0200
 @@ -116,6 +116,9 @@
      match nm with
        | "ocaml_version" ->
@@ -94,9 +74,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseOCamlcConfig.ml ./src/base/Bas
        | _ -> nm, (fun x -> x)
    in
      var_redefine
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseSetup.ml ./src/base/BaseSetup.ml
---- ../oasis-0.4.4.orig/src/base/BaseSetup.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseSetup.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseSetup.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseSetup.ml	2014-10-23 20:43:16.184800000 +0200
 @@ -88,9 +88,27 @@
  
  let configure t args =
@@ -125,9 +104,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseSetup.ml ./src/base/BaseSetup.
         (* Reload if preconf has changed it *)
         begin
           try
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.ml ./src/base/BaseStandardVar.ml
---- ../oasis-0.4.4.orig/src/base/BaseStandardVar.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseStandardVar.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseStandardVar.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseStandardVar.ml	2014-10-23 20:43:16.184800000 +0200
 @@ -136,15 +136,27 @@
  
  
@@ -275,9 +253,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.ml ./src/base/Base
  
 +let () =
 +  OASISHostPath.bash_cmd := bash_cmd
-diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.mli ./src/base/BaseStandardVar.mli
---- ../oasis-0.4.4.orig/src/base/BaseStandardVar.mli	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/base/BaseStandardVar.mli	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/base/BaseStandardVar.mli	2014-10-23 00:21:21.000000000 +0200
++++ ./src/base/BaseStandardVar.mli	2014-10-23 20:43:16.200400000 +0200
 @@ -73,6 +73,9 @@
  val systhread_supported:      unit -> string
  
@@ -288,9 +265,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/base/BaseStandardVar.mli ./src/base/Bas
  (** {2 Paths}
  
      See {{:http://www.gnu.org/prep/standards/html_node/Directory-Variables.html} GNU standards}.
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISCustom.ml ./src/oasis/OASISCustom.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISCustom.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISCustom.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISCustom.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISCustom.ml	2014-10-23 20:43:16.200400000 +0200
 @@ -38,14 +38,14 @@
    let pre_command =
      new_field_conditional schm ("Pre"^nm^"Command")
@@ -308,9 +284,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISCustom.ml ./src/oasis/OASISC
        hlp_post
        (fun pkg -> (sync pkg).post_command)
    in
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExec.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISExec.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISExec.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISExec.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISExec.ml	2014-10-23 20:43:16.200400000 +0200
 @@ -26,25 +26,221 @@
  open OASISMessage
  
@@ -554,9 +529,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISExec.ml ./src/oasis/OASISExe
  let run_read_output ~ctxt ?f_exit_code cmd args =
    let fn =
      Filename.temp_file "oasis-" ".txt"
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASISFileUtil.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISFileUtil.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISFileUtil.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISFileUtil.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISFileUtil.ml	2014-10-23 20:43:16.200400000 +0200
 @@ -100,7 +100,10 @@
        | _ ->
            [""]
@@ -653,9 +627,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISFileUtil.ml ./src/oasis/OASI
            OASISExec.run ~ctxt "rm" ["-r"; q tgt]
    end else begin
      OASISMessage.error ~ctxt
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASISHostPath.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISHostPath.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISHostPath.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISHostPath.ml	2014-10-23 20:43:16.216000000 +0200
 @@ -26,6 +26,118 @@
  
  module Unix = OASISUnixPath
@@ -782,7 +755,10 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASI
 -let of_unix ufn =
 -  if Sys.os_type = "Unix" then
 -    ufn
--  else
++let of_unix str =
++  if win = false then
++    str
+   else
 -    make
 -      (List.map
 -         (fun p ->
@@ -790,10 +766,6 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASI
 -              current_dir_name
 -            else if p = Unix.parent_dir_name then
 -              parent_dir_name
-+let of_unix str =
-+  if win = false then
-+    str
-+  else
 +    let path_sep =
 +      if use_bash () then
 +        "/"
@@ -821,9 +793,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.ml ./src/oasis/OASI
  
  
  (* END EXPORT *)
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.mli ./src/oasis/OASISHostPath.mli
---- ../oasis-0.4.4.orig/src/oasis/OASISHostPath.mli	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISHostPath.mli	2014-03-26 11:21:30.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISHostPath.mli	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISHostPath.mli	2014-10-23 20:43:16.216000000 +0200
 @@ -29,6 +29,27 @@
  open OASISTypes
  
@@ -862,13 +833,11 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISHostPath.mli ./src/oasis/OAS
 +
  (** Map for host filename. {b Not exported.} *)
  module Map: OASISUtils.MapExt.S with type key = host_filename
-Nur in ./src/oasis: OASISHostPath.mli.orig.
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISString.ml ./src/oasis/OASISString.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISString.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISString.ml	2014-03-26 11:20:25.000000000 +0100
-@@ -149,15 +149,30 @@
-     done;
-     buf
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISString.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISString.ml	2014-10-23 20:43:16.216000000 +0200
+@@ -147,15 +147,30 @@
+   String.iter (fun c -> Buffer.add_char buf (f c)) s;
+   Buffer.contents buf
  
 +(** Like List.exists, but for strings *)
 +let exists f str =
@@ -898,9 +867,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISString.ml ./src/oasis/OASISS
  
  let tokenize ?(is_whitespace=is_whitespace) ?(tokens=[]) str =
    let lst = ref [] in
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.ml ./src/oasis/OASISValues.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISValues.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISValues.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISValues.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISValues.ml	2014-10-23 20:43:16.231600000 +0200
 @@ -484,6 +484,38 @@
             space_separated.print (cmd :: args))
      }
@@ -940,9 +908,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.ml ./src/oasis/OASISV
  
  let command_line_options =
    { parse = (fun ~ctxt s -> POSIXShell.split s);
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.mli ./src/oasis/OASISValues.mli
---- ../oasis-0.4.4.orig/src/oasis/OASISValues.mli	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISValues.mli	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISValues.mli	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISValues.mli	2014-10-23 20:43:16.231600000 +0200
 @@ -183,6 +183,9 @@
  val command_line: (string * string list) t
  
@@ -953,9 +920,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISValues.mli ./src/oasis/OASIS
  (** Arguments of command line programs.  See {!OASISUtils.POSIX.split}
      for more information. *)
  val command_line_options: string list t
-diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISVersion.ml ./src/oasis/OASISVersion.ml
---- ../oasis-0.4.4.orig/src/oasis/OASISVersion.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/oasis/OASISVersion.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/oasis/OASISVersion.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/oasis/OASISVersion.ml	2014-10-23 20:43:16.231600000 +0200
 @@ -45,12 +45,10 @@
  
  
@@ -971,9 +937,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/oasis/OASISVersion.ml ./src/oasis/OASIS
  
  
  let is_special =
-diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/custom/CustomPlugin.ml ./src/plugins/custom/CustomPlugin.ml
---- ../oasis-0.4.4.orig/src/plugins/custom/CustomPlugin.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/plugins/custom/CustomPlugin.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/plugins/custom/CustomPlugin.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/plugins/custom/CustomPlugin.ml	2014-10-23 20:43:16.247200000 +0200
 @@ -217,7 +217,7 @@
        schema
        id
@@ -1019,9 +984,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/custom/CustomPlugin.ml ./src/pl
        (fun () ->
           s_ "Run command to distclean test step.")
        test_data (fun _ t -> t.cmd_distclean)
-diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.ml ./src/plugins/internal/InternalInstallPlugin.ml
---- ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/plugins/internal/InternalInstallPlugin.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/plugins/internal/InternalInstallPlugin.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/plugins/internal/InternalInstallPlugin.ml	2014-10-23 20:43:16.247200000 +0200
 @@ -63,11 +63,19 @@
    "install-findlib"
  
@@ -1045,10 +1009,9 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/internal/InternalInstallPlugin.
      (* Arguments for the first command: *)
      let first_args = ["install"; findlib_name; meta] in
      (* Arguments for remaining commands: *)
-diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml
---- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-03-26 11:37:07.000000000 +0100
-@@ -93,7 +93,9 @@
+--- ../../work-ref/oasis-0.4.5/src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/plugins/ocamlbuild/MyOCamlbuildFindlib.ml	2014-10-23 20:43:16.247200000 +0200
+@@ -96,7 +96,9 @@
    with Not_found -> s
  
  (* ocamlfind command *)
@@ -1059,10 +1022,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/MyOCamlbuildFindlib.
  
  (* This lists all supported packages. *)
  let find_packages () =
-Nur in ./src/plugins/ocamlbuild: MyOCamlbuildFindlib.ml.orig.
-diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml ./src/plugins/ocamlbuild/OCamlbuildCommon.ml
---- ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./src/plugins/ocamlbuild/OCamlbuildCommon.ml	2014-10-23 20:43:16.247200000 +0200
 @@ -56,7 +56,7 @@
            "-no-log";
            "-no-links";
@@ -1072,9 +1033,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/src/plugins/ocamlbuild/OCamlbuildCommon.ml 
          ]
        else
          [];
-diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFull.ml ./test/TestFull.ml
---- ../oasis-0.4.4.orig/test/TestFull.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./test/TestFull.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/test/TestFull.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./test/TestFull.ml	2014-10-23 20:43:16.262800000 +0200
 @@ -39,8 +39,8 @@
      else
        false
@@ -1086,7 +1046,7 @@ diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFull.ml ./test/TestFull.ml
        ~native_dynlink:(native_dynlink test_ctxt)
        (fpath test_ctxt path)
    in
-@@ -314,6 +314,24 @@
+@@ -323,6 +323,24 @@
           (* Run standard test. *)
           standard_test test_ctxt t);
  
@@ -1111,9 +1071,8 @@ diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFull.ml ./test/TestFull.ml
      (* Use sub-packages *)
      "examples/with-subpackage" >::
      (fun test_ctxt ->
-diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFullUtils.ml ./test/TestFullUtils.ml
---- ../oasis-0.4.4.orig/test/TestFullUtils.ml	2014-03-26 02:14:11.000000000 +0100
-+++ ./test/TestFullUtils.ml	2014-03-26 11:20:25.000000000 +0100
+--- ../../work-ref/oasis-0.4.5/test/TestFullUtils.ml	2014-10-23 00:21:21.000000000 +0200
++++ ./test/TestFullUtils.ml	2014-10-23 20:43:16.262800000 +0200
 @@ -193,9 +193,14 @@
  
  
@@ -1183,7 +1142,7 @@ diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFullUtils.ml ./test/TestFullUtils.
  (* Register a set of files expected to be built. *)
  let register_installed_files test_ctxt t installed_files_lst =
    let rec file_list =
-@@ -586,7 +597,12 @@
+@@ -592,7 +603,12 @@
                 acc
             | "a" ->
                 let fn =
@@ -1197,7 +1156,7 @@ diff -b -B -r -u ../oasis-0.4.4.orig/test/TestFullUtils.ml ./test/TestFullUtils.
                 in
                   if (* library matching the .cmxa *)
                     t.is_native ||
-@@ -598,7 +614,7 @@
+@@ -604,7 +620,7 @@
                     (* no .a matching bytecode only library. *)
                     acc
             | "so" when is_win32 ->

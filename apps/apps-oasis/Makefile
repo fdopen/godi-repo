@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        0.4.4
+VERSION=        0.4.5
 RVERSION=       ${VERSION}
 PKGNAME=        apps-oasis-${VERSION}
 PKGREVISION=    0
 DISTNAME=       oasis-${RVERSION}
 DISTFILES=      oasis-${RVERSION}.tar.gz
 CATEGORIES=     apps
-MNODE=		1391
+MNODE=		1475
 MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${MNODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://oasis.forge.ocamlcore.org
