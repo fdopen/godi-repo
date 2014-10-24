@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	8.35
+VERSION=	8.36
 PKG=		pcre
 PKGNAME=	${CATEGORIES}-${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	pcre-8.35
+DISTNAME=	pcre-8.36
 DISTFILES=	${DISTNAME}.tar.bz2
 CATEGORIES=	base
 MASTER_SITES=	ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/
@@ -32,7 +32,7 @@ CONFIGURE_ARGS+=	--enable-pcre8
 CONFIGURE_ARGS+=	--enable-pcre16 
 CONFIGURE_ARGS+=	--enable-pcre32
 CONFIGURE_ARGS+=	--enable-unicode-properties
-#CONFIGURE_ARGS+=	--disable-cpp 
+CONFIGURE_ARGS+=	--disable-cpp 
 CONFIGURE_ARGS+=	--with-gnu-ld
 .endif
 
