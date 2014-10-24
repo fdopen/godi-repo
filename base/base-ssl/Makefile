@@ -3,7 +3,7 @@
 PKG=		base-ssl
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-VERSION=	1.0.1i
+VERSION=	1.0.1j
 DISTNAME=	openssl-${VERSION}
 DISTFILES=	${DISTNAME}.tar.gz
 CATEGORIES=	base
@@ -22,7 +22,7 @@ PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
 
 HAS_CONFIGURE=		yes
 
-CC=			gcc
+CC=			gcc -static-libgcc -static-libstdc++
 CONFIGURE_SCRIPT=	${WRKSRC:Q}/Configure
 CONFIGURE_ENV+=		CROSS_COMPILE=${MINGW_TOOL_PREFIX:Q} 
 
