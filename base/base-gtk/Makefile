@@ -1,10 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
+VERSION=	2.24.25
+RVERSION=	0
 PKG=		base-gtk
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
 DISTNAME=	mingw
-DISTFILES=	${PKGNAME}_${MINGW_WORDSIZE}.tar.xz
+DISTFILES=	${PKG}_${RVERSION}_${MINGW_WORDSIZE}.tar.xz
 CATEGORIES=	base
 MASTER_SITES=
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -12,22 +14,11 @@ HOMEPAGE=	http://www.gtk.org
 COMMENT=	cross-platform widget toolkit for creating graphical user interfaces
 
 
-.if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64" 
-.include "Makefile.64"
-VERSION=${VERSION64}
-.else
-.include "Makefile.32"
-VERSION=${VERSION32}
-.endif
-
-#glib,zlib,...
-DEPENDS+= base-windows>=0:../../base/base-windows
-DEPENDS+= base-expat>=0:../../base/base-expat
-#DEPENDS+= base-bzip2>=0:../../base/base-bzip2
-#DEPENDS+= base-pcre>=0:../../base/base-pcre
-#DEPENDS+= base-sqlite3>=0:../../base/base-sqlite3
+DEPENDS+= base-windows>=0.19:../../base/base-windows
+DEPENDS+= base-expat>=2.1.0:../../base/base-expat
 
 PLIST_SRC=      ${WRKDIR:Q}/.PLIST.${PKG}
+REPLACE_FILES=	bin/croco-0.6-config bin/libpng-config bin/libpng16-config bin/libart2-config bin/xml2-config lib/xml2Conf.sh bin/freetype-config
 
 
 .if !defined(OPSYS) || ${OPSYS} != "CYGWIN"
@@ -38,13 +29,30 @@ pre-configure:
 	@false
 .endif
 
+
 do-build:
-	@${SETENV} ${MAKE_ENV} bash files/pkgconfig.sh ${WRKSRC:Q}
-	@${SETENV} ${MAKE_ENV} bash files/replace.sh ${WRKSRC:Q} < files/files.txt
+	@if [ /opt/wodi${MINGW_WORDSIZE:Q} != ${LOCALBASE:QQ} ] && [ -d ${WRKDIR:QQ}/mingw/lib/pkgconfig ]; then \
+	  cd ${WRKDIR:QQ}/mingw/lib/pkgconfig && \
+	  for f in *.[Pp][Cc] ; do \
+	    if [ -n "$$f" ] && [ -f "$$f" ]; then \
+	      ${SED} -i -e "s|/opt/wodi${MINGW_WORDSIZE}|${LOCALBASE}|g" "$$f"; \
+	    fi \
+	  done \
+	fi
+.if defined(REPLACE_FILES) && ${REPLACE_FILES} != ""
+.for file in ${REPLACE_FILES}
+	@cd ${WRKDIR:QQ}/mingw &&\
+	if [ -n ${file:QQ} ] && [ /opt/wodi${MINGW_WORDSIZE:Q} != ${LOCALBASE:QQ} ] && [ -f ${file:QQ} ]; then\
+	  ${SED} -i -e "s|/opt/wodi${MINGW_WORDSIZE}|${LOCALBASE}|g" ${file:QQ}; \
+	fi
+.endfor
+.endif
+
 
 do-install:
-	@cd ${WRKSRC} && ${FIND} * -type f >${PLIST_SRC} \
+	@cd ${WRKSRC} && ${FIND} * ! -type d >${PLIST_SRC} \
 	 && ${PAX} -rw -pp . ${LOCALBASE:Q}
+
 
 
 .include "../../mk/bsd.pkg.mk"

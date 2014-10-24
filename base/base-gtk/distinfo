@@ -1,4 +1,7 @@
-SHA1 (base-gtk-2.24.18.1.58_32.tar.xz) = c28b9d18b37b1e78d9da85866033439b94aba1dd
-Size (base-gtk-2.24.18.1.58_32.tar.xz) = 12394188 bytes 
-SHA1 (base-gtk-2.24.18.1.58_64.tar.xz) = f34cf3ca879c38a0a8c39fb235370a58229ee88e
-Size (base-gtk-2.24.18.1.58_64.tar.xz) = 12724912 bytes 
+$NetBSD$
+
+SHA1 (base-gtk_0_64.tar.xz) = 55541689b0d4cf0cdc5a2965ed1ae23a4a137bba
+Size (base-gtk_0_64.tar.xz) = 11855392 bytes
+
+SHA1 (base-gtk_0_32.tar.xz) = 4d5b2e1c9a36c2e0ee6155347287d4910efabd15
+Size (base-gtk_0_32.tar.xz) = 11657080 bytes
