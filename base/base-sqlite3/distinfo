@@ -1,4 +1,7 @@
-SHA1 (base-sqlite3-3.7.6.2.1.361_32.tar.xz) = e7d68ea4d2e9f746105949792731cb9522faa261
-Size (base-sqlite3-3.7.6.2.1.361_32.tar.xz) = 367624 bytes 
-SHA1 (base-sqlite3-3.7.6.2.1.303_64.tar.xz) = 0a3b5fcfb6013fd2a5d8d9dcc1538c2fe8241c55
-Size (base-sqlite3-3.7.6.2.1.303_64.tar.xz) = 381912 bytes 
+$NetBSD$
+
+SHA1 (base-sqlite3_0_64.tar.xz) = f09d12cfe08430795b6f48ccca734712f8f6db8f
+Size (base-sqlite3_0_64.tar.xz) = 427836 bytes
+
+SHA1 (base-sqlite3_0_32.tar.xz) = 8e1f37653bf3b5adb2f541423b96cfcd5e4eb99a
+Size (base-sqlite3_0_32.tar.xz) = 415848 bytes
