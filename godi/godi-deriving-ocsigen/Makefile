@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKG=		godi-deriving-ocsigen
-VERSION= 	0.6.2
+VERSION= 	0.7
 PKGNAME= 	${PKG}-${VERSION}  
 PKGREVISION= 	0
 DISTNAME=	deriving-${VERSION} 
@@ -14,6 +14,7 @@ COMMENT=	An extension for deriving functions from type declarations.
 CONF_DERIVING_OCSIGEN_TYPE_CONV?= yes
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+=	godi-bytes>=0:../../godi-bytes
 
 .if ${CONF_DERIVING_OCSIGEN_TYPE_CONV} == "yes"
 DEPENDS+=	godi-type_conv>=3:../../godi-type_conv
