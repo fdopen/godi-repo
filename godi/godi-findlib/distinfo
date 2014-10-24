@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (findlib-1.5.3.tar.gz) = d0d0d80f7ad0f4fa102b3d7454178fb7445af173
-Size (findlib-1.5.3.tar.gz) = 238507 bytes
+SHA1 (findlib-1.5.5.tar.gz) = 3221121c4b5adacc050aa361475eee59b2698afa
+Size (findlib-1.5.5.tar.gz) = 240247 bytes
 
 SHA1 (patch-findlib.ml) = fd8ec84a7e22b1ab1b1e0bba086f4787af71e10c
 SHA1 (patch-findlib_config.mlp) = fae1c7f26992cd8a0a13c6dbdb2d5b6949f44d50
