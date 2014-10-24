@@ -1,7 +1,10 @@
-SHA1 (base-windows-0.18.1.1.13.356_32.tar.xz) = b7a64a4119969b86f8095e43a5c0b4f776573e6c
-Size (base-windows-0.18.1.1.13.356_32.tar.xz) = 2312032 bytes 
-SHA1 (base-windows-0.18.1.1.11.292_64.tar.xz) = af94dec90a50560fa0d6d74de3e9616c2c89f8f4
-Size (base-windows-0.18.1.1.11.292_64.tar.xz) = 2352824 bytes 
-SHA1 (base-windows-0.tar.bz2) = 76b70c252e99b0554acce81b373e205daef2ad13
-Size (base-windows-0.tar.bz2) = 336170 bytes 
+$NetBSD$
 
+SHA1 (base-windows_0_64.tar.xz) = 916dbf4d8e574d02e54ba887cbd98844a4a3d31c
+Size (base-windows_0_64.tar.xz) = 2981272 bytes
+
+SHA1 (base-windows-1.tar.xz) = fa557a5dfbf3fb1dea1d67a5bfdfb1ecf3ba2a1c
+Size (base-windows-1.tar.xz) = 344344 bytes
+
+SHA1 (base-windows_0_32.tar.xz) = debe18c2ca3ff0eb82867f7571e5c44dcaa4dbd7
+Size (base-windows_0_32.tar.xz) = 2944980 bytes
