@@ -1,21 +1,23 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        2.0.6
+VERSION=        2.0.7
 PKGNAME=        godi-sqlite3-${VERSION}
 PKGREVISION=    0
-DISTNAME=       sqlite3-ocaml-2.0.6
-DISTFILES=      sqlite3-ocaml-2.0.6.tar.gz
+DISTNAME=       sqlite3-ocaml-2.0.7
+DISTFILES=      sqlite3-ocaml-2.0.7.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mmottl/sqlite3-ocaml/releases/download/v2.0.6/
+MASTER_SITES=   https://github.com/mmottl/sqlite3-ocaml/releases/download/v2.0.7/
 MAINTAINER=	andreas@ml.ignorelist.com
-HOMEPAGE=       https://github.com/mmottl/sqlite3-ocaml
+HOMEPAGE=       http://mmottl.github.io/sqlite3-ocaml
 COMMENT=	Bindings for SQLite3 database clients
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
-BUILD_DEPENDS+=	godi-findlib>=0:../../godi/godi-findlib
+BUILD_DEPENDS+=	godi-findlib>=1.3.1:../../godi/godi-findlib
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-DEPENDS+= base-sqlite3>=0:../../base-sqlite3
+DEPENDS+= 	base-sqlite3>=0:../../base-sqlite3
+BUILD_DEPENDS+=	base-pkg-config>=0:../../base/base-pkg-config
+BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
 .endif
 
 WINOASIS=		yes

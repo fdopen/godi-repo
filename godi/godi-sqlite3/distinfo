@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (sqlite3-ocaml-2.0.6.tar.gz) = 0835856fe5e255c4c5d90a78c84add065c9b1264
-Size (sqlite3-ocaml-2.0.6.tar.gz) = 64424 bytes
+SHA1 (sqlite3-ocaml-2.0.7.tar.gz) = f4cd73a9bb04dc11aa42b485f49e8967312b4213
+Size (sqlite3-ocaml-2.0.7.tar.gz) = 64760 bytes
 
 SHA1 (patch-aa-myocamlbuild) = 43ace2ae2d9d329b637af7ae3da8cacd31343b98
