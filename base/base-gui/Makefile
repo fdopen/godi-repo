@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.3
-PKGREVISION=	5
+VERSION=	0.3.1
+PKGREVISION=	0
 PKGNAME=	base-gui-${VERSION}
 DISTNAME=	gtk
 DISTFILES=	
