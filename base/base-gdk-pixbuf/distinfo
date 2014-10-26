@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (gdk-pixbuf-2.31.0.tar.xz) = 5fa4625474c7e5a1dc6f505b139fea46580f0ec6
-Size (gdk-pixbuf-2.31.0.tar.xz) = 1338876 bytes
+SHA1 (gdk-pixbuf-2.31.1.tar.xz) = c715e21cacb939d2015c26124640b0aad6ad1986
+Size (gdk-pixbuf-2.31.1.tar.xz) = 1340056 bytes
 
-SHA1 (base-gdk-pixbuf-2.31.0_3_64.txz) = 2ae1b776b64d5d7264f58ade9cdf43f0e794a8ae
-Size (base-gdk-pixbuf-2.31.0_3_64.txz) = 144784 bytes
+SHA1 (base-gdk-pixbuf-2.31.1_1_64.txz) = a6da81883415fc47321a01dc7c9b4e1722d5399c
+Size (base-gdk-pixbuf-2.31.1_1_64.txz) = 145120 bytes
 
-SHA1 (base-gdk-pixbuf-2.31.0_3_32.txz) = f15e6e33e3d796e5eaa8992013409236a899f319
-Size (base-gdk-pixbuf-2.31.0_3_32.txz) = 142432 bytes
+SHA1 (base-gdk-pixbuf-2.31.1_1_32.txz) = 83cd104b4d9e01807864af3c86d4435b1049ffd9
+Size (base-gdk-pixbuf-2.31.1_1_32.txz) = 142728 bytes
