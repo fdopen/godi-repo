@@ -1,17 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=	2.4.1
+VERSION=	2.5.0
 PKG=		godi-spotlib
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	camlspotter-spotlib-4aa3029bb75e
-DISTFILES=	spotlib-2.4.1.tar.xz
+DISTNAME=	camlspotter-spotlib-71a47e49c72e
+DISTFILES=	spotlib-2.5.0.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://bitbucket.org/camlspotter/spotlib/
 COMMENT=	Useful functions for OCaml programming used by @camlspotter
 
-DEPENDS+=	godi-ocaml>=4.01.0:../../godi/godi-ocaml
-DEPENDS+=	godi-pa_ounit>=109.53.02:../../godi/godi-pa_ounit
+DEPENDS+=  	godi-ppx_test-*:../../godi/godi-ppx_test
+DEPENDS+=	godi-ocaml>=4.02.0:../../godi/godi-ocaml
 BUILD_DEPENDS+= godi-findlib>=0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-omake>=0:../../godi/godi-omake
 
