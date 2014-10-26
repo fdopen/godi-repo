@@ -1,0 +1,53 @@
+--- ../../work-ref/flexdll/reloc.ml	2014-10-25 14:44:00.705600000 +0200
++++ ./reloc.ml	2014-10-25 14:38:03.294000000 +0200
+@@ -566,6 +566,16 @@
+     with Not_found -> name
+   in
+ 
++  let with_data_symbol symbols sym_name f =
++    if !toolchain <> `MSVC && !toolchain <> `MSVC64 then
++      match check_prefix "__nm_" sym_name with
++      | None -> ()
++      | Some s ->
++        let imp_name = "__imp_" ^ s  in
++        if List.exists ( fun p -> Symbol.is_defin p &&
++          p.sym_name = imp_name) symbols then
++          f s;
++  in
+   (* Collect all the available symbols, including those defined
+      in default libraries *)
+   let collected = Hashtbl.create 8 in
+@@ -591,8 +601,10 @@
+       deflibs;
+     List.iter
+       (fun sym ->
+-	 if Symbol.is_defin sym
+-	 then add_def sym.sym_name
++        if Symbol.is_defin sym then (
++          add_def sym.sym_name;
++          with_data_symbol obj.symbols sym.sym_name add_def;
++        )
+       )
+       obj.symbols
+   and collect_file fn =
+@@ -629,12 +641,14 @@
+   let defined_in = Hashtbl.create 16 in
+   let def_in_obj fn (objname,obj) = List.iter
+       (fun sym ->
+-        if Symbol.is_defin sym
+-        then begin
+-          if !explain then
+-            Printf.printf "Symbol %s found in %s(%s)\n%!" sym.sym_name fn
+-              objname;
+-          Hashtbl.replace defined_in sym.sym_name (fn,objname,obj);
++        if Symbol.is_defin sym then begin
++          let f s =
++            if !explain then
++              Printf.printf "Symbol %s found in %s(%s)\n%!" s fn objname;
++            Hashtbl.replace defined_in s (fn,objname,obj);
++          in
++          f sym.sym_name;
++          with_data_symbol obj.symbols sym.sym_name f;
+         end
+       ) obj.symbols in
+   List.iter
