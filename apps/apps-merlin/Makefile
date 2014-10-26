@@ -4,9 +4,9 @@ VERSION=	2beta
 ONAME=		merlin
 PKG=		apps-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	merlin-merlin2
-DISTFILES=	merlin-merlin2beta1.tar.xz
+DISTFILES=	merlin-merlin2beta2.tar.xz
 CATEGORIES=	apps
 HOMEPAGE=	https://github.com/the-lambda-church/merlin
 COMMENT=	Editor helper, provides completion, typing and sources browsing in Emacs
@@ -27,5 +27,6 @@ CONFIGURE_ARGS+= --sharedir ${LOCALBASE}/share
 WINGMAKE=	yes
 
 INSTALL_TARGET= install-binary install-share
+
 
 .include "../../mk/bsd.pkg.mk"
