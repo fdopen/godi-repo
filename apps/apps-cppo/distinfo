@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (cppo-0.9.4.tar.gz) = 588dd1ff0cdeecb0f727a9551ce5454ea5281dbb
-Size (cppo-0.9.4.tar.gz) = 21419 bytes
-
-SHA1 (patch-aa) = 923d87dac45381f6338b17af27595f4d577b14f2
+SHA1 (cppo-1.0.1.tar.gz) = 4fe818cb9245941fe24377153d3091c5d713b848
+Size (cppo-1.0.1.tar.gz) = 21655 bytes
