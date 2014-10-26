@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 3.3.6
+VERSION=	 3.3.9
 PKGREVISION= 0
 PKG=         gnutls
 CATEGORIES=	 base
