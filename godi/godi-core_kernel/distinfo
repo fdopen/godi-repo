@@ -6,6 +6,6 @@ Size (core_kernel-111.28.00.tar.gz) = 438897 bytes
 SHA1 (patch-dd) = c4ef445681965793abd5e5e79928d27c98ddd352
 SHA1 (patch-ee) = 880a1b3cd08e14616c7c1d096f9d540323ea0cab
 SHA1 (patch-ee-printf) = 5b5fabdeccb376bc0b74fd250038115e22669d11
+SHA1 (patch-windows-aa) = 8242689f8b9bec4c0c3a02b808440fa1d66b6c91
 SHA1 (patch-wj) = b4a482af975a1c8ec30e732ec0ec8fcb9b5bd7ac
 SHA1 (patch-wk) = c530724913b923740be72144e266f3db0e51fa6c
-SHA1 (patch-windows-aa) = 8242689f8b9bec4c0c3a02b808440fa1d66b6c91

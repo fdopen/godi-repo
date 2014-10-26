@@ -1,0 +1,63 @@
+--- ../../work-ref/core_kernel-112.01.00/lib/bigstring_marshal_stubs.c	2014-09-26 13:41:01.000000000 +0200
++++ ./lib/bigstring_marshal_stubs.c	2014-10-12 23:40:07.790800000 +0200
+@@ -30,12 +30,12 @@
+ }
+ 
+ extern CAMLprim void
+-caml_output_value_to_malloc(value v, value v_flags, char **buf_p, long *len);
++caml_output_value_to_malloc(value v, value v_flags, char **buf_p, intnat *len);
+ 
+ CAMLprim value bigstring_marshal_stub(value v, value v_flags)
+ {
+   char *buf;
+-  long len;
++  intnat len;
+   int alloc_flags = CAML_BA_CHAR | CAML_BA_C_LAYOUT | CAML_BA_MANAGED;
+   caml_output_value_to_malloc(v, v_flags, &buf, &len);
+   return caml_ba_alloc(alloc_flags, 1, buf, &len);
+--- ../../work-ref/core_kernel-112.01.00/lib/bigstring_stubs.c	2014-10-12 23:40:47.290000000 +0200
++++ ./lib/bigstring_stubs.c	2014-10-12 23:36:15.678400000 +0200
+@@ -135,7 +135,7 @@
+                               value v_pos, value v_len)
+ {
+   char *start, *r;
+-  long ret;
++  intnat ret;
+ 
+   start = get_bstr(v_str, v_pos);
+   r = (char*) memchr(start, Int_val(v_needle), Long_val(v_len));
+--- ../../work-ref/core_kernel-112.01.00/lib/core_gc_stubs.c	2014-09-26 13:41:01.000000000 +0200
++++ ./lib/core_gc_stubs.c	2014-10-12 23:38:54.034000000 +0200
+@@ -16,9 +16,9 @@
+ extern intnat caml_stat_compactions;
+ extern intnat caml_stat_heap_chunks;
+ 
+-static long minor_words(void)
++static intnat minor_words(void)
+ {
+-  return (long) (caml_stat_minor_words +
++  return (intnat) (caml_stat_minor_words +
+             (double) Wsize_bsize (caml_young_end - caml_young_ptr));
+ }
+ 
+@@ -27,9 +27,9 @@
+   return Val_long(minor_words());
+ }
+ 
+-static long major_words(void)
++static intnat major_words(void)
+ {
+-  return (long) (caml_stat_major_words + (double) caml_allocated_words);
++  return (intnat) (caml_stat_major_words + (double) caml_allocated_words);
+ }
+ 
+ CAMLprim value core_kernel_gc_major_words(value unit __attribute__((unused)))
+@@ -39,7 +39,7 @@
+ 
+ CAMLprim value core_kernel_gc_promoted_words(value unit __attribute__((unused)))
+ {
+-  return Val_long((long) caml_stat_promoted_words);
++  return Val_long((intnat) caml_stat_promoted_words);
+ }
+ 
+ CAMLprim value core_kernel_gc_minor_collections(value unit __attribute__((unused)))
