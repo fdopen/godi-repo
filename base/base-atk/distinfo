@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (atk-2.13.90.tar.xz) = 464a0c24852a63d209a9b10e09622ac921196d02
-Size (atk-2.13.90.tar.xz) = 696692 bytes
+SHA1 (atk-2.14.0.tar.xz) = b803d055c8e2f786782803b7d21e413718321db7
+Size (atk-2.14.0.tar.xz) = 696064 bytes
 
-SHA1 (base-atk-2.13.90_1_64.txz) = 755186d06a9ac0e6f776f85964a25ae2e47e6547
-Size (base-atk-2.13.90_1_64.txz) = 240100 bytes
+SHA1 (base-atk-2.14.0_0_64.txz) = 3c5b5ccff4cfe7e4bb1162dbb2e87de3faaf90e4
+Size (base-atk-2.14.0_0_64.txz) = 240060 bytes
 
-SHA1 (base-atk-2.13.90_1_32.txz) = 3acc8cf5ba411195819c18bcdb3253d1627f34bb
-Size (base-atk-2.13.90_1_32.txz) = 238068 bytes
+SHA1 (base-atk-2.14.0_0_32.txz) = 74d3f8bca9af7dd2381c6d1f6e91a863848e593c
+Size (base-atk-2.14.0_0_32.txz) = 238020 bytes
