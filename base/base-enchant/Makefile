@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.6.0
-PKGREVISION= 4
+PKGREVISION= 5
 PKG=         enchant
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
