@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (tiff-4.0.3.tar.gz) = 652e97b78f1444237a82cbcfe014310e776eb6f0
 Size (tiff-4.0.3.tar.gz) = 2051630 bytes
 
-SHA1 (base-libtiff-4.0.3_1_64.txz) = 527d4323788a48d37c8461d97e38040470e372db
-Size (base-libtiff-4.0.3_1_64.txz) = 203988 bytes
+SHA1 (base-libtiff-4.0.3_2_64.txz) = 3a2ab110bec937e1c8680c639de24d1f2bd5e3a9
+Size (base-libtiff-4.0.3_2_64.txz) = 203924 bytes
 
-SHA1 (base-libtiff-4.0.3_1_32.txz) = 62fdf44a2e77221d04b99c5543ffc693ce0f6c28
-Size (base-libtiff-4.0.3_1_32.txz) = 202388 bytes
+SHA1 (base-libtiff-4.0.3_2_32.txz) = 428920198dc517dfd51fbfd2f91af0bd4e8bc425
+Size (base-libtiff-4.0.3_2_32.txz) = 202648 bytes
 
 SHA1 (patch-aa-am-version) = 22509c9bdead1ff88c1f714b86730d275e9171af
 SHA1 (patch-ab-CVE-2012-4447) = 866a67e5ece65377a66399ff6088fe1a1188f21c
