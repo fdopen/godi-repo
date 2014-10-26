@@ -12,6 +12,7 @@ MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.28.00/individual/
 HOMEPAGE=       https://github.com/janestreet/bignum
 COMMENT=        Core-flavoured wrapper around zarith's arbitrary-precision rationals
 
+DEPENDS+=  godi-typerep>=111.17.00:../../godi/godi-typerep
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 DEPENDS+=  godi-core_kernel>=111.28.00:../../godi/godi-core_kernel
 DEPENDS+=  godi-ocaml>=4.00.1:../../godi/godi-ocaml
