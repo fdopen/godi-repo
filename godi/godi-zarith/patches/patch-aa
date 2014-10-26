@@ -1,5 +1,5 @@
---- ../../work-ref/zarith-1.2/configure	2014-05-28 18:25:37.197200000 +0200
-+++ ./configure	2014-05-28 18:24:19.462400000 +0200
+--- ../../work-ref/zarith-1.3/configure	2013-05-21 12:24:01.000000000 +0200
++++ ./configure	2014-10-12 23:17:58.280800000 +0200
 @@ -30,7 +30,11 @@
    cc='gcc'
    ccopt="-O3 -Wall -Wextra $CFLAGS"
@@ -31,6 +31,15 @@
  else
      searchbin install
      if test $? -eq 1; then instmeth='install'
+@@ -295,7 +299,7 @@
+     i486-*linux-gnu|i686-*linux-gnu|i486-kfreebsd-gnu)
+         ccdef="-DZ_ELF -DZ_DOT_LABEL_PREFIX $ccdef"
+         arch='i686';;
+-    i686-*cygwin)
++    i686-*cygwin|x86_64-*cygwin)
+         if test "x$wordsize" = "x64"; then
+             ccdef="-DZ_COFF $ccdef"
+             arch='x86_64_mingw64'
 @@ -383,6 +387,20 @@
          ;;
  esac
@@ -61,67 +70,8 @@
  OCAMLOPTFLAGS=$mloptflags
  OCAMLINC=$mlinc
  CFLAGS=$ccinc $ccdef $ccopt
---- ../../work-ref/zarith-1.2/configure.orig	2013-04-24 13:54:49.000000000 +0200
-+++ ./configure.orig	2014-05-28 18:07:44.525600000 +0200
-@@ -231,7 +231,7 @@
- 
- # directories
- 
--if test "$ocamllibdir" = "auto"; then ocamllibdir=`ocamlc -where`; fi
-+if test "$ocamllibdir" = "auto"; then ocamllibdir=`ocamlc -where | tr -d '\r'`; fi
- 
- # fails on Cygwin:
- # if test ! -f "$ocamllibdir/caml/mlvalues.h"
-@@ -258,7 +258,7 @@
- if test $? -eq 1 -a $ocamlfind != "no"; then 
-     instmeth='findlib'
-     if test "$installdir" = "auto"
--    then installdir=`ocamlfind printconf destdir`; fi
-+    then installdir=`ocamlfind printconf destdir | tr -d '\r'`; fi
- else
-     searchbin install
-     if test $? -eq 1; then instmeth='install'
-@@ -383,6 +383,20 @@
-         ;;
- esac
- 
-+exec_suffix=''
-+so_suffix='.so'
-+systype=`uname -s`
-+case "$systype" in
-+    CYGWIN*)
-+	exec_suffix='.exe' 
-+	so_suffix='.dll'
-+	;;
-+    MINGW*)
-+	exec_suffix='.exe'
-+	so_suffix='.dll'
-+	;;
-+esac
-+
- # dump Makefile
- 
- cat > Makefile <<EOF
-@@ -395,6 +409,8 @@
- OCAMLMKLIB=$ocamlmklib
- OCAMLDOC=$ocamldoc
- OCAMLFLAGS=$mlflags
-+EXEC_SUFFIX=$exec_suffix
-+DLL_SUFFIX=$so_suffix
- OCAMLOPTFLAGS=$mloptflags
- OCAMLINC=$mlinc
- CFLAGS=$ccinc $ccdef $ccopt
---- ../../work-ref/zarith-1.2/META	2012-04-30 21:28:21.000000000 +0200
-+++ ./META	2014-05-28 18:24:59.008400000 +0200
-@@ -1,5 +1,5 @@
- description = "Arbitrary precision integers"
- requires = ""
--version = "1.1"
-+version = "1.2.1"
- archive(byte) = "zarith.cma"
- archive(native) = "zarith.cmxa"
---- ../../work-ref/zarith-1.2/project.mak	2012-12-10 10:47:31.000000000 +0100
-+++ ./project.mak	2014-05-28 18:07:44.525600000 +0200
+--- ../../work-ref/zarith-1.3/project.mak	2013-07-30 18:49:15.000000000 +0200
++++ ./project.mak	2014-10-12 23:17:53.101600000 +0200
 @@ -18,7 +18,9 @@
  else
  OBJSUFFIX    := o

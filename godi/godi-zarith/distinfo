@@ -1,8 +1,6 @@
 $NetBSD$
 
-SHA1 (zarith-1.2.1.tgz) = a4ab1988133ebfde02c0b47e6b04498c464d290a
-Size (zarith-1.2.1.tgz) = 70822 bytes
+SHA1 (zarith-1.3.tgz) = dfa1a9251f363b03f9de83e4e4bf4bf7db587f5d
+Size (zarith-1.3.tgz) = 69415 bytes
 
-SHA1 (patch-aa) = 81db474de66d741222c5ab3abf15c6ae5e87886b
-SHA1 (patch-ab) = 2fdb6a7a47066ff780190af88d1ab383088fcb31
-SHA1 (patch-ac) = 9d43829acabee2e6db47a3dac5c11f7a82e42dea
+SHA1 (patch-aa) = cfe1fa16d6b1539b4900f8a019794e3d9e6b7945

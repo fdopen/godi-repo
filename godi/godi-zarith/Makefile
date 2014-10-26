@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.2.1
+VERSION=	1.3
 PKGNAME=	godi-zarith-${VERSION}
-PKGREVISION=	1
-DISTNAME=	zarith-1.2  #${VERSION}
+PKGREVISION=	0
+DISTNAME=	zarith-${VERSION}
 DISTFILES=	zarith-${VERSION}.tgz
 CATEGORIES=	godi
-MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1187/
+MASTER_SITES=	http://forge.ocamlcore.org/frs/download.php/1471/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	http://forge.ocamlcore.org/projects/zarith/
 COMMENT=	arithmetic operations over arbitrary-precision integers
