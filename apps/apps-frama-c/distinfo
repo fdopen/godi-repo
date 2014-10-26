@@ -1,6 +1,7 @@
-$GODI$
+$NetBSD$
 
 SHA1 (frama-c-Neon-20140301.tar.gz) = c23822f16aa5e95439249a95e41e60add4a200d6
 Size (frama-c-Neon-20140301.tar.gz) = 3122492 bytes
+
 SHA1 (patch-aa-OCamlgraph-1.8.5-compat) = c171f2c553a63efc4092c8da3708b88a142962f1
 SHA1 (patch-ab-exe-suffix-for-configure-test) = 6c92893514ed0b24ed37a12713f25a6c7815e256
