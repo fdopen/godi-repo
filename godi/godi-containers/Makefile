@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.3.4
+VERSION=	0.4.1
 ONAME=		containers
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-containers-0.3.4
-DISTFILES=	containers-0.3.4.tar.xz
+DISTNAME=	ocaml-containers-0.4.1
+DISTFILES=	containers-0.4.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/ocaml-containers/
@@ -20,12 +20,14 @@ BUILD_DEPENDS+= godi-benchmark>=0:../../godi/godi-benchmark
 BUILD_DEPENDS+= godi-qcheck>=0:../../godi/godi-qcheck
 BUILD_DEPENDS+= godi-qtest>=0:../../godi/godi-qtest
 
-
 WINOASIS=		yes
 #CONFIGURE_ARGS+=	--enable-thread
 CONFIGURE_ARGS+=	--enable-bench
+CONFIGURE_ARGS+=	--enable-misc
 CONFIGURE_ARGS+=	--disable-lwt
 CONFIGURE_ARGS+=	--disable-cgi
 
+do-build:
+	cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} test-all doc
 
 .include "../../mk/bsd.pkg.mk"
