@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.5
+VERSION=	2.4.6
 PKGREVISION=	0
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	lwt-2.4.5
-DISTFILES=	lwt-2.4.5.tar.gz
+DISTNAME=	lwt-2.4.6
+DISTFILES=	lwt-2.4.6.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	http://www.ocsigen.org/install/lwt
@@ -17,7 +17,12 @@ GODI_LWT_OCAMLTEXT?=yes
 
 DEPENDS+=  godi-ocaml>=4:../../godi/godi-ocaml
 DEPENDS+=  godi-camlp4>0:../../godi/godi-camlp4
-BUILD_DEPENDS+=	base-windows>=0:../../base/base-windows
+DEPENDS+=  godi-ppx_tools>0.99:../../godi/godi-ppx_tools
+BUILD_DEPENDS+=  base-glib2>=0:../../base/base-glib2
+BUILD_DEPENDS+=  base-pkg-config>=0:../../base/base-pkg-config
+
+#CPPFLAGS+=-I${LOCALBASE:Q}/include/glib-2.0
+#CFLAGS+=-I${LOCALBASE:Q}/include/glib-2.0
 
 BUILD_DEPENDS+=		godi-findlib-*:../../godi/godi-findlib
 .if ${GODI_LWT_SSL} != "no"

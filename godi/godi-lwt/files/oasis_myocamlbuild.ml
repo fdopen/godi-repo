@@ -21,7 +21,7 @@
  *)
 
 (* OASIS_START *)
-(* DO NOT EDIT (digest: ec63652ff76918565315d7faa6468bab) *)
+(* DO NOT EDIT (digest: d56dd70fa3edd448ff0509b0c94adb0e) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -634,6 +634,7 @@ let package_default =
           ("lwt-syntax", ["syntax"], []);
           ("lwt-syntax-options", ["syntax"], []);
           ("lwt-syntax-log", ["syntax"], []);
+          ("ppx", ["ppx"], ["Ppx_lwt"]);
           ("test", ["tests"], [])
        ];
      lib_c =
@@ -705,6 +706,7 @@ let package_default =
           ("tests/react", ["src/core"; "src/react"; "src/unix"; "tests"]);
           ("tests/preemptive",
             ["src/core"; "src/preemptive"; "src/unix"; "tests"]);
+          ("tests/ppx", ["src/core"; "src/unix"; "tests"]);
           ("tests/core", ["src/core"; "src/unix"; "tests"]);
           ("tests", ["src/core"; "src/unix"]);
           ("src/unix", ["src/core"; "src/logger"]);
@@ -724,7 +726,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 706 "myocamlbuild.ml"
+# 708 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 open Ocamlbuild_plugin
@@ -776,6 +778,10 @@ let () =
              Options.make_links := false
 
          | After_rules ->
+
+             let env = BaseEnvLight.load ~allow_empty:true ~filename:MyOCamlbuildBase.env_filename () in
+
+
              dep ["file:src/unix/lwt_unix_stubs.c"] ["src/unix/lwt_unix_unix.c"; "src/unix/lwt_unix_windows.c"];
              dep ["pa_optcomp"] ["src/unix/lwt_config.ml"];
 
@@ -795,13 +801,23 @@ let () =
              flag ["ocaml"; "doc"; "pa_optcomp_standalone"] & S[A"-pp"; A "./syntax/optcomp.byte"];
              dep ["ocaml"; "ocamldep"; "pa_optcomp_standalone"] ["syntax/optcomp.byte"];
 
+             (* Use byte or native ppx, depending of Oasis variable. *)
+             let native_suffix =
+               if BaseEnvLight.var_get "is_native" env = "true"
+               then "native" else "byte"
+             in
+             flag ["ocaml"; "compile"; "use_ppx_lwt"] &
+             S [
+               A "-ppx" ;
+               A ("ppx/ppx_lwt_ex." ^ native_suffix)
+             ] ;
+
              (* Use an introduction page with categories *)
              tag_file "lwt-api.docdir/index.html" ["apiref"];
              dep ["apiref"] ["apiref-intro"];
              flag ["apiref"] & S[A "-intro"; P "apiref-intro"; A"-colorize-code"];
 
              (* Stubs: *)
-             let env = BaseEnvLight.load ~allow_empty:true ~filename:MyOCamlbuildBase.env_filename () in
 
              (* Check for "unix" because other variables are not
                 present in the setup.data file if lwt.unix is
