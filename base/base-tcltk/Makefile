@@ -1,7 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 8.6.1
-PKGREVISION= 2
+#VERSION=	 8.6.1
+#PKGREVISION= 2
+VERSION=	 8.6.2
+PKGREVISION= 0
 PKG=         tcltk
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

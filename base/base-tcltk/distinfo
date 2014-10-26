@@ -1,16 +1,16 @@
 $NetBSD$
 
-SHA1 (tcl8.6.1-src.tar.gz) = 5c83d44152cc0496cc0847a2495f659502a30e40
-Size (tcl8.6.1-src.tar.gz) = 8755700 bytes
+SHA1 (tcl8.6.2-src.tar.gz) = f01ee98da154f83ce4b1c2db752decf734384954
+Size (tcl8.6.2-src.tar.gz) = 8857161 bytes
 
-SHA1 (tk8.6.1-src.tar.gz) = ecfcc20833c04d6890b14a7920a04d16f2123a51
-Size (tk8.6.1-src.tar.gz) = 4244010 bytes
+SHA1 (tk8.6.2-src.tar.gz) = 138920fb55933a715f0b0ace576120734f771b80
+Size (tk8.6.2-src.tar.gz) = 4246617 bytes
 
-SHA1 (base-tcltk-8.6.1_2_64.txz) = 87ed3e02b75d82755b7ff3e9a2068d94b6dee880
-Size (base-tcltk-8.6.1_2_64.txz) = 1936208 bytes
+SHA1 (base-tcltk-8.6.2_0_64.txz) = a4b1b66fafc1dedbe882791427e0db062e51350d
+Size (base-tcltk-8.6.2_0_64.txz) = 1969976 bytes
 
-SHA1 (base-tcltk-8.6.1_2_32.txz) = a15a5c4f66e92b4c35087bc22b823a2d473703f1
-Size (base-tcltk-8.6.1_2_32.txz) = 1872032 bytes
+SHA1 (base-tcltk-8.6.2_0_32.txz) = 4cf8c1d5e089d7980e6fff5f9752bd73fbd4eaf2
+Size (base-tcltk-8.6.2_0_32.txz) = 1902480 bytes
 
-SHA1 (patch-aa) = b18b53d0a94d87669a85151cff0a19a2dfe5db21
-SHA1 (patch-zz) = ed8a4e0c2bec3a0bb8943718e7668c10b0d59e42
+SHA1 (patch-tcl) = c66d803036d875f6c04cbfcdb0786c68eeccc7a0
+SHA1 (patch-tk) = 31cfa87a5b8b018c5ff2ccb9a5a695ac748718ad
