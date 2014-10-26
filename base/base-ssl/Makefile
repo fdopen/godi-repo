@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.0.1i
-PKGREVISION= 1
+VERSION=	 1.0.1j
+PKGREVISION= 0
 PKG=         ssl
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

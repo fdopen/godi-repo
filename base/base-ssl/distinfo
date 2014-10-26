@@ -1,12 +1,12 @@
 $NetBSD$
 
-SHA1 (openssl-1.0.1i.tar.gz) = 74eed314fa2c93006df8d26cd9fc630a101abd76
-Size (openssl-1.0.1i.tar.gz) = 4422117 bytes
+SHA1 (openssl-1.0.1j.tar.gz) = cff86857507624f0ad42d922bb6f77c4f1c2b819
+Size (openssl-1.0.1j.tar.gz) = 4432964 bytes
 
-SHA1 (base-ssl-1.0.1i_1_64.txz) = 1b0f7abbea33f781bee59e4a40d7b866173f2eb4
-Size (base-ssl-1.0.1i_1_64.txz) = 1515336 bytes
+SHA1 (base-ssl-1.0.1j_0_64.txz) = e03b25d686706e5abfd4d49db3cd1a305225cd14
+Size (base-ssl-1.0.1j_0_64.txz) = 1518804 bytes
 
-SHA1 (base-ssl-1.0.1i_1_32.txz) = 47931fd5afa363ce8ec25321617d52e700fcdff3
-Size (base-ssl-1.0.1i_1_32.txz) = 1490988 bytes
+SHA1 (base-ssl-1.0.1j_0_32.txz) = 18cf7bf488d2e49e12ced098756792431df99cd9
+Size (base-ssl-1.0.1j_0_32.txz) = 1494472 bytes
 
 SHA1 (patch-aa) = 8bfbfe3e4272fc5090ca01262ea2189f3e820adc
