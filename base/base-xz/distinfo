@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (xz-5.0.5.tar.gz) = 26fec2c1e409f736e77a85e4ab314dc74987def0
-Size (xz-5.0.5.tar.gz) = 1305685 bytes
+SHA1 (xz-5.0.7.tar.gz) = da6d81015333785fc9399ab129e6f53fe1cbf350
+Size (xz-5.0.7.tar.gz) = 1317771 bytes
 
-SHA1 (base-xz-5.0.5_1_64.txz) = e25545d3a2dc4609d9a6e14878a5d9017816b0fa
-Size (base-xz-5.0.5_1_64.txz) = 207240 bytes
+SHA1 (base-xz-5.0.7_0_64.txz) = ca93891a370deeec352f180fb47ce4fb5569923a
+Size (base-xz-5.0.7_0_64.txz) = 209484 bytes
 
-SHA1 (base-xz-5.0.5_1_32.txz) = ff3165d09cedc180099aed8b4b5c21ef4cf4808b
-Size (base-xz-5.0.5_1_32.txz) = 206760 bytes
+SHA1 (base-xz-5.0.7_0_32.txz) = 8db0898f369a5859cd7a4b14d23a0af369cf9995
+Size (base-xz-5.0.7_0_32.txz) = 208828 bytes
