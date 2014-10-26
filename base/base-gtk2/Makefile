@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 2.24.24
-PKGREVISION= 4
+VERSION=	 2.24.25
+PKGREVISION= 0
 PKG=         gtk2
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
