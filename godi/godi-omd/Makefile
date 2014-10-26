@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.0
+VERSION=	1.1.2
 PKG=		godi-omd
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	omd-1.0.0
-DISTFILES=	omd-1.0.0.tar.gz
+DISTNAME=	omd-1.1.2
+DISTFILES=	omd-1.1.2.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://pw374.github.io/distrib/omd/
-HOMEPAGE=	https://github.com/pw374/omd
+HOMEPAGE=	https://github.com/ocaml/omd
 COMMENT=	a Markdown parser in OCaml
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
