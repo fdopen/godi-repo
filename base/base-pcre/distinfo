@@ -1,12 +1,10 @@
 $NetBSD$
 
-SHA1 (pcre-8.35.tar.bz2) = a10e0040475644bfc97f7d0c0556988acfc52c6f
-Size (pcre-8.35.tar.bz2) = 1522220 bytes
+SHA1 (pcre-8.36.tar.bz2) = 9a074e9cbf3eb9f05213fd9ca5bc188644845ccc
+Size (pcre-8.36.tar.bz2) = 1533818 bytes
 
-SHA1 (base-pcre-8.35_1_64.txz) = 968f32b533d0d6d85ea1b231ed44eb39a88c7ebc
-Size (base-pcre-8.35_1_64.txz) = 259648 bytes
+SHA1 (base-pcre-8.36_0_64.txz) = fdaab875258191db590e06c33891753d32676fd9
+Size (base-pcre-8.36_0_64.txz) = 261716 bytes
 
-SHA1 (base-pcre-8.35_1_32.txz) = 522bc70c32494a96ea75179008b48a90d25080bd
-Size (base-pcre-8.35_1_32.txz) = 255940 bytes
-
-SHA1 (patch-pcre-8.35-Do-not-rely-on-wrapping-signed-integer-while-parsein) = 8f9f6f20facc75b9aa5bc0feae910a5760324703
+SHA1 (base-pcre-8.36_0_32.txz) = acefcb7b672ef99c908fc7b405f9e4f84754b717
+Size (base-pcre-8.36_0_32.txz) = 257756 bytes

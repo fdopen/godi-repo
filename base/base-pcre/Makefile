@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 8.35
-PKGREVISION= 1
+VERSION=	 8.36
+PKGREVISION= 0
 PKG=         pcre
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
