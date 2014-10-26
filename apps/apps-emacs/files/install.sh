@@ -11,14 +11,19 @@ chmod 0755 opt/emacs/bin/*.exe
 EMACS="$(readlink -f opt/emacs/bin)"
 export PATH="${EMACS}:${PATH}"
 EMACS="${EMACS}/emacs.exe"
-cp -a tuareg-* opt/emacs/site-lisp/tuareg
-cp -a color-theme-* opt/emacs/site-lisp/color-theme
-cp -a auto-complete-* opt/emacs/site-lisp/auto-complete
-cp site-start.el opt/emacs/site-lisp
-mkdir -p opt/emacs/site-lisp/cygwin
-cp cygwin-mount.el opt/emacs/site-lisp/cygwin
-cp -a ocaml/emacs opt/emacs/site-lisp/caml
-cp omake.el opt/emacs/site-lisp
+cp -a tuareg-* opt/emacs/share/emacs/site-lisp/tuareg
+cp -a color-theme-* opt/emacs/share/emacs/site-lisp/color-theme
+cp -a popup-* opt/emacs/share/emacs/site-lisp/popup-el
+cd opt/emacs/share/emacs/site-lisp/popup-el
+rm -f .t* .git* README* Makefile
+rm -rf tests lib
+cd ${SCRIPT_DIR}
+cp -a auto-complete-* opt/emacs/share/emacs/site-lisp/auto-complete
+cp site-start.el opt/emacs/share/emacs/site-lisp
+mkdir -p opt/emacs/share/emacs/site-lisp/cygwin
+cp cygwin-mount.el opt/emacs/share/emacs/site-lisp/cygwin
+cp -a ocaml/emacs opt/emacs/share/emacs/site-lisp/caml
+cp omake.el opt/emacs/share/emacs/site-lisp
 
 batch_compile(){
     if [ ! -f "$1" ] || [ -z "$1" ]; then
@@ -38,7 +43,6 @@ done
 rm -f ChangeLog README
 mv * ../company-*
 cd ../company-*
-batch_compile "cl-lib.el"
 make compile
 for f in *.el ; do
     if [ -f "$f" ] && [ -f "${f}c" ]; then
@@ -48,12 +52,12 @@ done
 rm -f ChangeLog Makefile *.md .git* .*.yml .*.el
 rm -rf snippets/ruby-mode # broken, space in path!
 cd ..
-cp -a company-* opt/emacs/site-lisp/company 
+cp -a company-* opt/emacs/share/emacs/site-lisp/company 
 
-cd opt/emacs/site-lisp
+cd opt/emacs/share/emacs/site-lisp
 
 batch_compile omake.el
-for d in caml cygwin tuareg auto-complete color-theme color-theme/themes ; do
+for d in caml cygwin tuareg popup-el auto-complete color-theme color-theme/themes ; do
     cd "$d"
     for f in *.el ; do
         batch_compile "$f"

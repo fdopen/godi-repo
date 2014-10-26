@@ -1,25 +1,25 @@
 $NetBSD$
 
-SHA1 (tuareg-2.0.7.tar.gz) = 3ac4a000e323152e74846265a51bb0a8b5d75c9a
-Size (tuareg-2.0.7.tar.gz) = 57999 bytes
+SHA1 (tuareg-2.0.8.tar.xz) = c916bb1bc5bfaac0e8f73ad97b2cb46fe815f6fa
+Size (tuareg-2.0.8.tar.xz) = 66600 bytes
+
+SHA1 (popup-el-0.5.0.tar.xz) = 8e93130595a2bc573998fcdc8aea7e9cd4ad4532
+Size (popup-el-0.5.0.tar.xz) = 16712 bytes
 
 SHA1 (color-theme-6.6.0.tar.gz) = 047d6cb207fdef66b25343479ebe09a1ed3954b5
 Size (color-theme-6.6.0.tar.gz) = 124858 bytes
 
-SHA1 (emacs-24.3-bin-i386.zip) = 3a9ca27a0617015240fa062794b3452c848e81e5
-Size (emacs-24.3-bin-i386.zip) = 48894234 bytes
+SHA1 (auto-complete-1.4.0.tar.xz) = 7550b0dd4ef446c0618fb309e8fd598ecb86941e
+Size (auto-complete-1.4.0.tar.xz) = 170680 bytes
 
-SHA1 (emacs-24.3.tar.xz) = 4f6d5907e1919ca27b70034acaec211a09a4e204
-Size (emacs-24.3.tar.xz) = 35565352 bytes
-
-SHA1 (libxpm-3.5.8-w32-src.zip) = abb9d68334f65134e711268c1edc323aa143d7af
-Size (libxpm-3.5.8-w32-src.zip) = 1480046 bytes
-
-SHA1 (v1.3.1.tar.gz) = d584d1d24250ded3534719aa948a3f4529ad80fb
-Size (v1.3.1.tar.gz) = 168245 bytes
-
-SHA1 (company-0.8.2.tar.xz) = 9962ff6d0bc00a5ab33b25dcad1b29c039a9c15f
-Size (company-0.8.2.tar.xz) = 56260 bytes
+SHA1 (company-mode-0.8.6.tar.xz) = cfe7316039a3d8cbc887489f0320dc3332840f6d
+Size (company-mode-0.8.6.tar.xz) = 55924 bytes
 
 SHA1 (yasnippet-0.8.0.tar.xz) = c22752c18e7907ea38c9a42d0a331aa03eec0c56
 Size (yasnippet-0.8.0.tar.xz) = 61312 bytes
+
+SHA1 (emacs-24.4_64.tar.xz) = e24fc927bcaed9d7478c602e89e34d9a207f4b8e
+Size (emacs-24.4_64.tar.xz) = 40874084 bytes
+
+SHA1 (emacs-24.4_32.tar.xz) = 46739a3b3679d69cc02bb9daa1ce02db8f60f68a
+Size (emacs-24.4_32.tar.xz) = 40285164 bytes
