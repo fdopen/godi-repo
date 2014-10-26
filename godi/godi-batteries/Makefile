@@ -2,17 +2,17 @@
 
 PKG  =          godi-batteries
 PKGNAME=        ${PKG}-${VERSION}
-VERSION = 	2.3
+VERSION = 	2.3.1
 PKGREVISION=    0
 CATEGORIES=     godi
-FORGE_NODE =	1465
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
+#FORGE_NODE =	1465
+#MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/${FORGE_NODE}/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://batteries.forge.ocamlcore.org
 COMMENT=	a community-maintained foundation library for OCaml
 GIT_REPO=	git://github.com/ocaml-batteries-team/batteries-included.git
-DISTNAME = 	batteries-${VERSION}
-DISTFILES = 	batteries-${VERSION}.tar.gz
+DISTNAME = 	batteries-included-${VERSION}
+DISTFILES = 	${DISTNAME}.tar.xz
 
 
 GODI_BATTERIES_RUN_TESTS ?= no
