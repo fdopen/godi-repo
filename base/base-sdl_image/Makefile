@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 1.2.12
-PKGREVISION= 1
+PKGREVISION= 2
 PKG=         sdl_image
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}

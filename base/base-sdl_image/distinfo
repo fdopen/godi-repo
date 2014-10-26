@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (SDL_image-1.2.12.tar.gz) = 5e3e393d4e366638048bbb10d6a269ea3f4e4cf2
 Size (SDL_image-1.2.12.tar.gz) = 2231074 bytes
 
-SHA1 (base-sdl_image-1.2.12_1_64.txz) = 94076b92f2beb72fb9671e294253a16ad282c848
-Size (base-sdl_image-1.2.12_1_64.txz) = 31912 bytes
+SHA1 (base-sdl_image-1.2.12_2_64.txz) = 0da0b7840ef80a3a5cb5645b7e3dfb51aacf5885
+Size (base-sdl_image-1.2.12_2_64.txz) = 31880 bytes
 
-SHA1 (base-sdl_image-1.2.12_1_32.txz) = 9b95abe8ff67584b53467e1d21b8803bf3c3a2a9
-Size (base-sdl_image-1.2.12_1_32.txz) = 30212 bytes
+SHA1 (base-sdl_image-1.2.12_2_32.txz) = 0a2cb8e188d7371fb9ba2e96ed80240352357678
+Size (base-sdl_image-1.2.12_2_32.txz) = 30216 bytes
