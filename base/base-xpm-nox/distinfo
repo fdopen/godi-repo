@@ -1,0 +1,12 @@
+$NetBSD$
+
+SHA1 (xpm-nox-4.2.0.tar.bz2) = 0c826a62e80405919e83f746a1e1050d8477b285
+Size (xpm-nox-4.2.0.tar.bz2) = 135277 bytes
+
+SHA1 (base-xpm-nox-4.2.0_0_64.txz) = 4ed5eda7986d64219ac897287844d61662772882
+Size (base-xpm-nox-4.2.0_0_64.txz) = 62780 bytes
+
+SHA1 (base-xpm-nox-4.2.0_0_32.txz) = fb942bc86529634d36f6f7af4be0bfdb93e22adf
+Size (base-xpm-nox-4.2.0_0_32.txz) = 60040 bytes
+
+SHA1 (patch-xpm-nox-4.2.0) = 32fb27c4e91265adf9fe32a45063123ec343c25b
