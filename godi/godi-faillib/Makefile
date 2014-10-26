@@ -4,7 +4,7 @@ VERSION=	111.17.00
 ONAME=		faillib
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       faillib-111.17.00
 DISTFILES=      faillib-111.17.00.tar.gz
 CATEGORIES=     godi
@@ -18,7 +18,7 @@ DEPENDS+=  godi-herelib>=109.35.00:../../godi/godi-herelib
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
 DEPENDS+= godi-ocaml>=4.00.0:../../godi/godi-ocaml
-#DEPENDS+= godi-type_conv<=109.60.01:../../godi/godi-type_conv
+DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
 
 
