@@ -1,0 +1,28 @@
+From c8200bdee8dcc2a0ccf8ca551b5b21c3a54cc6d5 Mon Sep 17 00:00:00 2001
+From: Jerome Vouillon <jerome.vouillon@pps.univ-paris-diderot.fr>
+Date: Thu, 2 Oct 2014 10:39:50 +0200
+Subject: [PATCH] Compiler: fix Makefile dependencies for compiling Menhir
+ files
+
+---
+ compiler/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/compiler/Makefile b/compiler/Makefile
+index 0878911..581239d 100644
+--- compiler/Makefile
++++ compiler/Makefile
+@@ -84,11 +84,11 @@ compiler_version.ml.tmp:
+ 	ocamlfind ocamlc $(SAFESTRING) -package $(PACKAGES) -c $<
+ 
+ annot_parser.ml: annot_parser.mli
+-annot_parser.mli: annot_parser.mly
++annot_parser.mli: annot_parser.mly primitive.cmi
+ 	menhir --infer --explain $<
+ 
+ js_parser.ml: js_parser.mli
+-js_parser.mli: js_parser.mly
++js_parser.mli: js_parser.mly javascript.cmi js_token.cmi
+ 	menhir --infer --external-tokens Js_token --explain $<
+ 
+ %.ml: %.mll

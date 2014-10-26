@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.1
+VERSION=	2.5
 PKGREVISION=	0
 PKGNAME=	godi-jsofocaml-${VERSION}
-DISTNAME=	js_of_ocaml-2.4.1
-DISTFILES=	js_of_ocaml-2.4.1.tar.xz
+DISTNAME=	js_of_ocaml-2.5
+DISTFILES=	js_of_ocaml-2.5.tar.xz
 CATEGORIES=	godi
 #MASTER_SITES=	http://www.ocsigen.org/download/
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
@@ -14,7 +14,8 @@ COMMENT=	Js_of_ocaml is a compiler of OCaml bytecode to Javascript
 
 BUILD_DEPENDS+=	godi-menhir>=0:../../godi/godi-menhir
 DEPENDS+=	godi-ocaml>=0:../../godi/godi-ocaml
-DEPENDS+=	godi-findlib>=0:../../godi/godi-findlib
+BUILD_DEPENDS+=  godi-cmdliner-*:../../godi/godi-cmdliner
+DEPENDS+=	godi-findlib>=1.5.1:../../godi/godi-findlib
 DEPENDS+= 	godi-lwt>=2.4:../../godi/godi-lwt
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 DEPENDS+= 	godi-deriving-ocsigen>=0.6:../../godi/godi-deriving-ocsigen
