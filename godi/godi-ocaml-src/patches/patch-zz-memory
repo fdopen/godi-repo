@@ -1,0 +1,39 @@
+--- ../../work-ref/ocaml-4.02/otherlibs/win32unix/createprocess.c	2013-09-03 15:10:56.000000000 +0200
++++ ./otherlibs/win32unix/createprocess.c	2014-09-26 19:18:40.134600000 +0200
+@@ -12,6 +12,7 @@
+ /***********************************************************************/
+ 
+ #include <mlvalues.h>
++#include <memory.h>
+ #include "unixsupport.h"
+ #include <windows.h>
+ #include <osdeps.h>
+@@ -25,6 +26,8 @@
+   STARTUPINFO si;
+   char * exefile, * envp;
+   int flags;
++  BOOL cp;
++  DWORD le;
+ 
+   exefile = search_exe_in_path(String_val(cmd));
+   if (env != Val_int(0)) {
+@@ -51,10 +54,15 @@
+     si.wShowWindow = SW_HIDE;
+   }
+   /* Create the process */
+-  if (! CreateProcess(exefile, String_val(cmdline), NULL, NULL,
+-                      TRUE, flags, envp, NULL, &si, &pi)) {
+-    win32_maperr(GetLastError());
+-    uerror("create_process", cmd);
++  cp = CreateProcess(exefile, String_val(cmdline), NULL, NULL,
++                     TRUE, flags, envp, NULL, &si, &pi);
++  if ( ! cp ){
++     le=GetLastError();
++  }
++  caml_stat_free(exefile);
++  if ( ! cp ) {
++     win32_maperr(le);
++     uerror("create_process", cmd);
+   }
+   CloseHandle(pi.hThread);
+   /* Return the process handle as pseudo-PID

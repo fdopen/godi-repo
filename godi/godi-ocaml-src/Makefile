@@ -14,14 +14,14 @@ OCAML_SVN_PATH?=	/ocaml/trunk
 
 
 # This is the official version string
-OVERSION= 	4.02.0
+OVERSION= 	4.02.1
 
 # This is the GODI version string, sometimes slightly modified
-VERSION=	4.02.0
+VERSION=	4.02.1
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
-DISTNAME=	ocaml-4.02
-PKGREVISION=	1
+DISTNAME=	ocaml-4.02.1
+PKGREVISION=	0
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -169,7 +169,7 @@ post-configure:
 	       -e 's|^LIBDIR=.*$$|LIBDIR=\$$(PREFIX)/lib/ocaml/std-lib|' \
 	       -e 's|^DISTRIB=.*$$|DISTRIB=\$$(PREFIX)/doc/godi-ocaml|' \
 	       -e 's|^MANDIR=.*$$|MANDIR=\$$(PREFIX)/man/man1|' \
-	       -e 's|^FLEXDIR=.*$$|FLEXDIR=\$$(shell \$$(FLEXLINK) -where)/../lib/flexdll|' \
+	       -e 's|^FLEXDIR:=.*$$|FLEXDIR:=\$$(shell \$$(FLEXLINK) -where)/../lib/flexdll|' \
 	       -e 's|-O |${OCAML_BUILD_FLAGS} |' \
 	       ${MAKEFILE_MINGW} >${WRKSRC}/config/Makefile.tmp
 	${MV} ${WRKSRC}/config/Makefile.tmp ${WRKSRC}/config/Makefile

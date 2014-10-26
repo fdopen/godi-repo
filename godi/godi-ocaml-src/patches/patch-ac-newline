@@ -152,17 +152,6 @@
     "-ocamldep", set_cmd ocamldep, "<command> Set the OCaml dependency tool";
 --- ../../work-ref/ocaml-4.02/ocamldoc/odoc_args.ml	2014-08-10 13:08:17.000000000 +0200
 +++ ./ocamldoc/odoc_args.ml	2014-08-11 20:49:18.021200000 +0200
-@@ -174,8 +174,8 @@
- 
- (** The default option list *)
- let default_options = [
--  "-version", Arg.Unit (fun () -> print_string M.message_version ; print_newline () ; exit 0) , M.option_version ;
--  "-vnum", Arg.Unit (fun () -> print_string M.config_version ;
-+  "-version", Arg.Unit (fun () -> Misc.mingw_binary_output (); print_string M.message_version ; print_newline () ; exit 0) , M.option_version ;
-+  "-vnum", Arg.Unit (fun () -> Misc.mingw_binary_output (); print_string M.config_version ;
-                                print_newline () ; exit 0) , M.option_version ;
-   "-v", Arg.Unit (fun () -> Odoc_global.verbose := true), M.verbose_mode ;
-   "-I", Arg.String (fun s ->
 @@ -235,8 +235,11 @@
    "-dot", Arg.Unit (fun () -> set_generator
         (Odoc_gen.Dot (module Odoc_dot.Generator : Odoc_dot.Dot_generator))),

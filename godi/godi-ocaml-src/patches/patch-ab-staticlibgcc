@@ -1,11 +1,11 @@
---- ../../work-ref/ocaml-4.02/config/Makefile.mingw64	2014-07-23 09:45:14.000000000 +0200
-+++ ./config/Makefile.mingw64	2014-07-23 17:28:33.516000000 +0200
+--- config/Makefile.mingw64.orig	2014-10-14 21:43:47.719600000 +0000
++++ config/Makefile.mingw64	2014-10-14 21:44:48.419200000 +0000
 @@ -109,7 +109,7 @@
  CPP=$(BYTECC) -E
  
  ### Flexlink
 -FLEXLINK=flexlink -chain mingw64 -stack 33554432
 +FLEXLINK=flexlink -chain mingw64 -stack 33554432 -link -static-libgcc
- FLEXDIR=$(shell $(FLEXLINK) -where)
+ FLEXDIR:=$(shell $(FLEXLINK) -where)
  IFLEXDIR=-I"$(FLEXDIR)"
  MKDLL=$(FLEXLINK)
