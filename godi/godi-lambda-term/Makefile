@@ -2,12 +2,12 @@
 
 ONAME=		lambda-term
 PKG=		godi-${ONAME}
-VERSION=        1.6
+VERSION=        1.7
 FINODE=		1136
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       lambda-term-1.6
-DISTFILES=      lambda-term-1.6.tar.gz
+DISTNAME=       lambda-term-1.7
+DISTFILES=      lambda-term-1.7.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/diml/lambda-term
@@ -21,6 +21,7 @@ DEPENDS+= godi-lwt>=2.4.0:../../godi/godi-lwt
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-camlp4>=0:../../godi/godi-camlp4
 
+CONFIGURE_ARGS+=	--enable-camlp4
 WINOASIS=		yes
 #WINOASIS_USE_BASH=	yes
 

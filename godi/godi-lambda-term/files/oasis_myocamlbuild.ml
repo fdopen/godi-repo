@@ -1,14 +1,5 @@
-(*
- * myocamlbuild.ml
- * ---------------
- * Copyright : (c) 2011, Jeremie Dimino <jeremie@dimino.org>
- * Licence   : BSD3
- *
- * This file is a part of Lambda-Term.
- *)
-
 (* OASIS_START *)
-(* DO NOT EDIT (digest: b2178d9f4da2b39882b5b9f1a302ed42) *)
+(* DO NOT EDIT (digest: 5d93a19f463a130845349c4d884ff85f) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -610,9 +601,15 @@ let package_default =
        [
           (["oasis_library_lambda_term_ccopt"; "compile"],
             [
-               (OASISExpr.EBool true, S []);
+               (OASISExpr.EBool true, S [A "-ccopt"; A "-I${pkg_lwt}"]);
                (OASISExpr.ETest ("system", "openbsd"),
-                 S [A "-ccopt"; A "-I/usr/local/include"])
+                 S
+                   [
+                      A "-ccopt";
+                      A "-I${pkg_lwt}";
+                      A "-ccopt";
+                      A "-I/usr/local/include"
+                   ])
             ]);
           (["oasis_library_lambda_term_cclib"; "link"],
             [
@@ -634,27 +631,18 @@ let package_default =
             ])
        ];
      includes =
-       [("tools", ["src"]); ("tests", ["src"]); ("examples", ["src"])]
+       [
+          ("tools", ["src"]);
+          ("tests", ["src"]);
+          ("src/widget_impl", ["src"]);
+          ("src", ["src/widget_impl"]);
+          ("examples", ["src"])
+       ]
   }
   ;;
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 635 "myocamlbuild.ml"
+# 647 "myocamlbuild.ml"
 (* OASIS_STOP *)
-
-open Ocamlbuild_plugin
-
-let () =
-  dispatch
-    (fun hook ->
-       dispatch_default hook;
-       match hook with
-         | Before_options ->
-             Options.make_links := false
-
-         | After_rules ->
-             flag ["c"; "compile"; "use_lwt_unix_h"] & S[A"-package"; A"lwt"]
-
-         | _ ->
-             ())
+Ocamlbuild_plugin.dispatch dispatch_default;;
