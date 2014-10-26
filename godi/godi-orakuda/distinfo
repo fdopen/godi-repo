@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (orakuda-1.2.1.tar.xz) = c528be7806a3a9dd4291e6146a93a66974729c99
-Size (orakuda-1.2.1.tar.xz) = 65756 bytes
-
-SHA1 (patch-aa) = 4fdf732664667c1039654a719ac0caec75ba15be
+SHA1 (orakuda-1.2.2.tar.xz) = 13115886c82e38d2e33cfe5afd939207f0ab22ed
+Size (orakuda-1.2.2.tar.xz) = 65840 bytes
