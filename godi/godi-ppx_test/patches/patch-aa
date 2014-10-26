@@ -1,0 +1,13 @@
+--- ../../work-ref/ppx_test-0.0.1/OMyMakefile	2014-10-01 02:50:10.000000000 +0200
++++ ./OMyMakefile	2014-10-25 20:44:50.838000000 +0200
+@@ -505,8 +505,8 @@
+   export # The above thing is local: need to be exported # really?
+ 
+   if $(not $(defined NO_INSTALL))
+-    install: $(name) $(name).run $(name).opt
+-      install $(name) $(name).run $(name).opt $(PREFIX)/bin
++    install: $(name)$(EXE) $(name).run $(name).opt
++      install $(name)$(EXE) $(name).run $(name).opt $(PREFIX)/bin
+     uninstall:
+       rm -f $(PREFIX)/bin/$(name) $(PREFIX)/bin/$(name).run $(PREFIX)/bin/$(name).opt
+     export
