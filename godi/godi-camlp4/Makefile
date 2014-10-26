@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	4.02.0beta1
+VERSION=	4.02.0beta3
 PKGNAME=	godi-camlp4-${VERSION}
 PKGREVISION=    0
 DISTNAME=	camlp4-4.02

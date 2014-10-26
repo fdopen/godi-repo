@@ -1,5 +1,5 @@
---- ../../work-ref/camlp4-trunk/camlp4/Camlp4Bin.ml	2014-05-30 15:01:10.000000000 +0200
-+++ ./camlp4/Camlp4Bin.ml	2014-08-02 22:25:18.079200000 +0200
+--- ../../work-ref/camlp4-4.02/camlp4/Camlp4Bin.ml	2014-10-14 15:14:14.000000000 +0200
++++ ./camlp4/Camlp4Bin.ml	2014-10-15 00:51:23.345200000 +0200
 @@ -159,14 +159,23 @@
            (new CleanAst.clean_ast)#str_item
            AstFilters.fold_implem_filters gimd;
@@ -27,8 +27,8 @@
  
  value usage ini_sl ext_sl =
    do {
---- ../../work-ref/camlp4-trunk/camlp4/config/Camlp4_config.ml	2014-05-30 15:01:10.000000000 +0200
-+++ ./camlp4/config/Camlp4_config.ml	2014-08-02 22:28:26.043600000 +0200
+--- ../../work-ref/camlp4-4.02/camlp4/config/Camlp4_config.ml	2014-10-14 15:14:14.000000000 +0200
++++ ./camlp4/config/Camlp4_config.ml	2014-10-15 00:54:27.472000000 +0200
 @@ -17,12 +17,31 @@
   * - Nicolas Pouillard: refactoring
   *)
@@ -39,12 +39,12 @@
 +  | "Win32" ->
 +    let len = String.length p in
 +    let b = Bytes.create len in
-+      for i = 0 to len - 1 do
-+        Bytes.set b i (match p.[i] with
-+        | '\\' ->  '/'
-+        | x -> x )
-+      done;
-+      Bytes.to_string b
++    for i = 0 to len - 1 do
++      Bytes.set b i (match p.[i] with
++      | '\\' ->  '/'
++      | x -> x )
++    done;
++    Bytes.to_string b
 +  | _ -> p
 +
 +let ocaml_standard_library = Camlp4_import.standard_library |> slashify ;;
@@ -52,9 +52,9 @@
  let camlp4_standard_library =
 -  try Sys.getenv "CAMLP4LIB"
 -  with Not_found ->
--    Filename.concat ocaml_standard_library "camlp4";;
+-    Camlp4_import.camlp4_standard_library;;
 +  slashify (
-+    try 
++    try
 +      let d = Sys.getenv "CAMLP4LIB" in
 +      if Sys.is_directory d then
 +        d
@@ -65,8 +65,8 @@
  
  let version = Sys.ocaml_version;;
  let program_name = ref "camlp4";;
---- ../../work-ref/camlp4-trunk/camlp4/config/gen_import.ml	2014-05-30 15:01:10.000000000 +0200
-+++ ./camlp4/config/gen_import.ml	2014-08-02 22:25:18.235200000 +0200
+--- ../../work-ref/camlp4-4.02/camlp4/config/gen_import.ml	2014-10-14 15:14:14.000000000 +0200
++++ ./camlp4/config/gen_import.ml	2014-10-15 00:51:23.360800000 +0200
 @@ -4,7 +4,23 @@
  let () =
    let oc = open_out "camlp4/config/Camlp4_import.ml" in
@@ -91,4 +91,4 @@
 +    camllib
  let ast_intf_magic_number = %S
  let ast_impl_magic_number = %S
- "
+ let camlp4_standard_library = %S
