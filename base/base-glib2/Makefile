@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 2.41.3
-PKGREVISION= 1
+VERSION=	 2.42.0
+PKGREVISION= 0
 PKG=         glib2
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
