@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (fontconfig-2.11.1.tar.bz2) = 08565feea5a4e6375f9d8a7435dac04e52620ff2
 Size (fontconfig-2.11.1.tar.bz2) = 1516095 bytes
 
-SHA1 (base-fontconfig-2.11.1_2_64.txz) = 02999f8d0b68e9dbc472537118d0601fe602d90f
-Size (base-fontconfig-2.11.1_2_64.txz) = 304668 bytes
+SHA1 (base-fontconfig-2.11.1_3_64.txz) = 96a16b1d72c1a0b82c7263735be2399151433f76
+Size (base-fontconfig-2.11.1_3_64.txz) = 304452 bytes
 
-SHA1 (base-fontconfig-2.11.1_2_32.txz) = 99df07c94f987d4f7488ff728f1893060da63d8c
-Size (base-fontconfig-2.11.1_2_32.txz) = 289552 bytes
+SHA1 (base-fontconfig-2.11.1_3_32.txz) = abc4c5c4ca28606044919ba49e7459e4d48df359
+Size (base-fontconfig-2.11.1_3_32.txz) = 289564 bytes
 
 SHA1 (patch-fontconfig-2.11.0-symlinks-fix) = 4f9e7143c95795029e53b5572ec99fb2dbda7a83
 SHA1 (patch-fontconfig-2.11.0-symlinks-fix2) = 53ba29c579700e497e7a2ece34a843fdc7752b3a
