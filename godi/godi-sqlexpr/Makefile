@@ -3,7 +3,7 @@
 VERSION=	0.5.5
 PKG=		godi-sqlexpr
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml-sqlexpr-0.5.5
 DISTFILES=	ocaml-sqlexpr-0.5.5.tar.gz
 CATEGORIES=	godi
