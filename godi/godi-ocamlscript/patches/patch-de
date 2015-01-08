@@ -1,0 +1,11 @@
+--- ../../work-ref/ocamlscript-2.0.3/main.ml
++++ ./main.ml
+@@ -482,7 +482,7 @@
+     match Array.to_list Sys.argv with
+ 	ocamlscript :: (arg1 :: other_args as l) -> 
+ 	  (match guess_arg1 arg1 with
+-	       `Script_name -> (`File (absolute arg1), l)
++	       `Script_name -> (`File (absolute (CygwinPath.to_native arg1)), l)
+ 	     | `Ocamlscript_args (opt1, stopped, hardcoded_script_args) ->
+ 		 let command_line_script_args = 
+ 		   let continued_args =

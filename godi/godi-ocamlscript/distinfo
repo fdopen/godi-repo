@@ -7,3 +7,4 @@ SHA1 (patch-aa-mainml) = fe1585b9b2554ee1dc9c7ba4f0641d7597ea286c
 SHA1 (patch-bb-bbocamlml) = 9096bdba3924f63c7ce723376ae3f64103129524
 SHA1 (patch-cc-makefile) = 689e15ae7c489ab0cd148e9860fdef70bda98fc8
 SHA1 (patch-dd-pipeline) = 4107370db4bd9f8efb14dfe4682f4d86afa95d05
+SHA1 (patch-de) = cfe8783e0622a209630d1a72423dfd4f0e36d82b

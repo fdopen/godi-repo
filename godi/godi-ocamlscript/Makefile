@@ -3,7 +3,7 @@
 VERSION=	2.0.3
 PKG=		godi-ocamlscript
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	ocamlscript-${VERSION}
 DISTFILES=	ocamlscript-${VERSION}.tar.gz
 CATEGORIES=	godi
