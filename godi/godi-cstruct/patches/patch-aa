@@ -1,14 +1,3 @@
---- ../../work-ref/ocaml-cstruct-1.2.0/_oasis	2014-06-08 16:35:58.000000000 +0200
-+++ ./_oasis	2014-06-24 15:49:25.428800000 +0200
-@@ -69,7 +69,7 @@
-   MainIs:       bounds.ml
- 
- Test test_bounds
--  Command:      ./bounds.byte
-+  Command:      ./_build/lib_test/bounds.byte
-   Run:          true
- 
- Document api
 --- ../../work-ref/ocaml-cstruct-1.2.0/test.sh	2014-06-08 16:35:58.000000000 +0200
 +++ ./test.sh	2014-06-24 15:51:51.741200000 +0200
 @@ -1,8 +1,8 @@
