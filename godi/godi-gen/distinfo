@@ -1,7 +1,6 @@
 $NetBSD$
 
-SHA1 (gen-0.2.1.tar.xz) = 2765661c2363608100e8cd8be6fe8ca7bb8c3549
-Size (gen-0.2.1.tar.xz) = 49700 bytes
+SHA1 (gen-0.2.3.tar.xz) = e56a3cb0260e233afb5f639c584e5ae82d9c8244
+Size (gen-0.2.3.tar.xz) = 57240 bytes
 
-SHA1 (patch-aa) = 7beb7b504797d57a715cc04ce7e0f7fd3ed8b1bb
-SHA1 (patch-ab) = 3a3bf5eb089196da318bd0af6e8cd745e76d59f6
+SHA1 (patch-aa) = 1c6a89ccf9cffc550c9b9bcfd304b6c463ba0a69
