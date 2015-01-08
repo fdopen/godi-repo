@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (cairo-1.12.16.tar.xz) = 4f6e337d5d3edd7ea79d1426f575331552b003ec
 Size (cairo-1.12.16.tar.xz) = 35889824 bytes
 
-SHA1 (base-cairo-1.12.16_2_64.txz) = 9718da0cc324341638e09a33769735fc11c37677
-Size (base-cairo-1.12.16_2_64.txz) = 1146696 bytes
+SHA1 (base-cairo-1.12.16_3_64.txz) = cd20e367631438b7621aaaf99d786966e167d552
+Size (base-cairo-1.12.16_3_64.txz) = 1146204 bytes
 
-SHA1 (base-cairo-1.12.16_2_32.txz) = 3991abfe9d78b1bd5f9fa08102fd2b5a41cde287
-Size (base-cairo-1.12.16_2_32.txz) = 1139908 bytes
+SHA1 (base-cairo-1.12.16_3_32.txz) = ba97015b6d5e5eb07e4a9da0f9dc19ec1af6dcc6
+Size (base-cairo-1.12.16_3_32.txz) = 1140312 bytes
 
 SHA1 (patch-0001-no-need-to-define-ssize_t-on.v2.mingw) = 35256d60cf2a59eadbaae3ae807aedd8616d7d6f
 SHA1 (patch-0003-build-sys-do-not-try-to-build-util-sphinx-on-Windows) = b93e276166dc3a9db70dbfc8ff1098441700f10d
