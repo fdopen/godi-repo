@@ -3,10 +3,10 @@ $NetBSD$
 SHA1 (gtkspell-2.0.16.tar.gz) = 49a3eaff850d119a94fc929635270f01e87cdca1
 Size (gtkspell-2.0.16.tar.gz) = 351277 bytes
 
-SHA1 (base-gtkspell2-2.0.16_5_64.txz) = 68058c3b94fa5787aff17bab20bbed635f872b69
-Size (base-gtkspell2-2.0.16_5_64.txz) = 30316 bytes
+SHA1 (base-gtkspell2-2.0.16_6_64.txz) = 3eda0bc7d51122b21e74a76c2b091799efec5ad4
+Size (base-gtkspell2-2.0.16_6_64.txz) = 30288 bytes
 
-SHA1 (base-gtkspell2-2.0.16_5_32.txz) = 6071af0d54d4fae1ea085a8a6362496f3cf6ab62
-Size (base-gtkspell2-2.0.16_5_32.txz) = 29504 bytes
+SHA1 (base-gtkspell2-2.0.16_6_32.txz) = 610cd8432da76cf54c084dc3cd4c4dc11d528ec0
+Size (base-gtkspell2-2.0.16_6_32.txz) = 29520 bytes
 
 SHA1 (patch-aa) = 8d6032d2fa8567a61f594300c742d5c091953696
