@@ -3,7 +3,7 @@
 VERSION=	0.4
 PKG=		godi-pa_where
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	cakeplus-pa_where-ddcf36dd86a4
 DISTFILES=	pa_where-0.4.tar.gz
 CATEGORIES=	godi
