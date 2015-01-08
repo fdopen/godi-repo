@@ -1,13 +1,13 @@
 $NetBSD$
 
-SHA1 (gettext-0.19.2.tar.gz) = 3a8e0627290216d695661a748261eacda5cec8aa
-Size (gettext-0.19.2.tar.gz) = 17141404 bytes
+SHA1 (gettext-0.19.3.tar.gz) = 8a4614d5d797af98822b88858c17ad8b3ed4224f
+Size (gettext-0.19.3.tar.gz) = 17414357 bytes
 
-SHA1 (base-gettext-0.19.2_1_64.txz) = 242ca048f817a4899b98001b4bb81a7a019452c8
-Size (base-gettext-0.19.2_1_64.txz) = 139692 bytes
+SHA1 (base-gettext-0.19.3_0_64.txz) = 38e9e4818d640114652ac597da40789f2eee04b8
+Size (base-gettext-0.19.3_0_64.txz) = 140320 bytes
 
-SHA1 (base-gettext-0.19.2_1_32.txz) = 1a89b6712cb438d5972e6c8d8bb84c5c1ce1719a
-Size (base-gettext-0.19.2_1_32.txz) = 140160 bytes
+SHA1 (base-gettext-0.19.3_0_32.txz) = 988f643769eff2c0eecdc8017cbcf35d1f2b584d
+Size (base-gettext-0.19.3_0_32.txz) = 140512 bytes
 
 SHA1 (patch-00-relocatex-libintl-0.18.3.1) = 081c08475cae038549bb5a3a071fee0b8cbe87e3
 SHA1 (patch-05-always-use-libintl-vsnprintf.mingw) = 74286424e25598ccb9ed76eec6d3e19a067443d8
