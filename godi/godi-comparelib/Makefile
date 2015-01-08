@@ -3,7 +3,7 @@
 ONAME=		comparelib
 PKG=		godi-${ONAME}
 VERSION=	109.60.00
-PKGREVISION=    1
+PKGREVISION=    2
 PKGNAME=        ${PKG}-${VERSION}
 DISTNAME=       comparelib-109.60.00
 DISTFILES=      comparelib-109.60.00.tar.gz
