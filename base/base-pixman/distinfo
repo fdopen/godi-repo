@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (pixman-0.32.6.tar.gz) = 8791343cbf6d99451f4d08e8209d6ac11bf96df2
 Size (pixman-0.32.6.tar.gz) = 816702 bytes
 
-SHA1 (base-pixman-0.32.6_1_64.txz) = c53fa66dd0e1b012ad4401ba64992f08768ec4e7
-Size (base-pixman-0.32.6_1_64.txz) = 243620 bytes
+SHA1 (base-pixman-0.32.6_2_64.txz) = 21ed095cab392c3904a905c0da0421c408ee4ed4
+Size (base-pixman-0.32.6_2_64.txz) = 243668 bytes
 
-SHA1 (base-pixman-0.32.6_1_32.txz) = 84adf48b81312f30cc1f534ad519bfbafdc39694
-Size (base-pixman-0.32.6_1_32.txz) = 225200 bytes
+SHA1 (base-pixman-0.32.6_2_32.txz) = ef65caf4cfc79428e7ffd5677bc428fdd17044be
+Size (base-pixman-0.32.6_2_32.txz) = 225180 bytes
