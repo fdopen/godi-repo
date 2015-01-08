@@ -3,8 +3,8 @@ $NetBSD$
 SHA1 (libcroco-0.6.8.tar.xz) = 23a5c33a2a86d5e46173234f5fa88ac1e15de035
 Size (libcroco-0.6.8.tar.xz) = 464992 bytes
 
-SHA1 (base-libcroco-0.6.8_5_64.txz) = 0765407bfd637bcd89d699a446f69ce2b165d57f
-Size (base-libcroco-0.6.8_5_64.txz) = 142596 bytes
+SHA1 (base-libcroco-0.6.8_6_64.txz) = b998415856e4ee9c1671f85293a883f4d4d5b6f6
+Size (base-libcroco-0.6.8_6_64.txz) = 142576 bytes
 
-SHA1 (base-libcroco-0.6.8_5_32.txz) = 4209462423de044b264b56b4dd444fa501e96331
-Size (base-libcroco-0.6.8_5_32.txz) = 139952 bytes
+SHA1 (base-libcroco-0.6.8_6_32.txz) = 34975a585e740ca5e8f942cb1000d2662edddcf0
+Size (base-libcroco-0.6.8_6_32.txz) = 139776 bytes
