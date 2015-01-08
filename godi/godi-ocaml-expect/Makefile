@@ -3,7 +3,7 @@
 VERSION=        0.0.5
 MNODE=		1372
 PKGNAME=        godi-ocaml-expect-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ocaml-expect-${VERSION}
 DISTFILES=      ocaml-expect-${VERSION}.tar.gz
 CATEGORIES=     godi
