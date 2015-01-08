@@ -1,9 +1,7 @@
 $NetBSD$
 
-SHA1 (mikmatch-1.0.7.tar.gz) = 99475e8798f980517dda92c3af547fb4a5b6c2a9
-Size (mikmatch-1.0.7.tar.gz) = 64834 bytes
+SHA1 (mikmatch-1.0.8.tar.xz) = 008a4bb175d031d4c1853cbc369c98a01c9700b0
+Size (mikmatch-1.0.8.tar.xz) = 52900 bytes
 
-SHA1 (patch-402) = ed001dc7fbacc52d90cfadc8a0e04bb1697e5cf9
-SHA1 (patch-Makefile-pcre) = d91aaa5cac2bfd5cbade6c459847b5c8f2106b30
+SHA1 (patch-Makefile-pcre) = 40235917809c0d3a63673f4337320217157b3cbc
 SHA1 (patch-OCamlMakefile) = 3128624abb09e55d0a903f37fdbca3c9a0577113
-SHA1 (patch-pcre7_10) = 2aa23f377a9f4a9fa053df6934f36d47c659050d

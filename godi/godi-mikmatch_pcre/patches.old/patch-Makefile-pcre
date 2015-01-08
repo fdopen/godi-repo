@@ -1,30 +1,29 @@
- DINCFLAGS := $(INCFLAGS) $(SOURCE_DIRS:%=-I %) $(OCAML_DEFAULT_DIRS:%=-I %)
---- ../../work-ref/mikmatch-1.0.8/pcre/Makefile	2014-11-28 09:29:28.000000000 +0100
-+++ ./pcre/Makefile	2014-11-29 12:41:53.934000000 +0100
+--- pcre/Makefile.orig	2012-02-03 23:58:01.000000000 +0000
++++ pcre/Makefile	2012-10-20 12:37:59.953125000 +0000
 @@ -59,24 +59,24 @@
  	global_def.mli global_def.ml
  
  mikmatch.mli: ../common/mikmatch.mli
 -	ln -s $< $@
-+	cp -p  $< $@
++	cp  $< $@
  mikmatch.ml: ../common/mikmatch.ml
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  syntax_common.ml: ../common/syntax_common.ml
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  match.ml: ../common/match.ml
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  mm_util.ml: ../common/mm_util.ml
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  global_def.mli: ../common/global_def.mli
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  global_def.ml: ../common/global_def.ml
 -	ln -s $< $@
-+	cp -p $< $@
++	cp  $< $@
  
  pa_lib:
  	$(MAKE) RESULT=pa_mikmatch_pcre pabc bcl
@@ -34,16 +33,19 @@
  	if test -f nativecode; \
  	then \
  		$(MAKE) "LIBINSTALL_FILES=$(ALL_LIBINSTALL_FILES)" libinstall;\
-@@ -92,7 +92,7 @@
+@@ -92,17 +92,17 @@
  
  misc-bc:
  	ocamlc -c mikmatch.mli
 -	ocamlc -a -o run_mikmatch_pcre.cma -I $(PCRE_DIR) \
 +	ocamlc -a -o run_mikmatch_pcre.cma -I "$(PCRE_DIR)" \
  		mikmatch.ml run_mikmatch_pcre.ml
- 	ocamlfind ocamlmktop -o mikmatch_pcre.top \
- 	  -linkpkg -package camlp4.lib,pcre,unix \
-@@ -100,7 +100,7 @@
+ 	ocamlmktop -o mikmatch_pcre.top \
+-		-I +camlp4 -I $(PCRE_DIR) \
++		-I +camlp4 -I "$(PCRE_DIR)" \
+ 		dynlink.cma \
+ 		camlp4o.cma \
+ 		pa_mikmatch_pcre.cma pcre.cma unix.cma run_mikmatch_pcre.cma
  
  misc-nc:
  	ocamlc -c mikmatch.mli
@@ -52,7 +54,7 @@
  		mikmatch.ml run_mikmatch_pcre.ml
  
  
-@@ -110,7 +110,7 @@
+@@ -112,7 +112,7 @@
  # Toplevel (preinstall test)
  simple-test:
  	camlp4o ./pa_mikmatch_pcre.cma -printer o test.ml > test.ppo
@@ -61,7 +63,7 @@
  		dynlink.cma \
  		camlp4o.cma \
  		pa_mikmatch_pcre.cma pcre.cma unix.cma run_mikmatch_pcre.cma
-@@ -120,7 +120,7 @@
+@@ -122,7 +122,7 @@
  	camlp4o ./pa_mikmatch_pcre.cma -printer o -direct test.ml > test.ppo
  	ocamlopt \
  		-pp 'camlp4o ./pa_mikmatch_pcre.cma' \
