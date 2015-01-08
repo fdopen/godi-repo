@@ -1,10 +1,50 @@
---- ../../work-ref/lablgtk-2.18.2/META	2014-09-18 08:47:06.000000000 +0200
-+++ ./META	2014-09-18 14:42:19.540400000 +0200
-@@ -1,6 +1,6 @@
- description = "Bindings for gtk2"
- requires = ""
--version = "2.18.0"
-+version = "2.18.2"
+--- ../../work-ref/lablgtk-2.18.0/configure	2013-10-01 10:31:50.000000000 +0200
++++ ./configure	2014-08-01 15:00:21.871200000 +0200
+@@ -2099,6 +2099,9 @@
+ OCAMLVERSION=`$CAMLC -version`
+ echo "ocaml version is $OCAMLVERSION"
+ OCAMLLIB=`$CAMLC -where | tr -d '\\r'`
++if which cygpath >/dev/null 2>&1 ; then
++   OCAMLLIB=`cygpath -m "$OCAMLLIB"`
++fi
+ echo "ocaml library path is $OCAMLLIB"
+ LIBDIR=$OCAMLLIB
  
- archive(byte) = "lablgtk.cma"
- archive(native) = "lablgtk.cmxa"
+@@ -2667,7 +2670,11 @@
+ fi
+ 
+ 
+-if test "`$OCAMLFIND printconf stdlib`" != "`$CAMLC -where`"; then
++OCAMLFINDLIB=`$OCAMLFIND printconf stdlib | tr -d '\r'`
++if which cygpath >/dev/null 2>&1; then
++   OCAMLFINDLIB=`cygpath -m "$OCAMLFINDLIB"`
++fi
++if test "$OCAMLFINDLIB" != "$OCAMLLIB"; then
+   { $as_echo "$as_me:${as_lineno-$LINENO}: WARNING: Ignoring ocamlfind" >&5
+ $as_echo "$as_me: WARNING: Ignoring ocamlfind" >&2;}
+   OCAMLFIND=no
+--- ../../work-ref/lablgtk-2.18.0/configure.in	2013-10-01 10:31:50.000000000 +0200
++++ ./configure.in	2014-08-01 14:59:56.599200000 +0200
+@@ -46,6 +46,9 @@
+ OCAMLVERSION=`$CAMLC -version`
+ echo "ocaml version is $OCAMLVERSION"
+ OCAMLLIB=`$CAMLC -where | tr -d '\\r'`
++if which cygpath >/dev/null 2>&1 ; then
++   OCAMLLIB=`cygpath -m "$OCAMLLIB"`
++fi
+ echo "ocaml library path is $OCAMLLIB"
+ LIBDIR=$OCAMLLIB
+ 
+@@ -155,7 +158,11 @@
+ fi
+ 
+ AC_CHECK_PROG(OCAMLFIND,ocamlfind,ocamlfind,no)
+-if test "`$OCAMLFIND printconf stdlib`" != "`$CAMLC -where`"; then
++OCAMLFINDLIB=`$OCAMLFIND printconf stdlib | tr -d '\r'`
++if which cygpath >/dev/null 2>&1; then
++   OCAMLFINDLIB=`cygpath -m "$OCAMLFINDLIB"`
++fi
++if test "$OCAMLFINDLIB" != "$OCAMLLIB"; then
+   AC_MSG_WARN(Ignoring ocamlfind, it uses a different OCaml installation.)
+   OCAMLFIND=no
+ fi
