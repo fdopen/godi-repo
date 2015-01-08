@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.3.1
-PKGREVISION= 1
+VERSION=	 1.3.90
+PKGREVISION= 0
 PKG=         libjpeg-turbo
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
 DISTNAME=	 ${PKG}-${VERSION}
 DISTFILES=	 ${PKG}-${VERSION}.tar.gz
-MASTER_SITES=http://netcologne.dl.sourceforge.net/project/libjpeg-turbo/${VERSION}/
+MASTER_SITES=http://netcologne.dl.sourceforge.net/project/libjpeg-turbo/1.3.90%20%281.4%20beta1%29/
 HOMEPAGE=	 http://libjpeg-turbo.virtualgl.org/
 COMMENT=	 IJG JPEG compliant library
 

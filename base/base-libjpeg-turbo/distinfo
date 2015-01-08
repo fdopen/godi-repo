@@ -1,13 +1,13 @@
 $NetBSD$
 
-SHA1 (libjpeg-turbo-1.3.1.tar.gz) = 5fa19252e5ca992cfa40446a0210ceff55fbe468
-Size (libjpeg-turbo-1.3.1.tar.gz) = 1390282 bytes
+SHA1 (libjpeg-turbo-1.3.90.tar.gz) = 4dae503ec03a781a310c50b8098d8bd4caf3f388
+Size (libjpeg-turbo-1.3.90.tar.gz) = 1522061 bytes
 
-SHA1 (base-libjpeg-turbo-1.3.1_1_64.txz) = e942e5ca24ec70db0bad4e8e8298f93feda8cebd
-Size (base-libjpeg-turbo-1.3.1_1_64.txz) = 237572 bytes
+SHA1 (base-libjpeg-turbo-1.3.90_0_64.txz) = 72eed7ad186eec619a38f2f7481c88c86e454e77
+Size (base-libjpeg-turbo-1.3.90_0_64.txz) = 247540 bytes
 
-SHA1 (base-libjpeg-turbo-1.3.1_1_32.txz) = 9fe022a4ebf6ba2b944f144ce65cc1a4962c8f50
-Size (base-libjpeg-turbo-1.3.1_1_32.txz) = 238396 bytes
+SHA1 (base-libjpeg-turbo-1.3.90_0_32.txz) = ec4dc47ff7800a084af43244f517625d4eb7768b
+Size (base-libjpeg-turbo-1.3.90_0_32.txz) = 247672 bytes
 
-SHA1 (patch-libjpeg-turbo-1.3.1-libmng-compatibility) = a314347da12489ad9ece8fe09114cd3e1b837419
-SHA1 (patch-libjpeg-turbo-match-autoconf-behavior) = 4de38b4fa50517d948f5a5dad32c01f3b082eb2c
+SHA1 (patch-libjpeg-turbo-header-files) = fe6d3aa286407f84d8a5cb0304f7b43b27fe52b8
+SHA1 (patch-libjpeg-turbo12-noinst) = e83145347e16c6a35e94f0b56b7e0ad8de43af77
