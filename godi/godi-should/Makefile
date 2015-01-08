@@ -3,7 +3,7 @@
 VERSION=	0.1.0
 PKG=		godi-should
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	should.ml-0.1.0
 DISTFILES=	should-0.1.0.tar.gz
 CATEGORIES=	godi
