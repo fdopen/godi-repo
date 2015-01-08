@@ -1,0 +1,23 @@
+--- ../../work-ref/omonad-0.3.0/_oasis	2014-10-03 17:26:15.000000000 +0200
++++ ./_oasis	2014-10-27 22:35:38.649000000 +0100
+@@ -54,16 +54,16 @@
+   Install:          false
+ 
+ Test       "basics"
+-  Command:          ./basics.byte
++  Command:          ./_build/examples/basics.byte
+ 
+ Test       "advanced"
+-  Command:          ./advanced.byte
++  Command:          ./_build/examples/advanced.byte
+ 
+ Test       "parsing"
+-  Command:          ./parsing.byte
++  Command:          ./_build/examples/parsing.byte
+ 
+ Test       "patterns"
+-  Command:          ./patterns.byte
++  Command:          ./_build/examples/patterns.byte
+ 
+ SourceRepository master
+   Type:     git
