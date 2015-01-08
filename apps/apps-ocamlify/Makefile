@@ -3,7 +3,7 @@
 VERSION=        0.0.2
 MNODE=		1209
 PKGNAME=        apps-ocamlify-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    2
 DISTNAME=       ocamlify-${VERSION}
 DISTFILES=      ocamlify-${VERSION}.tar.gz
 CATEGORIES=     apps
