@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 2.31.1
-PKGREVISION= 1
+PKGREVISION= 2
 PKG=         gdk-pixbuf
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
