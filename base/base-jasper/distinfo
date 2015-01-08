@@ -3,11 +3,11 @@ $NetBSD$
 SHA1 (jasper-1.900.1.zip) = 9c5735f773922e580bf98c7c7dfda9bbed4c5191
 Size (jasper-1.900.1.zip) = 1415752 bytes
 
-SHA1 (base-jasper-1.900.1_1_64.txz) = 591fb7b009968971b1c59e541beb0212f162c307
-Size (base-jasper-1.900.1_1_64.txz) = 147368 bytes
+SHA1 (base-jasper-1.900.1_2_64.txz) = d83b300f48541d17f6b1c9ab635eb2323cd26311
+Size (base-jasper-1.900.1_2_64.txz) = 147212 bytes
 
-SHA1 (base-jasper-1.900.1_1_32.txz) = 1994335efb41452e5dfcc39194ffd9e32bfee033
-Size (base-jasper-1.900.1_1_32.txz) = 140428 bytes
+SHA1 (base-jasper-1.900.1_2_32.txz) = b3b319b3a85eff099456f93f4ff5c5eb66212d8a
+Size (base-jasper-1.900.1_2_32.txz) = 140408 bytes
 
 SHA1 (patch-aa-1.701.0-GL) = 792a1f0a159584f74ae23f748b58842e9cc1f7a6
 SHA1 (patch-ab-1.701.0-GL-ac) = eb484ad835513115932832b75115edd033c36dab
