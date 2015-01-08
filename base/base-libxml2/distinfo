@@ -3,10 +3,12 @@ $NetBSD$
 SHA1 (libxml2-2.9.1.tar.gz) = eb3e2146c6d68aea5c2a4422ed76fe196f933c21
 Size (libxml2-2.9.1.tar.gz) = 5172503 bytes
 
-SHA1 (base-libxml2-2.9.1_3_64.txz) = 6b2d8964a10564ee0f46a0299332931483068f4d
-Size (base-libxml2-2.9.1_3_64.txz) = 759804 bytes
+SHA1 (base-libxml2-2.9.1_4_64.txz) = f2abeac69533760a17287b38fb0507410f35da4f
+Size (base-libxml2-2.9.1_4_64.txz) = 759928 bytes
 
-SHA1 (base-libxml2-2.9.1_3_32.txz) = bf87d9faf03eb83a891acfe599e68f9da1e1e2ba
-Size (base-libxml2-2.9.1_3_32.txz) = 736116 bytes
+SHA1 (base-libxml2-2.9.1_4_32.txz) = 87c0ebc742661528737d0fba5bc82a8f3028311f
+Size (base-libxml2-2.9.1_4_32.txz) = 736068 bytes
 
 SHA1 (patch-CVE-2014-0191) = 8a9d5ac9ac9db26c387f96db0be602e54bf4b99a
+SHA1 (patch-CVE-2014-3660) = 83679222baca067f5b6b02ceb4d23226b59e02d6
+SHA1 (patch-lp1321869) = f42a2dd81faf51d7e88cf16f10551c0ab3ab5b28
