@@ -3,7 +3,7 @@
 VERSION=	0.2.0
 PKG=		godi-ucorelib
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ucorelib-${VERSION}
 DISTFILES=	ucorelib-${VERSION}.tar.xz
 CATEGORIES=	godi
