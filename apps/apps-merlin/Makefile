@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2beta
+VERSION=	2.0
 ONAME=		merlin
 PKG=		apps-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	merlin-merlin2
-DISTFILES=	merlin-merlin2beta2.tar.xz
+PKGREVISION=	0
+DISTNAME=	merlin-2.0
+DISTFILES=	merlin-2.0.tar.xz
 CATEGORIES=	apps
 HOMEPAGE=	https://github.com/the-lambda-church/merlin
 COMMENT=	Editor helper, provides completion, typing and sources browsing in Emacs
