@@ -1,0 +1,24 @@
+--- ../../work-ref/compiler-libs-hack-1.0.0/ppx/Makefile	2014-10-05 22:42:33.000000000 +0200
++++ ./ppx/Makefile	2014-10-28 10:54:49.486800000 +0100
+@@ -7,16 +7,14 @@
+ OCAMLLEX = ocamllex
+ OCAMLYACC= ocamlyacc
+ 
+-SYSTEM = $(shell ocamlc -config | grep system | sed -e 's/.*: //')
++SYSTEM = $(shell ocamlc -config | awk '/^system:/{print $$2}')
+ 
+-EXE=
+-ifeq ($(SYSTEM), mingw)
++ifneq (,$(filter mingw%,$(SYSTEM)))
+ EXE=.exe
+-endif
+-
+-DIRSEP=/
+-ifeq ($(SYSTEM), mingw)
+ DIRSEP=\\
++else
++EXE=
++DIRSEP=/
+ endif
+ 
+ # Compilation
