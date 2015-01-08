@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.0
+VERSION=	1.2.0
 ONAME=		stringext
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	stringext-1.0.0
-DISTFILES=	stringext-1.0.0.tar.xz
+DISTNAME=	stringext-1.2.0
+DISTFILES=	stringext-1.2.0.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-HOMEPAGE=	https://github.com/rgrinberg/stringext/
+HOMEPAGE=	https://github.com/rgrinberg/stringext
 COMMENT=	Extra string functions for OCaml
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
