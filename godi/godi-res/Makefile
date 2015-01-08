@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.0.6
+VERSION=        4.0.7
 PKGREVISION=    0
 PKG=		godi-res
 PKGNAME=        ${PKG}-${VERSION}
-DISTNAME=       res-4.0.6
-DISTFILES=      res-4.0.6.tar.gz
+DISTNAME=       res-4.0.7
+DISTFILES=      res-4.0.7.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mmottl/res/releases/download/v4.0.6/
+MASTER_SITES=   https://github.com/mmottl/res/releases/download/v4.0.7/
 HOMEPAGE=       http://mmottl.github.io/res
 COMMENT=        OCaml library for resizable arrays and strings
 
