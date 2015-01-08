@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: ff0230e1289eeeac727dac79b7d2e4a8) *)
+(* DO NOT EDIT (digest: 740cdc0684ea0449fb5e3a215f05f970) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -311,9 +311,7 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x = S[Sh (
-    Ocamlbuild_pack.Shell.quote_filename_if_needed
-      (exec_from_conf "ocamlfind") ); x]
+  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
@@ -593,7 +591,7 @@ module MyOCamlbuildBase = struct
 end
 
 
-# 596 "myocamlbuild.ml"
+# 594 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
@@ -610,6 +608,7 @@ let package_default =
                "src/ripemd160.h";
                "src/sha1.h";
                "src/sha256.h";
+               "src/sha512.h";
                "src/keccak.h"
             ])
        ];
@@ -922,11 +921,7 @@ let package_default =
                           (OASISExpr.ETest ("system", "mingw"),
                             OASISExpr.ETest ("system", "mingw64")))),
                  S
-                   [
-                      A "-lz";
-                      A "-L@LIBDIR@";
-                      A "advapi32.lib";
-                      A "-ladvapi32"
+                   [A "-lz"; A "-L@LIBDIR@"; A "advapi32.lib"; A "-ladvapi32"
                    ])
             ])
        ];
@@ -936,7 +931,7 @@ let package_default =
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
 
-# 940 "myocamlbuild.ml"
+# 935 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let package_default = 
