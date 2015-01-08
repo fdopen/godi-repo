@@ -1,0 +1,8 @@
+--- ../../work-ref/ppx_blob-0.1/META	2014-10-11 21:27:03.000000000 +0200
++++ ./META	2014-10-27 22:12:36.395400000 +0100
+@@ -1,5 +1,4 @@
+ name="ppx_blob"
+ description="Include a file as a string at compile time"
+ version="0.1"
+-requires="ppx_tools"
+ ppx="./ppx_blob"
