@@ -1,0 +1,12 @@
+--- ../../work-ref/lwt-2.4.7/src/unix/lwt_unix.h
++++ ./src/unix/lwt_unix.h
+@@ -72,6 +72,9 @@
+ #define LWT_NOT_AVAILABLE5(prim) \
+   CAMLprim value lwt_ ## prim(value a1, value a2, value a3, value a4, value a5) \
+   { lwt_unix_not_available(#prim); }
++#define LWT_NOT_AVAILABLE6(prim) \
++  CAMLprim value lwt_ ## prim(value a1, value a2, value a3, value a4, value a5, value a6) \
++  { lwt_unix_not_available(#prim); }
+ 
+ /* +-----------------------------------------------------------------+
+    | Notifications                                                   |

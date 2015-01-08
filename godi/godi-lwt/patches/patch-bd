@@ -1,0 +1,19 @@
+--- ../../work-ref/lwt-2.4.7/tests/unix/test_lwt_io.ml
++++ ./tests/unix/test_lwt_io.ml
+@@ -39,7 +39,7 @@
+          return false
+        else
+          Lwt_unix.yield () >>= fun () ->
+-         return (!sent = ["foobar"]));
++         return (!sent = [Bytes.unsafe_of_string "foobar"]));
+ 
+   test "auto-flush in atomic"
+     (fun () ->
+@@ -57,6 +57,6 @@
+               return false
+             else
+               Lwt_unix.yield () >>= fun () ->
+-              return (!sent = ["foobar"]))
++              return (!sent = [Bytes.unsafe_of_string "foobar"]))
+          oc);
+ ]

@@ -21,7 +21,7 @@
  *)
 
 (* OASIS_START *)
-(* DO NOT EDIT (digest: d56dd70fa3edd448ff0509b0c94adb0e) *)
+(* DO NOT EDIT (digest: 9b6a8188cfbcff67b6e22c667bbc02a1) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -271,6 +271,9 @@ module MyOCamlbuildFindlib = struct
     *)
   open Ocamlbuild_plugin
 
+  type conf =
+    { no_automatic_syntax: bool;
+    }
 
   (* these functions are not really officially exported *)
   let run_and_read =
@@ -333,11 +336,13 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
+  let ocamlfind x = S[Sh (
+    Ocamlbuild_pack.Shell.quote_filename_if_needed
+      (exec_from_conf "ocamlfind") ); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
-    List.map before_space (split_nl & run_and_read "ocamlfind list")
+    List.map before_space (split_nl & run_and_read (exec_from_conf "ocamlfind" ^ " list"))
 
 
   (* Mock to list available syntaxes. *)
@@ -360,7 +365,7 @@ module MyOCamlbuildFindlib = struct
   ]
 
 
-  let dispatch =
+  let dispatch conf =
     function
       | After_options ->
           (* By using Before_options one let command line options have an higher
@@ -379,31 +384,39 @@ module MyOCamlbuildFindlib = struct
            * -linkpkg *)
           flag ["ocaml"; "link"; "program"] & A"-linkpkg";
 
-          (* For each ocamlfind package one inject the -package option when
-           * compiling, computing dependencies, generating documentation and
-           * linking. *)
-          List.iter
-            begin fun pkg ->
-              let base_args = [A"-package"; A pkg] in
-              (* TODO: consider how to really choose camlp4o or camlp4r. *)
-              let syn_args = [A"-syntax"; A "camlp4o"] in
-              let args =
-              (* Heuristic to identify syntax extensions: whether they end in
-                 ".syntax"; some might not.
-               *)
-                if Filename.check_suffix pkg "syntax" ||
-                   List.mem pkg well_known_syntax then
-                  syn_args @ base_args
-                else
-                  base_args
-              in
-              flag ["ocaml"; "compile";  "pkg_"^pkg] & S args;
-              flag ["ocaml"; "ocamldep"; "pkg_"^pkg] & S args;
-              flag ["ocaml"; "doc";      "pkg_"^pkg] & S args;
-              flag ["ocaml"; "link";     "pkg_"^pkg] & S base_args;
-              flag ["ocaml"; "infer_interface"; "pkg_"^pkg] & S args;
-            end
-            (find_packages ());
+          if not (conf.no_automatic_syntax) then begin
+            (* For each ocamlfind package one inject the -package option when
+             * compiling, computing dependencies, generating documentation and
+             * linking. *)
+            List.iter
+              begin fun pkg ->
+                let base_args = [A"-package"; A pkg] in
+                (* TODO: consider how to really choose camlp4o or camlp4r. *)
+                let syn_args = [A"-syntax"; A "camlp4o"] in
+                let (args, pargs) =
+                  (* Heuristic to identify syntax extensions: whether they end in
+                     ".syntax"; some might not.
+                  *)
+                  if Filename.check_suffix pkg "syntax" ||
+                     List.mem pkg well_known_syntax then
+                    (syn_args @ base_args, syn_args)
+                  else
+                    (base_args, [])
+                in
+                flag ["ocaml"; "compile";  "pkg_"^pkg] & S args;
+                flag ["ocaml"; "ocamldep"; "pkg_"^pkg] & S args;
+                flag ["ocaml"; "doc";      "pkg_"^pkg] & S args;
+                flag ["ocaml"; "link";     "pkg_"^pkg] & S base_args;
+                flag ["ocaml"; "infer_interface"; "pkg_"^pkg] & S args;
+
+                (* TODO: Check if this is allowed for OCaml < 3.12.1 *)
+                flag ["ocaml"; "compile";  "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "ocamldep"; "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "doc";      "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "infer_interface"; "package("^pkg^")"] & S pargs;
+              end
+              (find_packages ());
+          end;
 
           (* Like -package but for extensions syntax. Morover -syntax is useless
            * when linking. *)
@@ -568,12 +581,13 @@ module MyOCamlbuildBase = struct
 
                    (* When ocaml link something that use the C library, then one
                       need that file to be up to date.
+                      This holds both for programs and for libraries.
                     *)
-                   dep ["link"; "ocaml"; "program"; tag_libstubs lib]
-                     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
+  		 dep ["link"; "ocaml"; tag_libstubs lib]
+  		     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
-                   dep  ["compile"; "ocaml"; "program"; tag_libstubs lib]
-                     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
+  		 dep  ["compile"; "ocaml"; tag_libstubs lib]
+  		      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
                    (* TODO: be more specific about what depends on headers *)
                    (* Depends on .h files *)
@@ -602,39 +616,35 @@ module MyOCamlbuildBase = struct
             ()
 
 
-  let dispatch_default t =
+  let dispatch_default conf t =
     dispatch_combine
       [
         dispatch t;
-        MyOCamlbuildFindlib.dispatch;
+        MyOCamlbuildFindlib.dispatch conf;
       ]
 
 
 end
 
 
-# 594 "myocamlbuild.ml"
+# 608 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
        [
-          ("optcomp", ["syntax"], []);
           ("lwt", ["src/core"], []);
           ("lwt-log", ["src/logger"], []);
           ("lwt-unix", ["src/unix"], []);
           ("lwt-simple-top", ["src/simple_top"], []);
           ("lwt-react", ["src/react"], []);
           ("lwt-preemptive", ["src/preemptive"], []);
-          ("lwt-extra", ["src/extra"], []);
           ("lwt-glib", ["src/glib"], []);
           ("lwt-ssl", ["src/ssl"], []);
-          ("lwt-text", ["src/text"], []);
-          ("lwt-top", ["src/top"], []);
           ("lwt-syntax", ["syntax"], []);
           ("lwt-syntax-options", ["syntax"], []);
           ("lwt-syntax-log", ["syntax"], []);
-          ("ppx", ["ppx"], ["Ppx_lwt"]);
+          ("ppx", ["ppx"], []);
           ("test", ["tests"], [])
        ];
      lib_c =
@@ -642,8 +652,7 @@ let package_default =
           ("lwt-unix",
             "src/unix",
             ["src/unix/lwt_config.h"; "src/unix/lwt_unix.h"]);
-          ("lwt-glib", "src/glib", []);
-          ("lwt-text", "src/text", [])
+          ("lwt-glib", "src/glib", [])
        ];
      flags =
        [
@@ -710,23 +719,22 @@ let package_default =
           ("tests/core", ["src/core"; "src/unix"; "tests"]);
           ("tests", ["src/core"; "src/unix"]);
           ("src/unix", ["src/core"; "src/logger"]);
-          ("src/top", ["src/core"; "src/react"; "src/text"]);
-          ("src/text", ["src/core"; "src/react"; "src/unix"]);
           ("src/ssl", ["src/unix"]);
           ("src/simple_top", ["src/core"; "src/unix"]);
           ("src/react", ["src/core"]);
           ("src/preemptive", ["src/core"; "src/unix"]);
           ("src/logger", ["src/core"]);
           ("src/glib", ["src/core"; "src/unix"]);
-          ("src/extra", ["src/core"; "src/preemptive"]);
           ("examples/unix", ["src/unix"; "syntax"])
        ]
   }
   ;;
 
-let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
+let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
-# 708 "myocamlbuild.ml"
+let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
+
+# 716 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 open Ocamlbuild_plugin
@@ -778,12 +786,13 @@ let () =
              Options.make_links := false
 
          | After_rules ->
-
              let env = BaseEnvLight.load ~allow_empty:true ~filename:MyOCamlbuildBase.env_filename () in
 
-
-             dep ["file:src/unix/lwt_unix_stubs.c"] ["src/unix/lwt_unix_unix.c"; "src/unix/lwt_unix_windows.c"];
-             dep ["pa_optcomp"] ["src/unix/lwt_config.ml"];
+             (* Determine extension of CompiledObject: best *)
+             let native_suffix =
+               if BaseEnvLight.var_get "is_native" env = "true"
+               then "native" else "byte"
+             in
 
              (* Internal syntax extension *)
              List.iter
@@ -793,24 +802,10 @@ let () =
                   flag ["ocaml"; "ocamldep"; tag] & S[A"-ppopt"; A file];
                   flag ["ocaml"; "doc"; tag] & S[A"-ppopt"; A file];
                   dep ["ocaml"; "ocamldep"; tag] [file])
-               ["lwt_options"; "lwt"; "lwt_log"; "optcomp"];
+               ["lwt_options"; "lwt"; "lwt_log"];
 
-             (* Optcomp for .mli *)
-             flag ["ocaml"; "compile"; "pa_optcomp_standalone"] & S[A"-pp"; A "./syntax/optcomp.byte"];
-             flag ["ocaml"; "ocamldep"; "pa_optcomp_standalone"] & S[A"-pp"; A "./syntax/optcomp.byte"];
-             flag ["ocaml"; "doc"; "pa_optcomp_standalone"] & S[A"-pp"; A "./syntax/optcomp.byte"];
-             dep ["ocaml"; "ocamldep"; "pa_optcomp_standalone"] ["syntax/optcomp.byte"];
-
-             (* Use byte or native ppx, depending of Oasis variable. *)
-             let native_suffix =
-               if BaseEnvLight.var_get "is_native" env = "true"
-               then "native" else "byte"
-             in
-             flag ["ocaml"; "compile"; "use_ppx_lwt"] &
-             S [
-               A "-ppx" ;
-               A ("ppx/ppx_lwt_ex." ^ native_suffix)
-             ] ;
+             flag ["ocaml"; "compile"; "ppx_lwt"] &
+              S [A "-ppx"; A ("ppx/ppx_lwt_ex." ^ native_suffix)];
 
              (* Use an introduction page with categories *)
              tag_file "lwt-api.docdir/index.html" ["apiref"];
@@ -818,6 +813,7 @@ let () =
              flag ["apiref"] & S[A "-intro"; P "apiref-intro"; A"-colorize-code"];
 
              (* Stubs: *)
+             dep ["file:src/unix/lwt_unix_stubs.c"] ["src/unix/lwt_unix_unix.c"; "src/unix/lwt_unix_windows.c"];
 
              (* Check for "unix" because other variables are not
                 present in the setup.data file if lwt.unix is
@@ -828,98 +824,6 @@ let () =
                define_c_library "pthread" env;
 
                flag ["c"; "compile"; "use_lwt_headers"] & S [A"-ccopt"; A"-Isrc/unix"];
-
-               (* With ocaml >= 4, toploop.cmi is not in the stdlib
-                  path *)
-               let ocaml_major_version = Scanf.sscanf (BaseEnvLight.var_get "ocaml_version" env) "%d" (fun x -> x) in
-               if ocaml_major_version >= 4 then
-                 List.iter
-                   (fun stage -> flag ["ocaml"; stage; "use_toploop"] & S[A "-package"; A "compiler-libs.toplevel"])
-                   ["compile"; "ocamldep"; "doc"];
-
-               (* Toplevel stuff *)
-
-               flag ["ocaml"; "link"; "toplevel"] & A"-linkpkg";
-
-               let stdlib_path = BaseEnvLight.var_get "standard_library" env in
-
-               (* Try to find the path where compiler libraries
-                  are. *)
-               let compiler_libs =
-                 let stdlib = String.chomp stdlib_path in
-                 try
-                   let path =
-                     List.find Pathname.exists [
-                       stdlib / "compiler-libs";
-                       stdlib / "compiler-lib";
-                       stdlib / ".." / "compiler-libs";
-                       stdlib / ".." / "compiler-lib";
-                     ]
-                   in
-                   path :: List.filter Pathname.exists [ path / "typing"; path / "utils"; path / "parsing" ]
-                 with Not_found ->
-                   []
-               in
-
-               (* Add directories for compiler-libraries: *)
-               let paths = List.map (fun path -> S[A"-I"; A path]) compiler_libs in
-               List.iter
-                 (fun stage -> flag ["ocaml"; stage; "use_compiler_libs"] & S paths)
-                 ["compile"; "ocamldep"; "doc"; "link"];
-
-               dep ["file:src/top/toplevel_temp.top"] ["src/core/lwt.cma";
-                                                       "src/logger/lwt-log.cma";
-                                                       "src/react/lwt-react.cma";
-                                                       "src/unix/lwt-unix.cma";
-                                                       "src/text/lwt-text.cma";
-                                                       "src/top/lwt-top.cma"];
-
-               flag ["file:src/top/toplevel_temp.top"] & S[A"-I"; A"src/unix";
-                                                           A"-I"; A"src/text";
-                                                           A"src/core/lwt.cma";
-                                                           A"src/logger/lwt-log.cma";
-                                                           A"src/react/lwt-react.cma";
-                                                           A"src/unix/lwt-unix.cma";
-                                                           A"src/text/lwt-text.cma";
-                                                           A"src/top/lwt-top.cma"];
-
-               (* Expunge compiler modules *)
-               rule "toplevel expunge"
-                 ~dep:"src/top/toplevel_temp.top"
-                 ~prod:"src/top/lwt_toplevel.byte"
-                 (fun _ _ ->
-                    let directories =
-                      stdlib_path
-                      :: "src/core"
-                      :: "src/react"
-                      :: "src/unix"
-                      :: "src/text"
-                      :: "src/top"
-                      :: (List.map
-                            (fun lib ->
-                               String.chomp
-                                 (run_and_read
-                                    ("ocamlfind query " ^ lib)))
-                            ["findlib"; "react"; "unix"; "text"])
-                    in
-                    let modules =
-                      List.fold_left
-                        (fun set directory ->
-                           List.fold_left
-                             (fun set fname ->
-                                if Pathname.check_extension fname "cmi" then
-                                  StringSet.add (module_name_of_pathname fname) set
-                                else
-                                  set)
-                             set
-                             (Array.to_list (Pathname.readdir directory)))
-                        StringSet.empty directories
-                    in
-                    Cmd(S[A(stdlib_path / "expunge");
-                          A"src/top/toplevel_temp.top";
-                          A"src/top/lwt_toplevel.byte";
-                          A"outcometree"; A"topdirs"; A"toploop";
-                          S(List.map (fun x -> A x) (StringSet.elements modules))]))
              end
 
          | _ ->
