@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 1.6.12
-PKGREVISION= 1
+VERSION=	 1.6.14
+PKGREVISION= 0
 PKG=         libpng
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
