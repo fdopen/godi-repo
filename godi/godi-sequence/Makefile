@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.5.3
+VERSION=	0.5.4
 ONAME=		sequence
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
-DISTNAME=	sequence-0.5.3
-DISTFILES=	sequence-0.5.3.tar.xz
+PKGREVISION=	1
+DISTNAME=	sequence-0.5.4
+DISTFILES=	sequence-0.5.4.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/sequence/
