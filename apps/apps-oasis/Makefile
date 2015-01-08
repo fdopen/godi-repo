@@ -3,7 +3,7 @@
 VERSION=        0.4.5
 RVERSION=       ${VERSION}
 PKGNAME=        apps-oasis-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       oasis-${RVERSION}
 DISTFILES=      oasis-${RVERSION}.tar.gz
 CATEGORIES=     apps
