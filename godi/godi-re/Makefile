@@ -3,7 +3,7 @@
 VERSION=	1.2.2
 PKG=		godi-re
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml-re-ocaml-re-1.2.2
 DISTFILES=	ocaml-re-1.2.2.tar.gz
 CATEGORIES=	godi
