@@ -6,11 +6,11 @@ Size (tcl8.6.2-src.tar.gz) = 8857161 bytes
 SHA1 (tk8.6.2-src.tar.gz) = 138920fb55933a715f0b0ace576120734f771b80
 Size (tk8.6.2-src.tar.gz) = 4246617 bytes
 
-SHA1 (base-tcltk-8.6.2_0_64.txz) = a4b1b66fafc1dedbe882791427e0db062e51350d
-Size (base-tcltk-8.6.2_0_64.txz) = 1969976 bytes
+SHA1 (base-tcltk-8.6.2_1_64.txz) = 4fa70d26e5f150c1af50f113d252e439849075c7
+Size (base-tcltk-8.6.2_1_64.txz) = 1969660 bytes
 
-SHA1 (base-tcltk-8.6.2_0_32.txz) = 4cf8c1d5e089d7980e6fff5f9752bd73fbd4eaf2
-Size (base-tcltk-8.6.2_0_32.txz) = 1902480 bytes
+SHA1 (base-tcltk-8.6.2_1_32.txz) = d664f5465556bd6bc3993a2c97ab317e5551137e
+Size (base-tcltk-8.6.2_1_32.txz) = 1903224 bytes
 
 SHA1 (patch-tcl) = c66d803036d875f6c04cbfcdb0786c68eeccc7a0
 SHA1 (patch-tk) = 31cfa87a5b8b018c5ff2ccb9a5a695ac748718ad
