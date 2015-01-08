@@ -3,7 +3,7 @@
 VERSION=	0.5.1
 PKG=		godi-datalog
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	datalog-0.5.1
 DISTFILES=	datalog-0.5.1.tar.gz
 CATEGORIES=	godi
