@@ -2,7 +2,7 @@
 
 VERSION=        2.0.4
 PKGNAME=        godi-cfg-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       cfg-2.0.4
 DISTFILES=      cfg-2.0.4.tar.gz
 CATEGORIES=     godi
