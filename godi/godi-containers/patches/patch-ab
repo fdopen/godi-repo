@@ -1,23 +1,23 @@
---- ../../work-ref/ocaml-containers-0.4.1/_oasis	2014-10-19 21:59:37.000000000 +0200
-+++ ./_oasis	2014-10-21 12:26:10.944800000 +0200
-@@ -142,13 +142,13 @@
-   XOCamlbuildPath:      .
-   XOCamlbuildLibraries: containers.string
+--- ../../work-ref/ocaml-containers-0.7/_oasis	2014-12-19 20:58:02.000000000 +0100
++++ ./_oasis	2014-12-20 11:18:21.296000000 +0100
+@@ -191,13 +191,13 @@
+   MainIs: test_levenshtein.ml
+   BuildDepends: containers, qcheck, containers.string
  
--Document containers_advanced
--  Title:                Containers_advanced docs
--  Type:                 ocamlbuild (0.3)
--  BuildTools+:          ocamldoc
--  Install:              true
--  XOCamlbuildPath:      .
--  XOCamlbuildLibraries: containers.advanced
-+#Document containers_advanced
-+#  Title:                Containers_advanced docs
-+#  Type:                 ocamlbuild (0.3)
-+#  BuildTools+:          ocamldoc
-+#  Install:              true
-+#  XOCamlbuildPath:      .
-+#  XOCamlbuildLibraries: containers.advanced
+-Executable test_threads
+-  Path: tests/lwt/
+-  Install: false
+-  CompiledObject: best
+-  Build$: flag(tests) && flag(thread)
+-  MainIs: test_Future.ml
+-  BuildDepends: containers, threads, oUnit, containers.lwt
++#Executable test_threads
++#  Path: tests/threads/
++#  Install: false
++#  CompiledObject: best
++#  Build$: flag(tests) && flag(thread)
++#  MainIs: test_future.ml
++#  BuildDepends: containers,threads,oUnit,containers.lwt,containers.thread
  
- Executable benchs
-   Path:             benchs/
+ PreBuildCommand: make qtest-gen
+ 
