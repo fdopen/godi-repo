@@ -1,13 +1,13 @@
 $NetBSD$
 
-SHA1 (glib-2.42.0.tar.xz) = f5168a7adffad3620ff3f1b3d6ff6d0ad3f0752e
-Size (glib-2.42.0.tar.xz) = 7062896 bytes
+SHA1 (glib-2.43.0.tar.xz) = 48d1f28ed92035bbfe1d53b9e157cb36d30575d2
+Size (glib-2.43.0.tar.xz) = 7000992 bytes
 
-SHA1 (base-glib2-2.42.0_0_64.txz) = 21ec84256d6ae74b36be69df5bd5dafde2c20887
-Size (base-glib2-2.42.0_0_64.txz) = 2200016 bytes
+SHA1 (base-glib2-2.43.0_0_64.txz) = 6d59f478e320e5aa1727c2267e5ffb5274a0049c
+Size (base-glib2-2.43.0_0_64.txz) = 2165472 bytes
 
-SHA1 (base-glib2-2.42.0_0_32.txz) = bae4409bd3d45b52f089362587228517ed777a10
-Size (base-glib2-2.42.0_0_32.txz) = 2167500 bytes
+SHA1 (base-glib2-2.43.0_0_32.txz) = b91da893e01c79d30cfd5755995048c4573c4655
+Size (base-glib2-2.43.0_0_32.txz) = 2132372 bytes
 
 SHA1 (patch-0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always) = 0e2fd4dc420dd225d4642beaf6184b416523b91b
 SHA1 (patch-0004-glib-prefer-constructors-over-DllMain) = 7118980e159472b05b89a207f85099328ece466f
@@ -16,4 +16,3 @@ SHA1 (patch-0015-fix-stat.all) = 6650a00eef8f2eee0ee0080234116aa15ff54d8a
 SHA1 (patch-0021-use-64bit-stat-for-localfile-size-calc.all) = 80121ac09905e7797f0e88eb5b788d6a36ff31ff
 SHA1 (patch-0023-print-in-binary-more-for-testing.all) = 077d8e87428905a2a8c3ea7925c46c840600315b
 SHA1 (patch-0024-return-actually-written-data-in-printf.all) = bd4b1fd97630a3d908e4e3a6663fb8bdd34f2962
-SHA1 (patch-glib-update-valgrind-h-stdint) = 62d94ba3523d447df9d38a058bd638495e4604f9
