@@ -3,7 +3,7 @@
 VERSION=	0.4.1
 PKG=		godi-integration1d
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	integration1d-0.4.1
 DISTFILES=	integration1d-0.4.1.tar.gz
 CATEGORIES=	godi
