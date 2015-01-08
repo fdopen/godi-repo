@@ -3,7 +3,7 @@
 VERSION=	20120615
 PKG=		godi-getopt
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
+PKGREVISION=	2
 DISTNAME=	ocaml-getopt
 DISTFILES=	ocaml-getopt-${VERSION}.tar.gz
 CATEGORIES=	godi
