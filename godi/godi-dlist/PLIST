@@ -1,0 +1,3 @@
+@comment $GODI$
+@deepdir lib/ocaml/pkg-lib/dlist
+@deepdir doc/godi-dlist
