@@ -3,7 +3,7 @@
 VERSION=	1.0.1
 PKG=		godi-mparser
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	cakeplus-mparser-c9ea603927b4
 DISTFILES=	mparser-1.0.1.tar.gz
 CATEGORIES=	godi
