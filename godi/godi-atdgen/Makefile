@@ -1,20 +1,20 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.4.0
+VERSION=        1.5.0
 PKGNAME=        godi-atdgen-${VERSION}
 PKGREVISION=    0
-DISTNAME=       atdgen-${VERSION}
-DISTFILES=      atdgen-${VERSION}.tar.gz
+DISTNAME=       atdgen-1.5.0
+DISTFILES=      atdgen-1.5.0.tar.xz
 CATEGORIES=     godi
-MASTER_SITES=   http://mjambon.com/releases/atdgen/
+MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=       http://oss.wink.com/atdgen/
+HOMEPAGE=       https://github.com/mjambon/atdgen
 COMMENT=        Code generator for biniou and JSON serialization
 
 DEPENDS+=	godi-ocaml-[0-9]*:../../godi/godi-ocaml
-DEPENDS+=	godi-biniou>=1.0.0:../../godi/godi-biniou
+DEPENDS+=	godi-biniou>=1.0.6:../../godi/godi-biniou
 DEPENDS+=	godi-yojson>=1.0.0:../../godi/godi-yojson
-DEPENDS+=	godi-atd>=1.0.0:../../godi/godi-atd
+DEPENDS+=	godi-atd>=1.1.0:../../godi/godi-atd
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-camlp4-[0-9]*:../../godi/godi-camlp4
 
