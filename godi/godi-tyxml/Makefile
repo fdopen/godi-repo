@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	3.3.0
+VERSION= 	3.4.0
 PKGNAME= 	godi-tyxml-${VERSION}
-PKGREVISION= 	1
-DISTNAME=	tyxml-3.3.0
-DISTFILES=	tyxml-3.3.0.tar.xz
+PKGREVISION= 	0
+DISTNAME=	tyxml-3.4.0
+DISTFILES=	tyxml-3.4.0.tar.xz
 CATEGORIES=	godi  
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://www.ocsigen.org/eliom/install/
+HOMEPAGE=	https://ocsigen.org/tyxml/
 COMMENT=	A parser and printer for xml.
 
 DEPENDS+=  godi-uutf-*:../../godi/godi-uutf
