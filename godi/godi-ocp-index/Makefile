@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.3
+VERSION=	1.1.1
 ONAME=		ocp-index
 PKGNAME=	godi-${ONAME}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocp-index-1.0.3
-DISTFILES=	ocp-index-1.0.3.tar.xz
+DISTNAME=	ocp-index-1.1.1
+DISTFILES=	ocp-index-1.1.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
@@ -19,6 +19,7 @@ DEPENDS+= 	godi-ocp-indent>=1.4.2:../../godi/godi-ocp-indent
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocp-build>=1.99.8beta:../../godi/godi-ocp-build
 BUILD_DEPENDS+= godi-opam-installer>=1.0:../../godi/godi-opam-installer
+BUILD_DEPENDS+= godi-lambda-term>=0:../../godi/godi-lambda-term
 BUILD_DEPENDS+= godi-re>=1.0:../../godi/godi-re
 
 PLIST_SRC=	${WRKDIR:Q}/.PLIST.${ONAME}
