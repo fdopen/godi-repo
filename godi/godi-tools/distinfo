@@ -7,4 +7,4 @@ SHA1 (bsdtar-0.2.tar.xz) = d2991ceb528bdcbf8016b8abecff1e11e15416dc
 Size (bsdtar-0.2.tar.xz) = 993280 bytes
 
 SHA1 (patch-aa) = ca090596e686c7aa96f81ac2fbe42d23c9dc2688
-SHA1 (patch-ee-bsdpkg2) = be81540168ba560edce2c2d0ff3a56dc1c104753
+SHA1 (patch-ee-bsdpkg2) = 748eb27a00388a75a982e8304d4fa3be5dafb8ef
