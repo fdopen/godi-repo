@@ -3,7 +3,7 @@
 VERSION=        0.0.7
 NODE=		1350
 PKGNAME=        apps-ocamlmod-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       ocamlmod-${VERSION}
 DISTFILES=      ocamlmod-${VERSION}.tar.gz
 CATEGORIES=     apps
