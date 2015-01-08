@@ -2,19 +2,19 @@
 
 ONAME=		lambda-term
 PKG=		godi-${ONAME}
-VERSION=        1.7
+VERSION=        1.8
 FINODE=		1136
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       lambda-term-1.7
-DISTFILES=      lambda-term-1.7.tar.xz
+DISTNAME=       lambda-term-1.8
+DISTFILES=      lambda-term-1.8.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/diml/lambda-term
 COMMENT=	cross-platform library for manipulating the terminal
 
 DEPENDS+=  godi-react>=1.0.0:../../godi/godi-react
-DEPENDS+= godi-ocaml>=3.12:../../godi/godi-ocaml
+DEPENDS+= godi-ocaml>=4.01:../../godi/godi-ocaml
 DEPENDS+= godi-zed>=1.2:../../godi/godi-zed
 DEPENDS+= godi-lwt>=2.4.0:../../godi/godi-lwt
 
