@@ -2,11 +2,11 @@
 
 ONAME=		zed
 PKG=		godi-${ONAME}
-VERSION=        1.3
+VERSION=        1.4
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       zed-1.3
-DISTFILES=      zed-1.3.tar.gz
+DISTNAME=       zed-1.4
+DISTFILES=      zed-1.4.tar.xz
 CATEGORIES=     godi
 FINODE=		944
 MASTER_SITES=	${MASTER_SITE_BACKUP}
