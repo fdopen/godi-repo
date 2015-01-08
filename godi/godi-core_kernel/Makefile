@@ -3,13 +3,13 @@
 VERSION=	111.28.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    3
 DISTNAME=       core_kernel-111.28.00
 DISTFILES=      core_kernel-111.28.00.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.28.00/individual/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
-COMMENT=        Part of Jane Street’s Core library
+COMMENT=        Part of Jane Street's Core library
 
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 DEPENDS+=  godi-bin_prot>=111.28.00:../../godi/godi-bin_prot
@@ -61,6 +61,11 @@ TEST_ENV+=	CAML_LD_LIBRARY_PATH=${CAML_LD_LIBRARY_PATH_TEST}
 .endif
 
 CFLAGS+=	-D__USE_MINGW_ANSI_STDIO=1
+
+OCAMLPARAM=bin-annot=1,_
+CONFIGURE_ENV+= OCAMLPARAM=${OCAMLPARAM:Q}
+MAKE_ENV+=	OCAMLPARAM=${OCAMLPARAM:Q}
+
 
 # test-cases are still broken on 32-bit platforms
 # broken on linux too,....
