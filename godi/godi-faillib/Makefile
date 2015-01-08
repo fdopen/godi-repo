@@ -4,14 +4,14 @@ VERSION=	111.17.00
 ONAME=		faillib
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    2
 DISTNAME=       faillib-111.17.00
 DISTFILES=      faillib-111.17.00.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.17.00/individual/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://janestreet.github.com/
-COMMENT=        Part of Jane Street’s Core library
+COMMENT=        Part of Jane Street's Core library
 
 DEPENDS+=  godi-herelib<=109.35.02:../../godi/godi-herelib
 DEPENDS+=  godi-herelib>=109.35.00:../../godi/godi-herelib
