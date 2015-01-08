@@ -2,7 +2,7 @@
 
 VERSION=        3.0.5
 PKGNAME=        godi-pomap-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       pomap-3.0.5
 DISTFILES=      pomap-3.0.5.tar.gz
 CATEGORIES=     godi
