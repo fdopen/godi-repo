@@ -3,7 +3,7 @@
 VERSION=	0.1
 PKG=		godi-textwrap
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	ocaml-textwrap-0.1
 DISTFILES=	textwrap-0.1.tar.gz
 CATEGORIES=	godi
