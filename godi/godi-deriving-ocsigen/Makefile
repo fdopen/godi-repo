@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKG=		godi-deriving-ocsigen
-VERSION= 	0.6.2
+VERSION= 	0.7
 PKGNAME= 	${PKG}-${VERSION}  
 PKGREVISION= 	0
 DISTNAME=	deriving-${VERSION} 
@@ -18,6 +18,7 @@ DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 
 .if ${CONF_DERIVING_OCSIGEN_TYPE_CONV} == "yes"
 DEPENDS+=	godi-type_conv>=3:../../godi-type_conv
+CONFIGURE_ARGS+=	--enable-tc
 .endif
 BUILD_DEPENDS+= godi-optcomp-[0-9]*:../../godi/godi-optcomp
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
@@ -25,5 +26,8 @@ BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 #WINGMAKE=	yes
 WINOASIS=	yes
 
+OCAMLPARAM=bin-annot=1,_
+CONFIGURE_ENV+= OCAMLPARAM=${OCAMLPARAM:Q}
+MAKE_ENV+=	OCAMLPARAM=${OCAMLPARAM:Q}
 
 .include "../../mk/bsd.pkg.mk"

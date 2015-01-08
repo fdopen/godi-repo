@@ -1,7 +1,4 @@
 $NetBSD$
 
-SHA1 (deriving-0.6.2.tar.gz) = 13e58e06c7a225fc8d9e0786b3cbcd34bf8e99a5
-Size (deriving-0.6.2.tar.gz) = 107039 bytes
-
-SHA1 (patch-aa) = 62f6781e7d718e0162000ead19f6b0d3e13c4e9c
-SHA1 (patch-ab) = 29474a2221d5daf6aa1315929a04ec2bebf88176
+SHA1 (deriving-0.7.tar.gz) = a20111fcee7d890a8a14c8f5240a2049732ff527
+Size (deriving-0.7.tar.gz) = 113567 bytes
