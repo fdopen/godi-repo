@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	 2.30.3
-PKGREVISION= 5
+PKGREVISION= 6
 PKG=         libgnomecanvas
 CATEGORIES=	 base
 PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
