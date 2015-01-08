@@ -1,0 +1,70 @@
+--- ../../work-ref/findlib-1.5.5/src/findlib/frontend.ml	2014-10-28 11:46:09.769200000 +0100
++++ ./src/findlib/frontend.ml	2014-10-28 11:45:29.334000000 +0100
+@@ -451,6 +451,34 @@
+       )
+       packages
+ 
++let rewrite_cmd s =
++  let is_win = Sys.os_type = "Win32" in
++  if s = "" || (is_win = false && Sys.os_type <> "Cygwin") then
++    s
++  else
++    let s =
++      if not is_win then
++        s
++      else
++        let l = String.length s in
++        let b = Buffer.create l in
++        for i = 0 to pred l do
++          match s.[i] with
++          | '/' -> Buffer.add_char b '\\'
++          | x -> Buffer.add_char b x
++        done;
++        Buffer.contents b
++    in
++    let dir_sep = if is_win then '\\' else '/' in
++    if (Filename.is_implicit s && String.contains s dir_sep = false) ||
++      Filename.check_suffix (String.lowercase s) ".exe" then
++      s
++    else
++      let s' = s ^ ".exe" in
++      if Sys.file_exists s' then
++        s'
++      else
++        s
+ 
+ let process_pp_spec syntax_preds packages pp_opts =
+   (* Returns: pp_command *)
+@@ -541,7 +569,7 @@
+       None -> []
+     | Some cmd ->
+ 	["-pp";
+-	 cmd ^ " " ^
++	 (rewrite_cmd cmd) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_i_options) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_archives) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_opts)]
+@@ -617,9 +645,11 @@
+           in
+           try
+             let preprocessor =
+-              resolve_path
+-                ~base ~explicit:true
+-                (package_property predicates pname "ppx") in
++              rewrite_cmd (
++                resolve_path
++                  ~base ~explicit:true
++                  (package_property predicates pname "ppx") )
++            in
+             ["-ppx"; String.concat " " (preprocessor :: options)]
+           with Not_found -> []
+        )
+@@ -2383,7 +2413,7 @@
+ 
+ let ocamlcall pkg cmd =
+   let dir = package_directory pkg in
+-  let path = Filename.concat dir cmd in
++  let path = rewrite_cmd (Filename.concat dir cmd) in
+   begin
+     try Unix.access path [ Unix.X_OK ]
+     with

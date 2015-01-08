@@ -1,0 +1,98 @@
+--- ../../work-ref/findlib-1.5.5/src/findlib/frontend.ml	2014-10-28 12:20:21.403200000 +0100
++++ ./src/findlib/frontend.ml	2014-10-28 12:19:57.706800000 +0100
+@@ -474,6 +475,59 @@
+       else
+         s
+ 
++let rewrite_pp cmd =
++  if Sys.os_type <> "Win32" then
++    cmd
++  else
++    let module T = struct exception Keep end in
++    let is_whitespace = function
++      | ' ' | '\011' | '\012' | '\n' | '\r' | '\t' -> true
++      | _ -> false
++    in
++    (* characters that triggers special behaviour (cmd.exe, not unix shell) *)
++    let is_unsafe_char = function
++      | '(' | ')' | '%' | '!' | '^' | '<' | '>' | '&' -> true
++      | _ -> false
++     in
++    let len = String.length cmd in
++    let buf = Buffer.create (len + 4) in
++    let buf_cmd = Buffer.create len in
++    let rec iter_ws i =
++      if i >= len then
++        ()
++      else
++        let cur = cmd.[i] in
++        if is_whitespace cur then (
++          Buffer.add_char buf cur;
++          iter_ws (succ i)
++        )
++        else
++          iter_cmd i
++    and iter_cmd i =
++      if i >= len then
++        add_buf_cmd ()
++      else
++        let cur = cmd.[i] in
++        if is_unsafe_char cur || cur = '"' || cur = '\'' then
++          raise T.Keep;
++        if is_whitespace cur then (
++          add_buf_cmd ();
++          Buffer.add_substring buf cmd i (len - i)
++        )
++        else (
++          Buffer.add_char buf_cmd cur;
++          iter_cmd (succ i)
++        )
++    and add_buf_cmd () =
++      if Buffer.length buf_cmd > 0 then
++        Buffer.add_string buf (rewrite_cmd (Buffer.contents buf_cmd))
++    in
++    try
++      iter_ws 0;
++      Buffer.contents buf
++    with
++     | T.Keep -> cmd
++
+ let process_pp_spec syntax_preds packages pp_opts =
+   (* Returns: pp_command *)
+   (* may raise No_such_package *)
+@@ -1022,8 +1076,11 @@
+ 	      Arg.String (fun s -> pass_files := !pass_files @ [ Intf(slashify s) ]);
+               
+ 	      "-pp", 
+-	      Arg.String (fun s -> pp_specified := true; add_spec_fn "-pp" s);
+-	      
++	      Arg.String (fun s -> pp_specified := true; add_spec_fn "-pp" (rewrite_pp s));
++
++              "-ppx",
++              Arg.String (fun s -> add_spec_fn "-ppx" (rewrite_pp s));
++              
+ 	      "-thread", 
+ 	      Arg.Unit (fun _ -> threads := threads_default);
+             
+@@ -1469,7 +1526,9 @@
+ 	  [ "-v", Arg.Unit (fun () -> verbose := Verbose);
+ 	    "-pp", Arg.String (fun s ->
+ 				 pp_specified := true;
+-				 options := !options @ ["-pp"; s]);
++				 options := !options @ ["-pp"; rewrite_pp s]);
++            "-ppx", Arg.String (fun s ->
++				 options := !options @ ["-ppx"; rewrite_pp s]);
+ 	  ]
+       )
+     )
+@@ -1648,7 +1707,9 @@
+ 	      Arg.String (fun s -> add_spec_fn "-I" (slashify (resolve_path s)));
+ 
+ 	      "-pp", Arg.String (fun s -> pp_specified := true;
+-		 	           add_spec_fn "-pp" s);
++                      		   add_spec_fn "-pp" (rewrite_pp s));
++              "-ppx", Arg.String (fun s -> add_spec_fn "-ppx" (rewrite_pp s));
++
+ 	    ]
+ 	)
+     )

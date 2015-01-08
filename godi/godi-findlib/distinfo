@@ -1,11 +1,14 @@
 $NetBSD$
 
-SHA1 (findlib-1.5.4.tar.gz) = 2ed065cc5cc54bbe026cd63206dfe2edb3789b2d
-Size (findlib-1.5.4.tar.gz) = 240119 bytes
+SHA1 (findlib-1.5.5.tar.gz) = 3221121c4b5adacc050aa361475eee59b2698afa
+Size (findlib-1.5.5.tar.gz) = 240247 bytes
 
 SHA1 (patch-findlib.ml) = fd8ec84a7e22b1ab1b1e0bba086f4787af71e10c
 SHA1 (patch-findlib_config.mlp) = fae1c7f26992cd8a0a13c6dbdb2d5b6949f44d50
 SHA1 (patch-Makefile) = 3544c2e36a7ecd11baaa8515d7970c5033d131d0
 SHA1 (patch-Makefile-src) = 3068d394f6f5ecb277b6db700605c257420563b3
-SHA1 (patch-wj) = 7cdc875603c979630a45a903c55c73973c58c0a9
+SHA1 (patch-wa-64_bit_systems) = 4c9d305f91f10a4aabedd7d460a6634d46122177
 SHA1 (patch-windows-findlib_config) = 9cd52163ad01fef332a0cc383bb4724d5b3ccbda
+SHA1 (patch-ww-cygwin_friendly_paths_and_stdout) = 93c7a1bfbe18582c4478e038c4c9c519e2c05ccd
+SHA1 (patch-wx) = 94a3f8210dfa5deb04a471149003847269832796
+SHA1 (patch-wy) = 08e1ca3913007a7d1eb3947c009bdb052984c3bf
