@@ -1,7 +1,4 @@
 $NetBSD$
 
-SHA1 (tophide-1.0.1.tar.gz) = 454d1773289bef29ed9174d8580743623231ed99
-Size (tophide-1.0.1.tar.gz) = 3352 bytes
-
-SHA1 (patch-aa-402) = f57894c521df3cde3f1ee66b01136ae86728674d
-SHA1 (patch-Makefile) = ca1b53414cdcf5c4d151d64b4bc70f2ae722d848
+SHA1 (tophide-1.0.3.tar.xz) = 04edb7288a5862c78921f55d1ab8b8ef404089ac
+Size (tophide-1.0.3.tar.xz) = 3372 bytes
