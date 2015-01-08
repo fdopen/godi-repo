@@ -1,13 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        7.1.2
+VERSION=        7.1.5
 PKG=		godi-pcre
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pcre-ocaml-7.1.2
-DISTFILES=      pcre-ocaml-7.1.2.tar.gz
+DISTNAME=       pcre-ocaml-7.1.5
+DISTFILES=      pcre-ocaml-7.1.5.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mmottl/pcre-ocaml/releases/download/v7.1.2/
 MAINTAINER=	andreas@ml.ignorelist.com
 HOMEPAGE=       http://mmottl.github.io/pcre-ocaml
 COMMENT=        Perl Compatibility Regular Expressions
