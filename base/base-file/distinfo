@@ -1,17 +1,21 @@
 $NetBSD$
 
-SHA1 (file-5.19.tar.gz) = 0dff09eb44fde1998be79e8d312e9be4456d31ee
-Size (file-5.19.tar.gz) = 719158 bytes
+SHA1 (file-5.20.tar.gz) = 4e93e9ae915f1812b05cc6012ae968fdb6416f8f
+Size (file-5.20.tar.gz) = 725937 bytes
 
-SHA1 (base-file-5.19_3_64.txz) = 721dc6ae7db87ec77de36591c797a1a90cddfbba
-Size (base-file-5.19_3_64.txz) = 197392 bytes
+SHA1 (base-file-5.20_0_64.txz) = e5030fca2cfcb361044c513418fffe99f41dafdd
+Size (base-file-5.20_0_64.txz) = 201812 bytes
 
-SHA1 (base-file-5.19_3_32.txz) = f412feb6b1a8894c37d76b79b0ce5e6ea2210f4f
-Size (base-file-5.19_3_32.txz) = 197888 bytes
+SHA1 (base-file-5.20_0_32.txz) = a48c3e56065d012929cf411b13451c534b266ee9
+Size (base-file-5.20_0_32.txz) = 202420 bytes
 
-SHA1 (patch-file-5.19-CVE-2014-3587) = c492cefcbdede3270fac51e9ff40429dbbed0c59
+SHA1 (patch-file-4.17-rpm-name) = 0a2eef5e1217055dbfe70f6385fda753b89b64e2
+SHA1 (patch-file-5.04-generic-msdos) = 669ecfebaba546afa015a4a846578d34776f4e87
+SHA1 (patch-file-5.04-man-return-code) = 88049012de14540fa3f1ee577eeb36005f8cf523
+SHA1 (patch-file-5.04-volume_key) = 601da5bab7331f659c07e956f2c41e19e3369554
+SHA1 (patch-file-5.10-strength) = 0f1b6443fcbd0a55963315a9799e4e4f05683de8
+SHA1 (patch-file-5.14-perl) = 6ba01855b29ae460c456119caab2bea93b838147
+SHA1 (patch-file-5.14-x86boot) = d38e676b2bea92e33e50fb299f6707df31ffb3c2
 SHA1 (patch-file-5.19-cafebabe) = 9afb0ab4db7f48e7ff667e24cb8980dcb1d8371d
-SHA1 (patch-file-5.19-locale-archive) = e7a54f5af6a4d6430f49824a544c79a94cb31fa0
-SHA1 (patch-file-5.19-msooxml) = 81c4bcbab7fb7b55695be754e5492405e9b72802
-SHA1 (patch-file-5.19-pascal) = c99d043da04e580c591ff0d76c12e08c4468f974
-SHA1 (patch-file-5.19-python-3.4) = 23573233ee5e571ac1daa84574ae70b071cec0b0
+SHA1 (patch-file-5.20-CVE-2014-3710) = 2bb132eb3685854a8b87c9a7aa6e4d58f877b6bc
+SHA1 (patch-file-localmagic) = cd9c5b7bc7aae91512c7cbc210dab72779da362d
