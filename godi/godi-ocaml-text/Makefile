@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	0.7.1
+VERSION= 	0.8.0
 PKGNAME= 	godi-ocaml-text-${VERSION}
-PKGREVISION= 	0
-DISTNAME=	ocaml-text-0.7.1
-DISTFILES=	text-0.7.1.tar.gz
+PKGREVISION= 	1
+DISTNAME=	ocaml-text-0.8
+DISTFILES=	text-0.8.0.tar.xz
 CATEGORIES=	godi
 FINODE=		937
 MASTER_SITES= 	${MASTER_SITE_BACKUP}
