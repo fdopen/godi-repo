@@ -3,7 +3,7 @@
 VERSION=	0.5.1
 PKG=		godi-optimization1d
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	optimization1d-0.5.1
 DISTFILES=	optimization1d-0.5.1.tar.gz
 CATEGORIES=	godi
