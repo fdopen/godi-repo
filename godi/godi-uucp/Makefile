@@ -2,15 +2,15 @@
 
 ONAME=		uucp
 PKG=		godi-${ONAME}
-VERSION=        0.9.0
+VERSION=        0.9.1
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       ${ONAME}-${VERSION}
-DISTFILES=      ${ONAME}-${VERSION}.tbz
+DISTNAME=       uucp-0.9.1
+DISTFILES=      uucp-0.9.1.tbz
 CATEGORIES=     godi
-MASTER_SITES=   http://erratique.ch/software/${ONAME}/releases/
+MASTER_SITES=   http://erratique.ch/software/uucp/releases/
 MAINTAINER=     andreas@ml.ignorelist.com
-HOMEPAGE=       http://erratique.ch/software/${ONAME}
+HOMEPAGE=       http://erratique.ch/software/uucp
 COMMENT=        Unicode character properties for OCaml
 
 DEPENDS+=	godi-ocaml>=4.00:../../godi/godi-ocaml
