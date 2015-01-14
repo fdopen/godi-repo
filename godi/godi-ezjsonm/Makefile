@@ -1,17 +1,19 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.0
+VERSION=	0.4.0
 ONAME=		ezjsonm
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ezjsonm-0.2.0
-DISTFILES=	ezjsonm-0.2.0.tar.gz
+DISTNAME=	ezjsonm-0.4.0
+DISTFILES=	ezjsonm-0.4.0.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-HOMEPAGE=	
+HOMEPAGE=	https://github.com/mirage/ezjsonm
 COMMENT=	An easy interface on top of the Jsonm library
 
+DEPENDS+=  	godi-hex-*:../../godi/godi-hex
+DEPENDS+=  	godi-sexplib-*:../../godi/godi-sexplib
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 DEPENDS+=	godi-jsonm>=0.9.1:../../godi/godi-jsonm
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
@@ -27,6 +29,7 @@ CONFIGURE_ARGS+=	--disable-lwt
 
 
 WINOASIS=		yes
+WINOASIS_DISABLE_DOCS=	yes
 
 
 .include "../../mk/bsd.pkg.mk"
