@@ -2,8 +2,8 @@
 
 PKG=		base-libpq
 #1.14 is broken on windows (?)
-VERSION=	9.3.4
-PKGREVISION=	1
+VERSION=	9.3.5
+PKGREVISION=	0
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	postgresql-${VERSION}
 DISTFILES=	${DISTNAME}.tar.bz2
