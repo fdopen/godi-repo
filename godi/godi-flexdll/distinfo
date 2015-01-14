@@ -10,3 +10,4 @@ SHA1 (patch-aa-cmdline) = d00e616f99c5cf86837d8a0f9a5e453ff5c77271
 SHA1 (patch-ab-makefile) = d6ea7dac2f88f7e284bb6da6cd5d175eb29a38ba
 SHA1 (patch-ac-reloc) = 28173b991ac63ee791b41506f1fbc1691fa40f6d
 SHA1 (patch-ae-manifest) = e08d60754faff550d8d24957ae2a3a49c8824de7
+SHA1 (patch-af) = cc183597d07a8022963f6a6e60c995610af58e71

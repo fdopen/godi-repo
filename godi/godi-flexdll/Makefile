@@ -2,7 +2,7 @@
 
 VERSION=	0.31
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	5
+PKGREVISION=	6
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
 EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
