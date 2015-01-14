@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKG=		curl
-VERSION=	7.38.0
+VERSION=	7.40.0
 PKGNAME=	base-${PKG}-${VERSION}
 PKGREVISION=	0
 DISTNAME=	${PKG}-${VERSION}
