@@ -1,15 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        7.1.1
+VERSION=        7.1.5
 PKG=		godi-pcre
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pcre-ocaml-7.1.1
-DISTFILES=      pcre-ocaml-7.1.1.tar.gz
+DISTNAME=       pcre-ocaml-7.1.5
+DISTFILES=      pcre-ocaml-7.1.5.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=   https://github.com/mmottl/pcre-ocaml/releases/download/v7.1.1/
 MAINTAINER=	andreas@ml.ignorelist.com
-HOMEPAGE=       https://github.com/mmottl/pcre-ocaml
+HOMEPAGE=       http://mmottl.github.io/pcre-ocaml
 COMMENT=        Perl Compatibility Regular Expressions
 
 DEPENDS+=godi-ocaml>=3.12:../../godi/godi-ocaml
@@ -19,7 +18,8 @@ CONF_HELP=sh.exe pcre-config
 CONFIGURE_ENV+= WITH_PCRE_CONFIG=${CONF_HELP:QQ}
 .endif
 
-BUILD_DEPENDS+=godi-findlib>=0.8.1:../../godi/godi-findlib
+DEPENDS+=      godi-bytes>=0:../../godi/godi-bytes
+BUILD_DEPENDS+=godi-findlib>=1.5:../../godi/godi-findlib
 
 WINOASIS=	 yes
 
