@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	0.7.1
+VERSION= 	0.8.0
 PKGNAME= 	godi-ocaml-text-${VERSION}
 PKGREVISION= 	0
-DISTNAME=	ocaml-text-0.7.1
-DISTFILES=	text-0.7.1.tar.gz
+DISTNAME=	ocaml-text-0.8
+DISTFILES=	text-0.8.0.tar.xz
 CATEGORIES=	godi
 FINODE=		937
 MASTER_SITES= 	${MASTER_SITE_BACKUP}
@@ -13,6 +13,7 @@ HOMEPAGE=	http://ocaml-text.forge.ocamlcore.org/
 COMMENT=	A library dealing with text as sequence of unicode characters.
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=       godi-bytes>=0:../../godi/godi-bytes
 DEPENDS+=	godi-pcre>=6:../../godi/godi-pcre
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 DEPENDS+=	base-libiconv>=0:../../base/base-libiconv
