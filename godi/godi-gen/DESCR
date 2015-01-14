@@ -1,0 +1,3 @@
+Iterators for OCaml, both restartable and consumable. Performances
+should be good, yet the code is simple and straightforward.
+
