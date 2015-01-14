@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.9
+VERSION=	1.10
 MNODE=		1229
 PKG=		godi-cryptokit
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=    3
-DISTNAME=	cryptokit-${VERSION}
-DISTFILES=	cryptokit-${VERSION}.tar.gz
+PKGREVISION=    0
+DISTNAME=	cryptokit-1.10
+DISTFILES=	cryptokit-1.10.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/${MNODE}/
+MASTER_SITES=	https://forge.ocamlcore.org/frs/download.php/1493/
 HOMEPAGE=	http://pauillac.inria.fr/~xleroy/software.html
 COMMENT=	Cryptographic primitives
 
