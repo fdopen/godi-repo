@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.0.7
+VERSION=        1.0.8
 PKG  =          godi-mikmatch_pcre
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
 DISTNAME=       mikmatch-${VERSION}
-DISTFILES=      mikmatch-${VERSION}.tar.gz
+DISTFILES=      mikmatch-${VERSION}.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=   http://mjambon.com/releases/mikmatch/
 MAINTAINER=	wodi@ml.ignorelist.com
