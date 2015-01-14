@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.5
+VERSION=	1.0
 ONAME=		dolog
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	dolog-0.5
-DISTFILES=	dolog-0.5.tar.gz
+DISTNAME=	dolog-1.0
+DISTFILES=	dolog-1.0.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/UnixJunkie/dolog
