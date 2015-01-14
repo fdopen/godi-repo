@@ -1,28 +1,57 @@
---- ../../work-ref/ocp-index-1.0.1/src/indexOptions.ml	2014-01-15 13:30:00.000000000 +0100
-+++ ./src/indexOptions.ml	2014-02-09 06:23:20.333600000 +0100
-@@ -110,13 +110,19 @@
-       in
+--- ../../work-ref/ocp-index-4.02/src/indexOptions.ml	2014-05-12 18:20:07.000000000 +0200
++++ ./src/indexOptions.ml	2014-05-23 20:10:09.508400000 +0200
+@@ -47,7 +47,7 @@
+ 
+ let cmd_input_line cmd =
+   try
+-    let ic = Unix.open_process_in (cmd ^ " 2>/dev/null") in
++    let ic = Unix.open_process_in (cmd ^ " 2> nul") in
+     let r = input_line ic in
+     let r =
+       let len = String.length r in
+@@ -66,26 +66,31 @@
+                  (`ocamlc -where`) in lookups." in
+       Arg.(value & flag & info ["no-stdlib"] ~doc);
+     in
+-    let no_opamlib : bool Term.t =
+-      let doc = "Don't include the OPAM library directory (`opam config var lib`) \
+-                 in lookups." in
+-      Arg.(value & flag & info ["no-opamlib"] ~doc);
+-    in
+     let arg =
+       let doc = "OCaml directories to (recursively) load the libraries from." in
        Arg.(value & opt_all (list string) [] & info ["I"] ~docv:"DIRS" ~doc)
      in
--    let set_default = function
-+    let set_default l =
-+      let add =
+-    let set_default no_stdlib no_opamlib includes =
++    let set_default no_stdlib includes =
+       let paths = List.flatten includes in
+-      let paths =
+-        if no_opamlib then paths else
+-          try cmd_input_line "opam config var lib" :: paths
+-          with Failure _ -> paths
+-      in
+-      if no_stdlib then paths else
+-        try cmd_input_line "ocamlc -where" :: paths with Failure _ -> paths
++      if no_stdlib then paths else (
 +        try
-+          let x = Sys.getenv "OCAMLLIB" in
++          let x =
++            try
++              let x = Sys.getenv "OCAMLLIB" in
++              if Sys.is_directory x then
++                x
++              else
++                raise Not_found
++            with
++            | Not_found -> cmd_input_line "ocamlc.exe -where"
++          in
 +          let y = Filename.concat (Filename.dirname x) "pkg-lib" in
-+          (x)::(y)::[]
++          (x)::(y)::paths
 +        with
-+        | _ -> []
-+      in
-+      match l with
-       | _ :: _ as paths ->
--          (try [cmd_input_line "ocamlc -where"] with Failure _ -> []) @
--          List.flatten paths
--      | [] ->
--          (try [cmd_input_line "ocamlc -where"] with Failure _ -> []) @
--            (try [cmd_input_line "opam config var lib"] with Failure _ -> [])
-+          add @ List.flatten paths
-+      | [] -> add
++        | _ -> paths
++      )
      in
-     Term.(pure set_default $ arg)
+-    Term.(pure set_default $ no_stdlib $ no_opamlib $ arg)
++    Term.(pure set_default $ no_stdlib $ arg)
    in
+   let color : bool Term.t =
+     let arg =
