@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2
+VERSION=	0.3
 ONAME=		qcheck
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	qcheck-0.2
-DISTFILES=	qcheck-0.2.tar.gz
+DISTNAME=	qcheck-0.3
+DISTFILES=	qcheck-0.3.tar.xz
 CATEGORIES=	godi
-MASTER_SITES=	http://cedeela.fr/~simon/software/releases/
+MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/qcheck/
 COMMENT=	QuickCheck inspired property-based testing for OCaml
 
