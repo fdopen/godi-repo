@@ -2,13 +2,13 @@
 
 ONAME=		sexplib
 PKG=		godi-${ONAME}
-VERSION=	112.01.00
+VERSION=	112.17.00
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       sexplib-112.01.00
-DISTFILES=      sexplib-112.01.00.tar.gz
+PKGREVISION=    0
+DISTNAME=       sexplib-112.17.00
+DISTFILES=      sexplib-112.17.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.01.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.17/files/
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Automated S-expression conversion
 
@@ -17,10 +17,11 @@ BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 DEPENDS+=	godi-type_conv>=112.01.00:../../godi/godi-type_conv
 BUILD_DEPENDS+= godi-ounit>=1.1:../../godi/godi-ounit
 
-DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.02.0:../../godi/godi-ocaml
 
 WINOASIS=		yes
 WINOASIS_DISABLE_DOCS=	yes
+WINOASIS_DISABLE_TESTS= yes #broken for now
 
 .if defined(W32PORT) && ${W32PORT} == "mingw" && defined(CPP) && ${CPP} != ""
 post-extract:
