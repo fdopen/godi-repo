@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 6cdfe8b1aa40e1aab65e9f23fb2cbf35) *)
+(* DO NOT EDIT (digest: 1c586fbc6258884888b0cb9d7c58b5d9) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -628,6 +628,7 @@ let package_default =
      flags = [];
      includes =
        [
+          ("tests/threads", ["src/core"; "src/threads"]);
           ("tests", ["src/core"; "src/data"; "src/misc"; "src/string"]);
           ("src/threads", ["src/core"]);
           ("src/pervasives", ["src/core"]);
@@ -664,7 +665,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 668 "myocamlbuild.ml"
+# 669 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let doc_intro = "doc/intro.txt" ;;

@@ -1,7 +1,6 @@
 $NetBSD$
 
-SHA1 (containers-0.7.tar.xz) = 6fc562fb5b4027e23f73b8afed30a7fcc617265f
-Size (containers-0.7.tar.xz) = 317236 bytes
+SHA1 (containers-0.8.tar.xz) = 432c39f80067e363872ee8b4d9c7c07e345c187a
+Size (containers-0.8.tar.xz) = 280892 bytes
 
-SHA1 (patch-aa) = 032c8840583f0c3b9e7701a9466a5e6722726629
-SHA1 (patch-ab) = aeede925275563119219f060e2b3918efdc0dae8
+SHA1 (patch-aa) = 4163f7137408dce84660ad8dbab002ad2dbb3376

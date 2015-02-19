@@ -1,21 +1,21 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.7
+VERSION=	0.8
 ONAME=		containers
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-containers-0.7
-DISTFILES=	containers-0.7.tar.xz
+DISTNAME=	ocaml-containers-0.8
+DISTFILES=	containers-0.8.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/ocaml-containers/
 COMMENT=	A modular standard library focused on data structures
 
 DEPENDS+=	godi-ocaml>=4.01.0:../../godi/godi-ocaml
-DEPENDS+=       godi-bytes>=0:../../godi/godi-bytes
 DEPENDS+=	godi-lwt>=0:../../godi/godi-lwt
 DEPENDS+=	godi-sequence>=0:../../godi/godi-sequence
+DEPENDS+=       godi-bytes>=0:../../godi/godi-bytes
 BUILD_DEPENDS+= apps-cppo-*:../../apps/apps-cppo
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ounit>=0:../../godi/godi-ounit
@@ -35,6 +35,6 @@ CONFIGURE_ARGS+=	--enable-misc
 CONFIGURE_ARGS+=	--enable-lwt
 
 do-build:
-	cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} test-all doc
+	@cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} test-all doc
 
 .include "../../mk/bsd.pkg.mk"
