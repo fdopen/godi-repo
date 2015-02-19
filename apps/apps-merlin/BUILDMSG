@@ -1,0 +1,6 @@
+Available options for merlin:
+
+- APPS_MERLIN_EMACS: byte compile emacs files
+  Possible values: yes,no, <blank> = yes.
+
+  
