@@ -1,9 +1,9 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=        1.8.5
+VERSION=        1.8.6
 PKGNAME=        godi-ocamlgraph-${VERSION}
-PKGREVISION=	1
-DISTNAME=       ocamlgraph-${VERSION}
-DISTFILES=      ocamlgraph-${VERSION}.tar.gz
+PKGREVISION=	0
+DISTNAME=       ocamlgraph-1.8.6
+DISTFILES=      ocamlgraph-1.8.6.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://ocamlgraph.lri.fr/download/
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -18,7 +18,6 @@ BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
 .if ${GODI_OCAMLGRAPH_VIEWER} == "yes"
 DEPENDS+=	base-gui>=0:../../base/base-gui
 .endif
-# dgraph depends on it and is used by e.g. apps-frama-c
 DEPENDS+=	godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
 
 INSTALL_SCRIPT_FILE=files/install
@@ -32,12 +31,11 @@ CONFIGURE_ENV+= ${BUILD_OCAMLFIND_ENV}
 
 CONFIGURE_ARGS+= --prefix=${PREFIX}
 
-USE_GMAKE = yes
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV}
 
 INSTALL_TARGET = install-findlib
 
-ALL_TARGET = all doc test check
+ALL_TARGET = all test check doc
 .if	${GODI_OCAMLGRAPH_VIEWER} == "yes"
 .         if exists(${LOCALBASE}/lib/godi/godi-lablgtk2.mk)
 .           include "${LOCALBASE}/lib/godi/godi-lablgtk2.mk"
@@ -58,7 +56,7 @@ pre-configure:
 .endif
 
 post-install:
-	${MKDIR} ${PREFIX}/doc/${PKGBASE}/html
+	${MKDIR} ${PREFIX}/doc/${PKGBASE:Q}/html
 .	for DOC in CHANGES COPYING CREDITS FAQ LICENSE README
 	    ${INSTALL} -m 0644 ${WRKSRC}/${DOC} ${PREFIX}/doc/${PKGBASE}
 .	endfor
@@ -66,7 +64,8 @@ post-install:
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 .if ${GODI_OCAMLGRAPH_VIEWER} == "yes"
 	${MKDIR} ${PREFIX}/gui/bin
-	${MV} ${PREFIX:Q}/bin/graph-editor* ${PREFIX:Q}/bin/graph-viewer* ${PREFIX:Q}/gui/bin 
+	${INSTALL} -m 0755 ${WRKSRC:Q}/editor/editor.opt ${PREFIX:Q}/gui/bin/graph-editor$(EXE)
+	${INSTALL} -m 0755 ${WRKSRC:Q}/dgraph/dgraph.opt ${PREFIX:Q}/gui/bin/graph-viewer$(EXE) 
 .endif
 	@${SETENV} ${ADD_ENV} bash files/install --add-links
 .endif
