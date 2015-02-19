@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (bin_prot-111.03.00.tar.gz) = 208496701b2a10498d2c10a115142c21d5c35d0f
-Size (bin_prot-111.03.00.tar.gz) = 89105 bytes
+SHA1 (bin_prot-112.06.01.tar.gz) = 1c3cde3e76b3649549ae72aa0fb9124e12a8a7f0
+Size (bin_prot-112.06.01.tar.gz) = 91768 bytes
 
-SHA1 (patch-aa) = e03d1259d1cf2eedeb3098b5e5dbfef63924c2be
+SHA1 (patch-aa) = e2280dac42ea7716703a68d2686155a1c5c01a66

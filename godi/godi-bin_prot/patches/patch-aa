@@ -16,36 +16,3 @@
      arch_sixtyfour=true
  else
      arch_sixtyfour=false
---- ../../work-ref/bin_prot-109.53.00/myocamlbuild.ml	2013-11-27 15:31:10.000000000 +0100
-+++ ./myocamlbuild.ml	2013-12-01 20:36:40.344400000 +0100
-@@ -497,11 +497,29 @@
-     let is_darwin = String.is_prefix "macos" system in
-     let arch_sixtyfour = BaseEnvLight.var_get "arch_sixtyfour" env = "true" in
- 
--    let cpp = "gcc -E -xc -undef -w" in
-+    let gcc =
-+      match system with
-+      | "mingw" | "mingw64" ->
-+        let head s =
-+          try
-+            let i = String.index s ' ' in
-+            if i = 0 then
-+              s
-+            else
-+              String.sub s 0 i
-+          with
-+          | Not_found -> s
-+        in
-+        head (BaseEnvLight.var_get "bytecomp_c_compiler" env)
-+      | _ -> "gcc"
-+    in
-+    let cpp = gcc ^ " -E -xc -undef -w" in
-+
-     let cpp = if arch_sixtyfour then cpp ^ " -DARCH_SIXTYFOUR" else cpp in
- 
-     let cpp = S [A "-pp"; P cpp] in
- 
-+
-     dep ["ocaml"; "ocamldep"; "mlh"] ["lib/int_codes.mlh"];
- 
-     flag ["ocamldep"; "ocaml"; "use_pa_bin_prot"]

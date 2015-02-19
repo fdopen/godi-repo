@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.03.00
+VERSION=	112.06.01
 ONAME=		bin_prot
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       bin_prot-111.03.00
-DISTFILES=      bin_prot-111.03.00.tar.gz
+PKGREVISION=    0
+DISTNAME=       bin_prot-112.06.01
+DISTFILES=      bin_prot-112.06.01.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://blogs.janestreet.com/ocaml-core/111.03.00/individual/
+MASTER_SITES=	https://blogs.janestreet.com/ocaml-core/112.06.01/individual/
 HOMEPAGE=       https://github.com/janestreet/bin_prot
 COMMENT=        A binary protocol generator
 
