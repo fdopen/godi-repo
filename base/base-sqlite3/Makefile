@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	 3.8.7.0
+VERSION=	 3.8.8.2
 PKGREVISION= 0
 PKG=         sqlite3
 CATEGORIES=	 base
@@ -8,7 +8,7 @@ PKGNAME=	 ${CATEGORIES}-${PKG}-${VERSION}
 DISTNAME=	 sqlite-autoconf-${SVERSION}
 SVERSION=	 ${VERSION:C/[.]/0/g}
 DISTFILES=	 ${DISTNAME}.tar.gz
-MASTER_SITES=https://www.sqlite.org/2014/
+MASTER_SITES=https://www.sqlite.org/2015/
 HOMEPAGE=	 https://www.sqlite.org/
 COMMENT=	 Embeddable SQL Database
 
