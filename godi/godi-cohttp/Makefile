@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.15.1
+VERSION=	0.15.2
 ONAME=		cohttp
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-cohttp-0.15.1
-DISTFILES=	cohttp-0.15.1.tar.xz
+DISTNAME=	ocaml-cohttp-0.15.2
+DISTFILES=	cohttp-0.15.2.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/mirage/ocaml-cohttp
@@ -18,6 +18,7 @@ DEPENDS+=  godi-conduit>=0.7.0:../../godi/godi-conduit
 BUILD_DEPENDS+=  godi-ounit-*:../../godi/godi-ounit
 BUILD_DEPENDS+=	 godi-findlib-*:../../godi/godi-findlib
 
+DEPENDS+=       godi-bytes>=0:../../godi/godi-bytes
 DEPENDS+=	godi-re-*:../../godi/godi-re
 DEPENDS+=	godi-fieldslib>=109.20.00:../../godi/godi-fieldslib
 DEPENDS+=	godi-uri>=1.5.0:../../godi/godi-uri
