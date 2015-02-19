@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 2ab08e3c37cf35b33cfba17078f2d156) *)
+(* DO NOT EDIT (digest: fa32be47549e25c543d32d3ad276417c) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -617,7 +617,8 @@ let package_default =
           ("re_posix", ["lib"], []);
           ("re_glob", ["lib"], []);
           ("re_perl", ["lib"], []);
-          ("re_pcre", ["lib"], [])
+          ("re_pcre", ["lib"], []);
+          ("fort_unit", ["lib_test"], [])
        ];
      lib_c = [];
      flags = [];
@@ -629,6 +630,6 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 633 "myocamlbuild.ml"
+# 634 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;
