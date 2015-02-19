@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.28.00
+VERSION=	112.06.00
 ONAME=		pa_bench
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    2
-DISTNAME=       pa_bench-111.28.00
-DISTFILES=      pa_bench-111.28.00.tar.gz
+PKGREVISION=    0
+DISTNAME=       pa_bench-112.06.00
+DISTFILES=      pa_bench-112.06.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.28.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.06.00/individual/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Syntax extension for inline benchmarks
