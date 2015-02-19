@@ -1,7 +1,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKG=		base-libpq
-VERSION=	9.3.5
+VERSION=	9.3.6
 PKGREVISION=0
 PKGNAME=	${PKG}-${VERSION}
 DISTNAME=	postgresql-${VERSION}
