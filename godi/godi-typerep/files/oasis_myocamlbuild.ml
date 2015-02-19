@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 0b11cf5530063e682f70193003408603) *)
+(* DO NOT EDIT (digest: d34b80b3254569e553042c4c8633efa2) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -612,15 +612,11 @@ let package_default =
      MyOCamlbuildBase.lib_ocaml =
        [
           ("typerep_lib", ["lib"], []);
-          ("typerep_syntax", ["syntax/with_typerep"], []);
-          ("typerep_extended", ["extended/lib"], []);
-          ("typerep_generics_sexprep", ["generics/sexprep/lib"], [])
+          ("typerep_syntax", ["syntax/with_typerep"], [])
        ];
      lib_c = [];
      flags = [];
-     includes =
-       [("generics/sexprep/lib", ["extended/lib"]); ("extended/lib", ["lib"])
-       ]
+     includes = []
   }
   ;;
 
@@ -628,7 +624,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 632 "myocamlbuild.ml"
+# 628 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let dispatch = function
