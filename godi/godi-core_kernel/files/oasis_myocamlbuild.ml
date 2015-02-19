@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: d996405283f9595f33d54f3f2e4cf37e) *)
+(* DO NOT EDIT (digest: d74919347d0e228c4f41b25eb5e9627b) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -611,21 +611,18 @@ let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
        [
-          ("check_caml_modify", ["check_caml_modify"], []);
-          ("raise_without_backtrace", ["raise_without_backtrace"], []);
-          ("core_kernel", ["lib"], [])
+          ("core_kernel", ["lib"], []);
+          ("check_caml_modify", ["check_caml_modify"], [])
        ];
      lib_c =
        [
-          ("check_caml_modify", "check_caml_modify", []);
-          ("core_kernel", "lib", ["lib/config.h"; "lib/core_params.h"])
+          ("core_kernel",
+            "lib",
+            ["lib/config.h"; "lib/core_params.h"; "lib/core_bigstring.h"]);
+          ("check_caml_modify", "check_caml_modify", [])
        ];
      flags = [];
-     includes =
-       [
-          ("lib_test", ["check_caml_modify"; "lib"]);
-          ("lib", ["raise_without_backtrace"])
-       ]
+     includes = [("lib_test", ["check_caml_modify"; "lib"])]
   }
   ;;
 
@@ -633,7 +630,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 637 "myocamlbuild.ml"
+# 634 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let dispatch = function
