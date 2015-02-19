@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.4.0
+VERSION=	0.4.1
 ONAME=		ezjsonm
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ezjsonm-0.4.0
-DISTFILES=	ezjsonm-0.4.0.tar.xz
+DISTNAME=	ezjsonm-0.4.1
+DISTFILES=	ezjsonm-0.4.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/mirage/ezjsonm
