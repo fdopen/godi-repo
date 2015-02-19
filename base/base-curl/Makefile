@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	7.39.0
+VERSION=	7.40.0
 PKGREVISION=	0
 PKG=	curl
 CATEGORIES=	 base
