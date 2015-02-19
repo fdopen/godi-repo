@@ -1,5 +1,5 @@
---- ../../work-ref/ocamlgraph-1.8.5/configure.in	2014-04-04 14:45:43.000000000 +0200
-+++ ./configure.in	2014-04-12 20:36:58.007600000 +0200
+--- ../../work-ref/ocamlgraph-1.8.6/configure.in	2015-01-23 08:24:01.000000000 +0100
++++ ./configure.in	2015-02-15 23:34:21.486800000 +0100
 @@ -35,6 +35,16 @@
  # ADAPT THE FOLLOWING LINE TO YOUR SOURCES!
  AC_INIT(src/sig.mli)
@@ -46,8 +46,56 @@
    if test "$LABLGTK_PATH" = ""  -o "$LABLGTK_PATH" -ef "$OCAMLLIB/lablgtk2" ; \
    then
       LABLGTK_PATH=+lablgtk2
---- ../../work-ref/ocamlgraph-1.8.5/editor/ed_main.ml	2014-04-04 14:45:43.000000000 +0200
-+++ ./editor/ed_main.ml	2014-04-12 20:42:41.753600000 +0200
+--- ../../work-ref/ocamlgraph-1.8.6/configure	2015-01-23 08:24:01.000000000 +0100
++++ ./configure	2015-02-15 23:34:21.502400000 +0100
+@@ -1684,6 +1684,16 @@
+ 
+ 
+ 
++
++case `uname -s` in
++     CYGW*)
++       USE_CYGPATH=yes
++       ;;
++     *)
++       USE_CYGPATH=no
++       ;;
++esac
++
+ # Check for Ocaml compilers
+ 
+ # we first look for ocamlc in the path; if not present, we fail
+@@ -1746,6 +1756,9 @@
+ # OCAMLLIB=`$OCAMLC -v | tail -n 1 | cut -f 4 -d " "`
+ # OCAMLLIB=`$OCAMLC -v | tail -n 1 | sed -e 's|[[^:]]*: \(.*\)|\1|' `
+ OCAMLLIB=`$OCAMLC -where | tr -d '\r'`
++if test "$USE_CYGPATH" = yes ; then
++   OCAMLLIB="$(cygpath -m "$OCAMLLIB")"
++fi
+ echo "ocaml library path is $OCAMLLIB"
+ 
+ # then we look for ocamlopt; if not present, we issue a warning
+@@ -2250,6 +2263,9 @@
+    echo "No ocamlfind detected"
+ else
+    OCAMLLIB_BY_FINDLIB=`ocamlfind printconf stdlib | tr -d '\\r'`
++   if test "$USE_CYGPATH" = yes ; then
++      OCAMLLIB_BY_FINDLIB=`cygpath -m "$OCAMLLIB_BY_FINDLIB"`
++   fi
+    if test "$OCAMLLIB_BY_FINDLIB" = "$OCAMLLIB" ; then
+       echo "OCamlfind detected and enabled"
+    else
+@@ -2275,7 +2291,7 @@
+   LABLGTK_PATH=+lablgtk2
+   LABLGTKPATH_FOR_CONFIGURE=$OCAMLLIB/lablgtk2
+ else
+-  LABLGTK_PATH=`ocamlfind query lablgtk2 | tr -d '\\r\\n'`
++  LABLGTK_PATH=`ocamlfind query lablgtk2 | tr -d '\\r\\n' | tr '\\' '/' `
+   if test "$LABLGTK_PATH" = ""  -o "$LABLGTK_PATH" -ef "$OCAMLLIB/lablgtk2" ; \
+   then
+      LABLGTK_PATH=+lablgtk2
+--- ../../work-ref/ocamlgraph-1.8.6/editor/ed_main.ml	2015-01-23 08:24:01.000000000 +0100
++++ ./editor/ed_main.ml	2015-02-15 23:34:21.486800000 +0100
 @@ -899,7 +899,7 @@
  This software is distributed in the hope that it will be useful, 
  but WITHOUT ANY WARRANTY; without even the implied warranty of 
@@ -71,8 +119,8 @@
    buffer#insert ~iter "\n\n\n";
    let start,stop = buffer#bounds in
    buffer#apply_tag_by_name "center" ~start ~stop ; 
---- ../../work-ref/ocamlgraph-1.8.5/Makefile.in	2014-04-04 14:45:43.000000000 +0200
-+++ ./Makefile.in	2014-04-12 20:42:14.141600000 +0200
+--- ../../work-ref/ocamlgraph-1.8.6/Makefile.in	2015-01-23 08:24:01.000000000 +0100
++++ ./Makefile.in	2015-02-15 23:34:21.486800000 +0100
 @@ -42,6 +42,8 @@
  LIBEXT = @LIBEXT@
  OBJEXT = @OBJEXT@
@@ -251,7 +299,7 @@
 +	$(OCAMLOPT) -unsafe -inline 100 -o $@$(EXE) unix.cmxa $^
  
  check: $(CMA) tests/check.ml bin/test-ts
- 	ocaml $(CMA) tests/check.ml
+ 	ocaml $(CMA) tests/test_clique.ml tests/check.ml
 @@ -380,11 +382,11 @@
  	mkdir -p $(BINDIR)
  ifeq (@LABLGNOMECANVAS@,yes)
@@ -282,81 +330,3 @@
  endif
  
  install-opt: install-byte
-@@ -408,17 +410,27 @@
- 	cp -f $(SRCDIR)/*.mli $(INSTALL_LIBDIR)
- ifeq (@LABLGNOMECANVAS@,yes)
- 	mkdir -p $(BINDIR)
--	cp -f $(ED_DIR)/editor.opt $(BINDIR)/graph-editor.opt
-+#	cp -f $(ED_DIR)/editor.opt $(BINDIR)/graph-editor.opt
- 	cp -f $(VIEWER_CMILIB) $(VIEWER_CMXLIB) $(VIEWER_CMXLIB:.cmx=.o) \
- 		$(INSTALL_LIBDIR)
- 	cp -f $(DGRAPH_CMILIB) $(DGRAPH_CMXLIB) $(DGRAPH_CMXLIB:.cmx=.o) \
- 		$(INSTALL_LIBDIR)
--	cp -f $(DGRAPH_DIR)/dgraph.opt $(BINDIR)/graph-viewer.opt
-+#	cp -f $(DGRAPH_DIR)/dgraph.opt $(BINDIR)/graph-viewer.opt
- 	cp -f $(VIEWER_DIR)/*.mli $(DGRAPH_DIR)/*.mli $(INSTALL_LIBDIR)
- endif
- 
- install-findlib: META
- ifdef OCAMLFIND
-+
-+ifeq (@LABLGNOMECANVAS@,yes)
-+ifeq ($(OCAMLBEST),byte)
-+	cp -f $(ED_DIR)/editor.byte $(BINDIR)/graph-editor$(EXE)
-+	cp -f $(DGRAPH_DIR)/dgraph.byte $(BINDIR)/graph-viewer$(EXE)
-+else
-+	cp -f $(ED_DIR)/editor.opt $(BINDIR)/graph-editor$(EXE)
-+	cp -f $(DGRAPH_DIR)/dgraph.opt $(BINDIR)/graph-viewer$(EXE)
-+endif
-+endif
- ifeq (@LABLGNOMECANVAS@,yes)
- 	$(OCAMLFIND) install ocamlgraph META \
- 		$(SRCDIR)/*.mli $(VIEWER_DIR)/*.mli $(DGRAPH_DIR)/*.mli \
---- ../../work-ref/ocamlgraph-1.8.5/configure	2014-04-04 14:45:43.000000000 +0200
-+++ ./configure	2014-04-12 20:43:18.008000000 +0200
-@@ -1684,6 +1684,16 @@
- 
- 
- 
-+
-+case `uname -s` in
-+     CYGW*)
-+       USE_CYGPATH=yes
-+       ;;
-+     *)
-+       USE_CYGPATH=no
-+       ;;
-+esac
-+
- # Check for Ocaml compilers
- 
- # we first look for ocamlc in the path; if not present, we fail
-@@ -1746,6 +1756,9 @@
- # OCAMLLIB=`$OCAMLC -v | tail -n 1 | cut -f 4 -d " "`
- # OCAMLLIB=`$OCAMLC -v | tail -n 1 | sed -e 's|[[^:]]*: \(.*\)|\1|' `
- OCAMLLIB=`$OCAMLC -where | tr -d '\r'`
-+if test "$USE_CYGPATH" = yes ; then
-+   OCAMLLIB="$(cygpath -m "$OCAMLLIB")"
-+fi
- echo "ocaml library path is $OCAMLLIB"
- 
- # then we look for ocamlopt; if not present, we issue a warning
-@@ -2250,6 +2263,9 @@
-    echo "No ocamlfind detected"
- else
-    OCAMLLIB_BY_FINDLIB=`ocamlfind printconf stdlib | tr -d '\\r'`
-+   if test "$USE_CYGPATH" = yes ; then
-+      OCAMLLIB_BY_FINDLIB=`cygpath -m "$OCAMLLIB_BY_FINDLIB"`
-+   fi
-    if test "$OCAMLLIB_BY_FINDLIB" = "$OCAMLLIB" ; then
-       echo "OCamlfind detected and enabled"
-    else
-@@ -2275,7 +2291,7 @@
-   LABLGTK_PATH=+lablgtk2
-   LABLGTKPATH_FOR_CONFIGURE=$OCAMLLIB/lablgtk2
- else
--  LABLGTK_PATH=`ocamlfind query lablgtk2 | tr -d '\\r\\n'`
-+  LABLGTK_PATH=`ocamlfind query lablgtk2 | tr -d '\\r\\n' | tr '\\' '/' `
-   if test "$LABLGTK_PATH" = ""  -o "$LABLGTK_PATH" -ef "$OCAMLLIB/lablgtk2" ; \
-   then
-      LABLGTK_PATH=+lablgtk2
