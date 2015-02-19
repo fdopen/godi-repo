@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	111.08.00
+VERSION=	111.08.01
 ONAME=		pa_test
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       pa_test-111.08.00
-DISTFILES=      pa_test-111.08.00.tar.gz
+PKGREVISION=    0
+DISTNAME=       pa_test-111.08.01
+DISTFILES=      pa_test-111.08.01.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.08.00/individual/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/111.08.01/individual/
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Quotation expander for assertions
