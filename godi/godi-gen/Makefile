@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.3
+VERSION=	0.2.4
 PKG=		godi-gen
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	gen-0.2.3
-DISTFILES=	gen-0.2.3.tar.xz
+DISTNAME=	gen-0.2.4
+DISTFILES=	gen-0.2.4.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/gen/
