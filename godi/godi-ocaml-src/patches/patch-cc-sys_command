@@ -1,0 +1,111 @@
+--- ../../work-ref/ocaml-4.02/utils/ccomp.ml	2013-06-05 18:34:40.000000000 +0200
++++ ./utils/ccomp.ml	2014-09-27 11:29:42.563200000 +0200
+@@ -12,7 +12,107 @@
+ 
+ (* Compiling C files and building C libraries *)
+ 
+-let command cmdline =
++
++let is_space = function
++| ' ' | '\n' | '\t' | '\r' | '\x0b' -> true
++| _ -> false
++
++(* characters that triggers special behaviour (cmd.exe, not unix shell) *)
++let is_unsafe_char = function
++| '(' | ')' | '%' | '!' | '^' | '<' | '>' | '&' -> true
++| _ -> false
++
++  
++(* external commands are unfortunately called called with cmd.exe 
++ * (via Sys.command).
++ * Cmd.exe has strange quoting rules. The most notorious quirk is, that
++ * you can't use forward slashes as path separators at the first position,
++ * unless you quote the expression explicitly.
++ * cmd.exe will interpret the slash and everything thereafter as first 
++ * parameter. Eg. 'bin/foo -x' is treated like 'bin /foo -x'.
++ * Because the most used build tools are unix-centric (ocamlbuild, gmake) 
++ * and are not aware of it, such errors are quite common, especially when
++ * calling the preprocessor. ( ocamlc -pp 'subdir/exe' ... )
++ *
++ * Therefore, I replace every slash inside the first subexpression with a 
++ * backslash.
++ * I think this replacement is safe. No OCaml developer will write 'bin/foo',
++ * if he wants to call a executable 'bin' with parameter /foo.
++ *)
++
++let replace s =
++  let module T = struct exception Use_original end in
++  let open T in
++  let len = String.length s in
++  let b = Buffer.create ( (len/2) * 3 ) in
++  let modified = ref false in
++  let rec f i =
++    if i = len then
++      if !modified = false then
++        raise Use_original
++      else
++        Buffer.contents b
++    else
++      let c = s.[i] in
++      (* quoted expression are left untouched,
++       * ' is not really a quote symbol, but presumably
++       * intended as such *)
++      if  c = '\'' || c = '"' then
++        raise Use_original
++      else if c = '/' then (
++        Buffer.add_char b '\\' ;
++        modified := true;
++        f (succ i)
++      )
++      else if is_space c then
++        if !modified then
++          (Buffer.contents b) ^
++          (String.sub s i (len - i ) )
++        else
++          raise Use_original
++      (* probably a syntax error, don't modify it and let the shell 
++         complain *)
++      else if is_unsafe_char c then
++        raise Use_original
++      else (
++        Buffer.add_char b c ;
++        f (succ i)
++      )
++  in
++  (* ignore leading whitespace *)
++  let rec ws i =
++    if i = len then
++      raise Use_original
++    else
++      let c = s.[i] in
++      if is_space c then (
++        Buffer.add_char b c ;
++        ws (succ i)
++      )
++      else
++        f i
++  in
++  try
++    ws 0
++  with
++  | Use_original -> s
++
++   
++let replace s =
++  if Sys.os_type <> "Win32" then
++    s
++  else
++    let n = try Sys.getenv "OCAML_NO_CMD_HACK" with Not_found -> "" in
++    if n = "" then
++      replace s
++    else
++      match n.[0] with
++      | 'n' | 'N' | '0' | 'f' | 'F' -> replace s
++      | _ -> s
++
++
++let command cmdline' =
++  let cmdline = replace cmdline' in
+   if !Clflags.verbose then begin
+     prerr_string "+ ";
+     prerr_string cmdline;

@@ -1,0 +1,40 @@
+--- ../../work-ref/ocaml-4.02/byterun/win32.c	2014-09-26 20:32:15.309000000 +0200
++++ ./byterun/win32.c	2014-09-26 20:29:31.119000000 +0200
+@@ -318,7 +318,11 @@
+   char *endptr;
+   HANDLE h;
+   /* Get an hexa-code raw handle through the environment */
++#ifdef _WIN64
++  h = (HANDLE) _strtoi64(getenv("CAMLSIGPIPE"), &endptr, 16);
++#else
+   h = (HANDLE) strtol(getenv("CAMLSIGPIPE"), &endptr, 16);
++#endif
+   while (1) {
+     DWORD numread;
+     BOOL ret;
+--- ../../work-ref/ocaml-4.02/otherlibs/systhreads/st_win32.h	2013-09-04 17:12:37.000000000 +0200
++++ ./otherlibs/systhreads/st_win32.h	2014-09-26 20:29:31.134600000 +0200
+@@ -13,7 +13,9 @@
+ 
+ /* Win32 implementation of the "st" interface */
+ 
+-#define _WIN32_WINNT 0x0400
++#ifndef  _WIN32_WINNT
++#define _WIN32_WINNT 0x502
++#endif
+ #include <windows.h>
+ #include <winerror.h>
+ #include <stdio.h>
+--- ../../work-ref/ocaml-4.02/otherlibs/win32unix/winworker.h	2012-10-15 19:50:56.000000000 +0200
++++ ./otherlibs/win32unix/winworker.h	2014-09-26 20:29:31.150200000 +0200
+@@ -14,7 +14,9 @@
+ #ifndef _WINWORKER_H
+ #define _WINWORKER_H
+ 
+-#define _WIN32_WINNT 0x0400
++#ifndef _WIN32_WINNT
++#define _WIN32_WINNT 0x502
++#endif
+ #include "unixsupport.h"
+ #include <windows.h>
+ 

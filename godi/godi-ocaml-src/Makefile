@@ -21,7 +21,7 @@ VERSION=	4.01.0
 
 .if ${OCAML_CVS_CHECKOUT} != "yes" && ${OCAML_SVN_CHECKOUT} != "yes"
 DISTNAME=	ocaml-4.01.0
-PKGREVISION=	4
+PKGREVISION=	5
 # Note: godi_admin takes the first occurrence of PKGREVISION in the
 # file when assembling available.new.
 .else
@@ -170,7 +170,7 @@ post-configure:
 .if defined(MINGW_WORDSIZE) && ${MINGW_WORDSIZE} == "64"
 	${SED} -re 's|(^OTHERLIBRARIES.*)$$|\1 labltk|' ${WRKSRC}/config/Makefile.tmp \
 		>${WRKSRC}/config/Makefile.tmp2
-	${ECHO} "TK_LINK=${LOCALBASE}/lib/libtcl86.a ${LOCALBASE}/lib/libtk86.a -lws2_32" \
+	${ECHO} "TK_LINK=${LOCALBASE}/lib/libtcl86.dll.a ${LOCALBASE}/lib/libtk86.a -lws2_32" \
 		>>${WRKSRC}/config/Makefile.tmp2
 .else
 	${CP} ${WRKSRC}/config/Makefile.tmp ${WRKSRC}/config/Makefile.tmp2

@@ -1,0 +1,11 @@
+--- ../../work-ref/ocaml-4.01.0/ocamlbuild/my_std.ml
++++ ./ocamlbuild/my_std.ml
+@@ -264,7 +264,7 @@
+   match Sys.os_type with
+   | "Win32" -> fun cmd ->
+       if cmd = "" then 0 else
+-      let cmd = "bash -c "^Filename.quote cmd in
++      let cmd = "dash.exe -c "^Filename.quote cmd in
+       Sys.command cmd
+   | _ -> fun cmd -> if cmd = "" then 0 else Sys.command cmd
+ 
