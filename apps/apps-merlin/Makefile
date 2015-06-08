@@ -1,17 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.1.1
+VERSION=	2.2
 ONAME=		merlin
 PKG=		apps-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	merlin-2.1.1
-DISTFILES=	merlin-2.1.1.tar.xz
+DISTNAME=	merlin-2.2
+DISTFILES=	merlin-2.2.tar.xz
 CATEGORIES=	apps
 HOMEPAGE=	https://github.com/the-lambda-church/merlin
 COMMENT=	Editor helper, provides completion, typing and sources browsing in Emacs
 
-DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.00.1:../../godi/godi-ocaml
 BUILD_DEPENDS+=	godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-menhir-*:../../godi/godi-menhir
 BUILD_DEPENDS+= godi-yojson-*:../../godi/godi-yojson
