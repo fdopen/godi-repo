@@ -1,0 +1,11 @@
+--- ../../work-ref/pxp-1.2.7/Makefile.rules	2015-01-18 13:23:11.000000000 +0100
++++ ./Makefile.rules	2015-03-30 01:51:34.946400000 +0200
+@@ -12,7 +12,7 @@
+ OCAMLLEX  = ocamllex$(LEX_OPT)
+ WLEX      = wlex
+ 
+-TOOLS_DIR = $(TOP_DIR)/tools
++TOOLS_DIR = $(shell cygpath -m `readlink -f $(TOP_DIR)/tools`)
+ 
+ M2PARSERGEN    = $(TOOLS_DIR)/m2parsergen
+ LEXPP	       = $(TOOLS_DIR)/lexpp

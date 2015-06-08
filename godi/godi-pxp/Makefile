@@ -3,7 +3,7 @@
 GODI_PLIST=     yes
 .include "../../mk/godi.pkg.mk"
 
-VERSION=        1.2.4
+VERSION=        1.2.7
 #PKGREVISION=	0
 PKGNAME=        godi-pxp-${VERSION}
 DISTNAME=       pxp-${VERSION}
