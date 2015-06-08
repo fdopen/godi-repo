@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (ocp-indent-1.4.2.tar.xz) = 3d56176152025079f14aab306c75f574eba01308
-Size (ocp-indent-1.4.2.tar.xz) = 106576 bytes
-
-SHA1 (patch-aa) = f17b43ccfa5c0ce08d63b0fecb3aa3d4e083cd7c
+SHA1 (ocp-indent-1.5.tar.xz) = 2f9b6fe5148f2ef8fa9ad0e71e8118a752939ee4
+Size (ocp-indent-1.5.tar.xz) = 104892 bytes

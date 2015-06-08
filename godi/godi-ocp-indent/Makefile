@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.4.2
+VERSION=	1.5
 PKGNAME=	godi-ocp-indent-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocp-indent-${VERSION}
-DISTFILES=	ocp-indent-${VERSION}.tar.xz
+DISTNAME=	ocp-indent-1.5
+DISTFILES=	ocp-indent-1.5.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	https://github.com/OCamlPro/ocp-indent/
+HOMEPAGE=	http://www.typerex.org/ocp-indent.html
 COMMENT=	tool to indent OCaml programs
 
 
@@ -48,8 +48,8 @@ post-install:
 .	for F in CHANGELOG LICENSE README.md
 	    ${INSTALL} -m 0644 ${WRKSRC}/${F} ${LOCALBASE}/doc/${PKGBASE:Q}
 .	endfor
-	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-indent
-	${CP} ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-indent.el ${LOCALBASE:Q}/share/typerex/ocp-indent
-
+	${MKDIR} ${LOCALBASE:Q}/share/typerex/ocp-indent ${LOCALBASE:Q}/share/emacs/site-lisp
+	${INSTALL} -m 0644 ${WRKSRC:Q}/tools/ocp-indent.el ${LOCALBASE:Q}/share/typerex/ocp-indent
+	${INSTALL} -m 0644 ${WRKSRC:Q}/tools/ocp-indent.el ${LOCALBASE:Q}/share/emacs/site-lisp/ocp-indent.el
 
 .include "../../mk/bsd.pkg.mk"
