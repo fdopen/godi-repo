@@ -12,6 +12,7 @@ bin/coqdoc
 @optional bin/coqide.exe
 @optional bin/coqide.byte.exe
 @optional bin/coqide.opt.exe
+@optional config/coqide-gtk2rc
 bin/coqmktop
 bin/coqtop
 bin/coqtop.byte
