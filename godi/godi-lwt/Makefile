@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.7
+VERSION=	2.4.8
 PKGREVISION=	0
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	lwt-2.4.7
-DISTFILES=	lwt-2.4.7.tar.xz
+DISTNAME=	lwt-2.4.8
+DISTFILES=	lwt-2.4.8.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	http://www.ocsigen.org/install/lwt
@@ -36,7 +36,7 @@ CONFIGURE_ARGS+=	--enable-camlp4
 CONFIGURE_ARGS+=	--enable-preemptive
 
 WINOASIS=		yes
-WINOASIS_SETUP=		yes
+WINOASIS_DISABLE_DOCS=  yes
 
 post-install:
 	${MKDIR} ${PREFIX}/doc/${PKGBASE}/examples
