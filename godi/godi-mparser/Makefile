@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.1
+VERSION=	1.1
 PKG=		godi-mparser
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	cakeplus-mparser-c9ea603927b4
-DISTFILES=	mparser-1.0.1.tar.gz
+PKGREVISION=	0
+DISTNAME=	mparser-1.1
+DISTFILES=	mparser-1.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-HOMEPAGE=	https://bitbucket.org/cakeplus/mparser/
+HOMEPAGE=	https://github.com/cakeplus/mparser/
 COMMENT=	monadic parser combinator library
 
 DEPENDS+=	godi-pcre-*:../../godi/godi-pcre
