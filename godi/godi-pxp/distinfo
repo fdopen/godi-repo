@@ -1,4 +1,5 @@
 $NetBSD$
 
-SHA1 (pxp-1.2.4.tar.gz) = a9945191534adae10e4d92fe3b51e18df34a3c03
-Size (pxp-1.2.4.tar.gz) = 702365 bytes
+SHA1 (pxp-1.2.7.tar.gz) = 9a9a25fb783110b547a83533715398c274428650
+Size (pxp-1.2.7.tar.gz) = 735710 bytes
+SHA1 (patch-aa) = 1711ac69c2a4518186fe89ba1c376d8b3a16ba37

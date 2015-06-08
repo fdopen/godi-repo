@@ -3,14 +3,14 @@
 GODI_PLIST=     yes
 .include "../../mk/godi.pkg.mk"
 
-VERSION=        1.2.4
+VERSION=        1.2.7
 #PKGREVISION=	0
 PKGNAME=        godi-pxp-${VERSION}
 DISTNAME=       pxp-${VERSION}
 DISTFILES=      pxp-${VERSION}.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=   http://download.camlcity.org/download/
-MAINTAINER=     gerd@gerd-stolpmann.de
+MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://www.ocaml-programing.de/
 COMMENT=        PXP is an advanced XML parser
 
@@ -40,7 +40,6 @@ DEPENDS+=       godi-ulex>=0:../../godi/godi-ulex
 
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 
-PATH:=          ${LOCALBASE}/bin:${PATH}
 
 HAS_CONFIGURE=  yes
 .if ${GODI_PXP_WITH_WLEX} == "yes"
@@ -59,8 +58,6 @@ CONFIGURE_ARGS+= -without-pp
 # ocamlfind must install into the pkg-lib directory, not into site-lib.
 # Use the build time configuration file:
 MAKE_ENV+=      ${BUILD_OCAMLFIND_ENV}
-
-USE_GMAKE=      yes
 
 ALL_TARGET=     all
 .if ${GODI_HAVE_OCAMLOPT} == "yes"
