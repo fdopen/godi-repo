@@ -1,0 +1,12 @@
+--- ../../work-ref/ocaml-cow-1.2.0/cmd	2015-02-06 14:23:17.000000000 +0100
++++ ./cmd	2015-02-21 22:07:46.752000000 +0100
+@@ -66,9 +66,6 @@
+   sed -e "s/@VERSION@/${VERSION}/g" < META.in > _config/META
+   ${OCAMLFIND} remove ${NAME} || true
+   t=`sed -e 's,^,_build/,g' < _build/${NAME}.all`
+-  if [ ! -z "${DESTDIR}" ]; then
+-    OCAMLFIND_FLAGS="${OCAMLFIND_FLAGS} -destdir ${DESTDIR}"
+-  fi
+   ${OCAMLFIND} install ${OCAMLFIND_FLAGS} ${NAME} _config/META ${t} lib/*.mli
+ }
+ 
