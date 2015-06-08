@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.4.7
+VERSION=	0.5.1
 PKGREVISION=	0
 PKGNAME=	godi-ssl-${VERSION}
 DISTNAME=	ocaml-ssl-${VERSION}
 DISTFILES=	ocaml-ssl-${VERSION}.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=savonet/}
+MASTER_SITES=	http://cznic.dl.sourceforge.net/project/savonet/ocaml-ssl/${VERSION}
 HOMEPAGE=	http://savonet.sourceforge.net/
 COMMENT=	The Secure Socket Layer
 
@@ -27,7 +27,7 @@ HAS_CONFIGURE=  yes
 # OCamlMakefile doesn't work. (Gerd Stolpmann <gerd@gerd-stolpmann.de>)
 MAKE_FLAGS+=    "OCAMLMAKEFILE=${LOCALBASE}/share/OCamlMakefile"
 
-DOCUMENT_DIRS+= doc/html
+WINGMAKE_HTML_DIR= doc/html
 
 
 .include "../../mk/bsd.pkg.mk"
