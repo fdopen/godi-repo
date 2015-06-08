@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.5.0
-PKGREVISION=        1
+VERSION=        1.6.0
+PKGREVISION=        0
 PKGNAME=        godi-cstruct-${VERSION}
-DISTNAME=       ocaml-cstruct-1.5.0
-DISTFILES=      ocaml-cstruct-1.5.0.tar.xz
+DISTNAME=       ocaml-cstruct-1.6.0
+DISTFILES=      cstruct-1.6.0.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -13,6 +13,7 @@ COMMENT=        access C structures via a camlp4 extension
 
 GODI_CSTRUCT_LWT?=	yes
 
+DEPENDS+=  godi-type_conv-*:../../godi/godi-type_conv
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 DEPENDS+=	godi-ocplib-endian-*:../../godi/godi-ocplib-endian
@@ -29,7 +30,7 @@ CONFIGURE_ARGS+=	--enable-lwt
 
 
 WINOASIS=		yes
-#WINOASIS_DISABLE_DOCS=  yes
+WINOASIS_DISABLE_DOCS=  yes
 
 
 .if !defined(CYGWIN_ROOT)
