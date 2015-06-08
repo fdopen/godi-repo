@@ -1,16 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.4.7
+VERSION=	0.5.1
 PKGREVISION=	0
 PKGNAME=	godi-ssl-${VERSION}
 DISTNAME=	ocaml-ssl-${VERSION}
 DISTFILES=	ocaml-ssl-${VERSION}.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	${MASTER_SITE_SOURCEFORGE:=savonet/}
+MASTER_SITES=	http://cznic.dl.sourceforge.net/project/savonet/ocaml-ssl/${VERSION}
 HOMEPAGE=	http://savonet.sourceforge.net/
 COMMENT=	The Secure Socket Layer
 
 DEPENDS+=	godi-ocaml>=3.11:../../godi/godi-ocaml
+DEPENDS+=	godi-bytes>=0:../../godi/godi-bytes
 BUILD_DEPENDS+= godi-findlib>=0.8.1:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-ocamlmakefile>=6.10.0:../../godi/godi-ocamlmakefile
 
