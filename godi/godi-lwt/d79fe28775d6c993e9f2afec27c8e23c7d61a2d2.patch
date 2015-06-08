@@ -1,6 +1,20 @@
---- ../../work-ref/lwt-2.4.8/discover.ml	2015-03-27 18:34:08.200400000 +0100
-+++ ./discover.ml	2015-03-27 18:33:47.124800000 +0100
-@@ -234,6 +234,31 @@
+From d79fe28775d6c993e9f2afec27c8e23c7d61a2d2 Mon Sep 17 00:00:00 2001
+From: arirux <fdopen@ml.ignorelist.com>
+Date: Fri, 27 Mar 2015 18:27:54 +0100
+Subject: [PATCH] move check to discover.ml/lwt_config.ml
+
+---
+ discover.ml                 | 26 ++++++++++++++++++++++++++
+ src/unix/lwt_unix.ml        | 21 ++++++++-------------
+ src/unix/lwt_unix_unix.c    | 22 +++-------------------
+ src/unix/lwt_unix_windows.c | 10 ----------
+ 4 files changed, 37 insertions(+), 42 deletions(-)
+
+diff --git a/discover.ml b/discover.ml
+index 7083931..68a94b9 100644
+--- a/discover.ml
++++ b/discover.ml
+@@ -234,6 +234,31 @@ CAMLprim value lwt_test(value Unit)
  }
  "
  
@@ -32,7 +46,7 @@
  (* +-----------------------------------------------------------------+
     | Compilation                                                     |
     +-----------------------------------------------------------------+ *)
-@@ -585,6 +610,7 @@
+@@ -584,6 +609,7 @@ Lwt can use pthread or the win32 API.
    test_feature ~do_check "fdatasync" "HAVE_FDATASYNC" (fun () -> test_code ([], []) fdatasync_code);
    test_feature ~do_check:(do_check && not !android_target)
      "netdb_reentrant" "HAVE_NETDB_REENTRANT" (fun () -> test_code ([], []) netdb_reentrant_code);
@@ -40,9 +54,11 @@
  
    let get_cred_vars = [
      "HAVE_GET_CREDENTIALS_LINUX";
---- ../../work-ref/lwt-2.4.8/src/unix/lwt_unix.ml	2015-03-27 18:34:08.200400000 +0100
-+++ ./src/unix/lwt_unix.ml	2015-03-27 18:33:47.124800000 +0100
-@@ -1544,8 +1544,6 @@
+diff --git a/src/unix/lwt_unix.ml b/src/unix/lwt_unix.ml
+index 7011cd8..f0ade80 100644
+--- a/src/unix/lwt_unix.ml
++++ b/src/unix/lwt_unix.ml
+@@ -1544,8 +1544,6 @@ let gethostname () =
    else
      run_job (gethostname_job ())
  
@@ -51,7 +67,7 @@
  let hostent_mutex = Lwt_mutex.create ()
  
  external gethostbyname_job : string -> Unix.host_entry job = "lwt_unix_gethostbyname_job"
-@@ -1553,7 +1551,7 @@
+@@ -1553,7 +1551,7 @@ external gethostbyname_job : string -> Unix.host_entry job = "lwt_unix_gethostby
  let gethostbyname name =
    if Sys.win32 then
      Lwt.return (Unix.gethostbyname name)
@@ -60,7 +76,7 @@
      run_job (gethostbyname_job name)
    else
      Lwt_mutex.with_lock hostent_mutex ( fun () ->
-@@ -1564,17 +1562,14 @@
+@@ -1564,17 +1562,14 @@ external gethostbyaddr_job : Unix.inet_addr -> Unix.host_entry job = "lwt_unix_g
  let gethostbyaddr addr =
    if Sys.win32 then
      Lwt.return (Unix.gethostbyaddr addr)
@@ -80,7 +96,7 @@
      hostent_mutex
    else
      Lwt_mutex.create ()
-@@ -1584,7 +1579,7 @@
+@@ -1584,7 +1579,7 @@ external getprotobyname_job : string -> Unix.protocol_entry job = "lwt_unix_getp
  let getprotobyname name =
    if Sys.win32 then
      Lwt.return (Unix.getprotobyname name)
@@ -89,7 +105,7 @@
      run_job (getprotobyname_job name)
    else
      Lwt_mutex.with_lock protoent_mutex ( fun () ->
-@@ -1595,14 +1590,14 @@
+@@ -1595,14 +1590,14 @@ external getprotobynumber_job : int -> Unix.protocol_entry job = "lwt_unix_getpr
  let getprotobynumber number =
    if Sys.win32 then
      Lwt.return (Unix.getprotobynumber number)
@@ -106,7 +122,7 @@
      hostent_mutex
    else
      Lwt_mutex.create ()
-@@ -1612,7 +1607,7 @@
+@@ -1612,7 +1607,7 @@ external getservbyname_job : string -> string -> Unix.service_entry job = "lwt_u
  let getservbyname name x =
    if Sys.win32 then
      Lwt.return (Unix.getservbyname name x)
@@ -115,7 +131,7 @@
      run_job (getservbyname_job name x)
    else
      Lwt_mutex.with_lock protoent_mutex ( fun () ->
-@@ -1623,7 +1618,7 @@
+@@ -1623,7 +1618,7 @@ external getservbyport_job : int -> string -> Unix.service_entry job = "lwt_unix
  let getservbyport port x =
    if Sys.win32 then
      Lwt.return (Unix.getservbyport port x)
@@ -124,9 +140,11 @@
      run_job (getservbyport_job port x)
    else
      Lwt_mutex.with_lock protoent_mutex ( fun () ->
---- ../../work-ref/lwt-2.4.8/src/unix/lwt_unix_unix.c	2015-03-27 18:34:08.200400000 +0100
-+++ ./src/unix/lwt_unix_unix.c	2015-03-27 18:33:47.124800000 +0100
-@@ -1665,33 +1665,17 @@
+diff --git a/src/unix/lwt_unix_unix.c b/src/unix/lwt_unix_unix.c
+index a1d3658..dc2b25f 100644
+--- a/src/unix/lwt_unix_unix.c
++++ b/src/unix/lwt_unix_unix.c
+@@ -1665,33 +1665,17 @@ LWT_NOT_AVAILABLE1(unix_getgrgid_job)
  #endif
  
  /* Helper functions for not re-entrant functions */
@@ -163,9 +181,11 @@
  #if defined(NON_R_GETHOSTBYADDR) || defined(NON_R_GETHOSTBYNAME)
  static char **
  c_copy_addr_array(char ** src, int addr_len)
---- ../../work-ref/lwt-2.4.8/src/unix/lwt_unix_windows.c	2015-03-27 18:34:08.216000000 +0100
-+++ ./src/unix/lwt_unix_windows.c	2015-03-27 18:33:47.124800000 +0100
-@@ -506,16 +506,6 @@
+diff --git a/src/unix/lwt_unix_windows.c b/src/unix/lwt_unix_windows.c
+index 27db396..7152c3f 100644
+--- a/src/unix/lwt_unix_windows.c
++++ b/src/unix/lwt_unix_windows.c
+@@ -506,16 +506,6 @@ CAMLprim value lwt_unix_system_job(value cmdline)
    }
  }
  

@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.4.7
+VERSION=	2.4.8
 PKGREVISION=	0
 PKG=		godi-lwt
 PKGNAME=	${PKG}-${VERSION}
-DISTNAME=	lwt-2.4.7
-DISTFILES=	lwt-2.4.7.tar.xz
+DISTNAME=	lwt-2.4.8
+DISTFILES=	lwt-2.4.8.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	http://www.ocsigen.org/install/lwt
@@ -23,6 +23,7 @@ BUILD_DEPENDS+=  base-pkg-config>=0:../../base/base-pkg-config
 #CPPFLAGS+=-I${LOCALBASE:Q}/include/glib-2.0
 #CFLAGS+=-I${LOCALBASE:Q}/include/glib-2.0
 
+CFLAGS+= -Wall -Wextra -g3 -O0
 BUILD_DEPENDS+=		godi-findlib>=1.5.0:../../godi/godi-findlib
 .if ${GODI_LWT_SSL} != "no"
 DEPENDS+=		godi-ssl>=0.4.6:../../godi/godi-ssl
