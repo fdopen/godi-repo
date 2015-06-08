@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.1
+VERSION=	0.2
 PKG=		godi-textwrap
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	ocaml-textwrap-0.1
-DISTFILES=	textwrap-0.1.tar.gz
+PKGREVISION=	0
+DISTNAME=	ocaml-textwrap-0.2
+DISTFILES=	textwrap-0.2.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/superbobry/ocaml-textwrap

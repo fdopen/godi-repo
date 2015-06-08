@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 67f767dd0d6beb428cbe3a67db0b9ad8) *)
+(* DO NOT EDIT (digest: 807f8d74017a9c8dc9e6f5cd8cd8265b) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -614,29 +614,77 @@ let package_default =
      flags =
        [
           (["oasis_library_textwrap_byte"; "ocaml"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_library_textwrap_native"; "ocaml"; "link"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_library_textwrap_byte"; "ocaml"; "ocamldep"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_library_textwrap_native"; "ocaml"; "ocamldep"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_library_textwrap_byte"; "ocaml"; "compile"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_library_textwrap_native"; "ocaml"; "compile"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_byte"; "ocaml"; "link"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_native"; "ocaml"; "link"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_byte"; "ocaml"; "ocamldep"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_native"; "ocaml"; "ocamldep"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_byte"; "ocaml"; "compile"; "byte"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])]);
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ]);
           (["oasis_executable_hello_native"; "ocaml"; "compile"; "native"],
-            [(OASISExpr.EBool true, S [A "-w"; A "@a"])])
+            [
+               (OASISExpr.EBool true, S []);
+               (OASISExpr.EFlag "strict",
+                 S [A "-w"; A "@a"; A "-warn-error"; A "-a"])
+            ])
        ];
      includes = [("examples", ["src"])]
   }
@@ -646,6 +694,6 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 650 "myocamlbuild.ml"
+# 698 "myocamlbuild.ml"
 (* OASIS_STOP *)
 Ocamlbuild_plugin.dispatch dispatch_default;;
