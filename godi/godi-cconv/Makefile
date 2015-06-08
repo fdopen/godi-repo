@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.3
+VERSION=	0.3.1
 ONAME=		cconv
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	cconv-0.3
-DISTFILES=	cconv-0.3.tar.xz
+DISTNAME=	cconv-0.3.1
+DISTFILES=	cconv-0.3.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/cconv/
