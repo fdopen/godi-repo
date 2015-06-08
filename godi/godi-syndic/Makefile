@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.2
+VERSION=	1.3.1
 ONAME=		syndic
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	syndic-1.2
-DISTFILES=	syndic-1.2.tar.gz
+DISTNAME=	syndic-1.3.1
+DISTFILES=	syndic-1.3.1.tar.gz
 CATEGORIES=	godi
-MASTER_SITES=	https://github.com/Cumulus/Syndic/releases/download/v1.2/
+MASTER_SITES=	https://github.com/Cumulus/Syndic/releases/download/v1.3.1/
 HOMEPAGE=	https://github.com/Cumulus/Syndic
 COMMENT=	RSS and Atom feed parsing
 
