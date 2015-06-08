@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	3.0.37h
-RVERSION=       3.0.37
-PKGREVISION=	11
+VERSION=	3.0.40
+RVERSION=       3.0.40
+PKGREVISION=	0
 PKGNAME=	godi-tools-${VERSION}
 DISTNAME=	godi-tools-${RVERSION}
 DISTFILES=	godi-tools-${RVERSION}.tar.gz
 .if defined(W32PORT) && ${W32PORT} == "mingw"
-DISTFILES+=	bsdtar-0.2.tar.xz
+DISTFILES+=	bsdtar-0.3.tar.xz
 .endif
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
@@ -61,7 +61,7 @@ CONFIGURE_ARGS+=-console -with-powerwtool
 
 .if defined(W32PORT) && ${W32PORT} == "mingw"
 BUILD_DEPENDS+=	base-ssl>=0:../../base/base-ssl
-BUILD_DEPENDS+=	base-pcre>=0:../../base/base-pcre
+#BUILD_DEPENDS+=	base-pcre>=0:../../base/base-pcre
 .endif
 .endif
 

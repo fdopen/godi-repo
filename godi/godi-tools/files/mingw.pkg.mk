@@ -58,12 +58,11 @@ for f in *.[Pp][Cc] ; do
 done
 .endscript
 
-
 .if !target(do-install)
 do-install:
 	@cd ${WRKDIR:QQ}/mingw &&\
-	  ${FIND} * -type f > ${PLIST_SRC:Q} &&\
-	  ${PAX} -rw -pp . ${LOCALBASE:Q}
+	 ${FIND} * -type f > ${PLIST_SRC:Q} &&\
+	 ${PAX} -rw -pp . ${LOCALBASE:Q}
 .endif
 
 .else # !defined(MINGW_BASE_BUILD)
@@ -75,7 +74,7 @@ MINGW_BASE_BUILD= "nonempty"
 
 # a gcc native (e.g. cygwin) PKG_CONFIG is needed.
 # the one included in base-windows, doesn't understand cygwin paths
-PKG_CONFIG?=	/usr/bin/pkg-config
+PKG_CONFIG?=   /usr/bin/pkg-config
 
 .if defined(OPSYS) && ${OPSYS} == "CYGWIN"
 
@@ -101,13 +100,13 @@ WINEARCH=32
 .if ${MINGW_WORDSIZE} == 32
 MINGW_CFLAGS+=     ${MINGW_CFLAGS_DEFAULT:U -march=i686 -mtune=generic -O2 -pipe}
 MINGW_CXXFLAGS+=   ${MINGW_CXXFLAGS_DEFAULT:U -march=i686 -mtune=generic -O2 -pipe}
-LDFLAGS+=          ${MINGW_LDFLAGS_DEFAULT:U -march=i686}
+MINGW_LDFLAGS+=    ${MINGW_LDFLAGS_DEFAULT:U -march=i686}
 MINGW_HOST?=       i686-w64-mingw32
 MINGW_TOOL_PREFIX?=i686-w64-mingw32-
 .else
 MINGW_CFLAGS+=     ${MINGW_CFLAGS_DEFAULT:U -march=x86-64 -mtune=generic -O2 -pipe}
 MINGW_CXXFLAGS+=   ${MINGW_CXXFLAGS_DEFAULT:U -march=x86-64 -mtune=generic -O2 -pipe}
-LDFLAGS+=          ${MINGW_LDFLAGS:U -march=x86-64}
+MINGW_LDFLAGS+=    ${MINGW_LDFLAGS_DEFAULT:U -march=x86-64}
 MINGW_HOST?=       x86_64-w64-mingw32
 MINGW_TOOL_PREFIX?=x86_64-w64-mingw32-
 .endif
@@ -202,8 +201,10 @@ USE_GMAKE= yes
 MAKE_FLAGS+= DESTDIR=${IMAGE_DIR}
 
 IMAGE_DIR=  ${WRKDIR}/image
-AUTOGENERATE_PLIST=    yes
-AUTOGENERATE_IMAGE=    ${IMAGE_DIR}${LOCALBASE}
+AUTOGENERATE_PLIST=	yes
+AUTOGENERATE_IMAGE=	${IMAGE_DIR}${LOCALBASE}
+
+
 IMAGE_ROOT= ${IMAGE_DIR}${LOCALBASE:Q}
 #PKG?=      ${PKGBASE:C/^[^-]*-//}
 
@@ -271,6 +272,7 @@ done
 
 
 MINGW_STRIP=${MINGW_TOOL_PREFIX:Q}strip
+
 .PHONY: destdir-strip
 destdir-strip:
 .script
@@ -313,6 +315,233 @@ ${FIND} lib -type f -iname '*.a' ! -iname '*.dll.a' | while read -r f ; do
 done
 .endscript
 
+DOCUMENT_FILES?=
+DOCUMENT_FILES_IGNORE?=
+DOCUMENT_DIRS?=
+DOCUMENT_NO_AUTO?=0
+
+.PHONY: destdir-copy-docs
+destdir-copy-docs:
+.script
+.	import LOCALBASE WRKSRC PKGBASE IMAGE_DIR INSTALL
+.	import FILE_CMD TR MKDIR BASENAME DIRNAME PAX
+.	import DOCUMENT_FILES DOCUMENT_FILES_IGNORE DOCUMENT_DIRS DOCUMENT_NO_AUTO
+.	expand
+		${_PKG_SILENT}${_PKG_DEBUG}
+.	noexpand
+set -e
+set -u
+
+doc_dir="${IMAGE_DIR}${LOCALBASE}/doc/${PKGBASE}"
+if [ ! -d "$doc_dir" ]; then
+    ${MKDIR} "$doc_dir"
+fi
+cd "$WRKSRC"
+
+if [ -n "${DOCUMENT_DIRS}" ]; then
+    for d in "${DOCUMENT_DIRS}" ; do
+        if [ -z "$d" ] || [ ! -d "$d" ] ; then
+            exit 1
+        fi
+        dirname="$($DIRNAME "$d")"
+        basename="$($BASENAME "$d")"
+        cd "$dirname"
+        ${PAX} -rw -pp "$basename" "${doc_dir}"
+        cd "$WRKSRC"
+    done
+fi
+
+if [ -n "${DOCUMENT_FILES}" ]; then
+    for f in ${DOCUMENT_FILES} ; do
+        ${INSTALL} -m 0444 "$f" "${doc_dir}"
+    done
+fi
+
+if [ -n "$DOCUMENT_NO_AUTO" ] ; then
+    case "$DOCUMENT_NO_AUTO" in
+        1*) exit 0 ;;
+        Y*) exit 0 ;;
+        y*) exit 0 ;;
+        t*) exit 0 ;;
+        T*) exit 0 ;;
+    esac
+fi
+
+do_install(){
+    local do_copy
+    do_copy=1
+    if [ -n "${DOCUMENT_FILES_IGNORE}" ]; then
+        for f in ${DOCUMENT_FILES_IGNORE} ; do
+            if [ "$f" = "$1" ]; then
+                do_copy=0
+                break
+            fi
+        done
+    fi
+    if [ ${do_copy} -eq 1 ] && [ -f "$1" ]; then
+        dst="${doc_dir}/$1"
+        if [ ! -e "$dst" ]; then
+            ${INSTALL} -m 0444 "$1" "$dst"
+        fi
+    fi
+}
+
+for file in *.[Mm][Dd] *.[Hh][Tt][Mm] *.[Hh][Tt][Mm][Ll] *.[Cc][Ss][Ss] \
+    [Aa][Uu][Tt][Hh][Oo][Rr][Ss] [Rr][Ee][Aa][Dd][Mm][Ee] [Ll][Ii][Cc][Ee][Nn][Ss][Ee] [Tt][Oo][Dd][Oo] \
+    [Cc][Hh][Aa][Nn][Gg][Ee][Ss] [Cc][Oo][Pp][Yy][Ii][Nn][Gg] [Cc][Hh][Aa][Nn][Gg][Ee][Ll][Oo][Gg] \
+    [Vv][Ee][Rr][Ss][Ii][Oo][Nn] [Gg][Pp][Ll] [Ll][Gg][Pp][Ll] [Mm][Ii][Tt] ; do
+    if [ -f "$file" ] ; then
+        do_install "$file"
+    fi
+done
+
+for file in *.[Tt][Xx][Tt] ; do
+    case "$file" in
+        *[Cc][Mm][Aa][Kk][Ee]*) continue ;;
+    esac
+    do_install "$file"
+done
+
+for file in *.[Pp][Dd][Ff] ; do
+    case "$file" in
+        *.[0-9].[Pp][Dd][Ff])
+            continue ;; # man pages as pdf
+        *) do_install "$file" ;;
+    esac
+done
+
+for file in * ; do
+    ok=0
+    case "$file" in
+        _*) continue ;;
+        .*) continue ;;
+        \#*) continue ;;
+        *~) continue ;;
+        # skip well known source files and build artefacts
+        *.[Aa][Ww][Kk]) continue ;;
+        *.[Bb][Aa][Tt]) continue ;;
+        *.[Cc][Nn][Ff]) continue ;;
+        *.[Cc][Oo][Mm]) continue ;;
+        *.[Cc][Oo][Nn][Ff]) continue ;;
+        *.[Cc][Oo][Nn][Ff][Ii][Gg]) continue ;;
+        *.[Dd]) continue ;;
+        *.[Dd][Oo][Aa][Pp]) continue ;;
+        *.[Dd][Oo][Xx][Yy]) continue ;;
+        *.[Ll][Aa]) continue ;;
+        *.[Ll][Oo]) continue ;;
+        *.[Pp][Oo]) continue ;;
+        *.[Ss]) continue ;;
+        *.[Ss][Tt][Aa][Mm][Pp]) continue ;;
+        *.[Ss][Yy][Mm][Ss]) continue ;;
+        *.[0-9]) continue ;;
+        *.[Aa][Mm]) continue ;;
+        *.[Bb][Aa][Kk]) continue ;;
+        *.[Cc]) continue ;;
+        *.[Cc][Cc]) continue ;;
+        *.[Cc][Ff][Gg]) continue ;;
+        *.[Cc][Mm][Aa][Kk]*) continue ;;
+        *.[Cc][Nn][Ff]) continue ;;
+        *.[Cc][Oo][Nn][Ff]) continue ;;
+        *.[Cc][Pp][Pp]) continue ;;
+        *.[Dd][Ee][Ff]) continue ;;
+        *.[Dd][Ee][Pp]) continue ;;
+        *.[Dd][Ss][Pp]) continue ;;
+        *.[Dd][Ss][Ww]) continue ;;
+        *.[Dd][Tt][Dd]) continue ;;
+        *.[Hh]) continue ;;
+        *.[Hh][Pp][Pp]) continue ;;
+        *.[Ii][Nn]) continue ;;
+        *.[Ll][Ss][Mm]) continue ;;
+        *.[Mm]4) continue ;;
+        *.[Mm][Aa][Kk]) continue ;;
+        *.[Mm][Aa][Kk][Ee]) continue ;;
+        *.[Mm][Kk]) continue ;;
+        *.[Mm][Ll]) continue ;;
+        *.[Mm][Ll][Ii]) continue ;;
+        *.[Oo][Rr][Ii][Gg]) continue ;;
+        *.[Pp][Aa][Ss]) continue ;;
+        *.[Pp][Cc]) continue ;;
+        *.[Pp][Ll]) continue ;;
+        *.[Pp][Ss]) continue ;;
+        *.[Rr][Cc]) continue ;;
+        *.[Rr][Ee][Ff]) continue ;;
+        *.[Ss][Hh]) continue ;;
+        *.[Ss][Pp][Ee][Cc]) continue ;;
+        *.[Tt][Ee][Xx]) continue ;;
+        *.[Tt][Ee][Xx][Ii][Nn][Ff][Oo]) continue ;;
+        *.[Vv][Cc][Ww]) continue ;;
+        *.[Xx][Mm][Ll]) continue ;;
+        *.[Xx][Ss][Ll]) continue ;;
+        *-[Dd][Ee][Pp][Ss]) continue ;;
+        *-[Dd][Ee][Pp]) continue ;;
+        ABOUT-NLS) continue ;;
+        Doxyfile) continue ;;
+        META) continue ;;
+        Jam*) continue ;;
+        [Bb][Oo][Oo][Tt][Ss][Tt][Rr][Aa][Pp]*) continue ;;
+        [Cc][Oo][Nn][Ff][Ii][Gg]*) continue ;;
+        [Dd][Ee][Pp]) continue ;;
+        [Dd][Ee][Pp][Cc][Oo]*) continue ;;
+        [Dd][Ee][Pp][Ee][Nn][Dd]*) continue ;;
+        [Ii][Nn][Ss][Tt][Aa][Ll][Ll]*) continue ;;
+        stamp-*) continue ;;
+        words[0-9]) continue ;;
+        *CMake*) continue ;;
+        *[Mm][Aa][Kk][Ee][Ff][Ii][Ll][Ee]*) continue ;;
+        *[Mm][Kk][Ff][Ii]*) continue;;
+        *libtool*) continue ;;
+        *mapfile*) continue ;;
+
+        # copy everything what looks like a license
+        *[Aa][Uu][Tt][Hh][Oo][Rr]*) ok=1 ;;
+        *[Cc][Hh][Aa][Nn][Gg]*) ok=1 ;;
+        *[Cc][Oo][Pp][Yy]*) ok=1 ;;
+        *[Ll][Ii][Cc][Ee]*) ok=1 ;;
+        *[Rr][Ee][Aa][Dd][Mm][Ee]*) ok=1 ;;
+        *[Dd][Ii][Ss][Cc][Ll][Aa][Ii][Mm]*) ok=1 ;;
+        *[Tt][Hh][Ii][Rr][Dd]-[Pp][Aa][Rr][Tt]*) ok=1 ;;
+        *[Gg][Pp][Ll]*) ok=1 ;;
+        *[Bb][Oo][Oo][Ss][Tt]*) ok=1 ;;
+        *[Ff][Aa][Qq]*) ok=1 ;;
+        *[Tt][Oo][Dd][Oo]*) ok=1 ;;
+        *[Hh][Aa][Cc][Kk][Ii][Nn][Gg]*) ok=1 ;;
+        *[Nn][Oo][Tt][Ee]*) ok=1 ;;
+        *[Rr][Ee][Ll][Ee][Aa][Ss][Ee]*) ok=1 ;;
+        *[Mm][Aa][Ii][Nn][Tt][Aa][Ii][Nn]*) ok=1 ;;
+        *[Nn][Ee][Ww][Ss]*) ok=1 ;;
+        *[Aa][Cc][Kk][Nn][Oo][Ww][Ll][Ee][Dd][Gg][Ee]*) ok=1 ;;
+        *[Pp][Rr][Oo][Bb][Ll][Ee][Mm]*) ok=1 ;;
+        *[Ff][Ee][Aa][Uu][Tt][Uu][Rr][Ee]*) ok=1 ;;
+        *[Hh][Ee][Ll][Pp]*) ok=1 ;;
+        *[Ii][Nn][Tt][Rr][Oo]*) ok=1 ;;
+        O[Mm]*) continue ;; # omake file
+                # enable me later
+                #*.*) continue ;;
+        [A-Za-z]*) ok=1;;
+        *) continue ;;
+    esac
+    if [ $ok -eq 1 ] && [ -f "$file" ] ; then
+        LANGUAGE=C
+        LANG=C
+        LC_ALL=C
+        export LC_ALL LANG LANGUAGE
+        ftype="$(${FILE_CMD} -b "$file" | $TR '[:upper:]' '[:lower:]')"
+        case "$ftype" in
+            *sgml*) continue ;;
+            *xml*)continue ;;
+            *non-iso*) continue ;;
+            *libtool*) continue;;
+            *' script'*) continue;;
+            *'c source'*) continue;;
+            *'object file'*) continue ;;
+            *'library file'*) continue ;;
+            *'very long lines'*) continue ;;
+            *' text'*)
+                do_install "$file"
+        esac
+    fi
+done
+.endscript
 
 .if !target(do-build)
 do-build:
