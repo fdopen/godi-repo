@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.12.0
+VERSION=        1.13.2
 PKGNAME=        apps-ocamleditor-${VERSION}
 PKGREVISION=    0
 DISTNAME=       ocamleditor-${VERSION}

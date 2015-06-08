@@ -1,0 +1,56 @@
+--- ../../work-ref/ocamleditor-1.13.2/tools/install.ml	2014-11-24 18:27:32.000000000 +0100
++++ ./tools/install.ml	2015-04-16 13:05:02.831200000 +0200
+@@ -59,7 +59,7 @@
+ To install OCamlEditor, please use the included ocamleditor.nsi script.
+ You will need the free NSIS install system (http://nsis.sourceforge.net).";
+   end else begin
+-    let exe = if Sys.os_type = "Win32" then ".exe" else "" in
++    let exe = ext in
+     let icons = sprintf "%s/share/ocamleditor/icons" !prefix in
+     mkdir_p icons;
+     kprintf run "cp -vr ../icons/* %s" icons;
+@@ -76,6 +76,10 @@
+     kprintf run "cp -v %s %s" filename bin;
+     let filename = "ocamleditor_launch" ^ exe in
+     if Sys.file_exists filename then kprintf run "cp -v %s %s" filename bin;
++    if is_win32 then begin
++      let filename = if Sys.file_exists "oeproc/oeproc.opt.exe" then "oeproc/oeproc.opt.exe" else "oeproc/oeproc.exe" in
++      kprintf run "cp -v %s %s" filename bin;
++    end
+   end;;
+ 
+ let _ = main ~dir:"../src" ~default_target:install ~options:[
+--- ../../work-ref/ocamleditor-1.13.2/tools/rc_compile.ml	2014-11-24 18:27:32.000000000 +0100
++++ ./tools/rc_compile.ml	2015-04-16 12:58:07.387600000 +0200
+@@ -4,29 +4,5 @@
+ 
+ *)
+ 
+-let _ = if not Sys.win32 then exit 0;;
+-
+-let resources = [
+-  "launcher", (".\\ocamleditorw.resource.rc", "\
+-101 ICON ocamleditor2.ico\n102 ICON ocamleditor.ico\n\n1 VERSIONINFO\n    FILEVERSION     1,13,2,0\n    PRODUCTVERSION  1,13,2,0\n    FILEOS          0x00000004L\n    FILETYPE        0x00000001L\n{\n    BLOCK \"StringFileInfo\"\n    {\n        BLOCK \"040904E4\"\n        {\n            VALUE \"CompanyName\", \"\\000\"\n            VALUE \"FileDescription\", \"OCamlEditor\\000\"\n            VALUE \"FileVersion\", \"1.13.2.0\\000\"\n            VALUE \"InternalName\", \"ocamleditorw.exe\\000\"\n            VALUE \"ProductName\", \"OCamlEditor\\000\"\n            VALUE \"LegalCopyright\", \"\\251 2014 Francesco Tovagliari\\000\"\n        }\n    }\n    BLOCK \"VarFileInfo\"\n    {\n      VALUE \"Translation\", 1033, 1252\n    }\n}\n");
+-
+-  "ocamleditor-msvc", (".\\ocamleditor.opt.resource.rc", "\
+-101 ICON ocamleditor.ico\n\n1 VERSIONINFO\n    FILEVERSION     1,13,2,0\n    PRODUCTVERSION  1,13,2,0\n    FILEOS          0x00000004L\n    FILETYPE        0x00000001L\n{\n    BLOCK \"StringFileInfo\"\n    {\n        BLOCK \"040904E4\"\n        {\n            VALUE \"CompanyName\", \"\\000\"\n            VALUE \"FileDescription\", \"OCamlEditor\\000\"\n            VALUE \"FileVersion\", \"1.13.2.0\\000\"\n            VALUE \"InternalName\", \"ocamleditor.opt.exe\\000\"\n            VALUE \"ProductName\", \"OCamlEditor\\000\"\n            VALUE \"LegalCopyright\", \"\\251 2014 Francesco Tovagliari\\000\"\n        }\n    }\n    BLOCK \"VarFileInfo\"\n    {\n      VALUE \"Translation\", 1033, 1252\n    }\n}\n");
+-
+-]
+-
+-let _ = 
+-  let exit_code = Sys.command "where rc 1>NUL" in
+-  if exit_code <> 0 then failwith "Cannot find 'rc' command.";
+-  let exit_code = Sys.command "where cvtres 1>NUL" in
+-  if exit_code <> 0 then failwith "Cannot find 'cvtres' command.";
+-  let rcname, rc = List.assoc Sys.argv.(1) resources in
+-  let outchan = open_out_bin rcname in
+-  output_string outchan rc;
+-  close_out_noerr outchan;
+-  let exit_code = Sys.command ("rc /nologo " ^ rcname) in
+-  let exit_code = if exit_code = 0 then Sys.command ("cvtres /nologo /machine:x86 " ^ (Filename.chop_extension rcname) ^ ".res") else exit_code in
+-  if Sys.file_exists rcname then Sys.remove rcname;
+-  let name = (Filename.chop_extension rcname) ^ ".res" in
+-  if Sys.file_exists name then Sys.remove name;
+-  exit exit_code;
++let _ =
++  exit 0
