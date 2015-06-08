@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (ocaml-cstruct-1.5.0.tar.xz) = d69c95c5362e9bdf2f81c107b16ae6a57a4a1b0c
-Size (ocaml-cstruct-1.5.0.tar.xz) = 225688 bytes
+SHA1 (cstruct-1.6.0.tar.xz) = 3d5b01f4e2af006b121bbb3ba8b23d78fdf056ff
+Size (cstruct-1.6.0.tar.xz) = 227516 bytes
 
-SHA1 (patch-aa) = 420cca0ba0136e64eca7bd736cf2cb303e7c107c
+SHA1 (patch-aa) = 0a9464187ca29cfda63a6c73952cc497aa0d762c
