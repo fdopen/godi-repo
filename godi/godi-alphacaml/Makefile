@@ -2,7 +2,7 @@
 
 VERSION=        20061214
 PKGNAME=        godi-alphacaml-${VERSION}
-PKGREVISION=    1
+PKGREVISION=    2
 DISTNAME=       alphaCaml-20061214
 DISTFILES=      alphaCaml-20061214.tar.gz
 CATEGORIES=     godi

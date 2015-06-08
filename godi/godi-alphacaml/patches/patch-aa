@@ -1,0 +1,14 @@
+--- ../../work-ref/alphaCaml-20061214/tool/Makefile	2006-12-14 17:45:23.000000000 +0100
++++ ./tool/Makefile	2015-05-30 21:19:32.965200000 +0200
+@@ -46,9 +46,9 @@
+ %.ml %.mli: %.mly
+ 	@/bin/rm -f $*.ml $*.mli
+ 	$(CAMLYACC) $<
+-	@/bin/chmod -w $*.ml $*.mli
++	#@/bin/chmod -w $*.ml $*.mli
+ 
+ %.ml: %.mll
+ 	@/bin/rm -f $@
+ 	$(CAMLLEX) $<
+-	@/bin/chmod -w $@
++	#@/bin/chmod -w $@

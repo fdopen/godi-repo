@@ -2,3 +2,5 @@ $NetBSD$
 
 SHA1 (alphaCaml-20061214.tar.gz) = 28c59543b3e5e22eeebfbfaaf88acfab8c3abb87
 Size (alphaCaml-20061214.tar.gz) = 162394 bytes
+
+SHA1 (patch-aa) = f2fa0fccab341b37b00d57d6afb8fb7fa40aada0
