@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
 VERSION=	0.2.9
-GVERSION=	3.0.37
-PKGREVISION=	1
+GVERSION=	3.0.40
+PKGREVISION=	2
 PKGNAME=	godi-tools-gui-${VERSION}
 DISTNAME=	godi-tools-${GVERSION}
 DISTFILES=	godi-tools-${GVERSION}.tar.gz godi-gui-${VERSION}.tar.xz

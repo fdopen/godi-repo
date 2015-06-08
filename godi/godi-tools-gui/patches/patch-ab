@@ -1,0 +1,9 @@
+--- ../../work-ref/godi-tools-3.0.40/console-src/godi-wtool-simple/Makefile	2015-01-13 13:45:44.000000000 +0100
++++ ./console-src/godi-wtool-simple/Makefile	2015-06-01 11:30:08.147600000 +0200
+@@ -33,5 +33,5 @@
+ .PHONY: config
+ config:
+ 	rm -f wtool.ml
+-	case `ocamlfind query -format '%v' netstring` in 3.*) ln -s wtool_onet3.ml wtool.ml ;; *) ln -s wtool_onet4.ml wtool.ml ;; esac
++	case `ocamlfind query -format '%v' netstring` in 3.*) cp -p wtool_onet3.ml wtool.ml ;; *) cp -p wtool_onet4.ml wtool.ml ;; esac
+ 
