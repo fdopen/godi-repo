@@ -1,0 +1,11 @@
+--- ../../work-ref/camlspotter-camlimages-e471b3c4470d/src/camlimages.ml.in	2014-09-14 12:55:46.000000000 +0200
++++ ./src/camlimages.ml.in	2015-04-06 22:35:05.803400000 +0200
+@@ -28,7 +28,7 @@
+ 
+ (* External files *)
+ let path_rgb_txt = "@PATH_RGB_TXT@"
+-let path_gs = "@PATH_GS@"
++let path_gs = "gs.exe" (* "@PATH_GS@" *)
+ 
+ (* They are written in ML, so always supported *)
+ let lib_ppm = true

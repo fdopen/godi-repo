@@ -5,7 +5,7 @@ VERSION=        4.2.0
 ONAME=		camlimages
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       camlspotter-camlimages-e471b3c4470d
 DISTFILES=      camlimages-4.2.0.tar.xz
 CATEGORIES=     godi
@@ -17,7 +17,9 @@ COMMENT=        Objective Caml image processing library
 BUILD_DEPENDS+=  godi-omake-*:../../godi/godi-omake
 DEPENDS+= godi-ocaml>=4.02.0:../../godi/godi-ocaml
 DEPENDS+= godi-lablgtk2>=20120823:../../godi/godi-lablgtk2
-#DEPENDS+= godi-ocaml-graphics>=3.08:../../godi/godi-ocaml-graphics
+DEPENDS+= base-xpm-nox>=0:../../base/base-xpm-nox
+DEPENDS+= base-libexif>=0:../../base/base-libexif
+DEPENDS+= base-giflib>=0:../../base/base-giflib
 BUILD_DEPENDS = godi-findlib>=1.0:../../godi-findlib
 
 MAKE_ENV+=  ${BUILD_OCAMLFIND_ENV} PKGBASE=${PKGBASE:Q}

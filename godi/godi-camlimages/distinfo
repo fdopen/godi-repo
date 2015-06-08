@@ -6,3 +6,5 @@ Size (camlimages-4.2.0.tar.xz) = 979608 bytes
 SHA1 (patch-cc-ccsrcomakefile) = 42d7776583ddc671419dfa5bad12359c0bdff2e7
 SHA1 (patch-dd-ddomakefile) = 68e99688bc05ebcb2b86201c1ba327977631c25e
 SHA1 (patch-ee-eeomymakeroot) = 3c6f7df7cc742de4218bd33b4d5868db03b057b1
+SHA1 (patch-ef) = 16b808bea690d572e268075ab980a7fb61501805
+SHA1 (patch-eg) = 27074d6fd7f86f515477fbb6d450bac6e58fb54d
