@@ -2,16 +2,16 @@
 
 PKG = godi-pgocaml
 PKGNAME = ${PKG}-${VERSION}
-VERSION = 2.1
+VERSION = 2.2
 PKGREVISION = 0
 MAINTAINER = andreas@ml.ignorelist.com
 CATEGORIES = godi
 FORGE_NODE =	1096
-MASTER_SITES=   http://forge.ocamlcore.org/frs/download.php/1413/
+MASTER_SITES=   ${MASTER_SITE_BACKUP}
 HOMEPAGE = http://pgocaml.forge.ocamlcore.org/
 COMMENT = type-safe interface to PostgreSQL
-DISTNAME = pgocaml-2.1
-DISTFILES = pgocaml-2.1.tgz
+DISTNAME = pgocaml-2.2
+DISTFILES = pgocaml-2.2.tar.xz
 
 DEPENDS+= godi-ocaml-*:../../godi/godi-ocaml
 DEPENDS+= godi-csv-*:../../godi/godi-csv
