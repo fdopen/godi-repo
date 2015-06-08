@@ -1,0 +1,228 @@
+--- ../../work-ref/findlib-1.5.5/src/findlib/frontend.ml	2014-10-30 13:39:51.328400000 +0100
++++ ./src/findlib/frontend.ml	2014-10-30 13:37:49.960400000 +0100
+@@ -451,6 +451,156 @@
+       )
+       packages
+ 
++let is_win = Sys.os_type = "Win32"
++
++(*
++  to_win_exe tries to convert a path to a representation
++  that is understood by cmd.exe.
++  The exe suffix is appended if possible to avoid problems with
++  weird PATHEXT settings.
++
++  1) Sys.command "foo"
++  ./foo exists
++  -> ./foo is not called, a suffix is necessary (but CreateProcess
++     / Unix.create_process could run foo without exe)
++  -> if foo.exe exists in PATH or Sys.getcwd, it is called (but only
++     if '.EXE' is in %PATHEXT%, always assumed in the following
++     examples)
++
++  2) Sys.command "foo.byte"
++  ./foo.byte exists
++  -> ./foo.byte is called
++
++  3) Sys.command "foo.byte"
++  ./foo.byte and ./foo.byte.exe exists
++  -> ./foo.byte is called
++
++  4) Sys.command "foo.byte"
++  foo.byte exists in PATH and ./foo.byte.exe exists
++  -> ./foo.byte.exe is called
++
++  5) Sys.command "foo.byte"
++  ./foo.byte.exe exists
++  -> ./foo.byte.exe is called
++
++  6) Sys.command "./foo.exe"
++  ./foo.exe exists
++  -> not possible, error message: '.' not found
++
++  7) Sys.command ".\\foo.exe"
++  ./foo.exe exists
++  -> ok
++
++  8) Sys.command ".\\foo"
++  ./foo.exe exists
++  -> ok
++
++  9) Sys.command "foo.exe"
++  ./foo.exe exists and another foo.exe exists in path
++  -> ./foo.exe is called
++*)
++let to_win_exe s =
++  if is_win = false || s = "" then
++    s
++  else
++    let s =
++      if String.contains s '/' = false then
++        s
++      else
++        let l = String.length s in
++        let b = Buffer.create l in
++        for i = 0 to pred l do
++          match s.[i] with
++          | '/' -> Buffer.add_char b '\\'
++          | x -> Buffer.add_char b x
++        done;
++        Buffer.contents b
++    in
++    if Filename.check_suffix (String.lowercase s) ".exe" then
++      s
++    else
++      let s' = s ^ ".exe" in
++      if String.contains (Filename.basename s) '.' then
++        if Sys.file_exists s || Sys.file_exists s' = false then
++          s
++        else
++          s'
++      else if Sys.file_exists s' then
++        s'
++      else
++        s
++
++(*
++  The preprocessor is called via cmd.exe on windows platforms
++  (at least until OCaml 4.02.1)
++
++  cmd.exe behaves strange compared to posix shells, in particular it
++  doesn't fully support '/' as path separator (normally accepted by
++  cygwin and native windows programs). E.g.:
++
++  - 'bin/foo -x' is treated like 'bin /foo -x' and
++  - './foo' like '. /foo'.
++
++  rewrite_pp_cmdline tries to identify the program path and replaces
++  slashes with backslashes, so the same preprocessor call can
++  be used on windows and *nix. There are still differences (e.g. 9. above),
++  but it should work most of the time.
++
++  If the program path is already quoted or the command line
++  contains cmd specific special chars, the string is returned unmodified
++*)
++let rewrite_pp_cmdline cmd =
++  if is_win = false then
++    cmd
++  else
++    let module T = struct exception Keep end in
++    let is_whitespace = function
++      | ' ' | '\011' | '\012' | '\n' | '\r' | '\t' -> true
++      | _ -> false
++    in
++    (* characters that triggers special behaviour (cmd.exe, not unix shell) *)
++    let is_unsafe_char = function
++      | '(' | ')' | '%' | '!' | '^' | '<' | '>' | '&' | '|' -> true
++      | _ -> false
++     in
++    let len = String.length cmd in
++    let buf = Buffer.create (len + 4) in
++    let buf_prog = Buffer.create len in
++    let rec iter_ws i =
++      if i >= len then
++        ()
++      else
++        let cur = cmd.[i] in
++        if is_whitespace cur then (
++          Buffer.add_char buf cur;
++          iter_ws (succ i)
++        )
++        else
++          iter_prog i
++    and iter_prog i =
++      if i >= len then
++        add_buf_prog ()
++      else
++        let cur = cmd.[i] in
++        if is_unsafe_char cur || cur = '"' || cur = '\'' then
++          raise T.Keep;
++        if is_whitespace cur then (
++          add_buf_prog ();
++          Buffer.add_substring buf cmd i (len - i)
++        )
++        else (
++          Buffer.add_char buf_prog cur;
++          iter_prog (succ i)
++        )
++    and add_buf_prog () =
++      if Buffer.length buf_prog > 0 then
++        Buffer.add_string buf (to_win_exe (Buffer.contents buf_prog))
++    in
++    try
++      iter_ws 0;
++      Buffer.contents buf
++    with
++     | T.Keep -> cmd
+ 
+ let process_pp_spec syntax_preds packages pp_opts =
+   (* Returns: pp_command *)
+@@ -541,7 +691,7 @@
+       None -> []
+     | Some cmd ->
+ 	["-pp";
+-	 cmd ^ " " ^
++   (rewrite_pp_cmdline cmd) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_i_options) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_archives) ^ " " ^
+ 	 String.concat " " (List.map Filename.quote pp_opts)]
+@@ -617,9 +767,11 @@
+           in
+           try
+             let preprocessor =
+-              resolve_path
+-                ~base ~explicit:true
+-                (package_property predicates pname "ppx") in
++              to_win_exe (
++                resolve_path
++                  ~base ~explicit:true
++                  (package_property predicates pname "ppx") )
++            in
+             ["-ppx"; String.concat " " (preprocessor :: options)]
+           with Not_found -> []
+        )
+@@ -998,8 +1150,11 @@
+ 	      Arg.String (fun s -> pass_files := !pass_files @ [ Intf(slashify s) ]);
+               
+ 	      "-pp", 
+-	      Arg.String (fun s -> pp_specified := true; add_spec_fn "-pp" s);
+-	      
++	      Arg.String (fun s -> pp_specified := true; add_spec_fn "-pp" (rewrite_pp_cmdline s));
++
++              "-ppx",
++              Arg.String (fun s -> add_spec_fn "-ppx" (rewrite_pp_cmdline s));
++              
+ 	      "-thread", 
+ 	      Arg.Unit (fun _ -> threads := threads_default);
+             
+@@ -1445,7 +1600,9 @@
+ 	  [ "-v", Arg.Unit (fun () -> verbose := Verbose);
+ 	    "-pp", Arg.String (fun s ->
+ 				 pp_specified := true;
+-				 options := !options @ ["-pp"; s]);
++				 options := !options @ ["-pp"; rewrite_pp_cmdline s]);
++            "-ppx", Arg.String (fun s ->
++				 options := !options @ ["-ppx"; rewrite_pp_cmdline s]);
+ 	  ]
+       )
+     )
+@@ -1624,7 +1781,9 @@
+ 	      Arg.String (fun s -> add_spec_fn "-I" (slashify (resolve_path s)));
+ 
+ 	      "-pp", Arg.String (fun s -> pp_specified := true;
+-		 	           add_spec_fn "-pp" s);
++                      		   add_spec_fn "-pp" (rewrite_pp_cmdline s));
++              "-ppx", Arg.String (fun s -> add_spec_fn "-ppx" (rewrite_pp_cmdline s));
++
+ 	    ]
+ 	)
+     )
+@@ -2383,7 +2542,7 @@
+ 
+ let ocamlcall pkg cmd =
+   let dir = package_directory pkg in
+-  let path = Filename.concat dir cmd in
++  let path = to_win_exe (Filename.concat dir cmd) in
+   begin
+     try Unix.access path [ Unix.X_OK ]
+     with

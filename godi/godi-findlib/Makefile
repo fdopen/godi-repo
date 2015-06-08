@@ -4,7 +4,7 @@ GODI_FINDLIB_TOOLBOX?=  no
 
 VERSION=	1.5.5
 PKGNAME=	godi-findlib-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	findlib-${VERSION}
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
