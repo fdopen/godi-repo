@@ -1,0 +1,13 @@
+--- ../../work-ref/ocaml-cohttp-0.17.2/lwt/cohttp_lwt_unix_io.ml	2015-05-24 19:44:22.000000000 +0200
++++ ./lwt/cohttp_lwt_unix_io.ml	2015-05-31 12:24:28.511600000 +0200
+@@ -16,7 +16,9 @@
+  *)
+ 
+ module CD = Cohttp_lwt_unix_debug
+-let () = Sys.(set_signal sigpipe Signal_ignore)
++let () =
++  if Sys.os_type <> "Win32" then
++    Sys.(set_signal sigpipe Signal_ignore);
+ 
+ type 'a t = 'a Lwt.t
+ let (>>=) = Lwt.bind
