@@ -1,6 +1,6 @@
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-src/console/cmd.ml
---- ../godi-tools-3.0.37.orig/console-src/console/cmd.ml	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/console/cmd.ml	2014-09-02 20:29:12.568000000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/console/cmd.ml ./console-src/console/cmd.ml
+--- ../godi-tools-3.0.40.orig/console-src/console/cmd.ml	2015-01-13 12:45:43.000000000 +0000
++++ ./console-src/console/cmd.ml	2015-06-01 09:35:20.350400000 +0000
 @@ -17,7 +17,9 @@
  
  exception Exit_code of int
@@ -864,9 +864,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/cmd.ml ./console-
  	 | "wish"    -> cmd_wish()
  	 | "perform" -> cmd_perform()
  	 | "list"    -> cmd_list()
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/Makefile.code ./console-src/console/Makefile.code
---- ../godi-tools-3.0.37.orig/console-src/console/Makefile.code	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/console/Makefile.code	2014-09-02 20:29:12.568000000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/console/Makefile.code ./console-src/console/Makefile.code
+--- ../godi-tools-3.0.40.orig/console-src/console/Makefile.code	2015-01-13 12:45:43.000000000 +0000
++++ ./console-src/console/Makefile.code	2015-06-01 09:35:20.366000000 +0000
 @@ -7,9 +7,11 @@
  
  REQUIRES = unix str shell netstring $(WTOOL_REQUIRES)
@@ -912,9 +912,11 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/console/Makefile.code ./c
  #----------------------------------------------------------------------
  # general rules:
  
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml ./console-src/godi-pax/pax.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax.ml	2014-09-02 20:29:12.568000000 +0000
+Only in ./console-src: dummy.manifest
+Only in ./console-src: dummy.rc
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pax/pax.ml ./console-src/godi-pax/pax.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pax/pax.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pax/pax.ml	2015-06-01 09:35:20.366000000 +0000
 @@ -36,6 +36,7 @@
      [ `None
      | `Gzip
@@ -1196,9 +1198,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.ml ./console
 +      ((Godi_file.nativename (Godi_file.filename Godi_conf.cmd_bsdcpio)),
 +       [| "--quiet" ; "-pmud0" ; x.dst_prefix |]) ;
 +  ) x ( fun x -> Sys.remove x.fln ) x
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli ./console-src/godi-pax/pax.mli
---- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax.mli	2014-09-02 20:29:12.583600000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pax/pax.mli ./console-src/godi-pax/pax.mli
+--- ../godi-tools-3.0.40.orig/console-src/godi-pax/pax.mli	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pax/pax.mli	2015-06-01 09:35:20.366000000 +0000
 @@ -36,6 +36,7 @@
      [ `None
      | `Gzip
@@ -1221,9 +1223,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax.mli ./consol
 +
 +val try_finally: ('a -> 'b) -> 'a -> ('c -> 'd) -> 'c -> 'b
 +val filename_quote_shell: ?native:bool -> Godi_file.filename -> string
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml ./console-src/godi-pax/pax_cmd.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pax/pax_cmd.ml	2014-09-02 20:29:12.583600000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pax/pax_cmd.ml ./console-src/godi-pax/pax_cmd.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pax/pax_cmd.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pax/pax_cmd.ml	2015-06-01 09:35:20.366000000 +0000
 @@ -207,6 +207,9 @@
        "-j", `Unit(fun () -> compression := `Bzip2),
        "Process bzip2-compressed archives";
@@ -1323,9 +1325,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pax/pax_cmd.ml ./con
      with
        | Failure msg ->
  	  prerr_endline msg;
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml ./console-src/godi-pkg/godi_perform.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_perform.ml	2014-09-02 20:29:12.599200000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_perform.ml ./console-src/godi-pkg/godi_perform.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_perform.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_perform.ml	2015-06-01 09:35:20.381600000 +0000
 @@ -457,12 +457,13 @@
  ;;
  
@@ -1515,9 +1517,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_perform.ml 
  	       )
  	       else (
  		 (* In the normal case, run these commands directly: *)
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_plan.ml ./console-src/godi-pkg/godi_plan.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_plan.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_plan.ml	2014-09-02 20:29:12.599200000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_plan.ml ./console-src/godi-pkg/godi_plan.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_plan.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_plan.ml	2015-06-01 09:35:20.381600000 +0000
 @@ -810,7 +810,10 @@
  	   match PkgMap.find_by ~name src_set with
  	     | []       -> raise Not_found
@@ -1530,9 +1532,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_plan.ml ./c
  	 let s = source_pkg src_pkg in
  	 ( match s#user_status with
  	     | `Keep ->
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml ./console-src/godi-pkg/godi_ptool.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_ptool.ml	2014-09-02 20:29:12.599200000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_ptool.ml ./console-src/godi-pkg/godi_ptool.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_ptool.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_ptool.ml	2015-06-01 09:35:20.381600000 +0000
 @@ -531,32 +531,71 @@
      | None ->
  	failwith "Godi_ptool.binary_of_dispersed_package"
@@ -1632,9 +1634,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_ptool.ml ./
 +        ) fch ( fun fch -> if !fch_closed <> false then Pervasives.close_out fch ) fch
 +      ) tmp_dir ( fun tmp_dir -> Godi_file.release_tmpdir tmp_dir ) tmp_dir
  ;;
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./console-src/godi-pkg/godi_query.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_query.ml	2014-09-02 20:29:12.614800000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_query.ml ./console-src/godi-pkg/godi_query.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_query.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_query.ml	2015-06-01 09:35:20.397200000 +0000
 @@ -101,6 +101,8 @@
    lazy (from_godi_conf "GODI_DBDIR")
  ;;
@@ -1857,9 +1859,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.ml ./
      local_tgz := Some tgz;
      local_pkg := Some pkg;
      local_rel := release
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli ./console-src/godi-pkg/godi_query.mli
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_query.mli	2014-09-02 20:29:12.614800000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_query.mli ./console-src/godi-pkg/godi_query.mli
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_query.mli	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_query.mli	2015-06-01 09:35:20.397200000 +0000
 @@ -65,6 +65,11 @@
  val godi_binpkg_path : unit -> string list
    (* returns the URLs in GODI_BINPKG (or [] if not set) *)
@@ -1882,9 +1884,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_query.mli .
 +   Return None in case of success or an error message otherwise
 +*)
 +(* TODO: move to proper location *)
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_update.ml ./console-src/godi-pkg/godi_update.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_update.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-pkg/godi_update.ml	2014-09-02 20:29:12.614800000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_update.ml ./console-src/godi-pkg/godi_update.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-pkg/godi_update.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-pkg/godi_update.ml	2015-06-01 09:35:20.397200000 +0000
 @@ -286,7 +286,7 @@
  	 Godi_file.release_tmpdir tmpdir;
  	 []
@@ -1918,9 +1920,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-pkg/godi_update.ml .
  	raise error
  ;;
  
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.ml ./console-src/godi-sys-unix/godi_file.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-unix/godi_file.ml	2014-09-02 20:29:12.614800000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-unix/godi_file.ml ./console-src/godi-sys-unix/godi_file.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-unix/godi_file.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-unix/godi_file.ml	2015-06-01 09:35:20.412800000 +0000
 @@ -636,3 +636,7 @@
  	let s' = if param="" then s else s ^ ": " ^ param in
  	raise(Sys_error s')
@@ -1929,9 +1931,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.m
 +
 +let enable_caching () = () ;;
 +let disable_caching () = () ;;
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.mli ./console-src/godi-sys-unix/godi_file.mli
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.mli	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-unix/godi_file.mli	2014-09-02 20:29:12.630400000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-unix/godi_file.mli ./console-src/godi-sys-unix/godi_file.mli
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-unix/godi_file.mli	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-unix/godi_file.mli	2015-06-01 09:35:20.412800000 +0000
 @@ -369,3 +369,7 @@
     *
     * setx: whether to pass the -x option to the shell. Default: false
@@ -1940,9 +1942,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-unix/godi_file.m
 +
 +val enable_caching : unit -> unit
 +val disable_caching : unit -> unit
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.ml ./console-src/godi-sys-win32/godi_exec.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/godi_exec.ml	2014-09-02 20:29:12.630400000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_exec.ml ./console-src/godi-sys-win32/godi_exec.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_exec.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-win32/godi_exec.ml	2015-06-01 09:35:20.412800000 +0000
 @@ -21,7 +21,7 @@
    | J_finish
  
@@ -2045,9 +2047,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_exec.
        (* Files will be removed later by release_all_tmpdirs *)
    )
  ;;
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.ml ./console-src/godi-sys-win32/godi_file.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/godi_file.ml	2014-09-02 20:29:12.630400000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_file.ml ./console-src/godi-sys-win32/godi_file.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_file.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-win32/godi_file.ml	2015-06-01 09:35:20.412800000 +0000
 @@ -12,7 +12,6 @@
  *)
  
@@ -2250,9 +2252,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file.
      Unix.execv
        cmd_exe 
        (Array.of_list
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file_helper.ml ./console-src/godi-sys-win32/godi_file_helper.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file_helper.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/godi_file_helper.ml	2014-09-02 20:29:12.646000000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_file_helper.ml ./console-src/godi-sys-win32/godi_file_helper.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/godi_file_helper.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-win32/godi_file_helper.ml	2015-06-01 09:35:20.428400000 +0000
 @@ -11,31 +11,32 @@
   * file LICENSE.
  *)
@@ -2549,9 +2551,10 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/godi_file_
      | `Relative p ->
  	(* The Win32 working directory is
             translated to a POSIX path using the mount table
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/Makefile.code ./console-src/godi-sys-win32/Makefile.code
---- ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/Makefile.code	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-sys-win32/Makefile.code	2014-09-02 20:29:12.646000000 +0000
+Only in ./console-src/godi-sys-win32: godi_file_helper.mli
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/Makefile.code ./console-src/godi-sys-win32/Makefile.code
+--- ../godi-tools-3.0.40.orig/console-src/godi-sys-win32/Makefile.code	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-sys-win32/Makefile.code	2015-06-01 09:35:20.428400000 +0000
 @@ -58,8 +58,8 @@
  # general rules:
  
@@ -2563,9 +2566,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-sys-win32/Makefile.c
  OCAMLDEP  = ocamldep $(OPTIONS)
  
  depend: *.ml *.mli 
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp ./console-src/godi-util/godi_conf.mlp
---- ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/godi-util/godi_conf.mlp	2014-09-02 20:29:12.646000000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-util/godi_conf.mlp ./console-src/godi-util/godi_conf.mlp
+--- ../godi-tools-3.0.40.orig/console-src/godi-util/godi_conf.mlp	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-util/godi_conf.mlp	2015-06-01 09:35:20.428400000 +0000
 @@ -24,3 +24,173 @@
  
  let cmd_bzip2 = "@CMD_BZIP2@";;
@@ -2740,9 +2743,18 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-util/godi_conf.mlp .
 +mkdir -p \"${godi_sbin_tmp_dir}\"
 +cp -p \"$godi_console\" \"${godi_sbin_tmp_dir}/godi_console\"
 +"
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-wtool-power/wtool.ml ./console-src/godi-wtool-power/wtool.ml
---- ../godi-tools-3.0.37.orig/console-src/godi-wtool-power/wtool.ml	2013-04-14 13:03:21.000000000 +0000
-+++ ./console-src/godi-wtool-power/wtool.ml	2014-09-02 20:55:12.380800000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-wtool-power/Makefile ./console-src/godi-wtool-power/Makefile
+--- ../godi-tools-3.0.40.orig/console-src/godi-wtool-power/Makefile	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-wtool-power/Makefile	2015-06-01 09:35:20.428400000 +0000
+@@ -33,4 +33,4 @@
+ .PHONY: config
+ config:
+ 	rm -f wtool.ml
+-	case `ocamlfind query -format '%v' netstring` in 3.*) ln -s wtool_onet3.ml wtool.ml ;; *) ln -s wtool_onet4.ml wtool.ml ;; esac
++	case `ocamlfind query -format '%v' netstring` in 3.*) cp -p wtool_onet3.ml wtool.ml ;; *) cp -p wtool_onet4.ml wtool.ml ;; esac
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-wtool-power/wtool_onet3.ml ./console-src/godi-wtool-power/wtool_onet3.ml
+--- ../godi-tools-3.0.40.orig/console-src/godi-wtool-power/wtool_onet3.ml	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-wtool-power/wtool_onet3.ml	2015-06-01 09:35:20.444000000 +0000
 @@ -51,15 +51,59 @@
  	mutable en_store : bool;
        }
@@ -2837,9 +2849,19 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/godi-wtool-power/wtool.ml
    let cuser = ref None in
    let store_passwords = ref false in
    let localbase = ref "/UNCONFIGURED" in
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/Makefile ./console-src/Makefile
---- ../godi-tools-3.0.37.orig/console-src/Makefile	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/Makefile	2014-09-02 20:29:12.661600000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/godi-wtool-simple/Makefile ./console-src/godi-wtool-simple/Makefile
+--- ../godi-tools-3.0.40.orig/console-src/godi-wtool-simple/Makefile	2015-01-13 12:45:44.000000000 +0000
++++ ./console-src/godi-wtool-simple/Makefile	2015-06-01 09:35:20.631200000 +0000
+@@ -33,5 +33,5 @@
+ .PHONY: config
+ config:
+ 	rm -f wtool.ml
+-	case `ocamlfind query -format '%v' netstring` in 3.*) ln -s wtool_onet3.ml wtool.ml ;; *) ln -s wtool_onet4.ml wtool.ml ;; esac
++	case `ocamlfind query -format '%v' netstring` in 3.*) cp -p wtool_onet3.ml wtool.ml ;; *) cp -p wtool_onet4.ml wtool.ml ;; esac
+ 
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/Makefile ./console-src/Makefile
+--- ../godi-tools-3.0.40.orig/console-src/Makefile	2015-01-13 12:45:43.000000000 +0000
++++ ./console-src/Makefile	2015-06-01 09:35:20.444000000 +0000
 @@ -10,17 +10,23 @@
  	cd godi-ui && $(MAKE) all
  	cd console && $(MAKE) all
@@ -2905,9 +2927,9 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/Makefile ./console-src/Ma
  	 	              "$(prefix)/bin/godi_$$f$(EXE)"; \
              fi; \
  	done
-diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/symlink ./console-src/symlink
---- ../godi-tools-3.0.37.orig/console-src/symlink	2013-04-14 13:03:20.000000000 +0000
-+++ ./console-src/symlink	2014-09-02 20:29:12.661600000 +0000
+diff -r -b -B -u ../godi-tools-3.0.40.orig/console-src/symlink ./console-src/symlink
+--- ../godi-tools-3.0.40.orig/console-src/symlink	2015-01-13 12:45:43.000000000 +0000
++++ ./console-src/symlink	2015-06-01 09:35:20.444000000 +0000
 @@ -1,51 +1,48 @@
  #! /bin/sh
  
@@ -2994,9 +3016,12 @@ diff -r -b -B -u ../godi-tools-3.0.37.orig/console-src/symlink ./console-src/sym
  fi
 -
 +cp "$exefile" "$2"
-diff -r -b -B -u ../godi-tools-3.0.37.orig/mk/configure ./mk/configure
---- ../godi-tools-3.0.37.orig/mk/configure	2013-04-14 13:03:20.000000000 +0000
-+++ ./mk/configure	2014-09-02 20:29:12.677200000 +0000
+Only in ./console-src: symlink.c
+Only in .: gorun
+Only in ./mk/build/mk: mingw.pkg.mk
+diff -r -b -B -u ../godi-tools-3.0.40.orig/mk/configure ./mk/configure
+--- ../godi-tools-3.0.40.orig/mk/configure	2015-01-13 12:45:43.000000000 +0000
++++ ./mk/configure	2015-06-01 09:35:20.444000000 +0000
 @@ -14,6 +14,7 @@
  outsystype="build/mk/systype.mk"
  path_mode="append"

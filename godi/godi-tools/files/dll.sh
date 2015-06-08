@@ -14,9 +14,21 @@ oldIFS=$IFS
 IFS='
 '
 
+if [ -z "$OBJDUMP" ]; then
+  OBJDUMP=objdump
+fi
+if [ -z "$STRINGS" ]; then
+  STRINGS=strings
+fi
+
+list_dll(){
+    ( $OBJDUMP -p "$1" | grep 'DLL Name:' | awk '{print $3}' ; \
+      $STRINGS "$1" | awk '{print $1}' | grep -i '\.dll$' | grep -v '^\.') \
+        | sort -u
+}
+
 while [ $# -gt 0 ]; do
-    exe_file=$1
-    for dll in `$OBJDUMP -p "$exe_file" | grep 'DLL Name:' | awk '{print $3}'` ; do
+    for dll in $(list_dll "$1") ; do
 	if [ -z "$dll" ] || [ ! -f "${src_dir}/${dll}" ] ; then
 	    continue
 	fi
@@ -38,7 +50,7 @@ while [ $new_found -eq 1 ]; do
 	if [ $value -eq 1 ]; then
 	    mymap[$dll]=2
 	    cp -p "${src_dir}/${dll}" "${dst_dir}"
-	    for ndll in `$OBJDUMP -p "${src_dir}/${dll}" | grep 'DLL Name:' | awk '{print $3}'` ; do
+	    for ndll in $(list_dll "${src_dir}/${dll}"); do
 		if [ -z "$ndll" ] || [ ! -f "${src_dir}/${ndll}" ] \
 		    || [ "a${mymap[$ndll]}" = "a1" ] || [ "a${mymap[$ndll]}" = "a2" ] ; then
 		    continue

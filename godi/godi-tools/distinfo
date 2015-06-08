@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (godi-tools-3.0.37.tar.gz) = 07354c2c3d0f669078d3c4cfa88a80e90dcd78f0
-Size (godi-tools-3.0.37.tar.gz) = 568998 bytes
+SHA1 (bsdtar-0.3.tar.xz) = 818cbd4d066e1a6022999dae489899225ae26f8f
+Size (bsdtar-0.3.tar.xz) = 1027544 bytes
 
-SHA1 (bsdtar-0.2.tar.xz) = d2991ceb528bdcbf8016b8abecff1e11e15416dc
-Size (bsdtar-0.2.tar.xz) = 993280 bytes
+SHA1 (godi-tools-3.0.40.tar.gz) = 3fbfb554feecf7d71f13e270093cfff1ffd3c255
+Size (godi-tools-3.0.40.tar.gz) = 571707 bytes
 
-SHA1 (patch-aa) = ca090596e686c7aa96f81ac2fbe42d23c9dc2688
+SHA1 (patch-aa) = 8caccec594650d3c18132370398d55344116878f
 SHA1 (patch-ee-bsdpkg2) = 748eb27a00388a75a982e8304d4fa3be5dafb8ef
