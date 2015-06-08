@@ -1,6 +1,6 @@
---- ../../work-ref/ocaml-containers-0.8/_oasis	2015-01-26 20:35:17.000000000 +0100
-+++ ./_oasis	2015-02-12 13:37:02.097200000 +0100
-@@ -181,7 +181,7 @@
+--- ../../work-ref/ocaml-containers-0.10/_oasis	2015-04-10 16:43:16.000000000 +0200
++++ ./_oasis	2015-04-19 17:16:43.664800000 +0200
+@@ -190,7 +190,7 @@
    BuildDepends: containers, threads, sequence, oUnit, containers.thread
  
  Test future
@@ -9,15 +9,15 @@
    TestTools:    run_test_future
    Run$:         flag(tests) && flag(thread)
  
---- ../../work-ref/ocaml-containers-0.8/Makefile	2015-01-26 20:35:17.000000000 +0100
-+++ ./Makefile	2015-02-12 13:32:52.013600000 +0100
-@@ -105,8 +105,9 @@
+--- ../../work-ref/ocaml-containers-0.10/Makefile	2015-04-10 16:43:16.000000000 +0200
++++ ./Makefile	2015-04-19 17:27:16.369600000 +0200
+@@ -122,8 +122,9 @@
  	rm **/*.{mldylib,mlpack,mllib} myocamlbuild.ml -f
  
  run-test: build
 -	./run_qtest.native
 -	./run_tests.native
-+	./_build/qtest/run_qtest.native
++#	./_build/qtest/run_qtest.native
 +	./_build/tests/run_tests.native
 +#	./_build/tests/test_levenshtein.native
  

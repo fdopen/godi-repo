@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 1c586fbc6258884888b0cb9d7c58b5d9) *)
+(* DO NOT EDIT (digest: 251749b21c51930314646356d760084b) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -613,13 +613,13 @@ let package_default =
        [
           ("containers", ["src/core"], []);
           ("containers_io", ["src/io"], []);
+          ("containers_unix", ["src/unix"], []);
           ("containers_sexp", ["src/sexp"], []);
           ("containers_data", ["src/data"], []);
           ("containers_iter", ["src/iter"], []);
           ("containers_string", ["src/string"], []);
           ("containers_advanced", ["src/advanced"], []);
           ("containers_bigarray", ["src/bigarray"], []);
-          ("containers_pervasives", ["src/pervasives"], []);
           ("containers_misc", ["src/misc"], []);
           ("containers_thread", ["src/threads"], []);
           ("containers_lwt", ["src/lwt"], [])
@@ -631,11 +631,11 @@ let package_default =
           ("tests/threads", ["src/core"; "src/threads"]);
           ("tests", ["src/core"; "src/data"; "src/misc"; "src/string"]);
           ("src/threads", ["src/core"]);
-          ("src/pervasives", ["src/core"]);
           ("src/misc", ["src/core"; "src/data"]);
           ("src/lwt", ["src/core"; "src/misc"]);
           ("src/bigarray", ["src/core"]);
           ("src/advanced", ["src/core"]);
+          ("qtest/lwt", ["src/core"; "src/lwt"]);
           ("qtest",
             [
                "src/advanced";
@@ -645,7 +645,8 @@ let package_default =
                "src/iter";
                "src/misc";
                "src/sexp";
-               "src/string"
+               "src/string";
+               "src/unix"
             ]);
           ("examples", ["src/core"; "src/misc"; "src/sexp"]);
           ("benchs",
@@ -665,7 +666,7 @@ let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
 let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
 
-# 669 "myocamlbuild.ml"
+# 670 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let doc_intro = "doc/intro.txt" ;;
