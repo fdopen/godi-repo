@@ -1,6 +1,6 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.8
+VERSION=	1.8.1
 PKGREVISION=	0
 PKGNAME=	godi-xstrp4-${VERSION}
 DISTNAME=	xstrp4-${VERSION}
