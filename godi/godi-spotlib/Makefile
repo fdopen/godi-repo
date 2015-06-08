@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=	2.5.1
+VERSION=	2.5.2
 PKG=		godi-spotlib
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	camlspotter-spotlib-e2e97161dd47
-DISTFILES=	spotlib-2.5.1.tar.xz
+DISTNAME=	camlspotter-spotlib-234f7ed09202
+DISTFILES=	spotlib-2.5.2.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://bitbucket.org/camlspotter/spotlib/
