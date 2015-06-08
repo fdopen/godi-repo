@@ -1,15 +1,15 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.7.2
+VERSION=	0.8.2
 ONAME=		conduit
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-conduit-0.7.2
-DISTFILES=	conduit-0.7.2.tar.xz
+DISTNAME=	ocaml-conduit-0.8.2
+DISTFILES=	conduit-0.8.2.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-HOMEPAGE=	https://github.com/mirage/ocaml-conduit/
+HOMEPAGE=	https://github.com/mirage/ocaml-conduit
 COMMENT=	OCaml network conduit library
 
 DEPENDS+=  godi-cstruct>=1.0.1:../../godi/godi-cstruct
