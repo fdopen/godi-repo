@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.3.0
+VERSION=	1.4.0
 PKG=		godi-re
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-re-ocaml-re-1.3.0
-DISTFILES=	ocaml-re-1.3.0.tar.gz
+DISTNAME=	ocaml-re-ocaml-re-1.4.0
+DISTFILES=	ocaml-re-1.4.0.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	https://github.com/ocaml/ocaml-re/archive/
 HOMEPAGE=	https://github.com/ocaml/ocaml-re
