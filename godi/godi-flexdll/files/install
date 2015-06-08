@@ -24,9 +24,9 @@ make_config(){
     objdump="$(cygpath -m "$objdump")"
     gcc_file_path="$("$gcc" -print-libgcc-file-name)"
     gcc_file_path="$(dirname "${gcc_file_path}")"
-    gcc_file_path="$(cygpath -m "${gcc_file_path}")"
+    gcc_file_path="$(cygpath -m "${gcc_file_path}" || echo "")"
     gcc_lib_path="$("$gcc" -print-sysroot )"
-    gcc_lib_path="$(cygpath -m "${gcc_lib_path}")"
+    gcc_lib_path="$(cygpath -m "${gcc_lib_path}" || echo "" )"
     gcc_lib_path="${gcc_lib_path}/mingw/lib"
 
     cat - >"$1" <<EOF

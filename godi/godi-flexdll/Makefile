@@ -1,8 +1,8 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.31
+VERSION=	0.34
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	6
+PKGREVISION=	0
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
 EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
@@ -63,10 +63,6 @@ pre-configure:
 	@false
 .endif
 
-
-test-target:
-	@echo ${FLEXLINKFLAGS:Q}
-
 post-install:
 	${MKDIR} ${PREFIX}/bin ${PREFIX}/include ${PREFIX}/lib/flexdll
 	${MKDIR} ${PREFIX}/doc/godi-flexdll
@@ -84,7 +80,7 @@ post-install:
 	   ${INSTALL} -m 0644 ${WRKDIR:Q}/add/${f:Q} ${PREFIX:Q}/lib/flexdll ; \
 	fi
 .endfor
-	@for file in LICENSE README CHANGES flexdll.c flexdll_initer.c default.manifest default_amd64.manifest; do \
+	@for file in LICENSE README.md CHANGES flexdll.c flexdll_initer.c default.manifest default_amd64.manifest; do \
 	    ${INSTALL} -m 0644 ${WRKSRC}/$$file ${PREFIX}/doc/godi-flexdll/; \
 	done
 .if defined(W32PORT) && ${W32PORT} == "mingw"

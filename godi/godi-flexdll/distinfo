@@ -1,14 +1,14 @@
 $NetBSD$
 
-SHA1 (flexdll-0.31.tar.gz) = 7ca63bf8d6c731fd95e0d434a8cfbcc718b99d62
-Size (flexdll-0.31.tar.gz) = 33553 bytes
+SHA1 (flexdll-0.34.tar.gz) = 86acfd2d965dcf7a650f3d8e8f8db7bfe99de2a0
+Size (flexdll-0.34.tar.gz) = 36919 bytes
 
-SHA1 (flexdll-bin-0.31.zip) = 0fc8f1968641fd6ba877a74b4460ec41932f0ad1
-Size (flexdll-bin-0.31.zip) = 354061 bytes
+SHA1 (flexdll-bin-0.34.zip) = 2e7443e34744b7295a31b2072d7e678c9e047cf9
+Size (flexdll-bin-0.34.zip) = 366601 bytes
 
-SHA1 (patch-aa-cmdline) = d00e616f99c5cf86837d8a0f9a5e453ff5c77271
-SHA1 (patch-ab-makefile) = d6ea7dac2f88f7e284bb6da6cd5d175eb29a38ba
-SHA1 (patch-ac-reloc) = 28173b991ac63ee791b41506f1fbc1691fa40f6d
-SHA1 (patch-ad-cmdline) = f0b4c642bdb25a0f0ae2d83b0a12381532e797cb
-SHA1 (patch-ae-manifest) = e08d60754faff550d8d24957ae2a3a49c8824de7
-SHA1 (patch-af) = cc183597d07a8022963f6a6e60c995610af58e71
+SHA1 (patch-aa-cmdline) = fdcd08bef45e2b20f86ba624a875980443ae687b
+SHA1 (patch-ab-makefile) = 7c107015dd57f4ec24f7c4c16cd4a338794e17c5
+SHA1 (patch-ac-reloc) = 241180c5ea69bf260c59f16c43b643c2e75d2a90
+SHA1 (patch-ad-cmdline) = 003d2d9ccbc294892c9ff581c3cbe996e6752678
+SHA1 (patch-ae-manifest) = 90eac7db0a275551e7da5075b135e3587b15a531
+SHA1 (patch-af) = 9277134c35cf81882a718e416f0d134cdba63c15

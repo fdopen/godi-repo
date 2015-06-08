@@ -1,5 +1,5 @@
---- reloc.ml.orig	2012-03-27 09:38:20.000000000 +0200
-+++ reloc.ml	2012-09-02 19:35:56.690353436 +0200
+--- ./reloc.ml
++++ ./reloc.ml
 @@ -16,6 +16,8 @@
  let search_path = ref []
  let default_libs = ref []
@@ -16,9 +16,9 @@
 -    Filename.dirname Sys.executable_name
 +    Filename.concat (Filename.dirname Sys.executable_name) "../lib/flexdll"
  
- (* Temporary files *)
- 
-@@ -84,6 +86,12 @@
+ let ext_obj () =
+   if !toolchain = `MSVC || !toolchain = `MSVC64 then ".obj" else ".o"
+@@ -87,6 +89,12 @@
  let get_output1 ?use_bash cmd =
    List.hd (get_output ?use_bash cmd)
  
@@ -31,7 +31,7 @@
  
  (* Preparing command line *)
  
-@@ -971,14 +979,29 @@
+@@ -1050,14 +1058,29 @@
  
  let setup_toolchain () =
    let mingw_libs pre =
@@ -69,37 +69,39 @@
      default_libs :=
        ["-lmingw32"; "-lgcc"; "-lmoldname"; "-lmingwex"; "-lmsvcrt";
         "-luser32"; "-lkernel32"; "-ladvapi32"; "-lshell32" ];
-@@ -991,15 +1014,24 @@
+@@ -1070,16 +1093,25 @@
        add_flexdll_obj := false;
        noentry := true
-   | `CYGWIN ->
+   | `CYGWIN | `CYGWIN64 ->
 -      gcc := "gcc";
 -      objdump := "objdump";
-+    gcc := (match creader#get "gcc" with
-+    | Some x -> x
-+    | None -> "gcc");
-+    objdump := (match creader#get "objdump" with
-+    | Some x -> x
-+    | None -> "objdump");
++      gcc := (match creader#get "gcc" with
++      | Some x -> x
++      | None -> "gcc");
++      objdump := (match creader#get "objdump" with
++      | Some x -> x
++      | None -> "objdump");
        search_path :=
- 	!dirs @
- 	  [
+         !dirs @
+           [
             "/lib";
--	   "/lib/w32api";
+-           "/lib/w32api";
 -           Filename.dirname (get_output1 ~use_bash:true "gcc -print-libgcc-file-name");
--	  ];
-+	"/lib/w32api"
-+      ] @
-+      ( match creader#get "gcc_file_path" with
+-          ];
+-      default_libs := ["-lkernel32"; "-luser32"; "-ladvapi32";
++           "/lib/w32api"
++          ] @
++      (match creader#get "gcc_file_path" with
 +      | Some x -> [x]
 +      | None ->
 +        match get_output1o ~use_bash:true "gcc -print-libgcc-file-name" with
 +        | Some x -> [ Filename.dirname x];
 +        | None -> [] ) ;
-       default_libs := ["-lkernel32"; "-luser32"; "-ladvapi32";
- 		       "-lshell32"; "-lcygwin"; "-lgcc"]
++       default_libs := ["-lkernel32"; "-luser32"; "-ladvapi32";
+                        "-lshell32"; "-lcygwin"; "-lgcc"]
    | `MSVC | `MSVC64 ->
-@@ -1086,7 +1118,10 @@
+       search_path := !dirs @
+@@ -1180,7 +1212,10 @@
  
    use_cygpath :=
      begin
@@ -110,8 +112,8 @@
 +        (match !toolchain, !cygpath_arg with
        | _, `Yes -> true
        | _, `No -> false
-       | (`MINGW|`MINGW64|`CYGWIN), `None ->
-@@ -1097,10 +1132,10 @@
+       | (`GNAT|`MINGW|`MINGW64|`CYGWIN|`CYGWIN64), `None ->
+@@ -1191,10 +1226,10 @@
                Sys.command "cygpath -S 2>NUL >NUL" = 0
            | _ -> assert false
            end

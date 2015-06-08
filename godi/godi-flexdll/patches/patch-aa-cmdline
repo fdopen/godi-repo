@@ -1,6 +1,6 @@
---- cmdline.ml.orig	2013-05-03 11:05:03.000000000 +0000
-+++ cmdline.ml	2013-09-03 11:07:07.142400000 +0000
-@@ -200,6 +200,152 @@
+--- ./cmdline.ml
++++ ./cmdline.ml
+@@ -210,6 +210,152 @@
  ]
  
  
@@ -153,7 +153,7 @@
  let flexlinkflags =
    let s =
      try Sys.getenv "FLEXLINKFLAGS"
-@@ -245,36 +391,40 @@
+@@ -255,36 +401,40 @@
      | x :: rest -> x :: tr rest
      | [] -> []
    in
