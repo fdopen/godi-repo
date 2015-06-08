@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.2.5
+VERSION=	1.2.6
 PKG=		godi-omd
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	omd-1.2.5
-DISTFILES=	omd-1.2.5.tar.gz
+DISTNAME=	omd-1.2.6
+DISTFILES=	omd-1.2.6.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://pw374.github.io/distrib/omd/
 HOMEPAGE=	https://github.com/ocaml/omd
