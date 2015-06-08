@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (ocamlnet-3.7.6.tar.gz) = 05a0fbb62423e23d2cffaa66f34432e16b055389
-Size (ocamlnet-3.7.6.tar.gz) = 3425021 bytes
+SHA1 (ocamlnet-3.7.7.tar.gz) = db88039adf941bf6aeaff453f4848b4407e7f560
+Size (ocamlnet-3.7.7.tar.gz) = 3357674 bytes
 
 SHA1 (patch-aa-getmaxstdio) = e5ad40525a6c7b3d7338aec9958bd21093eed2a7
 SHA1 (patch-wl) = 6daa8dfb481624ea9287bf39c22079091cb356e9
