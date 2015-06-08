@@ -1,11 +1,11 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=	0.3.4alpha
+VERSION=	0.4.1
 ONAME=		ctypes
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	4
-DISTNAME=	ocaml-ctypes-0.3.3
-DISTFILES=	ctypes-0.3.3.tar.xz
+PKGREVISION=	0
+DISTNAME=	ocaml-ctypes-0.4.1
+DISTFILES=	ctypes-0.4.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/ocamllabs/ocaml-ctypes
@@ -50,18 +50,15 @@ export LIBFFI_LIBS="-L${TLIBDIR} -lffi"
 cd "${WRKSRC}"
 
 ${TOUCH} setup.data
-${GMAKE} distclean
+${GMAKE} clean
 ${RM} -f setup.data
 ${GMAKE} all OCAMLMKLIB=ocamlmklib_real DEBUG=true
-${GMAKE} date date-stubs date-stub-generator date-cmd-build date-cmd
-./_build/date-cmd.native
-./_build/date.native
 ${GMAKE} test OCAMLMKLIB=ocamlmklib_real DEBUG=true
 exit 0
 .endscript
 
-post-patch:
-	${RM} -f ${WRKSRC:Q}/src/ctypes-foreign-base/dl.ml ${WRKSRC:Q}/src/ctypes-foreign-base/dl_stubs.c
+#post-patch:
+#	${RM} -f ${WRKSRC:Q}/src/ctypes-foreign-base/dl.ml ${WRKSRC:Q}/src/ctypes-foreign-base/dl_stubs.c
 
 do-build:
 	@${SETENV} ${MAKE_ENV} ${MAKE} -C ${PKGDIR:Q} ${MAKEFLAGS} do-build-real
