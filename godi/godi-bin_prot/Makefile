@@ -1,18 +1,18 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	112.17.00
+VERSION=	112.24.00
 ONAME=		bin_prot
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       bin_prot-112.17.00
-DISTFILES=      bin_prot-112.17.00.tar.gz
+DISTNAME=       bin_prot-112.24.00
+DISTFILES=      bin_prot-112.24.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.17/files/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
 HOMEPAGE=       https://github.com/janestreet/bin_prot
 COMMENT=        A binary protocol generator
 
-DEPENDS+=	godi-ocaml>=4.00.0:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.02.1:../../godi/godi-ocaml
 DEPENDS+=	godi-camlp4>=0:../../godi/godi-camlp4
 DEPENDS+=	godi-type_conv<112.02.00:../../godi/godi-type_conv
 DEPENDS+=	godi-type_conv>=112.01.00:../../godi/godi-type_conv
