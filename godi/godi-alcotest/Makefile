@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.2.0
+VERSION=	0.3.1
 ONAME=		alcotest
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
-PKGREVISION=	1
-DISTNAME=	alcotest-0.2.0
-DISTFILES=	alcotest-0.2.0.tar.gz
+PKGREVISION=	0
+DISTNAME=	alcotest-0.3.1
+DISTFILES=	alcotest-0.3.1.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/samoht/alcotest/
