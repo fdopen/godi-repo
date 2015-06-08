@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (ppx_test-1.0.1.tar.xz) = 7d696d7bed204e441c60a70b83ae72902f10bef5
-Size (ppx_test-1.0.1.tar.xz) = 43664 bytes
-
-SHA1 (patch-aa) = 8474fa46378b427d86dc4f10dba6ae014de02009
+SHA1 (ppx_test-1.1.0.tar.xz) = 77e17b744c58724bc60d92eb2ac43a1e76d87025
+Size (ppx_test-1.1.0.tar.xz) = 45604 bytes

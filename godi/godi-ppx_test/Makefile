@@ -1,17 +1,17 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.1
+VERSION=	1.1.0
 PKGREVISION=	0
 ONAME=		ppx_test
 PKGNAME=	godi-${ONAME}-${VERSION}
-DISTNAME=	camlspotter-ppx_test-b28faf4ed7c2
-DISTFILES=	ppx_test-1.0.1.tar.xz
+DISTNAME=	camlspotter-ppx_test-0de99a98a866
+DISTFILES=	ppx_test-1.1.0.tar.xz
 CATEGORIES=	godi
 HOMEPAGE=	https://bitbucket.org/camlspotter/ppx_test/${ONAME}/
 COMMENT=	replacement of pa_ounit
 
+DEPENDS+=  godi-re-*:../../godi/godi-re
 DEPENDS+=	godi-ocaml>=4.02.0:../../godi/godi-ocaml
-DEPENDS+=	godi-pcre>0:../../godi/godi-pcre
 BUILD_DEPENDS+= godi-findlib>=1.5.2:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-omake>=0:../../godi/godi-omake
 
