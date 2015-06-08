@@ -1,14 +1,14 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	1.1.5
+VERSION= 	1.2.0
 MNODE=		1100 
 PKG=		godi-uint
 PKGNAME= 	godi-uint-${VERSION}  
 PKGREVISION= 	0
-DISTNAME=	ocaml-uint-1.1.5
-DISTFILES=	ocaml-uint-1.1.5.tar.gz
+DISTNAME=	ocaml-uint-1.2.0
+DISTFILES=	ocaml-uint-1.2.0.tar.gz
 CATEGORIES=	godi 
-MASTER_SITES= 	https://forge.ocamlcore.org/frs/download.php/1487/
+MASTER_SITES= 	https://forge.ocamlcore.org/frs/download.php/1516/
 HOMEPAGE=	https://forge.ocamlcore.org/projects/ocaml-uint/
 COMMENT=	Unsigned ints for OCaml
 
