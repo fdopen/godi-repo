@@ -1,19 +1,19 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.1
+VERSION=	1.1.4
 PKGNAME=	godi-webdav-${VERSION}
-PKGREVISION=	3
+PKGREVISION=	0
 DISTNAME=	webdav-${VERSION}
 DISTFILES=	webdav-${VERSION}.tar.gz
 CATEGORIES=	godi
 MASTER_SITES=	http://download.camlcity.org/download/
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=	http://oss.wink.com/webdav/
+HOMEPAGE=	http://projects.camlcity.org/projects/webdav.html
 COMMENT=	Client for WebDAV
 
 DEPENDS+=	godi-ocaml>=3.12:../../godi/godi-ocaml
 DEPENDS+=	godi-ocamlnet>=3.4:../../godi/godi-ocamlnet
-DEPENDS+=	godi-ocamlnet-pcre>=3.6:../../godi/godi-ocamlnet-pcre
+#DEPENDS+=	godi-ocamlnet-pcre>=3.6:../../godi/godi-ocamlnet-pcre
 DEPENDS+=	godi-pxp>=1.2:../../godi/godi-pxp
 BUILD_DEPENDS+= godi-findlib>=1.0:../../godi/godi-findlib
 BUILD_DEPENDS+= godi-omake>=0:../../godi/godi-omake

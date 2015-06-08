@@ -1,8 +1,6 @@
 $NetBSD$
 
-SHA1 (webdav-1.1.tar.gz) = 6299198e96026b310ddeec3a01e9b69e06f9563a
-Size (webdav-1.1.tar.gz) = 78619 bytes
+SHA1 (webdav-1.1.4.tar.gz) = a0184b7d15824d5cbbd6eba11a75eb4bbacec03e
+Size (webdav-1.1.4.tar.gz) = 106832 bytes
 
-SHA1 (patch-aa) = 932bacecbcf1c472bf451d3b531150ca70fc2972
-SHA1 (patch-ab) = 7c43469dc3ddd0a80fb7d8fe5517483b286817d1
-SHA1 (patch-bb) = de4935664dd38bc66e92f89e59b93edfb34c8ca5
+SHA1 (patch-aa) = f640eaf4fdf82253323b4e637c2ae0912461b3d3
