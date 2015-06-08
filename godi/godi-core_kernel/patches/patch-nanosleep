@@ -1,0 +1,27 @@
+--- ../../work-ref/core_kernel-112.24.00/lib/time_ns_stubs.c	2015-03-06 16:43:11.000000000 +0100
++++ ./lib/time_ns_stubs.c	2015-04-04 22:29:29.854000000 +0200
+@@ -105,6 +105,24 @@
+   return v_str;
+ }
+ 
++#ifdef _WIN32
++#include <time.h>
++#include <windows.h>
++static int
++dummy_nanosleep(const struct timespec *req, struct timespec *rem)
++{
++    DWORD timeout;
++    if (rem){
++        rem->tv_sec = 0;
++        rem->tv_nsec = 0;
++    }
++    timeout = req->tv_sec * 1000L + (req->tv_nsec + 999999) / 1000000;
++    Sleep(timeout);
++    return 0;
++}
++#define nanosleep dummy_nanosleep
++#endif
++
+ CAMLprim value core_kernel_time_ns_nanosleep(value v_seconds)
+ {
+   struct timespec req = timespec_of_double(Double_val(v_seconds));

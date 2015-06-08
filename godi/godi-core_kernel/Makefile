@@ -1,20 +1,22 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	112.17.00
+VERSION=	112.24.00
 PKG=		godi-core_kernel
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
-DISTNAME=       core_kernel-112.17.00
-DISTFILES=      core_kernel-112.17.00.tar.gz
+PKGREVISION=    1
+DISTNAME=       core_kernel-112.24.00
+DISTFILES=      core_kernel-112.24.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.17/files/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
 HOMEPAGE=       https://github.com/janestreet/core_kernel
 COMMENT=        Part of Jane Street's Core library
 
 #DEPENDS+=  godi-custom_printf>=112.06.00:../../godi/godi-custom_printf
+DEPENDS+=  godi-custom_printf>=112.24.00:../../godi/godi-custom_printf
+DEPENDS+=  godi-custom_printf<112.25.00:../../godi/godi-custom_printf
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
-DEPENDS+=  godi-bin_prot<112.18.00:../../godi/godi-bin_prot
-DEPENDS+=  godi-bin_prot>=112.17.00:../../godi/godi-bin_prot
+DEPENDS+=  godi-bin_prot<112.25.00:../../godi/godi-bin_prot
+DEPENDS+=  godi-bin_prot>=112.24.00:../../godi/godi-bin_prot
 DEPENDS+=  godi-comparelib<109.61.00:../../godi/godi-comparelib
 DEPENDS+=  godi-comparelib>=109.60.00:../../godi/godi-comparelib
 DEPENDS+=  godi-enumerate<111.09.00:../../godi/godi-enumerate
@@ -25,19 +27,19 @@ DEPENDS+=  godi-herelib<109.36.00:../../godi/godi-herelib
 DEPENDS+=  godi-herelib>=109.35.00:../../godi/godi-herelib
 DEPENDS+=  godi-pa_bench<112.07.00:../../godi/godi-pa_bench
 DEPENDS+=  godi-pa_bench>=112.06.00:../../godi/godi-pa_bench
-DEPENDS+=  godi-pa_ounit<112.18.00:../../godi/godi-pa_ounit
-DEPENDS+=  godi-pa_ounit>=112.17.00:../../godi/godi-pa_ounit
-DEPENDS+=  godi-pa_test<111.09.00:../../godi/godi-pa_test
-DEPENDS+=  godi-pa_test>=111.08.00:../../godi/godi-pa_test
+DEPENDS+=  godi-pa_ounit<112.25.00:../../godi/godi-pa_ounit
+DEPENDS+=  godi-pa_ounit>=112.24.00:../../godi/godi-pa_ounit
+DEPENDS+=  godi-pa_test<112.25.00:../../godi/godi-pa_test
+DEPENDS+=  godi-pa_test>=112.24.00:../../godi/godi-pa_test
 DEPENDS+=  godi-pipebang<110.02.00:../../godi/godi-pipebang
 DEPENDS+=  godi-pipebang>=110.01.00:../../godi/godi-pipebang
-DEPENDS+=  godi-sexplib<112.18.00:../../godi/godi-sexplib
-DEPENDS+=  godi-sexplib>=112.17.00:../../godi/godi-sexplib
-DEPENDS+=  godi-typerep<112.18.00:../../godi/godi-typerep
-DEPENDS+=  godi-typerep>=112.17.00:../../godi/godi-typerep
+DEPENDS+=  godi-sexplib<112.25.00:../../godi/godi-sexplib
+DEPENDS+=  godi-sexplib>=112.24.00:../../godi/godi-sexplib
+DEPENDS+=  godi-typerep<112.25.00:../../godi/godi-typerep
+DEPENDS+=  godi-typerep>=112.24.00:../../godi/godi-typerep
 DEPENDS+=  godi-variantslib<109.16.00:../../godi/godi-variantslib
 DEPENDS+=  godi-variantslib>=109.15.00:../../godi/godi-variantslib
-DEPENDS+=	godi-ocaml>=4.01.0:../../godi/godi-ocaml
+DEPENDS+=	godi-ocaml>=4.02.1:../../godi/godi-ocaml
 BUILD_DEPENDS+=	godi-findlib>=1.3.2:../../godi/godi-findlib
 
 WINOASIS=		yes
