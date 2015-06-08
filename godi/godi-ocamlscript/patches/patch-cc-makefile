@@ -1,5 +1,14 @@
 --- Makefile.orig	2012-02-04 01:24:21.000000000 +0000
-+++ Makefile	2012-10-20 09:56:48.546875000 +0000
++++ Makefile	2014-03-25 18:48:37.009200000 +0000
+@@ -15,7 +15,7 @@
+ endif
+ export BINDIR
+ 
+-PACKS = unix str
++PACKS = unix str cygwinpath
+ PP = camlp4o -I . -parser pa_tryfinally.cmo -parser pa_opt.cmo
+ export PP
+ 
 @@ -23,6 +23,14 @@
  OCAMLFLAGS = -dtypes
  
@@ -8,7 +17,7 @@
 +ifeq ($(OS),Windows_NT)
 +EXE := .exe
 +else
-+EXE := 
++EXE :=
 +endif
 +
 +
