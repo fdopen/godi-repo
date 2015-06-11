@@ -4,7 +4,7 @@ VERSION= 	2.2
 ONAME=		ppx_deriving_yojson
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-${ONAME}-${VERSION}
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	ppx_deriving_yojson-2.2
 DISTFILES=	ppx_deriving_yojson-2.2.tar.xz
 CATEGORIES=	godi
@@ -23,7 +23,7 @@ DEPENDS+=	godi-yojson>=0:../../godi/godi-yojson
 WINPKG=		yes
 
 do-build:
-	cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} build test
+	@cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} build #test
 
 
 .include "../../mk/bsd.pkg.mk"
