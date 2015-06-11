@@ -1,0 +1,22 @@
+--- ./testsuite/tests/lib-dynlink-bytecode/Makefile
++++ ./testsuite/tests/lib-dynlink-bytecode/Makefile
+@@ -27,7 +27,7 @@
+ compile:
+ 	@$(OCAMLC) -c registry.ml
+ 	@for file in stub*.c; do \
+-	  $(OCAMLC) -ccopt -I -ccopt $(CTOPDIR)/byterun/caml -c $$file; \
++	  $(OCAMLC) -ccopt -I -ccopt $(CTOPDIR)/byterun -c $$file; \
+ 	  $(OCAMLMKLIB) -o `echo $$file | sed -e 's/stub/plug/' -e 's/\.c//'` \
+ 	                `basename $$file c`$(O); \
+ 	done
+--- ./testsuite/tests/lib-dynlink-native/Makefile
++++ ./testsuite/tests/lib-dynlink-native/Makefile
+@@ -104,7 +104,7 @@
+ 
+ factorial.$(O): factorial.c
+ 	@$(OCAMLOPT) -c -ccopt "$(SHAREDCCCOMPOPTS)" -ccopt -I \
+-	             -ccopt $(TOPDIR)/byterun/caml \
++	             -ccopt $(TOPDIR)/byterun \
+ 	             factorial.c
+ 
+ .PHONY: promote

@@ -1,12 +1,11 @@
 $NetBSD$
 
-SHA1 (ocaml-4.02.1.tar.xz) = d86b0be89f6e921b90e7230da40620dd16758fc1
-Size (ocaml-4.02.1.tar.xz) = 2031244 bytes
+SHA1 (ocaml-4.02.2rc1.tar.xz) = b856256881b68258355fb52e9b4b91fc20ba9d37
+Size (ocaml-4.02.2rc1.tar.xz) = 2136616 bytes
 
-SHA1 (patch-aa-ocamlbuild) = 3b9be888565cc248fd2e97863f1f48c3ffb78bc2
+SHA1 (patch-aa-ocamlbuild) = 2a9f4a18390e2f8226871be30363458f9919ca47
 SHA1 (patch-ab-staticlibgcc) = ada4fca1b9ef8f689c01c1aa5de7c99551cc1ffb
-SHA1 (patch-ac-newline) = 8f740bf0c371d3203a3dc8458eb3ab46e3f4a9a7
+SHA1 (patch-ac-newline) = 84e732b19b6c77e9e5bdad2f197be1f1077d1e0b
 SHA1 (patch-cc-sys_command) = d5d4e0356c880a9f4742498926cf3477df56ac77
-SHA1 (patch-unix-extern) = c9e972d16d75d75560defac01c31651251cb9f43
 SHA1 (patch-winnt-version) = 9abb356cf81e03ce0fab6043d257ca9abca9e70f
-SHA1 (patch-zz-memory) = 163a851cd1af66a920e30a5fb34d80b553ef3253
+SHA1 (patch-zz-testsuite) = 96ff40b91d074084a6714a88a29a4adbffb38f90
