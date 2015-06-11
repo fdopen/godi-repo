@@ -6,7 +6,7 @@
 .include "../../mk/bsd.prefs.mk"
 
 PKGNAME=	godi-ocaml-${VERSION}
-VERSION=	4.02.1
+VERSION=	4.02.2rc1
 PKGREVISION=	0
 DISTNAME=	ocaml
 DISTFILES=
@@ -55,7 +55,7 @@ ALL_TARGET=	world
 .endif
 
 # Fixing a bug in the CVS version:
-MAKE_FLAGS=	TEST_DIRECTORY=true
+#MAKE_FLAGS=	TEST_DIRECTORY=true
 
 # On windows (both mingw and cygwin), check for GODI_BOOT_FLEXDLL
 .if ${OPSYS} == "CYGWIN" 
@@ -126,8 +126,8 @@ post-install:
 	mkdir -p "${WRKDIR}/tmp"
 	${SED} -e 's:%%LOCALBASE%%:${LOCALBASE}:' files/ocamlmklib.c.in > "${WRKDIR}/tmp/wrap.c"
 	${MV} "${STAGEDIR}/bin/ocamlmklib.exe" "${STAGEDIR}/bin/ocamlmklib_real.exe"
-	@${SETENV} ${MAKE_ENV} ${CC} -o "${STAGEDIR}/bin/ocamlmklib.exe" "${WRKDIR}/tmp/wrap.c"
-	${MINGW_TOOL_PREFIX}strip --strip-unneeded "${STAGEDIR}/bin/ocamlmklib.exe"
+	@${SETENV} ${MAKE_ENV} ${CC} -o "${CYGWIN_ROOT}${STAGEDIR}/bin/ocamlmklib.exe" "${CYGWIN_ROOT}${WRKDIR}/tmp/wrap.c"
+	${MINGW_TOOL_PREFIX}strip --strip-unneeded "${CYGWIN_ROOT}${STAGEDIR}/bin/ocamlmklib.exe"
 .else
 	${MV} "${STAGEDIR}/bin/ocamlmklib" "${STAGEDIR}/bin/ocamlmklib.bin"
 	godi_ldopts=`${AWK} '/^GODI_LDOPTS=/ { gsub("^GODI_LDOPTS=",""); print $$0 }' "${WRKSRC}/config/Makefile"`; \
