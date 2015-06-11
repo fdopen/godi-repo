@@ -12,3 +12,4 @@ SHA1 (patch-ac-reloc) = 241180c5ea69bf260c59f16c43b643c2e75d2a90
 SHA1 (patch-ad-cmdline) = 003d2d9ccbc294892c9ff581c3cbe996e6752678
 SHA1 (patch-ae-manifest) = 90eac7db0a275551e7da5075b135e3587b15a531
 SHA1 (patch-af) = 9277134c35cf81882a718e416f0d134cdba63c15
+SHA1 (patch-ag-stupidhack) = 3594e82d360c3811f98921d6ef77fc40b45b8492

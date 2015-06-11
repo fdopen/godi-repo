@@ -2,7 +2,7 @@
 
 VERSION=	0.34
 PKGNAME=	godi-flexdll-${VERSION}
-PKGREVISION=	0
+PKGREVISION=	1
 DISTNAME=	flexdll
 DISTFILES=	flexdll-${VERSION}.tar.gz flexdll-bin-${VERSION}.zip
 EXTRACT_ONLY=	flexdll-${VERSION}.tar.gz
@@ -49,7 +49,8 @@ MAKE_ENV+=      FLEXDIR=${GODI_BOOT_FLEXDLL}/../lib/flexdll
 .endif
 
 post-extract:
-	cd ${PKGDIR:Q}/files && cp config_reader* flexdll_*  ${WRKSRC:Q}
+	@cd ${PKGDIR:Q}/files && cp config_reader* flexdll_* *.xz ${WRKSRC:Q}
+	@cd ${WRKSRC:Q} && xz -d *.xz
 	@cd ${WRKDIR:Q} && \
 	  ${MKDIR} add && cd add && \
 	  ${LOCALBASE}/sbin/bsdtar.exe -xf ${CYGWIN_ROOT:Q}${DISTDIR:Q}/flexdll-bin-${VERSION}.zip
@@ -80,6 +81,7 @@ post-install:
 	   ${INSTALL} -m 0644 ${WRKDIR:Q}/add/${f:Q} ${PREFIX:Q}/lib/flexdll ; \
 	fi
 .endfor
+	${INSTALL} -m 0755 ${WRKSRC:Q}/flexlink_mingw64test.exe ${PREFIX:Q}/lib/flexdll
 	@for file in LICENSE README.md CHANGES flexdll.c flexdll_initer.c default.manifest default_amd64.manifest; do \
 	    ${INSTALL} -m 0644 ${WRKSRC}/$$file ${PREFIX}/doc/godi-flexdll/; \
 	done

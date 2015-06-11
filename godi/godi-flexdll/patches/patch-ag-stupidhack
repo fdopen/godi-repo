@@ -1,0 +1,25 @@
+--- ./reloc.ml
++++ ./reloc.ml
+@@ -1033,6 +1033,22 @@
+     safe_remove manifest_file;
+     run_command cmdline cmd;
+ 
++    if !toolchain = `MINGW64 && link_exe <> `EXE &&
++      Filename.check_suffix (String.lowercase output_file) ".dll" then (
++        let output_file_quoted = Filename.quote  output_file in
++        let exec = Filename.concat (Filename.dirname Sys.executable_name) "..\\lib\\flexdll\\flexlink_mingw64test.exe" in
++        if Sys.file_exists exec = false then
++          prerr_endline "flexlink_mingw64test.exe missing"
++        else
++          let cmd = exec ^ " " ^ output_file_quoted in
++          match get_output1o ~use_bash:false cmd with
++          | Some "invalid" ->
++            let cmd = "cp -p " ^ output_file_quoted ^ " " ^ (Filename.quote (output_file ^ ".orig")) in
++            run_command cmdline cmd;
++            let cmd = Version.mingw64_prefix ^ "-strip --strip-debug --strip-unneeded " ^ (Filename.quote output_file) in
++            run_command cmdline cmd;
++          | None | Some _ -> ()
++      );
+     if (not !no_merge_manifest) && !merge_manifest && (not !real_manifest || Sys.file_exists manifest_file)
+     then begin
+       let fn =
