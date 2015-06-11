@@ -4,7 +4,7 @@ VERSION= 	2.1
 ONAME=		ppx_deriving_protobuf
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-${ONAME}-${VERSION}
-PKGREVISION= 	0
+PKGREVISION= 	1
 DISTNAME=	ppx_deriving_protobuf-2.1
 DISTFILES=	ppx_deriving_protobuf-2.1.tar.xz
 CATEGORIES=	godi
@@ -21,7 +21,7 @@ BUILD_DEPENDS+= godi-uint>=0:../../godi/godi-uint
 WINPKG=		yes
 
 do-build:
-	cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} build test doc
+	cd ${WRKSRC:Q} && ${SETENV} ${MAKE_ENV} ${GMAKE} build doc #test
 
 post-install:
 	${MV} ${WRKSRC:Q}/_build/doc/api.docdir ${PREFIX:Q}/doc/${PKGBASE:Q}
