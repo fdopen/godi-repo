@@ -1,16 +1,16 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	112.24.00
+VERSION=	112.35.00
 ONAME=		typerep
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       typerep-112.24.00
-DISTFILES=      typerep-112.24.tar.gz
+DISTNAME=       typerep-112.35.00
+DISTFILES=      typerep-112.35.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.35/files/
 MAINTAINER=	wodi@ml.ignorelist.com
-HOMEPAGE=       http://janestreet.github.com/
+HOMEPAGE=       https://github.com/janestreet/typerep
 COMMENT=        typerep is a library for runtime types
 
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
@@ -19,10 +19,10 @@ BUILD_DEPENDS+= godi-findlib>=1.3.2:../../godi/godi-findlib
 DEPENDS+= godi-ocaml>=4.00.1:../../godi/godi-ocaml
 DEPENDS+= godi-type_conv<112.02.00:../../godi/godi-type_conv
 DEPENDS+= godi-type_conv>=109.53.00:../../godi/godi-type_conv
-DEPENDS+= godi-bin_prot<112.25.00:../../godi/godi-bin_prot
-DEPENDS+= godi-bin_prot>=112.24.00:../../godi/godi-bin_prot
-DEPENDS+= godi-sexplib<112.25.00:../../godi/godi-sexplib
-DEPENDS+= godi-sexplib>=112.24.00:../../godi/godi-sexplib
+DEPENDS+= godi-bin_prot<112.36.00:../../godi/godi-bin_prot
+DEPENDS+= godi-bin_prot>=112.35.00:../../godi/godi-bin_prot
+DEPENDS+= godi-sexplib<112.36.00:../../godi/godi-sexplib
+DEPENDS+= godi-sexplib>=112.35.00:../../godi/godi-sexplib
 
 
 WINOASIS=	yes

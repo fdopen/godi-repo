@@ -1,5 +1,5 @@
 (* OASIS_START *)
-(* DO NOT EDIT (digest: 958690d29794aae1e180ff5b5f02ecf7) *)
+(* DO NOT EDIT (digest: a90255d662bb632a12bc8b483f6d34f1) *)
 module OASISGettext = struct
 (* # 22 "src/oasis\\OASISGettext.ml" *)
 
@@ -249,6 +249,9 @@ module MyOCamlbuildFindlib = struct
     *)
   open Ocamlbuild_plugin
 
+  type conf =
+    { no_automatic_syntax: bool;
+    }
 
   (* these functions are not really officially exported *)
   let run_and_read =
@@ -311,11 +314,13 @@ module MyOCamlbuildFindlib = struct
     with Not_found -> s
 
   (* ocamlfind command *)
-  let ocamlfind x = S[P (exec_from_conf "ocamlfind"); x]
+  let ocamlfind x = S[Sh (
+    Ocamlbuild_pack.Shell.quote_filename_if_needed
+      (exec_from_conf "ocamlfind") ); x]
 
   (* This lists all supported packages. *)
   let find_packages () =
-    List.map before_space (split_nl & run_and_read "ocamlfind list")
+    List.map before_space (split_nl & run_and_read (exec_from_conf "ocamlfind" ^ " list"))
 
 
   (* Mock to list available syntaxes. *)
@@ -338,7 +343,7 @@ module MyOCamlbuildFindlib = struct
   ]
 
 
-  let dispatch =
+  let dispatch conf =
     function
       | After_options ->
           (* By using Before_options one let command line options have an higher
@@ -357,31 +362,39 @@ module MyOCamlbuildFindlib = struct
            * -linkpkg *)
           flag ["ocaml"; "link"; "program"] & A"-linkpkg";
 
-          (* For each ocamlfind package one inject the -package option when
-           * compiling, computing dependencies, generating documentation and
-           * linking. *)
-          List.iter
-            begin fun pkg ->
-              let base_args = [A"-package"; A pkg] in
-              (* TODO: consider how to really choose camlp4o or camlp4r. *)
-              let syn_args = [A"-syntax"; A "camlp4o"] in
-              let args =
-              (* Heuristic to identify syntax extensions: whether they end in
-                 ".syntax"; some might not.
-               *)
-                if Filename.check_suffix pkg "syntax" ||
-                   List.mem pkg well_known_syntax then
-                  syn_args @ base_args
-                else
-                  base_args
-              in
-              flag ["ocaml"; "compile";  "pkg_"^pkg] & S args;
-              flag ["ocaml"; "ocamldep"; "pkg_"^pkg] & S args;
-              flag ["ocaml"; "doc";      "pkg_"^pkg] & S args;
-              flag ["ocaml"; "link";     "pkg_"^pkg] & S base_args;
-              flag ["ocaml"; "infer_interface"; "pkg_"^pkg] & S args;
-            end
-            (find_packages ());
+          if not (conf.no_automatic_syntax) then begin
+            (* For each ocamlfind package one inject the -package option when
+             * compiling, computing dependencies, generating documentation and
+             * linking. *)
+            List.iter
+              begin fun pkg ->
+                let base_args = [A"-package"; A pkg] in
+                (* TODO: consider how to really choose camlp4o or camlp4r. *)
+                let syn_args = [A"-syntax"; A "camlp4o"] in
+                let (args, pargs) =
+                  (* Heuristic to identify syntax extensions: whether they end in
+                     ".syntax"; some might not.
+                  *)
+                  if Filename.check_suffix pkg "syntax" ||
+                     List.mem pkg well_known_syntax then
+                    (syn_args @ base_args, syn_args)
+                  else
+                    (base_args, [])
+                in
+                flag ["ocaml"; "compile";  "pkg_"^pkg] & S args;
+                flag ["ocaml"; "ocamldep"; "pkg_"^pkg] & S args;
+                flag ["ocaml"; "doc";      "pkg_"^pkg] & S args;
+                flag ["ocaml"; "link";     "pkg_"^pkg] & S base_args;
+                flag ["ocaml"; "infer_interface"; "pkg_"^pkg] & S args;
+
+                (* TODO: Check if this is allowed for OCaml < 3.12.1 *)
+                flag ["ocaml"; "compile";  "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "ocamldep"; "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "doc";      "package("^pkg^")"] & S pargs;
+                flag ["ocaml"; "infer_interface"; "package("^pkg^")"] & S pargs;
+              end
+              (find_packages ());
+          end;
 
           (* Like -package but for extensions syntax. Morover -syntax is useless
            * when linking. *)
@@ -546,12 +559,13 @@ module MyOCamlbuildBase = struct
 
                    (* When ocaml link something that use the C library, then one
                       need that file to be up to date.
+                      This holds both for programs and for libraries.
                     *)
-                   dep ["link"; "ocaml"; "program"; tag_libstubs lib]
-                     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
+  		 dep ["link"; "ocaml"; tag_libstubs lib]
+  		     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
-                   dep  ["compile"; "ocaml"; "program"; tag_libstubs lib]
-                     [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
+  		 dep  ["compile"; "ocaml"; tag_libstubs lib]
+  		      [dir/"lib"^(nm_libstubs lib)^"."^(!Options.ext_lib)];
 
                    (* TODO: be more specific about what depends on headers *)
                    (* Depends on .h files *)
@@ -580,35 +594,34 @@ module MyOCamlbuildBase = struct
             ()
 
 
-  let dispatch_default t =
+  let dispatch_default conf t =
     dispatch_combine
       [
         dispatch t;
-        MyOCamlbuildFindlib.dispatch;
+        MyOCamlbuildFindlib.dispatch conf;
       ]
 
 
 end
 
 
-# 594 "myocamlbuild.ml"
+# 608 "myocamlbuild.ml"
 open Ocamlbuild_plugin;;
 let package_default =
   {
      MyOCamlbuildBase.lib_ocaml =
-       [
-          ("typerep_lib", ["lib"], []);
-          ("typerep_syntax", ["syntax/with_typerep"], [])
-       ];
+       [("typerep_lib", ["lib"], []); ("typerep_syntax", ["syntax"], [])];
      lib_c = [];
      flags = [];
      includes = []
   }
   ;;
 
-let dispatch_default = MyOCamlbuildBase.dispatch_default package_default;;
+let conf = {MyOCamlbuildFindlib.no_automatic_syntax = false}
 
-# 612 "myocamlbuild.ml"
+let dispatch_default = MyOCamlbuildBase.dispatch_default conf package_default;;
+
+# 625 "myocamlbuild.ml"
 (* OASIS_STOP *)
 
 let dispatch = function
