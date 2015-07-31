@@ -1,7 +1,7 @@
 $NetBSD$
 
-SHA1 (ocaml-4.02.2rc1.tar.xz) = b856256881b68258355fb52e9b4b91fc20ba9d37
-Size (ocaml-4.02.2rc1.tar.xz) = 2136616 bytes
+SHA1 (ocaml-4.02.3.tar.xz) = f6b4de2007d9ae825a4db43773456e98d593a767
+Size (ocaml-4.02.3.tar.xz) = 2058552 bytes
 
 SHA1 (patch-aa-ocamlbuild) = 2a9f4a18390e2f8226871be30363458f9919ca47
 SHA1 (patch-ab-staticlibgcc) = ada4fca1b9ef8f689c01c1aa5de7c99551cc1ffb
