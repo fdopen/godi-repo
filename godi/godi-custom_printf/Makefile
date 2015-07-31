@@ -4,7 +4,7 @@ VERSION=	112.24.00
 ONAME=		custom_printf
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    0
+PKGREVISION=    1
 DISTNAME=       custom_printf-112.24.00
 DISTFILES=      custom_printf-112.24.tar.gz
 CATEGORIES=     godi
@@ -12,11 +12,8 @@ MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
 HOMEPAGE=       https://github.com/janestreet/custom_printf
 COMMENT=        Extension for printf format strings
 
-DEPENDS+=  godi-type_conv<112.02.00:../../godi/godi-type_conv
 DEPENDS+=  godi-type_conv>=112.01.00:../../godi/godi-type_conv
-DEPENDS+=  godi-pa_ounit<112.25.00:../../godi/godi-pa_ounit
 DEPENDS+=  godi-pa_ounit>=112.24.00:../../godi/godi-pa_ounit
-DEPENDS+=  godi-sexplib<112.25.00:../../godi/godi-sexplib
 DEPENDS+=  godi-sexplib>=112.24.00:../../godi/godi-sexplib
 DEPENDS+=	godi-ocaml>=4.02.1:../../godi/godi-ocaml
 DEPENDS+=	godi-camlp4-*:../../godi/godi-camlp4
