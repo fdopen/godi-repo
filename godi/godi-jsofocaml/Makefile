@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	2.5
+VERSION=	2.6
 PKGREVISION=	0
 PKGNAME=	godi-jsofocaml-${VERSION}
-DISTNAME=	js_of_ocaml-2.5
-DISTFILES=	js_of_ocaml-2.5.tar.xz
+DISTNAME=	js_of_ocaml-2.6
+DISTFILES=	js_of_ocaml-2.6.tar.xz
 CATEGORIES=	godi
 #MASTER_SITES=	http://www.ocsigen.org/download/
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
@@ -14,9 +14,12 @@ COMMENT=	Js_of_ocaml is a compiler of OCaml bytecode to Javascript
 
 BUILD_DEPENDS+=	godi-menhir>=0:../../godi/godi-menhir
 DEPENDS+=	godi-ocaml>=0:../../godi/godi-ocaml
+BUILD_DEPENDS+=  apps-cppo-*:../../apps/apps-cppo
+DEPENDS+=  godi-base64-*:../../godi/godi-base64
+DEPENDS+=  godi-ppx_tools-*:../../godi/godi-ppx_tools
 BUILD_DEPENDS+=  godi-cmdliner-*:../../godi/godi-cmdliner
 DEPENDS+=	godi-findlib>=1.5.1:../../godi/godi-findlib
-DEPENDS+= 	godi-lwt>=2.4:../../godi/godi-lwt
+DEPENDS+= 	godi-lwt>=2.4.4:../../godi/godi-lwt
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
 DEPENDS+= 	godi-deriving-ocsigen>=0.6:../../godi/godi-deriving-ocsigen
 DEPENDS+= 	godi-tyxml>=0:../../godi/godi-tyxml
@@ -24,7 +27,7 @@ DEPENDS+= 	godi-reactiveData>=0:../../godi/godi-reactiveData
 
 USE_GMAKE=	yes
 MAKE_ENV+=	${BUILD_OCAMLFIND_ENV}
-ALL_TARGET=	depend all doc
+ALL_TARGET=	build doc #depend all doc
 MAKE_FLAGS+=	BINDIR=${LOCALBASE:Q}/bin EXEEXT=.exe OBJEXT=.o LIBEXT=.a DLLEXT=.dll
 
 
