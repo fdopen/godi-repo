@@ -1,5 +1,5 @@
---- lib/byte_units.ml.orig	2013-07-30 14:37:37.000000000 +0000
-+++ lib/byte_units.ml	2013-08-05 10:54:16.654000000 +0000
+--- src/byte_units.ml
++++ src/byte_units.ml
 @@ -188,7 +187,7 @@
    TEST = f (`Specific `Bytes)     "3k" "3072b"
    TEST = f (`Specific `Kilobytes) "3k" "3k"

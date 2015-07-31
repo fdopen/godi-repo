@@ -1,5 +1,5 @@
---- lib_test/pool_caml_modify_check.ml~	2013-08-06 21:52:17.000000000 +0200
-+++ lib_test/pool_caml_modify_check.ml	2013-08-11 11:10:06.635190274 +0200
+--- test/pool_caml_modify_check.ml
++++ test/pool_caml_modify_check.ml
 @@ -4,7 +4,7 @@
     This can be very easily broken, and as such we're adding these tests to detect when
     this may have happened. *)

@@ -1,5 +1,5 @@
---- lib/bigstring_stubs.c.orig	2013-07-30 14:37:37.000000000 +0000
-+++ lib/bigstring_stubs.c	2013-08-04 21:35:29.802800000 +0000
+--- src/bigstring_stubs.c
++++ src/bigstring_stubs.c
 @@ -16,6 +16,13 @@
  #define bswap_16 OSSwapInt16
  #define bswap_32 OSSwapInt32
