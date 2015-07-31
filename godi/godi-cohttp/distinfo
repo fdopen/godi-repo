@@ -1,6 +1,7 @@
 $NetBSD$
 
-SHA1 (cohttp-0.17.2.tar.xz) = d066eb052fd36a81821d03fe2d22cb41644ed00b
-Size (cohttp-0.17.2.tar.xz) = 142972 bytes
+SHA1 (cohttp-0.18.3.tar.xz) = 9c456525ed53d72928bd786a425564cf075b852a
+Size (cohttp-0.18.3.tar.xz) = 146124 bytes
 
-SHA1 (patch-aa) = 5ee6acaf9e20a843d6a2533fb68255a88d8e0de0
+SHA1 (patch-aa) = 8f2450de73eaf108187bd20c8d3703561cf67783
+SHA1 (patch-ab) = 5cb0f87617531464589f0c574fe19f69662b4180

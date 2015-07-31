@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.17.2
+VERSION=	0.18.3
 ONAME=		cohttp
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-cohttp-0.17.2
-DISTFILES=	cohttp-0.17.2.tar.xz
+DISTNAME=	ocaml-cohttp-0.18.3
+DISTFILES=	cohttp-0.18.3.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/mirage/ocaml-cohttp
