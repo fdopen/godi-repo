@@ -1,19 +1,19 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	1.0.1
+VERSION=	1.1.0
 ONAME=		lz4
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-${ONAME}-${VERSION}
-DISTFILES=	ocaml-${ONAME}-${VERSION}.tar.xz
+DISTNAME=	ocaml-lz4-1.1.0
+DISTFILES=	lz4-1.1.0.tar.xz
 CATEGORIES=	godi
-HOMEPAGE=	https://github.com/whitequark/ocaml-lz4/
+HOMEPAGE=	https://github.com/whitequark/ocaml-lz4
 COMMENT=	ocaml bindings to lz4
 
 DEPENDS+=	godi-ocaml-*:../../godi/godi-ocaml
 DEPENDS+=	base-lz4-*:../../base/base-lz4
-DEPENDS+= 	godi-ctypes>=0:../../godi/godi-ctypes
+DEPENDS+= 	godi-ctypes>=0.4.1:../../godi/godi-ctypes
 
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 BUILD_DEPENDS+=	godi-ounit-*:../../godi/godi-ounit
