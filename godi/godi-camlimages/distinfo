@@ -1,10 +1,10 @@
 $NetBSD$
 
-SHA1 (camlimages-4.2.0.tar.xz) = 604f06ce2369f7cb1581f735d3d60297040fef22
-Size (camlimages-4.2.0.tar.xz) = 979608 bytes
+SHA1 (camlimages-4.2.1.tar.xz) = 064fd1f4e3a52abc1cf6246c0f4757a62d06998d
+Size (camlimages-4.2.1.tar.xz) = 979056 bytes
 
-SHA1 (patch-cc-ccsrcomakefile) = 42d7776583ddc671419dfa5bad12359c0bdff2e7
+SHA1 (patch-cc-ccsrcomakefile) = 271797eff530e950891d9abef9eb85ebd89f67d9
 SHA1 (patch-dd-ddomakefile) = 68e99688bc05ebcb2b86201c1ba327977631c25e
 SHA1 (patch-ee-eeomymakeroot) = 3c6f7df7cc742de4218bd33b4d5868db03b057b1
-SHA1 (patch-ef) = 16b808bea690d572e268075ab980a7fb61501805
-SHA1 (patch-eg) = 27074d6fd7f86f515477fbb6d450bac6e58fb54d
+SHA1 (patch-ef) = 2dff79fc8f28e219841b08bfda931d95d22112d0
+SHA1 (patch-eg) = 0fe82fbc98637738ad1ffd91606c2f64d4cf60cf

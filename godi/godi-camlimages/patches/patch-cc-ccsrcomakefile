@@ -1,5 +1,5 @@
---- src/OMakefile~	2011-06-22 18:04:32.000000000 +0000
-+++ src/OMakefile	2012-10-19 12:14:50.500000000 +0000
+--- src/OMakefile
++++ src/OMakefile
 @@ -259,7 +259,7 @@
        $(glob i, *.cma) \
        $(glob i, *.cmxa) \

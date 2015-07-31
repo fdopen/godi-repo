@@ -1,5 +1,5 @@
---- ../../work-ref/camlspotter-camlimages-e471b3c4470d/src/xpmread.c	2014-09-14 12:55:46.000000000 +0200
-+++ ./src/xpmread.c	2015-04-04 13:50:10.975600000 +0200
+--- ./src/xpmread.c
++++ ./src/xpmread.c
 @@ -15,13 +15,16 @@
  #include "config.h"
  #endif

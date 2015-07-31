@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        4.2.0
+VERSION=        4.2.1
 
 ONAME=		camlimages
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       camlspotter-camlimages-e471b3c4470d
-DISTFILES=      camlimages-4.2.0.tar.xz
+PKGREVISION=    0
+DISTNAME=       camlspotter-camlimages-447c5c72b044
+DISTFILES=      camlimages-4.2.1.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
