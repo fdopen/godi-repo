@@ -1,5 +1,5 @@
---- odyl/odyl_config.mlp.orig	2014-08-02 18:43:19.057200000 +0000
-+++ odyl/odyl_config.mlp	2014-08-02 18:42:59.931600000 +0000
+--- odyl/odyl_config.mlp
++++ odyl/odyl_config.mlp
 @@ -0,0 +1,38 @@
 +let standard_library =
 +  let slashify p =

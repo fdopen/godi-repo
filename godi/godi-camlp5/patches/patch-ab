@@ -1,5 +1,5 @@
---- ../../work-ref/camlp5-6.12/ocaml_src/odyl/Makefile	2014-09-19 08:53:41.000000000 +0200
-+++ ./ocaml_src/odyl/Makefile	2014-09-22 15:47:25.548800000 +0200
+--- ./ocaml_src/odyl/Makefile
++++ ./ocaml_src/odyl/Makefile
 @@ -29,11 +29,10 @@
  	$(OCAMLOPT) -c -impl odyl_main.ppo
  	rm -f odyl_main.ppo

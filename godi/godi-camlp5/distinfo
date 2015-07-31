@@ -1,8 +1,8 @@
 $NetBSD$
 
-SHA1 (camlp5-6.12.tgz) = d78d89dbd33725d7589181c38cc67180502da2f8
-Size (camlp5-6.12.tgz) = 716173 bytes
+SHA1 (camlp5-6.14.tgz) = 2cde94fc53195f9acb39592a9a74d4f36114df38
+Size (camlp5-6.14.tgz) = 748674 bytes
 
-SHA1 (patch-aa) = 74ddbd4f95c0a1a3dae9f2c82619d939f05a9cde
-SHA1 (patch-ab) = f28e9633736cfa32deac27b100ec113cc8692eea
-SHA1 (patch-ac-odyl_config) = 2eeae00de18c4654b2dec56a098e5c556f6b7468
+SHA1 (patch-aa) = 586f78d1fee3af15c1f5656dd9b2cddd5096110a
+SHA1 (patch-ab) = 0f7759f028c95da475b8dfb728319277cfba4c23
+SHA1 (patch-ac-odyl_config) = a07f836180ef3353cca0af16f7761a0dd2ef8f68

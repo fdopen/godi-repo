@@ -1,5 +1,5 @@
---- ../../work-ref/camlp5-6.12beta/configure	2014-08-02 19:47:21.000000000 +0200
-+++ ./configure	2014-08-02 20:56:37.122000000 +0200
+--- ./configure
++++ ./configure
 @@ -182,11 +182,18 @@
  fi
  
@@ -46,8 +46,8 @@
  if test "$bindir" != ""; then
      BINDIR=$bindir
  elif test "$prefix" != ""; then
---- ../../work-ref/camlp5-6.12beta/etc/mkcamlp5.opt.sh.tpl	2014-08-02 19:47:21.000000000 +0200
-+++ ./etc/mkcamlp5.opt.sh.tpl	2014-08-02 20:56:37.137600000 +0200
+--- ./etc/mkcamlp5.opt.sh.tpl
++++ ./etc/mkcamlp5.opt.sh.tpl
 @@ -1,8 +1,12 @@
  #!/bin/sh
  # mkcamlp5.opt.sh.tpl,v
@@ -63,8 +63,8 @@
  
  INTERFACES=
  OPTS=
---- ../../work-ref/camlp5-6.12beta/etc/mkcamlp5.sh.tpl	2014-08-02 19:47:21.000000000 +0200
-+++ ./etc/mkcamlp5.sh.tpl	2014-08-02 20:56:37.137600000 +0200
+--- ./etc/mkcamlp5.sh.tpl
++++ ./etc/mkcamlp5.sh.tpl
 @@ -1,8 +1,12 @@
  #!/bin/sh
  # mkcamlp5.sh.tpl,v
@@ -80,8 +80,8 @@
  
  INTERFACES=
  OPTS=
---- ../../work-ref/camlp5-6.12beta/main/main.ml	2014-08-02 19:47:21.000000000 +0200
-+++ ./main/main.ml	2014-08-02 20:56:37.137600000 +0200
+--- ./main/main.ml
++++ ./main/main.ml
 @@ -167,6 +167,16 @@
  ;
  
@@ -99,8 +99,8 @@
    eprintf "Camlp5 version %s (ocaml %s)\n" Pcaml.version
      Pconfig.ocaml_version;
    flush stderr;
---- ../../work-ref/camlp5-6.12beta/odyl/Makefile	2014-08-02 19:47:22.000000000 +0200
-+++ ./odyl/Makefile	2014-08-02 20:56:58.462800000 +0200
+--- ./odyl/Makefile
++++ ./odyl/Makefile
 @@ -29,11 +29,9 @@
  	$(OCAMLOPT) -c -impl odyl_main.ppo
  	rm -f odyl_main.ppo
@@ -116,8 +116,8 @@
  
  clean::
  	rm -f *.cm* *.pp[io] *.[ao] *.obj *.lib *.bak .*.bak *.out *.opt
---- ../../work-ref/camlp5-6.12beta/odyl/odyl.ml	2014-08-02 19:47:22.000000000 +0200
-+++ ./odyl/odyl.ml	2014-08-02 20:56:37.137600000 +0200
+--- ./odyl/odyl.ml
++++ ./odyl/odyl.ml
 @@ -13,6 +13,16 @@
      }
      else if s = "-nolib" then do { Odyl_main.nolib.val := True; incr i }
