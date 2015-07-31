@@ -1,7 +1,6 @@
 $NetBSD$
 
-SHA1 (uucp-0.9.1.tbz) = 9ca40e7fabf06126d85c50a1cdb12252b2e9b037
-Size (uucp-0.9.1.tbz) = 358710 bytes
+SHA1 (uucp-1.0.0.tbz) = 2d98043c8bb753ad059630c40c211454ea88211a
+Size (uucp-1.0.0.tbz) = 369930 bytes
 
-SHA1 (ucd-01.tar.xz) = 8e2b0834f1990e39e88c1a0d870756930d0f0fa1
-Size (ucd-01.tar.xz) = 3651744 bytes
+SHA1 (patch-aa) = 43d92a522246901e668ae84ccfe768df27e426dd
