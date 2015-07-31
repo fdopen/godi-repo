@@ -1,5 +1,5 @@
---- ../../work-ref/bin_prot-109.53.00/config/arch.sh	2013-11-27 15:31:10.000000000 +0100
-+++ ./config/arch.sh	2013-12-01 20:34:41.113600000 +0100
+--- ./config/arch.sh
++++ ./config/arch.sh
 @@ -9,7 +9,14 @@
  
  OCAMLC="$1"
