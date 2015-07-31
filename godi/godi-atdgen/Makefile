@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=        1.6.1
+VERSION=        1.7.1
 PKGNAME=        godi-atdgen-${VERSION}
 PKGREVISION=    0
-DISTNAME=       atdgen-1.6.1
-DISTFILES=      atdgen-1.6.1.tar.xz
+DISTNAME=       atdgen-1.7.1
+DISTFILES=      atdgen-1.7.1.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=   ${MASTER_SITE_BACKUP}
 MAINTAINER=	wodi@ml.ignorelist.com
@@ -16,7 +16,6 @@ DEPENDS+=	godi-biniou>=1.0.6:../../godi/godi-biniou
 DEPENDS+=	godi-yojson>=1.2.1:../../godi/godi-yojson
 DEPENDS+=	godi-atd>=1.1.0:../../godi/godi-atd
 BUILD_DEPENDS+= godi-findlib-[0-9]*:../../godi/godi-findlib
-BUILD_DEPENDS+= godi-camlp4-[0-9]*:../../godi/godi-camlp4
 
 WINGMAKE=	yes
 

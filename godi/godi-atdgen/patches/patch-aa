@@ -1,15 +1,15 @@
---- ../../work-ref/atdgen-1.6.0/src/Makefile	2015-04-09 22:58:03.000000000 +0200
-+++ ./src/Makefile	2015-04-19 18:18:24.343600000 +0200
+--- ./src/Makefile
++++ ./src/Makefile
 @@ -98,7 +98,7 @@
  
- .PHONY: all opt install uninstall reinstall
+ .PHONY: all opt
  all: pp
 -	$(MAKE) atdgen.cma atdgen.run
 +	$(MAKE) atdgen.cma atdgen.run$(EXE)
  opt: pp
  	$(MAKE) atdgen.cmxa $(CMXS) atdgen$(EXE)
  
-@@ -163,8 +163,8 @@
+@@ -174,8 +174,8 @@
  atdgen.cmxs: dep $(CMI) $(CMX)
  	ocamlfind ocamlopt $(OCAMLFLAGS) -shared -o $(CMXS) $(CMX)
  
@@ -20,7 +20,7 @@
  		-package "$(OCAMLPACKS)" -linkpkg \
  		$(CMO) ag_main.ml
  
-@@ -176,5 +176,5 @@
+@@ -187,5 +187,5 @@
  .PHONY: clean
  clean:
  	rm -f *.o *.a *.cm* *~ *.annot \
