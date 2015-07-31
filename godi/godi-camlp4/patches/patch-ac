@@ -1,5 +1,5 @@
---- ../../work-ref/camlp4-trunk/myocamlbuild.ml	2014-08-27 10:32:22.000000000 +0200
-+++ ./myocamlbuild.ml	2014-08-29 09:57:43.786400000 +0200
+--- ./myocamlbuild.ml
++++ ./myocamlbuild.ml
 @@ -88,6 +88,19 @@
          in
          (Some dep, cmd)

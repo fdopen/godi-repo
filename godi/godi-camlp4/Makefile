@@ -1,10 +1,10 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	4.02.1beta3
+VERSION=	4.02.3beta6
 PKGNAME=	godi-camlp4-${VERSION}
 PKGREVISION=    0
-DISTNAME=	camlp4-4.02.1.3
-DISTFILES=	camlp4-4.02.1.3.tar.xz
+DISTNAME=	camlp4-4.02-6
+DISTFILES=	camlp4-4.02-6.tar.xz
 CATEGORIES=	godi
 HOMEPAGE=	https://github.com/ocaml/camlp4
 COMMENT=	Caml Preprocessor and Pretty-Printer

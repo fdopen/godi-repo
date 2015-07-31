@@ -1,5 +1,5 @@
---- ../../work-ref/camlp4-4.02/camlp4/Camlp4Bin.ml	2014-10-14 15:14:14.000000000 +0200
-+++ ./camlp4/Camlp4Bin.ml	2014-10-15 00:51:23.345200000 +0200
+--- ./camlp4/Camlp4Bin.ml
++++ ./camlp4/Camlp4Bin.ml
 @@ -159,14 +159,23 @@
            (new CleanAst.clean_ast)#str_item
            AstFilters.fold_implem_filters gimd;
@@ -27,8 +27,8 @@
  
  value usage ini_sl ext_sl =
    do {
---- ../../work-ref/camlp4-4.02/camlp4/config/Camlp4_config.ml	2014-10-14 15:14:14.000000000 +0200
-+++ ./camlp4/config/Camlp4_config.ml	2014-10-15 00:54:27.472000000 +0200
+--- ./camlp4/config/Camlp4_config.ml
++++ ./camlp4/config/Camlp4_config.ml
 @@ -17,12 +17,31 @@
   * - Nicolas Pouillard: refactoring
   *)
@@ -65,8 +65,8 @@
  
  let version = Sys.ocaml_version;;
  let program_name = ref "camlp4";;
---- ../../work-ref/camlp4-4.02/camlp4/config/gen_import.ml	2014-10-14 15:14:14.000000000 +0200
-+++ ./camlp4/config/gen_import.ml	2014-10-15 00:51:23.360800000 +0200
+--- ./camlp4/config/gen_import.ml
++++ ./camlp4/config/gen_import.ml
 @@ -4,7 +4,23 @@
  let () =
    let oc = open_out "camlp4/config/Camlp4_import.ml" in
