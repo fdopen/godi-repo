@@ -1,4 +1,6 @@
 $NetBSD$
 
-SHA1 (ppx_deriving_yojson-2.2.tar.xz) = 3824d04e728644800cac98b3b0dc310958f41597
-Size (ppx_deriving_yojson-2.2.tar.xz) = 15184 bytes
+SHA1 (ppx_deriving_yojson-2.3.tar.xz) = c387e933480abea537616d734a421badcde0203a
+Size (ppx_deriving_yojson-2.3.tar.xz) = 16064 bytes
+
+SHA1 (patch-aa) = 43d92a522246901e668ae84ccfe768df27e426dd
