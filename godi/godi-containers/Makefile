@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.11
+VERSION=	0.12
 ONAME=		containers
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-containers-0.11
-DISTFILES=	containers-0.11.tar.xz
+DISTNAME=	ocaml-containers-0.12
+DISTFILES=	containers-0.12.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/c-cube/ocaml-containers/

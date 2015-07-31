@@ -1,5 +1,5 @@
---- ../../work-ref/ocaml-containers-0.10/_oasis	2015-04-10 16:43:16.000000000 +0200
-+++ ./_oasis	2015-04-19 17:16:43.664800000 +0200
+--- ./_oasis
++++ ./_oasis
 @@ -190,7 +190,7 @@
    BuildDepends: containers, threads, sequence, oUnit, containers.thread
  
@@ -9,8 +9,8 @@
    TestTools:    run_test_future
    Run$:         flag(tests) && flag(thread)
  
---- ../../work-ref/ocaml-containers-0.10/Makefile	2015-04-10 16:43:16.000000000 +0200
-+++ ./Makefile	2015-04-19 17:27:16.369600000 +0200
+--- ./Makefile
++++ ./Makefile
 @@ -122,8 +122,9 @@
  	rm **/*.{mldylib,mlpack,mllib} myocamlbuild.ml -f
  
