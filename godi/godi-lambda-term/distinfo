@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (lambda-term-1.8.tar.xz) = b4d8212a780d9da2b705c92c5c7d811ee033e959
-Size (lambda-term-1.8.tar.xz) = 120812 bytes
+SHA1 (lambda-term-1.9.tar.xz) = 415aac2d4a2112d0afd3b78b4616e6e798855fab
+Size (lambda-term-1.9.tar.xz) = 121472 bytes
 
-SHA1 (patch-aa) = 59fc376c62767e84e01cabfe1d66585b86b0f934
+SHA1 (patch-aa) = 925843af4177ed8c59c39e2f4ea9f486b264eaf9

@@ -1,5 +1,5 @@
---- ../../work-ref/lambda-term-1.8/src/lTerm_term_stubs.c	2015-01-07 18:24:55.000000000 +0100
-+++ ./src/lTerm_term_stubs.c	2015-03-14 16:56:20.526400000 +0100
+--- ./src/lTerm_term_stubs.c
++++ ./src/lTerm_term_stubs.c
 @@ -18,7 +18,6 @@
     | Terminal sizes on Windows                                       |
     +-----------------------------------------------------------------+ */
@@ -8,8 +8,8 @@
  #include <wincon.h>
  
  CAMLprim value lt_term_get_size_from_fd(value fd)
---- ../../work-ref/lambda-term-1.8/src/lTerm_windows_stubs.c	2015-01-07 18:24:55.000000000 +0100
-+++ ./src/lTerm_windows_stubs.c	2015-03-14 16:56:04.489600000 +0100
+--- ./src/lTerm_windows_stubs.c
++++ ./src/lTerm_windows_stubs.c
 @@ -16,7 +16,6 @@
  
  #if defined(_WIN32) || defined(_WIN64)

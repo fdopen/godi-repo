@@ -2,12 +2,12 @@
 
 ONAME=		lambda-term
 PKG=		godi-${ONAME}
-VERSION=        1.8
+VERSION=        1.9
 FINODE=		1136
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    1
-DISTNAME=       lambda-term-1.8
-DISTFILES=      lambda-term-1.8.tar.xz
+PKGREVISION=    0
+DISTNAME=       lambda-term-1.9
+DISTFILES=      lambda-term-1.9.tar.xz
 CATEGORIES=     godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/diml/lambda-term
