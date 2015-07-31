@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	112.01.01
+VERSION=	112.01.02
 ONAME=		type_conv
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       type_conv-112.01.01
-DISTFILES=      type_conv-112.01.01.tar.gz
+DISTNAME=       type_conv-112.01.02
+DISTFILES=      type_conv-112.01.02.tar.gz
 CATEGORIES=     godi
 MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.01.00/individual/
 HOMEPAGE=       https://github.com/janestreet/type_conv
