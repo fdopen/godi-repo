@@ -1,6 +1,4 @@
 $NetBSD$
 
-SHA1 (sexplib-112.24.01.tar.gz) = 8a4460ce8f1937f8a736343899160b6fb5c951a4
-Size (sexplib-112.24.01.tar.gz) = 136730 bytes
-
-SHA1 (patch-sexp_test.ml) = e48162ae2c67622adae924e845f2e9b06ac0f4dc
+SHA1 (sexplib-112.35.00.tar.gz) = 85c6baa7dcd50ca455fb7af8f8831a447a2ed67f
+Size (sexplib-112.35.00.tar.gz) = 136818 bytes

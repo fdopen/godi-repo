@@ -2,14 +2,14 @@
 
 ONAME=		sexplib
 PKG=		godi-${ONAME}
-VERSION=	112.24.01
+VERSION=	112.35.00
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       sexplib-112.24.01
-DISTFILES=      sexplib-112.24.01.tar.gz
+DISTNAME=       sexplib-112.35.00
+DISTFILES=      sexplib-112.35.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
-HOMEPAGE=       http://janestreet.github.com/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.35/files/
+HOMEPAGE=       https://github.com/janestreet/sexplib
 COMMENT=        Automated S-expression conversion
 
 DEPENDS+=  godi-camlp4-*:../../godi/godi-camlp4
