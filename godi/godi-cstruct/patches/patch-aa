@@ -1,5 +1,5 @@
---- ../../work-ref/ocaml-cstruct-1.6.0/test.sh	2015-04-03 19:45:45.000000000 +0200
-+++ ./test.sh	2015-04-19 18:21:52.322800000 +0200
+--- ./test.sh
++++ ./test.sh
 @@ -6,6 +6,12 @@
  pkgs=`ocamlfind query -r sexplib oUnit bytes ocplib-endian.bigstring bigarray \
          -format "-I %d %a" -predicates native,archive`
