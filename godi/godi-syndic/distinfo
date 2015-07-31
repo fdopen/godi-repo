@@ -1,6 +1,6 @@
 $NetBSD$
 
-SHA1 (syndic-1.3.1.tar.gz) = ed175195e4a0b41f1e5e03420e3dc089ea6f69a4
-Size (syndic-1.3.1.tar.gz) = 91974 bytes
+SHA1 (syndic-1.4.tar.gz) = 0de8b810fc44402d072bf65dba0929e0db73e322
+Size (syndic-1.4.tar.gz) = 97457 bytes
 
-SHA1 (patch-aa) = 56939546656c7c6f0322516a47f50d4b9492cd26
+SHA1 (patch-aa) = 8e92cca56b3a7b72943179da57ff634bbbb86077
