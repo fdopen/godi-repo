@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.8.0
+VERSION=	0.9.0
 ONAME=		uuseg
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	uuseg-0.8.0
-DISTFILES=	uuseg-0.8.0.tbz
+DISTNAME=	uuseg-0.9.0
+DISTFILES=	uuseg-0.9.0.tbz
 CATEGORIES=	godi
 MASTER_SITES=	http://erratique.ch/software/uuseg/releases/
 HOMEPAGE=	http://erratique.ch/software/uuseg
