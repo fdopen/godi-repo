@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION=	0.8.2
+VERSION=	0.8.6
 ONAME=		conduit
 PKG=		godi-${ONAME}
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	ocaml-conduit-0.8.2
-DISTFILES=	conduit-0.8.2.tar.xz
+DISTNAME=	ocaml-conduit-0.8.6
+DISTFILES=	conduit-0.8.6.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
 HOMEPAGE=	https://github.com/mirage/ocaml-conduit
