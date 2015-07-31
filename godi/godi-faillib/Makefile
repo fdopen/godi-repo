@@ -4,7 +4,7 @@ VERSION=	111.17.00
 ONAME=		faillib
 PKG=		godi-${ONAME}
 PKGNAME=        ${PKG}-${VERSION}
-PKGREVISION=    2
+PKGREVISION=    3
 DISTNAME=       faillib-111.17.00
 DISTFILES=      faillib-111.17.00.tar.gz
 CATEGORIES=     godi
@@ -13,7 +13,6 @@ MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=       http://janestreet.github.com/
 COMMENT=        Part of Jane Street's Core library
 
-DEPENDS+=  godi-herelib<=109.35.02:../../godi/godi-herelib
 DEPENDS+=  godi-herelib>=109.35.00:../../godi/godi-herelib
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
 
