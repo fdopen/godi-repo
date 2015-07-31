@@ -2,14 +2,14 @@
 
 ONAME=		pa_ounit
 PKG=		godi-${ONAME}
-VERSION=	112.24.00
+VERSION=	112.35.00
 PKGNAME=        ${PKG}-${VERSION}
 PKGREVISION=    0
-DISTNAME=       pa_ounit-112.24.00
-DISTFILES=      pa_ounit-112.24.tar.gz
+DISTNAME=       pa_ounit-112.35.00
+DISTFILES=      pa_ounit-112.35.00.tar.gz
 CATEGORIES=     godi
-MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.24/files/
-HOMEPAGE=       http://janestreet.github.com/
+MASTER_SITES=	https://ocaml.janestreet.com/ocaml-core/112.35/files/
+HOMEPAGE=       https://github.com/janestreet/pa_ounit
 COMMENT=        OCaml inline testing
 
 BUILD_DEPENDS+= godi-findlib-*:../../godi/godi-findlib
