@@ -1,4 +1,6 @@
 $NetBSD$
 
-SHA1 (ppx_deriving-2.0.tar.xz) = 13fcc33e3ae3e56f711e913af5d5cb2a7c9eb26b
-Size (ppx_deriving-2.0.tar.xz) = 29548 bytes
+SHA1 (ppx_deriving-2.2.tar.xz) = 9f78554515f7ec9f969f404c47e1ec67a10aad0e
+Size (ppx_deriving-2.2.tar.xz) = 32164 bytes
+
+SHA1 (patch-aa) = 43d92a522246901e668ae84ccfe768df27e426dd

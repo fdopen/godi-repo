@@ -1,12 +1,12 @@
 .include "../../mk/bsd.prefs.mk"
 
-VERSION= 	2.0
+VERSION= 	2.2
 ONAME=		ppx_deriving
 PKG=		godi-${ONAME}
 PKGNAME= 	godi-${ONAME}-${VERSION}
-PKGREVISION= 	1
-DISTNAME=	ppx_deriving-2.0
-DISTFILES=	ppx_deriving-2.0.tar.xz
+PKGREVISION= 	0
+DISTNAME=	ppx_deriving-2.2
+DISTFILES=	ppx_deriving-2.2.tar.xz
 CATEGORIES=	godi
 MAINTAINER=	wodi@ml.ignorelist.com
 HOMEPAGE=	https://github.com/whitequark/ppx_deriving
