@@ -1,13 +1,13 @@
 .include "../../mk/bsd.prefs.mk"
-VERSION=	2.5.2
+VERSION=	2.5.3
 PKG=		godi-spotlib
 PKGNAME=	${PKG}-${VERSION}
 PKGREVISION=	0
-DISTNAME=	camlspotter-spotlib-234f7ed09202
-DISTFILES=	spotlib-2.5.2.tar.xz
+DISTNAME=	camlspotter-spotlib-4a44fa0fb9ea
+DISTFILES=	spotlib-2.5.3.tar.xz
 CATEGORIES=	godi
 MASTER_SITES=	${MASTER_SITE_BACKUP}
-HOMEPAGE=	https://bitbucket.org/camlspotter/spotlib/
+HOMEPAGE=	https://bitbucket.org/camlspotter/spotlib
 COMMENT=	Useful functions for OCaml programming used by @camlspotter
 
 DEPENDS+=  	godi-ppx_test-*:../../godi/godi-ppx_test
